@@ -30,9 +30,23 @@ class AdminController extends Controller
 
     public function chkPassword(Request $request){
         if (Hash::check($request->input('current_pwd'), User::where(['admin'=>'1'])->first()->password)){
-            echo "true";die;
+            return response()->json([
+                'check' => true
+            ]);
         }else{
-            echo "false";die;
+            return response()->json([
+                'check' => false
+            ]);
+        }
+    }
+
+    public function updatePassword(Request $request){
+        if (Hash::check($request->input('current_pwd'), User::where(['email'=>Auth::user()->email])->first()->password)){
+            $password = bcrypt($request->input('new_pwd'));
+            User::where(['admin'=>'1'])->update(['password'=>$password]);
+            return redirect('/admin/settings')->with('flash_message_success', 'Успешно променихте вашата парола!');
+        }else{
+            return redirect('/admin/settings')->with('flash_message_error', 'Текущата въведена парола не съответства на истинската!');
         }
     }
 

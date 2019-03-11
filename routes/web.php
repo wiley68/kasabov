@@ -24,3 +24,4 @@ Route::get('/admin/dashboard', 'AdminController@dashboard')->middleware('auth')-
 Route::get('/admin/settings', 'AdminController@settings')->middleware('auth')->name('admin.settings');
 Route::get('/logout', 'AdminController@logout')->name('logout');
 Route::get('/admin/check-pwd', 'AdminController@chkPassword')->middleware('auth')->name('admin.check-pwd');
+Route::match(['get', 'post'], '/admin/update-pwd', 'AdminController@updatePassword')->middleware('auth')->name('admin.update-pwd');

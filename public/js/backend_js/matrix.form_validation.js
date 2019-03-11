@@ -1,14 +1,14 @@
 
 $(document).ready(function(){
 
-    $('#new_pwd').click(function(){
+    $('#current_pwd').keyup(function(){
         var current_pwd = $('#current_pwd').val();
         $.ajax({
             type:'get',
             url:'/admin/check-pwd',
             data:{current_pwd:current_pwd},
             success:function(resp){
-                if (resp=='true'){
+                if (resp.check == true){
                     $('#chkPwd').html("<font color='green'>Текущата парола е коректна!</font>");
                 }else{
                     $('#chkPwd').html("<font color='red'>Текущата парола не съответства на истинската!</font>");
