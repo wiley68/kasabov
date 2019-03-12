@@ -20,8 +20,14 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 // Admin
 Route::match(['get', 'post'],'/admin', 'AdminController@login')->name('admin');
-Route::get('/admin/dashboard', 'AdminController@dashboard')->middleware('auth')->name('admin.dashboard');
-Route::get('/admin/settings', 'AdminController@settings')->middleware('auth')->name('admin.settings');
+Route::group(['middleware' => ['auth']], function () {
+    Route::get('/admin/dashboard', 'AdminController@dashboard')->name('admin.dashboard');
+    // Settings routes
+    Route::get('/admin/settings', 'AdminController@settings')->name('admin.settings');
+    Route::get('/admin/check-pwd', 'AdminController@chkPassword')->name('admin.check-pwd');
+    Route::match(['get', 'post'], '/admin/update-pwd', 'AdminController@updatePassword')->name('admin.update-pwd');
+    // Categories routes
+    Route::match(['get', 'post'], '/admin/add-category', 'CategoryController@addCategory')->name('admin.add-category');
+    Route::get('/admin/view-categories', 'CategoryController@viewCategory')->name('admin.view-categories');
+});
 Route::get('/logout', 'AdminController@logout')->name('logout');
-Route::get('/admin/check-pwd', 'AdminController@chkPassword')->middleware('auth')->name('admin.check-pwd');
-Route::match(['get', 'post'], '/admin/update-pwd', 'AdminController@updatePassword')->middleware('auth')->name('admin.update-pwd');
