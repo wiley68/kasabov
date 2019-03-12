@@ -28,6 +28,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::match(['get', 'post'], '/admin/update-pwd', 'AdminController@updatePassword')->name('admin.update-pwd');
     // Categories routes
     Route::match(['get', 'post'], '/admin/add-category', 'CategoryController@addCategory')->name('admin.add-category');
+    Route::match(['get', 'post'], '/admin/edit-category/{id}', 'CategoryController@editCategory')->name('admin.edit-category');
+    Route::get('/admin/delete-category/{id}', 'CategoryController@deleteCategory')->name('admin.delete-category');
     Route::get('/admin/view-categories', 'CategoryController@viewCategory')->name('admin.view-categories');
 });
 Route::get('/logout', 'AdminController@logout')->name('logout');

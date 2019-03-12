@@ -78,6 +78,30 @@ $(document).ready(function(){
 		}
 	});
 
+	// Edit Category Validation
+    $("#edit_category").validate({
+		rules:{
+			category_name:{
+				required:true
+			},
+			category_description:{
+				required:true
+			},
+			category_url:{
+				required:true
+			}
+		},
+		errorClass: "help-inline",
+		errorElement: "span",
+		highlight:function(element, errorClass, validClass) {
+			$(element).parents('.control-group').addClass('error');
+		},
+		unhighlight: function(element, errorClass, validClass) {
+			$(element).parents('.control-group').removeClass('error');
+			$(element).parents('.control-group').addClass('success');
+		}
+	});
+
 	$("#number_validate").validate({
 		rules:{
 			min:{
@@ -132,5 +156,13 @@ $(document).ready(function(){
 			$(element).parents('.control-group').removeClass('error');
 			$(element).parents('.control-group').addClass('success');
 		}
-	});
+    });
+
+    $('#btn_delete_category').click(function(){
+        if (confirm('Сигурни ли сте, че желаете да изтриете тази категория?')){
+            return true;
+        }
+        return false;
+    });
+
 });

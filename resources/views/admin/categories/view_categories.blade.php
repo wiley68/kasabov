@@ -36,7 +36,7 @@
                             <td>{{ $category->id }}</td>
                             <td>{{ $category->name }}</td>
                             <td>{{ $category->url }}</td>
-                            <td class="center"><a href="#" class="btn btn-primary btn-mini">Редактирай</a> <a href="#" class="btn btn-danger btn-mini">Изтрий</a></td>
+                            <td class="center"><a href="{{ route('admin.edit-category', ['id' => $category->id]) }}" class="btn btn-primary btn-mini">Редактирай</a> <a id="btn_delete_category" href="{{ route('admin.delete-category', ['id' => $category->id]) }}" class="btn btn-danger btn-mini">Изтрий</a></td>
                         </tr>
                     @endforeach
                 </tbody>
