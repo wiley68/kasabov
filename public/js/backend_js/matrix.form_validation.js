@@ -150,6 +150,48 @@ $(document).ready(function(){
 		}
 	});
 
+	// Add Tag Validation
+    $("#add_tag").validate({
+		rules:{
+			tag_name:{
+				required:true
+			},
+			tag_url:{
+				required:true
+			}
+		},
+		errorClass: "help-inline",
+		errorElement: "span",
+		highlight:function(element, errorClass, validClass) {
+			$(element).parents('.control-group').addClass('error');
+		},
+		unhighlight: function(element, errorClass, validClass) {
+			$(element).parents('.control-group').removeClass('error');
+			$(element).parents('.control-group').addClass('success');
+		}
+	});
+
+	// Edit Tag Validation
+    $("#edit_tag").validate({
+		rules:{
+			tag_name:{
+				required:true
+			},
+			tag_url:{
+				required:true
+			}
+		},
+		errorClass: "help-inline",
+		errorElement: "span",
+		highlight:function(element, errorClass, validClass) {
+			$(element).parents('.control-group').addClass('error');
+		},
+		unhighlight: function(element, errorClass, validClass) {
+			$(element).parents('.control-group').removeClass('error');
+			$(element).parents('.control-group').addClass('success');
+		}
+	});
+
 	$("#number_validate").validate({
 		rules:{
 			min:{

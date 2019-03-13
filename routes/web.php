@@ -36,5 +36,10 @@ Route::group(['middleware' => ['auth']], function () {
     Route::match(['get', 'post'], '/admin/edit-holiday/{id}', 'HolidayController@editHoliday')->name('admin.edit-holiday');
     Route::get('/admin/delete-holiday/{id}', 'HolidayController@deleteHoliday')->name('admin.delete-holiday');
     Route::get('/admin/view-holidays', 'HolidayController@viewHolidays')->name('admin.view-holidays');
+    // Tag routes
+    Route::match(['get', 'post'], '/admin/add-tag', 'TagController@addTag')->name('admin.add-tag');
+    Route::match(['get', 'post'], '/admin/edit-tag/{id}', 'TagController@editTag')->name('admin.edit-tag');
+    Route::get('/admin/delete-tag/{id}', 'TagController@deleteTag')->name('admin.delete-tag');
+    Route::get('/admin/view-tags', 'TagController@viewTags')->name('admin.view-tags');
 });
 Route::get('/logout', 'AdminController@logout')->name('logout');

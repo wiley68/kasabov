@@ -17,7 +17,7 @@ class CreateHolidaysTable extends Migration
             $table->increments('id');
             $table->string('name', 128);
             $table->text('description');
-            $table->string('url', 128);
+            $table->string('url', 128)->unique();
             $table->tinyInteger('status')->default(1);
             $table->rememberToken();
             $table->timestamps();
