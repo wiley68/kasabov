@@ -206,19 +206,4 @@ $(document).ready(function(){
 		}
     });
 
-    $('#btn_delete_category').click(function(){
-        if (confirm('Сигурни ли сте, че желаете да изтриете тази категория?')){
-            return true;
-        }
-        return false;
-    });
-
-    $('#btn_delete_holiday').click(function(e){
-        e.preventDefault();
-        if (confirm('Сигурни ли сте, че желаете да изтриете този празник?')){
-            return true;
-        }
-        return false;
-    });
-
 });

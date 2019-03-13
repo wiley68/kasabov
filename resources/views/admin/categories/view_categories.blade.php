@@ -3,9 +3,17 @@
 @extends('layouts.adminLayout.admin_design')
 
 @section('content')
+<script type="text/javascript">
+    function deleteCategory(url){
+        if (confirm('Сигурни ли сте, че желаете да изтриете тази категория?')){
+            window.location = url;
+        }
+        return false;
+    };
+</script>
 <div id="content">
     <div id="content-header">
-      <div id="breadcrumb"> <a href="{{ route('admin.dashboard') }}" title="Административен панел" class="tip-bottom"><i class="icon-home"></i> Панел</a> <a href="{{ route('admin.view-categories') }}" class="current">Всички категории</a> </div>
+      <div id="breadcrumb"> <a href="{{ route('admin.dashboard') }}" title="Административен панел" class="tip-bottom"><i class="icon-home"></i> Панел</a> <a href="{{ route('admin.view-categories') }}" class="current">Всички категории</a> <a href="{{ route('admin.add-category') }}">Добави категория</a></div>
       <h1>Категории обяви</h1>
         @if (Session::has('flash_message_success'))
             <div class="alert alert-success alert-block">
@@ -37,21 +45,20 @@
                     @foreach ($categories as $category)
                         <tr class="gradeX">
                             <td>{{ $category->id }}</td>
-                            <td>
-                                @if ($category->parent_id != 0)
-                                    ... {{ $category->name }}
-                                @else
-                                    <strong>{{ $category->name }}</strong>
-                                @endif
-                            </td>
-                            <td>
-                                @if ($category->parent_id != 0)
-                                    {{ CategoryController::getCategoryById($category->parent_id)->name }}
-                                @endif
-                            </td>
+                            <td><strong>{{ $category->name }}</strong></td>
+                            <td></td>
                             <td>{{ $category->url }}</td>
-                            <td class="center"><a href="{{ route('admin.edit-category', ['id' => $category->id]) }}" class="btn btn-primary btn-mini">Редактирай</a> <a id="btn_delete_category" href="{{ route('admin.delete-category', ['id' => $category->id]) }}" class="btn btn-danger btn-mini">Изтрий</a></td>
+                            <td class="center"><a href="{{ route('admin.edit-category', ['id' => $category->id]) }}" class="btn btn-primary btn-mini">Редактирай</a> <button onclick="deleteCategory('{{ route('admin.delete-category', ['id' => $category->id]) }}');" class="btn btn-danger btn-mini">Изтрий</a></td>
                         </tr>
+                        @foreach (CategoryController::getSubcategoryById($category->id) as $item)
+                            <tr class="gradeX">
+                                <td>{{ $item->id }}</td>
+                                <td>... {{ $item->name }}</td>
+                                <td>{{ CategoryController::getCategoryById($item->parent_id)->name }}</td>
+                                <td>{{ $item->url }}</td>
+                                <td class="center"><a href="{{ route('admin.edit-category', ['id' => $item->id]) }}" class="btn btn-primary btn-mini">Редактирай</a> <button onclick="deleteCategory('{{ route('admin.delete-category', ['id' => $item->id]) }}');" class="btn btn-danger btn-mini">Изтрий</a></td>
+                            </tr>
+                        @endforeach
                     @endforeach
                 </tbody>
               </table>

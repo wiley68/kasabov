@@ -48,13 +48,20 @@ class CategoryController extends Controller
     }
 
     public function viewCategory(){
-        $categories = Category::orderBy('name')->get();
+        $categories = Category::where(['parent_id'=>0])->get();
         return view('admin.categories.view_categories')->with(['categories'=>$categories]);
     }
 
     public static function getCategoryById($id=null){
         if (!empty($id)){
             $category = Category::where(['id'=>$id])->first();
+            return $category;
+        }
+    }
+
+    public static function getSubcategoryById($id=null){
+        if (!empty($id)){
+            $category = Category::where(['parent_id'=>$id])->get();
             return $category;
         }
     }

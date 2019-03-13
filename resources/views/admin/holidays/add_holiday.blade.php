@@ -23,6 +23,17 @@
                   </div>
                 </div>
                 <div class="control-group">
+                    <label class="control-label">Родителска категория</label>
+                    <div class="controls">
+                        <select name="parent_id" id="parent_id" style="width:314px;">
+                            <option value="0">Без родителска категория</option>
+                            @foreach ($levels as $holiday)
+                                <option value="{{ $holiday->id }}">{{ $holiday->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="control-group">
                   <label class="control-label">Описание</label>
                   <div class="controls">
                     <textarea name="holiday_description" id="holiday_description"></textarea>

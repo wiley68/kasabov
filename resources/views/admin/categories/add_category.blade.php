@@ -3,7 +3,7 @@
 @section('content')
 <div id="content">
     <div id="content-header">
-      <div id="breadcrumb"> <a href="{{ route('admin.dashboard') }}" title="Административен панел" class="tip-bottom"><i class="icon-home"></i> Панел</a> <a href="{{ route('admin.view-categories') }}">Категории обяви</a> <a href="{{ route('admin.add-category') }}">Добави категория</a> </div>
+      <div id="breadcrumb"> <a href="{{ route('admin.dashboard') }}" title="Административен панел" class="tip-bottom"><i class="icon-home"></i> Панел</a> <a href="{{ route('admin.view-categories') }}">Всички категории</a> <a href="{{ route('admin.add-category') }}">Добави категория</a> </div>
       <h1>Категории обяви</h1>
     </div>
     <div class="container-fluid"><hr>
