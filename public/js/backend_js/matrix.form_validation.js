@@ -102,6 +102,54 @@ $(document).ready(function(){
 		}
 	});
 
+	// Add Holiday Validation
+    $("#add_holiday").validate({
+		rules:{
+			holiday_name:{
+				required:true
+			},
+			holiday_description:{
+				required:true
+			},
+			holiday_url:{
+				required:true
+			}
+		},
+		errorClass: "help-inline",
+		errorElement: "span",
+		highlight:function(element, errorClass, validClass) {
+			$(element).parents('.control-group').addClass('error');
+		},
+		unhighlight: function(element, errorClass, validClass) {
+			$(element).parents('.control-group').removeClass('error');
+			$(element).parents('.control-group').addClass('success');
+		}
+	});
+
+	// Edit Holiday Validation
+    $("#edit_holiday").validate({
+		rules:{
+			holiday_name:{
+				required:true
+			},
+			holiday_description:{
+				required:true
+			},
+			holiday_url:{
+				required:true
+			}
+		},
+		errorClass: "help-inline",
+		errorElement: "span",
+		highlight:function(element, errorClass, validClass) {
+			$(element).parents('.control-group').addClass('error');
+		},
+		unhighlight: function(element, errorClass, validClass) {
+			$(element).parents('.control-group').removeClass('error');
+			$(element).parents('.control-group').addClass('success');
+		}
+	});
+
 	$("#number_validate").validate({
 		rules:{
 			min:{
@@ -160,6 +208,14 @@ $(document).ready(function(){
 
     $('#btn_delete_category').click(function(){
         if (confirm('Сигурни ли сте, че желаете да изтриете тази категория?')){
+            return true;
+        }
+        return false;
+    });
+
+    $('#btn_delete_holiday').click(function(e){
+        e.preventDefault();
+        if (confirm('Сигурни ли сте, че желаете да изтриете този празник?')){
             return true;
         }
         return false;

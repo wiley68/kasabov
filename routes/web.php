@@ -31,5 +31,10 @@ Route::group(['middleware' => ['auth']], function () {
     Route::match(['get', 'post'], '/admin/edit-category/{id}', 'CategoryController@editCategory')->name('admin.edit-category');
     Route::get('/admin/delete-category/{id}', 'CategoryController@deleteCategory')->name('admin.delete-category');
     Route::get('/admin/view-categories', 'CategoryController@viewCategory')->name('admin.view-categories');
+    // Holiday routes
+    Route::match(['get', 'post'], '/admin/add-holiday', 'HolidayController@addHoliday')->name('admin.add-holiday');
+    Route::match(['get', 'post'], '/admin/edit-holiday/{id}', 'HolidayController@editHoliday')->name('admin.edit-holiday');
+    Route::get('/admin/delete-holiday/{id}', 'HolidayController@deleteHoliday')->name('admin.delete-holiday');
+    Route::get('/admin/view-holidays', 'HolidayController@viewHolidays')->name('admin.view-holidays');
 });
 Route::get('/logout', 'AdminController@logout')->name('logout');
