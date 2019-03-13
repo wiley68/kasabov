@@ -23,6 +23,17 @@
                   </div>
                 </div>
                 <div class="control-group">
+                    <label class="control-label">Родителска категория</label>
+                    <div class="controls">
+                        <select name="parent_id" id="parent_id" style="width:314px;">
+                            <option value="0">Без родителска категория</option>
+                            @foreach ($levels as $item)
+                                <option value="{{ $item->id }}" @if ($item->id == $category->parent_id) selected @endif>{{ $item->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+                <div class="control-group">
                   <label class="control-label">Описание</label>
                   <div class="controls">
                     <textarea name="category_description" id="category_description">{!! $category->description !!}</textarea>
