@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Input;
 use App\Product;
 use App\User;
 use App\Category;
+use Intervention\Image\Facades\Image;
 
 class ProductController extends Controller
 {
@@ -37,8 +38,17 @@ class ProductController extends Controller
             if ($request->hasFile('image')){
                 $image_temp = Input::file('image');
                 if ($image_temp->isValid()){
+                    $extension = $image_temp->getClientOriginalExtension();
+                    $filename = rand(111,99999).'.'.$extension;
+                    $large_image_path = 'images/backend_images/products/large/'.$filename;
+                    $medium_image_path = 'images/backend_images/products/medium/'.$filename;
+                    $small_image_path = 'images/backend_images/products/small/'.$filename;
                     // Resize images
-
+                    Image::make($image_temp)->save($large_image_path);
+                    Image::make($image_temp)->resize(600,600)->save($medium_image_path);
+                    Image::make($image_temp)->resize(300,300)->save($small_image_path);
+                    // Store image names in table
+                    $product->image = $filename;
                 }
             }
             $product->save();
@@ -62,7 +72,23 @@ class ProductController extends Controller
             $product->product_color = $request->input('product_color');
             $product->description = $request->input('description');
             $product->price = $request->input('price');
-            $product->image = $request->input('image');
+            //upload image
+            if ($request->hasFile('image')){
+                $image_temp = Input::file('image');
+                if ($image_temp->isValid()){
+                    $extension = $image_temp->getClientOriginalExtension();
+                    $filename = rand(111,99999).'.'.$extension;
+                    $large_image_path = 'images/backend_images/products/large/'.$filename;
+                    $medium_image_path = 'images/backend_images/products/medium/'.$filename;
+                    $small_image_path = 'images/backend_images/products/small/'.$filename;
+                    // Resize images
+                    Image::make($image_temp)->save($large_image_path);
+                    Image::make($image_temp)->resize(600,600)->save($medium_image_path);
+                    Image::make($image_temp)->resize(300,300)->save($small_image_path);
+                    // Store image names in table
+                    $product->image = $filename;
+                }
+            }
             $product->save();
             return redirect('/admin/view-products')->with('flash_message_success', 'Успешно редактирахте продукта!');
         }

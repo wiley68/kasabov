@@ -15,7 +15,7 @@
               <h5>Редакция на продукт</h5>
             </div>
             <div class="widget-content nopadding">
-              <form class="form-horizontal" method="post" action="{{ route('admin.edit-product', ['id'=>$product->id]) }}" name="edit_product" id="edit_product" novalidate="novalidate">
+              <form enctype="multipart/form-data" class="form-horizontal" method="post" action="{{ route('admin.edit-product', ['id'=>$product->id]) }}" name="edit_product" id="edit_product" novalidate="novalidate">
                 @csrf
                 <div class="control-group">
                     <label class="control-label">Собственик</label>

@@ -1,3 +1,4 @@
+<?php use App\Http\Controllers\CategoryController; ?>
 @extends('layouts.adminLayout.admin_design')
 
 @section('content')
@@ -33,8 +34,12 @@
                 <thead>
                   <tr>
                     <th>Продукт №</th>
-                    <th>Продукт</th>
                     <th>Код</th>
+                    <th>Продукт</th>
+                    <th>Категория</th>
+                    <th>Цвят</th>
+                    <th>Цена</th>
+                    <th>Снимка</th>
                     <th>Управление</th>
                   </tr>
                 </thead>
@@ -42,8 +47,16 @@
                     @foreach ($products as $product)
                         <tr class="gradeX">
                             <td>{{ $product->id }}</td>
-                            <td>{{ $product->product_name }}</td>
                             <td>{{ $product->product_code }}</td>
+                            <td>{{ $product->product_name }}</td>
+                            <td>{{ CategoryController::getCategoryById($product->category_id)->name }}</td>
+                            <td>{{ $product->product_color }}</td>
+                            <td>{{ $product->price }}</td>
+                            <td>
+                                @if (!empty($product->image))
+                                <img src="{{ asset('/images/backend_images/products/small/'.$product->image) }}" style="width:50px;">
+                                @endif
+                            </td>
                             <td class="center"><a href="{{ route('admin.edit-product', ['id' => $product->id]) }}" class="btn btn-primary btn-mini">Редактирай</a> <button onclick="deleteProduct('{{ route('admin.delete-product', ['id' => $product->id]) }}');" class="btn btn-danger btn-mini">Изтрий</a></td>
                         </tr>
                     @endforeach
