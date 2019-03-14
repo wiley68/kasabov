@@ -1,10 +1,17 @@
 <?php use App\Category; ?>
 <?php use App\Holiday; ?>
 <?php use App\Tag; ?>
+<?php use App\Product; ?>
 <!--sidebar-menu-->
 <div id="sidebar"><a href="{{ route('admin.dashboard') }}" class="visible-phone"><i class="icon icon-home"></i> Dashboard</a>
     <ul>
       <li class="active"><a href="{{ route('admin.dashboard') }}"><i class="icon icon-home"></i> <span>Dashboard</span></a> </li>
+      <li class="submenu"> <a href="#"><i class="icon icon-th-list"></i> <span>Продукти</span> <span class="label label-important">{{ Product::count() }}</span></a>
+        <ul>
+          <li><a href="{{ route('admin.add-product') }}">Добави продукт</a></li>
+          <li><a href="{{ route('admin.view-products') }}">Всички продукти</a></li>
+        </ul>
+      </li>
       <li class="submenu"> <a href="#"><i class="icon icon-th-list"></i> <span>Категории обяви</span> <span class="label label-important">{{ Category::count() }}</span></a>
         <ul>
           <li><a href="{{ route('admin.add-category') }}">Добави категория</a></li>
