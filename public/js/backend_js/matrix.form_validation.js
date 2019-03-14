@@ -195,12 +195,6 @@ $(document).ready(function(){
 	// Add Product Validation
     $("#add_product").validate({
 		rules:{
-			user_id:{
-				required:true
-			},
-			category_id:{
-				required:true
-			},
 			product_name:{
 				required:true
 			},
@@ -208,8 +202,12 @@ $(document).ready(function(){
 				required:true
 			},
 			price:{
-				required:true
-			}
+                required:true,
+                number:true
+            },
+            image:{
+                required:true
+            }
 		},
 		errorClass: "help-inline",
 		errorElement: "span",
@@ -223,14 +221,8 @@ $(document).ready(function(){
 	});
 
 	// Edit Product Validation
-    $("#edit_category").validate({
+    $("#edit_product").validate({
 		rules:{
-			user_id:{
-				required:true
-			},
-			category_id:{
-				required:true
-			},
 			product_name:{
 				required:true
 			},
@@ -238,8 +230,12 @@ $(document).ready(function(){
 				required:true
 			},
 			price:{
-				required:true
-			}
+                required:true,
+                number:true
+			},
+            image:{
+                required:true
+            }
 		},
 		errorClass: "help-inline",
 		errorElement: "span",

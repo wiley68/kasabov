@@ -1,3 +1,4 @@
+<?php use App\Category; ?>
 @extends('layouts.adminLayout.admin_design')
 
 @section('content')
@@ -44,39 +45,39 @@
                 <div class="control-group">
                   <label class="control-label">Продукт</label>
                   <div class="controls">
-                    <input type="text" name="product_name" id="product_name">
+                    <input type="text" name="product_name" id="product_name" value="{{ $product->product_name }}">
                   </div>
                 </div>
                 <div class="control-group">
                     <label class="control-label">Код</label>
                     <div class="controls">
-                      <input type="text" name="product_code" id="product_code">
+                      <input type="text" name="product_code" id="product_code" value="{{ $product->product_code }}">
                     </div>
                 </div>
                 <div class="control-group">
                     <label class="control-label">Цвят</label>
                     <div class="controls">
-                      <input type="text" name="product_color" id="product_color">
+                      <input type="text" name="product_color" id="product_color" value="{{ $product->product_color }}">
                     </div>
                 </div>
                 <div class="control-group">
                   <label class="control-label">Описание</label>
                   <div class="controls">
-                    <textarea name="description" id="description"></textarea>
+                    <textarea name="description" id="description">{!! $product->description !!}</textarea>
                   </div>
                 </div>
                 <div class="control-group">
                   <label class="control-label">Цена</label>
                   <div class="controls">
-                    <input type="number" name="price" id="price">
+                    <input type="number" name="price" id="price" value="{{ $product->price }}">
                   </div>
                 </div>
                 <div class="control-group">
                     <label class="control-label">Снимка</label>
                     <div class="controls">
-                      <input type="file" name="image" id="image">
+                      <input type="file" name="image" id="image" value="{{ $product->image }}">
                     </div>
-                  </div>
+                </div>
                 <div class="form-actions">
                   <input type="submit" value="Редактирай категорията" class="btn btn-success">
                 </div>

@@ -1,5 +1,3 @@
-<?php use App\Http\Controllers\ProductController;?>
-
 @extends('layouts.adminLayout.admin_design')
 
 @section('content')
@@ -44,8 +42,8 @@
                     @foreach ($products as $product)
                         <tr class="gradeX">
                             <td>{{ $product->id }}</td>
-                            <td>{{ $product->name }}</td>
-                            <td>{{ $product->code }}</td>
+                            <td>{{ $product->product_name }}</td>
+                            <td>{{ $product->product_code }}</td>
                             <td class="center"><a href="{{ route('admin.edit-product', ['id' => $product->id]) }}" class="btn btn-primary btn-mini">Редактирай</a> <button onclick="deleteProduct('{{ route('admin.delete-product', ['id' => $product->id]) }}');" class="btn btn-danger btn-mini">Изтрий</a></td>
                         </tr>
                     @endforeach

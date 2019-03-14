@@ -5,7 +5,13 @@
 <div id="content">
     <div id="content-header">
       <div id="breadcrumb"> <a href="{{ route('admin.dashboard') }}" title="Административен панел" class="tip-bottom"><i class="icon-home"></i> Панел</a> <a href="{{ route('admin.view-products') }}">Всички продукти</a> <a href="{{ route('admin.add-product') }}">Добави продукт</a> </div>
-      <h1>Продукти</h1>
+        <h1>Продукти</h1>
+        @if (Session::has('flash_message_error'))
+            <div class="alert alert-error alert-block">
+                <button type="button" class="close" data-dismiss="alert">×</button>
+          <     strong>{!! session('flash_message_error') !!}</>
+            </div>
+        @endif
     </div>
     <div class="container-fluid"><hr>
       <div class="row-fluid">
@@ -15,13 +21,13 @@
               <h5>Добави продукт</h5>
             </div>
             <div class="widget-content nopadding">
-              <form class="form-horizontal" method="post" action="{{ route('admin.add-product') }}" name="add_product" id="add_product" novalidate="novalidate">
+              <form enctype="multipart/form-data" class="form-horizontal" method="post" action="{{ route('admin.add-product') }}" name="add_product" id="add_product" novalidate="novalidate">
                 @csrf
                 <div class="control-group">
                     <label class="control-label">Собственик</label>
                     <div class="controls">
                         <select name="user_id" id="user_id" style="width:314px;">
-                            <option value="0" selected disabled>Избери собственик</option>
+                            <option value="0" selected>Избери собственик</option>
                             @foreach ($users as $user)
                                 <option value="{{ $user->id }}">{{ $user->name }}</option>
                             @endforeach
@@ -32,7 +38,7 @@
                     <label class="control-label">Категория</label>
                     <div class="controls">
                         <select name="category_id" id="category_id" style="width:314px;">
-                            <option value="0" selected disabled>Избери категория</option>
+                            <option value="0" selected>Избери категория</option>
                             @foreach ($categories as $category)
                                 <option value="{{ $category->id }}">{{ $category->name }}</option>
                                 @foreach (Category::where(['parent_id'=>$category->id])->get() as $item)
