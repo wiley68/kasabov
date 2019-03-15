@@ -1,4 +1,5 @@
 <?php use App\Http\Controllers\CategoryController; ?>
+<?php use App\User; ?>
 @extends('layouts.adminLayout.admin_design')
 
 @section('content')
@@ -57,8 +58,32 @@
                                 <img src="{{ asset('/images/backend_images/products/small/'.$product->image) }}" style="width:50px;">
                                 @endif
                             </td>
-                            <td class="center"><a href="{{ route('admin.edit-product', ['id' => $product->id]) }}" class="btn btn-primary btn-mini">Редактирай</a> <button onclick="deleteProduct('{{ route('admin.delete-product', ['id' => $product->id]) }}');" class="btn btn-danger btn-mini">Изтрий</a></td>
+                            <td class="center"><a href="#myModal{{ $product->id }}" data-toggle="modal" class="btn btn-success btn-mini">Преглед</a> <a href="{{ route('admin.edit-product', ['id' => $product->id]) }}" class="btn btn-primary btn-mini">Редактирай</a> <button onclick="deleteProduct('{{ route('admin.delete-product', ['id' => $product->id]) }}');" class="btn btn-danger btn-mini">Изтрий</a></td>
                         </tr>
+                        <div id="myModal{{ $product->id }}" class="modal hide">
+                            <div class="modal-header">
+                                <button data-dismiss="modal" class="close" type="button">×</button>
+                                <h3>{{ $product->product_name }} - Подробен преглед</h3>
+                            </div>
+                            <div class="modal-body">
+                                <div class="controls controls-row">
+                                    <div class="span6 m-wrap">
+                                        <p><strong>Продукт №:</strong> {{ $product->id }}</p>
+                                        <p><strong>Код:</strong> {{ $product->product_code }}</p>
+                                        <p><strong>Наименование:</strong> {{ $product->product_name }}</p>
+                                        <p><strong>Потребител:</strong> {{ User::where(['id'=>$product->user_id])->first()->name }}</p>
+                                        <p><strong>Категория:</strong> {{ CategoryController::getCategoryById($product->category_id)->name }}</p>
+                                        <p><strong>Цвят:</strong> {{ $product->product_color }}</p>
+                                        <p><strong>Цена:</strong> {{ $product->price }}</p>
+                                        <p><strong>Описание:</strong> {!! $product->description !!}</p>
+                                    </div>
+                                    <div class="span6 m-wrap">
+                                        <p><img src="{{ asset('/images/backend_images/products/medium/'.$product->image) }}"/></p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer"><a data-dismiss="modal" class="btn btn-inverse" href="#">Затвори</a> </div>
+                        </div>
                     @endforeach
                 </tbody>
               </table>
