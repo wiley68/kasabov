@@ -5,9 +5,20 @@
 @section('content')
 <script type="text/javascript">
     function deleteCategory(url){
-        if (confirm('Сигурни ли сте, че желаете да изтриете тази категория?')){
+        swal({
+            title: "Сигурни ли сте?",
+            text: "Ще бъде изтрита категорията. Операцията е невъзвратима!",
+            icon: "warning",
+            buttons: ["Отказ!", "Съгласен съм!"],
+            dangerMode: true,
+        })
+        .then((willDelete) => {
+            if (willDelete) {
             window.location = url;
+        } else {
+            return false;
         }
+        });
         return false;
     };
 </script>
@@ -48,7 +59,7 @@
                             <td><strong>{{ $category->name }}</strong></td>
                             <td></td>
                             <td>{{ $category->url }}</td>
-                            <td class="center"><a href="{{ route('admin.edit-category', ['id' => $category->id]) }}" class="btn btn-primary btn-mini">Редактирай</a> <button onclick="deleteCategory('{{ route('admin.delete-category', ['id' => $category->id]) }}');" class="btn btn-danger btn-mini">Изтрий</a></td>
+                            <td class="center"><a href="{{ route('admin.edit-category', ['id' => $category->id]) }}" class="btn btn-primary btn-mini">Редактирай</a> <a onclick="deleteCategory('{{ route('admin.delete-category', ['id' => $category->id]) }}');" class="btn btn-danger btn-mini">Изтрий</a></td>
                         </tr>
                         @foreach (CategoryController::getSubcategoryById($category->id) as $item)
                             <tr class="gradeX">
@@ -56,7 +67,7 @@
                                 <td>... {{ $item->name }}</td>
                                 <td>{{ CategoryController::getCategoryById($item->parent_id)->name }}</td>
                                 <td>{{ $item->url }}</td>
-                                <td class="center"><a href="{{ route('admin.edit-category', ['id' => $item->id]) }}" class="btn btn-primary btn-mini">Редактирай</a> <button onclick="deleteCategory('{{ route('admin.delete-category', ['id' => $item->id]) }}');" class="btn btn-danger btn-mini">Изтрий</a></td>
+                                <td class="center"><a href="{{ route('admin.edit-category', ['id' => $item->id]) }}" class="btn btn-primary btn-mini">Редактирай</a> <a onclick="deleteCategory('{{ route('admin.delete-category', ['id' => $item->id]) }}');" class="btn btn-danger btn-mini">Изтрий</a></td>
                             </tr>
                         @endforeach
                     @endforeach

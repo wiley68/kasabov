@@ -3,10 +3,21 @@
 
 @section('content')
 <script type="text/javascript">
-    function deleteHolidey(url){
-        if (confirm('Сигурни ли сте, че желаете да изтриете този празник?')){
+    function deleteHoliday(url){
+        swal({
+            title: "Сигурни ли сте?",
+            text: "Ще бъде изтрит празникът. Операцията е невъзвратима!",
+            icon: "warning",
+            buttons: ["Отказ!", "Съгласен съм!"],
+            dangerMode: true,
+        })
+        .then((willDelete) => {
+            if (willDelete) {
             window.location = url;
+        } else {
+            return false;
         }
+        });
         return false;
     };
 </script>

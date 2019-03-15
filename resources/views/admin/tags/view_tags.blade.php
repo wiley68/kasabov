@@ -4,9 +4,20 @@
 @section('content')
 <script type="text/javascript">
     function deleteTag(url){
-        if (confirm('Сигурни ли сте, че желаете да изтриете този етикет?')){
+        swal({
+            title: "Сигурни ли сте?",
+            text: "Ще бъде изтрит етикетът. Операцията е невъзвратима!",
+            icon: "warning",
+            buttons: ["Отказ!", "Съгласен съм!"],
+            dangerMode: true,
+        })
+        .then((willDelete) => {
+            if (willDelete) {
             window.location = url;
+        } else {
+            return false;
         }
+        });
         return false;
     };
 </script>
