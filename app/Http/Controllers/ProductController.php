@@ -9,6 +9,7 @@ use App\User;
 use App\Category;
 use Intervention\Image\Facades\Image;
 use File;
+use App\ProductsImage;
 
 class ProductController extends Controller
 {
@@ -172,10 +173,16 @@ class ProductController extends Controller
     }
 
     public function addImages(Request $request, $id=null){
-        $product = Product::where(['id'=>$id])->first();
+        $product = Product::with('images')->where(['id'=>$id])->first();
 
         if ($request->isMethod('post')){
-
+            foreach ($request->input('image') as $image) {
+                $productsImage = new ProductsImage();
+                $productsImage->product_id = $id;
+                $productsImage->image = $image;
+                $productsImage->save();
+            }
+            return redirect('/admin/add-images/'.$id)->with('flash_message_success', 'Успешно добавихте снимките на продукта!');
         }
 
         return view('admin.products.add_images')->with(['product'=>$product]);
