@@ -63,7 +63,12 @@
                                 <img src="{{ asset('/images/backend_images/products/small/'.$product->image) }}" style="width:50px;">
                                 @endif
                             </td>
-                            <td class="center"><a href="#myModal{{ $product->id }}" data-toggle="modal" class="btn btn-success btn-mini">Преглед</a> <a href="{{ route('admin.edit-product', ['id' => $product->id]) }}" class="btn btn-primary btn-mini">Редактирай</a> <a onclick="deleteProduct('{{ route('admin.delete-product', ['id' => $product->id]) }}');" class="btn btn-danger btn-mini">Изтрий</a></td>
+                            <td class="center">
+                                <a href="#myModal{{ $product->id }}" data-toggle="modal" class="btn btn-success btn-mini">Преглед</a>
+                                <a href="{{ route('admin.edit-product', ['id' => $product->id]) }}" class="btn btn-primary btn-mini">Редактирай</a>
+                                <a href="{{ route('admin.add-images', ['id' => $product->id]) }}" class="btn btn-info btn-mini">Добави снимки</a>
+                                <a onclick="deleteProduct('{{ route('admin.delete-product', ['id' => $product->id]) }}');" class="btn btn-danger btn-mini">Изтрий</a>
+                            </td>
                         </tr>
                         <div id="myModal{{ $product->id }}" class="modal hide">
                             <div class="modal-header">

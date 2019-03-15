@@ -171,4 +171,14 @@ class ProductController extends Controller
         }
     }
 
+    public function addImages(Request $request, $id=null){
+        $product = Product::where(['id'=>$id])->first();
+
+        if ($request->isMethod('post')){
+
+        }
+
+        return view('admin.products.add_images')->with(['product'=>$product]);
+    }
+
 }
