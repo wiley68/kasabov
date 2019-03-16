@@ -204,9 +204,6 @@ $(document).ready(function(){
 			price:{
                 required:true,
                 number:true
-            },
-            image:{
-                required:true
             }
 		},
 		errorClass: "help-inline",

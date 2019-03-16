@@ -32,7 +32,11 @@ class ProductController extends Controller
             $condition = $request->input('condition');
             $send_id = $request->input('send_id');
             $send_from_id = $request->input('send_from_id');
-            $price_send = $request->input('price_send');
+            if (empty($request->input('price_send'))){
+                $price_send = 0.00;
+            }else{
+                $price_send = $request->input('price_send');
+            }
             $send_free = $request->input('send_free');
             $send_free_id = $request->input('send_free_id');
             $available_for = $request->input('available_for');
@@ -40,7 +44,11 @@ class ProductController extends Controller
             $object_name = $request->input('object_name');
             $personalize = $request->input('personalize');
             $description = $request->input('description');
-            $quantity = $request->input('quantity');
+            if (empty($request->input('quantity'))){
+                $quantity = 0;
+            }else{
+                $quantity = $request->input('quantity');
+            }
             $price = $request->input('price');
             // Create product column
             $product = new Product();
@@ -93,6 +101,8 @@ class ProductController extends Controller
                     // Store image names in table
                     $product->image = $filename;
                 }
+            }else{
+                $product->image = '';
             }
             $product->save();
             return redirect('/admin/view-products')->with('flash_message_success', 'Успешно създадохте нов продукт!');
@@ -152,10 +162,32 @@ class ProductController extends Controller
             $product->category_id = $request->input('category_id');
             $product->product_name = $request->input('product_name');
             $product->product_code = $request->input('product_code');
-            $product->product_color = $request->input('product_color');
+            $product->first_color = $request->input('first_color');
+            $product->second_color = $request->input('second_color');
+            $product->age = $request->input('age');
+            $product->pol = $request->input('pol');
+            $product->condition = $request->input('condition');
+            $product->send_id = $request->input('send_id');
+            $product->send_from_id = $request->input('send_from_id');
+            if (empty($request->input('price_send'))){
+                $product->price_send = 0.00;
+            }else{
+                $product->price_send = $request->input('price_send');
+            }
+            $product->send_free = $request->input('send_free');
+            $product->send_free_id = $request->input('send_free_id');
+            $product->available_for = $request->input('available_for');
+            $product->object = $request->input('object');
+            $product->object_name = $request->input('object_name');
+            $product->personalize = $request->input('personalize');
             $product->description = $request->input('description');
-            if (empty($request->input('description'))){
+            if (empty($product->description)){
                 $product->description = '';
+            }
+            if (empty($request->input('quantity'))){
+                $product->quantity = 0;
+            }else{
+                $product->quantity = $request->input('quantity');
             }
             $product->price = $request->input('price');
             $product->image = $filename;
