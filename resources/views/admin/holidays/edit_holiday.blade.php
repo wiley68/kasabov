@@ -46,7 +46,8 @@
                   </div>
                 </div>
                 <div class="form-actions">
-                  <input type="submit" value="Редактирай празника" class="btn btn-success">
+                  <input type="submit" value="Редактирай група празник" class="btn btn-success">
+                  <a href="{{ route('admin.view-holidays') }}" class="btn btn-primary">Обратно в група празници</a>
                 </div>
               </form>
             </div>

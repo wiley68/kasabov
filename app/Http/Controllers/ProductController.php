@@ -25,19 +25,48 @@ class ProductController extends Controller
             }
             $product_name = $request->input('product_name');
             $product_code = $request->input('product_code');
-            $product_color = $request->input('product_color');
+            $first_color = $request->input('first_color');
+            $second_color = $request->input('second_color');
+            $age = $request->input('age');
+            $pol = $request->input('pol');
+            $condition = $request->input('condition');
+            $send_id = $request->input('send_id');
+            $send_from_id = $request->input('send_from_id');
+            $price_send = $request->input('price_send');
+            $send_free = $request->input('send_free');
+            $send_free_id = $request->input('send_free_id');
+            $available_for = $request->input('available_for');
+            $object = $request->input('object');
+            $object_name = $request->input('object_name');
+            $personalize = $request->input('personalize');
             $description = $request->input('description');
+            $quantity = $request->input('quantity');
             $price = $request->input('price');
+            // Create product column
             $product = new Product();
             $product->user_id = $user_id;
             $product->category_id = $category_id;
             $product->product_name = $product_name;
             $product->product_code = $product_code;
-            $product->product_color = $product_color;
+            $product->first_color = $first_color;
+            $product->second_color = $second_color;
+            $product->age = $age;
+            $product->pol = $pol;
+            $product->condition = $condition;
+            $product->send_id = $send_id;
+            $product->send_from_id = $send_from_id;
+            $product->price_send = $price_send;
+            $product->send_free = $send_free;
+            $product->send_free_id = $send_free_id;
+            $product->available_for = $available_for;
+            $product->object = $object;
+            $product->object_name = $object_name;
+            $product->personalize = $personalize;
             $product->description = $description;
             if (empty($description)){
                 $product->description = '';
             }
+            $product->quantity = $quantity;
             $product->price = $price;
             //upload image
             if ($request->hasFile('image')){

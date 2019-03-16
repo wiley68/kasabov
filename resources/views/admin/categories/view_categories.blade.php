@@ -57,7 +57,7 @@
                         <tr class="gradeX">
                             <td>{{ $category->id }}</td>
                             <td><strong>{{ $category->name }}</strong></td>
-                            <td></td>
+                            <td><strong>Главна категория</strong></td>
                             <td>{{ $category->url }}</td>
                             <td class="center"><a href="{{ route('admin.edit-category', ['id' => $category->id]) }}" class="btn btn-primary btn-mini">Редактирай</a> <a onclick="deleteCategory('{{ route('admin.delete-category', ['id' => $category->id]) }}');" class="btn btn-danger btn-mini">Изтрий</a></td>
                         </tr>
