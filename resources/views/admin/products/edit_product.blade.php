@@ -103,7 +103,7 @@
                         <input type="file" name="image" id="image">
                         <input type="hidden" name="current_image" id="current_image" value="{{ $product->image }}">
                         @if (!empty($product->image))
-                            <img style="width:50px;" src="{{ asset('/images/backend_images/products/small/'.$product->image) }}"> | <a onclick="deleteProductImage('{{ route('admin.delete-product-image', ['id' => $product->id]) }}');" class="btn btn-danger btn-mini">Изтрий снимката</a>
+                            <a href="#imageModal" data-toggle="modal" title="Покажи снимката в голям размер."><img style="width:50px;" src="{{ asset('/images/backend_images/products/small/'.$product->image) }}"></a> | <a onclick="deleteProductImage('{{ route('admin.delete-product-image', ['id' => $product->id]) }}');" class="btn btn-danger btn-mini">Изтрий снимката</a>
                         @endif
                     </div>
                 </div>
@@ -112,6 +112,16 @@
                     <a href="{{ route('admin.view-products') }}" class="btn btn-primary">Обратно в продукти</a>
                 </div>
               </form>
+              <div id="imageModal" class="modal hide" aria-hidden="true" style="display: none;">
+                <div class="modal-header">
+                    <button data-dismiss="modal" class="close" type="button">×</button>
+                    <h3>Снимка на продукта: {{ $product->product_name }}</h3>
+                </div>
+                <div class="modal-body">
+                    <p><img src="{{ asset('/images/backend_images/products/large/'.$product->image) }}"></p>
+                </div>
+                <div class="modal-footer"><a data-dismiss="modal" class="btn btn-inverse" href="#">Затвори</a> </div>
+            </div>
             </div>
           </div>
         </div>

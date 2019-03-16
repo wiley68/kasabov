@@ -49,9 +49,18 @@ class ProductController extends Controller
                     $medium_image_path = 'images/backend_images/products/medium/'.$filename;
                     $small_image_path = 'images/backend_images/products/small/'.$filename;
                     // Resize images
-                    Image::make($image_temp)->save($large_image_path);
-                    Image::make($image_temp)->resize(600,600)->save($medium_image_path);
-                    Image::make($image_temp)->resize(300,300)->save($small_image_path);
+                    Image::make($image_temp)->resize(null, 1200, function ($constraint) {
+                            $constraint->aspectRatio();
+                            $constraint->upsize();
+                        })->save($large_image_path);
+                    Image::make($image_temp)->resize(null, 600, function ($constraint) {
+                            $constraint->aspectRatio();
+                            $constraint->upsize();
+                        })->save($medium_image_path);
+                    Image::make($image_temp)->resize(null, 300, function ($constraint) {
+                            $constraint->aspectRatio();
+                            $constraint->upsize();
+                        })->save($small_image_path);
                     // Store image names in table
                     $product->image = $filename;
                 }
@@ -91,9 +100,18 @@ class ProductController extends Controller
                     $medium_image_path = 'images/backend_images/products/medium/'.$filename;
                     $small_image_path = 'images/backend_images/products/small/'.$filename;
                     // Resize images
-                    Image::make($image_temp)->save($large_image_path);
-                    Image::make($image_temp)->resize(600,600)->save($medium_image_path);
-                    Image::make($image_temp)->resize(300,300)->save($small_image_path);
+                    Image::make($image_temp)->resize(null, 1200, function ($constraint) {
+                            $constraint->aspectRatio();
+                            $constraint->upsize();
+                        })->save($large_image_path);
+                    Image::make($image_temp)->resize(null, 600, function ($constraint) {
+                            $constraint->aspectRatio();
+                            $constraint->upsize();
+                        })->save($medium_image_path);
+                    Image::make($image_temp)->resize(null, 300, function ($constraint) {
+                            $constraint->aspectRatio();
+                            $constraint->upsize();
+                        })->save($small_image_path);
                 }
             }else{
                 $filename = $request->input('current_image');
@@ -138,6 +156,20 @@ class ProductController extends Controller
             if (File::exists('images/backend_images/products/large/'.$product_image)){
                 File::delete('images/backend_images/products/large/'.$product_image);
             }
+            // Delete images
+            $productsImage = ProductsImage::where(['product_id'=>$id])->get();
+            foreach ($productsImage as $image) {
+                if (File::exists('images/backend_images/products/small/'.$image->image)){
+                    File::delete('images/backend_images/products/small/'.$image->image);
+                }
+                if (File::exists('images/backend_images/products/medium/'.$image->image)){
+                    File::delete('images/backend_images/products/medium/'.$image->image);
+                }
+                if (File::exists('images/backend_images/products/large/'.$image->image)){
+                    File::delete('images/backend_images/products/large/'.$image->image);
+                }
+                $image->delete();
+            }
             $product->delete();
             return redirect('/admin/view-products')->with('flash_message_success', 'Успешно изтрихте продукта!');
         }
@@ -176,16 +208,58 @@ class ProductController extends Controller
         $product = Product::with('images')->where(['id'=>$id])->first();
 
         if ($request->isMethod('post')){
-            foreach ($request->input('image') as $image) {
-                $productsImage = new ProductsImage();
-                $productsImage->product_id = $id;
-                $productsImage->image = $image;
-                $productsImage->save();
+            if ($request->hasFile('image')){
+                $files = $request->file('image');
+                //upload images
+                foreach ($files as $file) {
+                    if ($file->isValid()){
+                        $extension = $file->getClientOriginalExtension();
+                        $filename = rand(111,99999).'.'.$extension;
+                        $large_image_path = 'images/backend_images/products/large/'.$filename;
+                        $medium_image_path = 'images/backend_images/products/medium/'.$filename;
+                        $small_image_path = 'images/backend_images/products/small/'.$filename;
+                        // Resize images
+                        Image::make($file)->resize(null, 1200, function ($constraint) {
+                                $constraint->aspectRatio();
+                                $constraint->upsize();
+                            })->save($large_image_path);
+                        Image::make($file)->resize(null, 600, function ($constraint) {
+                                $constraint->aspectRatio();
+                                $constraint->upsize();
+                            })->save($medium_image_path);
+                        Image::make($file)->resize(null, 300, function ($constraint) {
+                                $constraint->aspectRatio();
+                                $constraint->upsize();
+                            })->save($small_image_path);
+                        // Store image in table
+                        $productsImage = new ProductsImage();
+                        $productsImage->product_id = $id;
+                        $productsImage->image = $filename;
+                        $productsImage->save();
+                    }
+                }
+                return redirect('/admin/add-images/'.$id)->with('flash_message_success', 'Успешно добавихте снимките на продукта!');
             }
-            return redirect('/admin/add-images/'.$id)->with('flash_message_success', 'Успешно добавихте снимките на продукта!');
         }
 
         return view('admin.products.add_images')->with(['product'=>$product]);
+    }
+
+    public function deleteProductImages(Request $request, $id=null){
+        if (!empty($id)){
+            $product_image = ProductsImage::where(['id'=>$id])->first()->image;
+            if (File::exists('images/backend_images/products/small/'.$product_image)){
+                File::delete('images/backend_images/products/small/'.$product_image);
+            }
+            if (File::exists('images/backend_images/products/medium/'.$product_image)){
+                File::delete('images/backend_images/products/medium/'.$product_image);
+            }
+            if (File::exists('images/backend_images/products/large/'.$product_image)){
+                File::delete('images/backend_images/products/large/'.$product_image);
+            }
+            ProductsImage::where(['id'=>$id])->delete();
+            return redirect()->back()->with('flash_message_success', 'Успешно изтрихте снимката на продукта!');
+        }
     }
 
 }

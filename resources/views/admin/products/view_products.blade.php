@@ -60,17 +60,17 @@
                             <td>{{ $product->price }}</td>
                             <td>
                                 @if (!empty($product->image))
-                                <img src="{{ asset('/images/backend_images/products/small/'.$product->image) }}" style="width:50px;">
+                                <a href="#imageModal{{ $product->id }}" data-toggle="modal" title="Покажи снимката в голям размер."><img src="{{ asset('/images/backend_images/products/small/'.$product->image) }}" style="width:50px;"></a>
                                 @endif
                             </td>
                             <td class="center">
-                                <a href="#myModal{{ $product->id }}" data-toggle="modal" class="btn btn-success btn-mini">Преглед</a>
+                                <a href="#modalPregled{{ $product->id }}" data-toggle="modal" class="btn btn-success btn-mini">Преглед</a>
                                 <a href="{{ route('admin.edit-product', ['id' => $product->id]) }}" class="btn btn-primary btn-mini">Редактирай</a>
-                                <a href="{{ route('admin.add-images', ['id' => $product->id]) }}" class="btn btn-info btn-mini">Добави снимки</a>
+                                <a href="{{ route('admin.add-images', ['id' => $product->id]) }}" class="btn btn-info btn-mini">Снимки</a>
                                 <a onclick="deleteProduct('{{ route('admin.delete-product', ['id' => $product->id]) }}');" class="btn btn-danger btn-mini">Изтрий</a>
                             </td>
                         </tr>
-                        <div id="myModal{{ $product->id }}" class="modal hide">
+                        <div id="modalPregled{{ $product->id }}" class="modal hide">
                             <div class="modal-header">
                                 <button data-dismiss="modal" class="close" type="button">×</button>
                                 <h3>{{ $product->product_name }} - Подробен преглед</h3>
@@ -91,6 +91,16 @@
                                         <p><img src="{{ asset('/images/backend_images/products/medium/'.$product->image) }}"/></p>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="modal-footer"><a data-dismiss="modal" class="btn btn-inverse" href="#">Затвори</a> </div>
+                        </div>
+                        <div id="imageModal{{ $product->id }}" class="modal hide" aria-hidden="true" style="display: none;">
+                            <div class="modal-header">
+                                <button data-dismiss="modal" class="close" type="button">×</button>
+                                <h3>Снимка на продукта: {{ $product->product_name }}</h3>
+                            </div>
+                            <div class="modal-body">
+                                <p><img src="{{ asset('/images/backend_images/products/large/'.$product->image) }}"></p>
                             </div>
                             <div class="modal-footer"><a data-dismiss="modal" class="btn btn-inverse" href="#">Затвори</a> </div>
                         </div>
