@@ -1,5 +1,7 @@
 <?php use App\Http\Controllers\CategoryController; ?>
 <?php use App\User; ?>
+<?php use App\ProductsTags; ?>
+<?php use App\Tag; ?>
 @extends('layouts.adminLayout.admin_design')
 
 @section('content')
@@ -81,14 +83,82 @@
                                         <p><strong>Продукт №:</strong> {{ $product->id }}</p>
                                         <p><strong>Код:</strong> {{ $product->product_code }}</p>
                                         <p><strong>Наименование:</strong> {{ $product->product_name }}</p>
-                                        <p><strong>Потребител:</strong> {{ User::where(['id'=>$product->user_id])->first()->name }}</p>
+                                        <p><strong>Собственик:</strong> {{ User::where(['id'=>$product->user_id])->first()->name }}</p>
                                         <p><strong>Категория:</strong> {{ CategoryController::getCategoryById($product->category_id)->name }}</p>
-                                        <p><strong>Цвят:</strong> {{ $product->product_color }}</p>
+                                        <p><strong>Количество:</strong> {{ $product->quantity }}</p>
                                         <p><strong>Цена:</strong> {{ $product->price }}</p>
-                                        <p><strong>Описание:</strong> {!! $product->description !!}</p>
+                                        <p><strong>Основен цвят:</strong> <i class="icon-stop" style="color:{{ $product->first_color }};"></i></p>
+                                        <p><strong>Втори цвят:</strong> <i class="icon-stop" style="color:{{ $product->second_color }};"></i></p>
+                                        @php
+                                        switch ($product->age) {
+                                            case 'child':
+                                                $age_txt = 'За деца';
+                                                break;
+                                            case 'adult':
+                                                $age_txt = 'За възрастни';
+                                                break;
+                                        }
+                                        @endphp
+                                        <p><strong>Възрастова група:</strong> {{ $age_txt }}</p>
+                                        @php
+                                        switch ($product->pol) {
+                                            case 'woman':
+                                                $pol_txt = 'За жени';
+                                                break;
+                                            case 'man':
+                                                $pol_txt = 'За мъже';
+                                                break;
+                                        }
+                                        @endphp
+                                        <p><strong>Пол:</strong> {{ $pol_txt }}</p>
+                                        @php
+                                        switch ($product->condition) {
+                                            case 'old':
+                                                $condition_txt = 'Употребяван';
+                                                break;
+                                            case 'new':
+                                                $condition_txt = 'Нов';
+                                                break;
+                                        }
+                                        @endphp
+                                        <p><strong>Състояние:</strong> {{ $condition_txt }}</p>
+                                        <p><strong>Изпраща се с:</strong> {{ $product->send_id }}</p>
+                                        <p><strong>Изпраща се от:</strong> {{ $product->send_from_id }}</p>
+                                        <p><strong>Цена за изпращане:</strong> {{ $product->price_send }}</p>
+                                        <p><strong>Безплатна доставка:</strong> @if ($product->send_free === 1) Да @else Не @endif</p>
+                                        <p><strong>Важи за:</strong> {{ $product->send_free_id }}</p>
+                                        @php
+                                        switch ($product->available_for) {
+                                            case 'city':
+                                                $available_for_txt = 'Населено място';
+                                                break;
+                                            case 'cities':
+                                                $available_for_txt = 'Населени места';
+                                                break;
+                                            case 'area':
+                                                $available_for_txt = 'Област';
+                                                break;
+                                            case 'country':
+                                                $available_for_txt = 'Цялата страна';
+                                                break;
+                                        }
+                                        @endphp
+                                        <p><strong>Доставя за:</strong> {{ $available_for_txt }}</p>
+                                        <p><strong>Може да се вземе от обект:</strong> @if ($product->object == 1) Да @else Не @endif</p>
+                                        <p><strong>Адрес на обекта:</strong> {{ $product->object_name }}</p>
+                                        <p><strong>Възможност за персонализиране:</strong> @if ($product->personalize == 1) Да @else Не @endif</p>
                                     </div>
                                     <div class="span6 m-wrap">
                                         <p><img src="{{ asset('/images/backend_images/products/medium/'.$product->image) }}"/></p>
+                                        <p><strong>ЕТИКЕТИ:</strong></p>
+                                        @foreach (ProductsTags::where(['product_id'=>$product->id])->get() as $product_tag)
+                                            <span class="label label-success">{{ Tag::where(['id'=>$product_tag->tag_id])->first()->name }}</span>
+                                        @endforeach
+                                    </div>
+                                </div>
+                                <div class="controls controls-row">
+                                    <div class="span12 m-wrap">
+                                        <p><strong>Описание:</strong> {!! $product->description !!}</p>
                                     </div>
                                 </div>
                             </div>

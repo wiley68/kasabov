@@ -22,12 +22,6 @@
                     <input type="text" name="tag_name" id="tag_name" value="{{ $tag->name }}">
                   </div>
                 </div>
-                <div class="control-group">
-                  <label class="control-label">URL</label>
-                  <div class="controls">
-                    <input type="text" name="tag_url" id="tag_url" value="{{ $tag->url }}">
-                  </div>
-                </div>
                 <div class="form-actions">
                   <input type="submit" value="Редактирай етикета" class="btn btn-success">
                 </div>

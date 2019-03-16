@@ -46,7 +46,6 @@
                   <tr>
                     <th>Етикет №</th>
                     <th>Етикет</th>
-                    <th>URL</th>
                     <th>Управление</th>
                   </tr>
                 </thead>
@@ -55,7 +54,6 @@
                         <tr class="gradeX">
                             <td>{{ $tag->id }}</td>
                             <td>{{ $tag->name }}</td>
-                            <td>{{ $tag->url }}</td>
                             <td class="center"><a href="{{ route('admin.edit-tag', ['id' => $tag->id]) }}" class="btn btn-primary btn-mini">Редактирай</a> <button onclick="deleteTag('{{ route('admin.delete-tag', ['id' => $tag->id]) }}');" class="btn btn-danger btn-mini">Изтрий</a></td>
                         </tr>
                     @endforeach

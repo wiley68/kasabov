@@ -230,7 +230,17 @@
                         </div>
                         <div class="widget-content nopadding">
                             <div style="padding:10px;">
-                                    <textarea name="description" id="description" class="textarea_editor span12" rows="40">{!! $product->description !!}</textarea>
+                                    <textarea name="description" id="description" class="textarea_editor span12" rows="30">{!! $product->description !!}</textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="widget-box">
+                        <div class="widget-title"> <span class="icon"> <i class="icon-info-sign"></i> </span>
+                            <h5>Етикети</h5>
+                        </div>
+                        <div class="widget-content nopadding">
+                            <div style="padding:10px;">
+
                             </div>
                         </div>
                     </div>

@@ -10,10 +10,8 @@ class TagController extends Controller
     public function addTag(Request $request){
         if ($request->isMethod('post')){
             $tag_name = $request->input('tag_name');
-            $tag_url = $request->input('tag_url');
             $tag = new Tag();
             $tag->name = $tag_name;
-            $tag->url = $tag_url;
             $tag->save();
             return redirect('/admin/view-tags')->with('flash_message_success', 'Успешно създадохте нов етикет!');
         }
@@ -24,7 +22,6 @@ class TagController extends Controller
         $tag = Tag::where(['id'=>$id])->first();
         if ($request->isMethod('post')){
             $tag->name = $request->input('tag_name');
-            $tag->url = $request->input('tag_url');
             $tag->save();
             return redirect('/admin/view-tags')->with('flash_message_success', 'Успешно редактирахте етикета!');
         }
