@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Tag;
+use App\ProductsTags;
 
 class TagController extends Controller
 {
@@ -46,6 +47,17 @@ class TagController extends Controller
             $tag = Tag::where(['id'=>$id])->first();
             return $tag;
         }
+    }
+
+    public function deleteProductsTags(Request $request){
+        $tag = Tag::where(['name'=>$request->name])->first();
+        if (!empty($tag)){
+            ProductsTags::where([
+                'product_id'=>$request->product_id,
+                'tag_id'=>$tag->id
+            ])->delete();
+        }
+        return 'Yes';
     }
 
 }

@@ -208,7 +208,19 @@
                         </div>
                         <div class="widget-content nopadding">
                             <div style="padding:10px;">
-                                <textarea name="description" id="description" class="textarea_editor span12" rows="40"></textarea>
+                                <textarea name="description" id="description" class="textarea_editor span12" rows="30"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="widget-box">
+                        <div class="widget-title"> <span class="icon"> <i class="icon-info-sign"></i> </span>
+                            <h5>Етикети</h5>
+                        </div>
+                        <div class="widget-content nopadding">
+                            <div style="padding:10px;">
+                                <input type="text" name="tag_add" id="tag_add"> <button id="btn_add_tag" class="btn btn-primary">Добави етикета</button>
+                                <div style="padding-top: 10px;" id="div_tags">
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -222,5 +234,23 @@
 @section('scripts')
     <script>
 	    $('.textarea_editor').wysihtml5();
+        // Add tags
+        function isNullOrWhitespace( input ) {
+            if (typeof input === 'undefined' || input == null) return true;
+            return input.replace(/\s/g, '').length < 1;
+        }
+        $('#btn_add_tag').click(function(e){
+            e.preventDefault();
+            const divTags = document.getElementById('div_tags');
+            const tagAdd = document.getElementById('tag_add');
+            if (!isNullOrWhitespace(tagAdd.value)){
+                divTags.innerHTML += '<p><span class="label label-success">'+tagAdd.value+'</span><input type="hidden" name="tags[]" value="'+tagAdd.value+'"> <span onclick="removeTag(this);" style="color:red;cursor:pointer;">Изтрий</span></p>';
+                tagAdd.value = '';
+            }
+        });
+        function removeTag(item){
+            // Remove tag from products_tags table by ajax
+            item.parentElement.remove();
+        };
     </script>
 @stop

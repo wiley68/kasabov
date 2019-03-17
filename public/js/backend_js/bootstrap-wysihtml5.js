@@ -83,7 +83,7 @@
         "html": function(locale, options) {
             var size = (options && options.size) ? ' btn-'+options.size : '';
             return "<li>" +
-              "<div class='btn-group'>" + 
+              "<div class='btn-group'>" +
                 "<a class='btn" + size + "' data-wysihtml5-action='change_view' title='" + locale.html.edit + "'><i class='icon-pencil'></i></a>" +
               "</div>" +
             "</li>";
@@ -354,7 +354,7 @@
             return methods.init.apply( this, arguments );
         } else {
             $.error( 'Method ' +  method + ' does not exist on jQuery.wysihtml5' );
-        }    
+        }
     };
 
     $.fn.wysihtml5.Constructor = Wysihtml5;
@@ -421,7 +421,7 @@
                 "div": 1
             }
         },
-        stylesheets: ["./lib/css/wysiwyg-color.css"], // (path_to_project/lib/css/wysiwyg-color.css)
+        stylesheets: ["/lib/css/wysiwyg-color.css"], // (path_to_project/lib/css/wysiwyg-color.css)
         locale: "en"
     };
 

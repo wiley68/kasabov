@@ -10,6 +10,8 @@ use App\Category;
 use Intervention\Image\Facades\Image;
 use File;
 use App\ProductsImage;
+use App\Tag;
+use App\ProductsTags;
 
 class ProductController extends Controller
 {
@@ -105,6 +107,22 @@ class ProductController extends Controller
                 $product->image = '';
             }
             $product->save();
+            // Add tags to tags table
+            // Delete oll tags
+            foreach ($request->tags as $tag) {
+                if (Tag::where(['name'=>$tag])->get()->count() > 0){
+                    $tag_id = Tag::where(['name'=>$tag])->first()->id;
+                }else{
+                    $new_tag = new Tag();
+                    $new_tag->name = $tag;
+                    $new_tag->save();
+                    $tag_id = $new_tag->id;
+                }
+                $products_tag = new ProductsTags();
+                $products_tag->product_id = $product->id;
+                $products_tag->tag_id = $tag_id;
+                $products_tag->save();
+            }
             return redirect('/admin/view-products')->with('flash_message_success', 'Успешно създадохте нов продукт!');
         }
         $categories = Category::where(['parent_id'=>0])->get();
@@ -192,14 +210,34 @@ class ProductController extends Controller
             $product->price = $request->input('price');
             $product->image = $filename;
             $product->save();
+
+            // Add tags to tags table
+            // Delete oll tags
+            ProductsTags::where(['product_id'=>$product->id])->delete();
+            foreach ($request->tags as $tag) {
+                if (Tag::where(['name'=>$tag])->get()->count() > 0){
+                    $tag_id = Tag::where(['name'=>$tag])->first()->id;
+                }else{
+                    $new_tag = new Tag();
+                    $new_tag->name = $tag;
+                    $new_tag->save();
+                    $tag_id = $new_tag->id;
+                }
+                $products_tag = new ProductsTags();
+                $products_tag->product_id = $product->id;
+                $products_tag->tag_id = $tag_id;
+                $products_tag->save();
+            }
             return redirect('/admin/edit-product/'.$product->id)->with('flash_message_success', 'Успешно редактирахте продукта!');
         }
         $categories = Category::where(['parent_id'=>0])->get();
         $users = User::where(['admin'=>0])->get();
+        $tags = ProductsTags::where(['product_id'=>$product->id])->get();
         return view('admin.products.edit_product')->with([
             'product'=>$product,
             'categories'=>$categories,
-            'users'=>$users
+            'users'=>$users,
+            'tags'=>$tags
             ]);
     }
 

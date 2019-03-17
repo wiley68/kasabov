@@ -41,6 +41,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::match(['get', 'post'], '/admin/edit-tag/{id}', 'TagController@editTag')->name('admin.edit-tag');
     Route::get('/admin/delete-tag/{id}', 'TagController@deleteTag')->name('admin.delete-tag');
     Route::get('/admin/view-tags', 'TagController@viewTags')->name('admin.view-tags');
+    Route::get('/admin/delete-products-tags', 'TagController@deleteProductsTags')->name('admin.delete-products-tags');
     // Product routes
     Route::match(['get', 'post'], '/admin/add-product', 'ProductController@addProduct')->name('admin.add-product');
     Route::match(['get', 'post'], '/admin/edit-product/{id}', 'ProductController@editProduct')->name('admin.edit-product');

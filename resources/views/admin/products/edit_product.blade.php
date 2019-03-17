@@ -1,4 +1,5 @@
 <?php use App\Category; ?>
+<?php use App\Tag; ?>
 @extends('layouts.adminLayout.admin_design')
 @section('content')
 <script type="text/javascript">
@@ -230,7 +231,7 @@
                         </div>
                         <div class="widget-content nopadding">
                             <div style="padding:10px;">
-                                    <textarea name="description" id="description" class="textarea_editor span12" rows="30">{!! $product->description !!}</textarea>
+                                <textarea name="description" id="description" class="textarea_editor span12" rows="30">{!! $product->description !!}</textarea>
                             </div>
                         </div>
                     </div>
@@ -240,7 +241,14 @@
                         </div>
                         <div class="widget-content nopadding">
                             <div style="padding:10px;">
-
+                                <input type="text" name="tag_add" id="tag_add"> <button id="btn_add_tag" class="btn btn-primary">Добави етикета</button>
+                                <div style="padding-top: 10px;" id="div_tags">
+                                    @if (!empty($tags))
+                                        @foreach ($tags as $tag)
+                                        <p><span class="label label-success">{{ Tag::where(['id'=>$tag->tag_id])->first()->name }}</span><input type="hidden" name="tags[]" value="{{ Tag::where(['id'=>$tag->tag_id])->first()->name }}"> <span onclick="removeTag(this);" style="color:red;cursor:pointer;">Изтрий</span></p>
+                                        @endforeach
+                                    @endif
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -264,5 +272,40 @@
 @section('scripts')
     <script>
 	    $('.textarea_editor').wysihtml5();
+        // Add tags
+        function isNullOrWhitespace( input ) {
+            if (typeof input === 'undefined' || input == null) return true;
+            return input.replace(/\s/g, '').length < 1;
+        }
+        function removeTag(item){
+            // Remove tag from products_tags table by ajax
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+                }
+            });
+            $.ajax({
+                url: "{{ route('admin.delete-products-tags') }}",
+                method: 'post',
+                data: {
+                    name: $('span:first', item.parentElement).html(),
+                    product_id: '{{ $product->id }}'
+                },
+                success: function(result){
+                    if (result === 'Yes'){
+                        item.parentElement.remove();
+                    }
+                }
+            });
+        };
+        $('#btn_add_tag').click(function(e){
+            e.preventDefault();
+            const divTags = document.getElementById('div_tags');
+            const tagAdd = document.getElementById('tag_add');
+            if (!isNullOrWhitespace(tagAdd.value)){
+                divTags.innerHTML += '<p><span class="label label-success">'+tagAdd.value+'</span><input type="hidden" name="tags[]" value="'+tagAdd.value+'"> <span onclick="removeTag(this);" style="color:red;cursor:pointer;">Изтрий</span></p>';
+                tagAdd.value = '';
+            }
+        });
     </script>
 @stop
