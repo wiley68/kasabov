@@ -24,8 +24,8 @@ class CreateProductsTable extends Migration
             $table->enum('age', array('child', 'adult', 'any'));
             $table->enum('pol', array('man', 'woman', 'any'));
             $table->enum('condition', array('new', 'old'));
-            $table->integer('send_id')->default(0);
-            $table->integer('send_from_id')->default(0);
+            $table->integer('send_id')->nullable();
+            $table->integer('send_from_id')->nullable();
             $table->float('price_send')->default(0.00);
             $table->boolean('send_free')->default(false);
             $table->integer('send_free_id')->default(0);

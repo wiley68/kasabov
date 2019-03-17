@@ -121,11 +121,14 @@
                                 </div>
                             </div>
                             <div class="control-group">
-                                <label class="control-label">Изпраща се с:</label>
+                                <label class="control-label">Изпраща се с</label>
                                 <div class="controls">
                                     <select name="send_id" id="send_id" style="width:314px;">
-                            <option value="0" selected>Няма посочен</option>
-                        </select>
+                                        <option value="0" selected>Избери доставчик</option>
+                                        @foreach ($speditors as $speditor)
+                                            <option value="{{ $speditor->id }}">{{ $speditor->name }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
                             <div class="control-group">

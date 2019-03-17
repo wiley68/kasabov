@@ -12,6 +12,7 @@ use File;
 use App\ProductsImage;
 use App\Tag;
 use App\ProductsTags;
+use App\Speditor;
 
 class ProductController extends Controller
 {
@@ -127,9 +128,11 @@ class ProductController extends Controller
         }
         $categories = Category::where(['parent_id'=>0])->get();
         $users = User::where(['admin'=>0])->get();
+        $speditors = Speditor::all();
         return view('admin.products.add_product')->with([
             'categories'=>$categories,
-            'users'=>$users
+            'users'=>$users,
+            'speditors'=>$speditors
             ]);
     }
 
@@ -233,11 +236,13 @@ class ProductController extends Controller
         $categories = Category::where(['parent_id'=>0])->get();
         $users = User::where(['admin'=>0])->get();
         $tags = ProductsTags::where(['product_id'=>$product->id])->get();
+        $speditors = Speditor::all();
         return view('admin.products.edit_product')->with([
             'product'=>$product,
             'categories'=>$categories,
             'users'=>$users,
-            'tags'=>$tags
+            'tags'=>$tags,
+            'speditors'=>$speditors
             ]);
     }
 
