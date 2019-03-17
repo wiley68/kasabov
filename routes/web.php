@@ -51,5 +51,10 @@ Route::group(['middleware' => ['auth']], function () {
     // Products Images routes
     Route::match(['get', 'post'], '/admin/add-images/{id}', 'ProductController@addImages')->name('admin.add-images');
     Route::get('/admin/delete-product-images/{id}', 'ProductController@deleteProductImages')->name('admin.delete-product-images');
+    // Speditor routes
+    Route::match(['get', 'post'], '/admin/add-speditor', 'SpeditorController@addSpeditor')->name('admin.add-speditor');
+    Route::match(['get', 'post'], '/admin/edit-speditor/{id}', 'SpeditorController@editSpeditor')->name('admin.edit-speditor');
+    Route::get('/admin/delete-speditor/{id}', 'SpeditorController@deleteSpeditor')->name('admin.delete-speditor');
+    Route::get('/admin/view-speditors', 'SpeditorController@viewSpeditors')->name('admin.view-speditors');
 });
 Route::get('/logout', 'AdminController@logout')->name('logout');

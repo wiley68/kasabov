@@ -2,6 +2,7 @@
 <?php use App\Holiday; ?>
 <?php use App\Tag; ?>
 <?php use App\Product; ?>
+<?php use App\Speditor; ?>
 <!--sidebar-menu-->
 <div id="sidebar"><a href="{{ route('admin.dashboard') }}" class="visible-phone"><i class="icon icon-home"></i> Панел Управление</a>
     <ul>
@@ -28,6 +29,12 @@
         <ul>
           <li><a href="{{ route('admin.add-tag') }}">Добави етикет</a></li>
           <li><a href="{{ route('admin.view-tags') }}">Всички етикети</a></li>
+        </ul>
+      </li>
+      <li class="submenu"> <a href="#"><i class="icon icon-th-list"></i> <span>Доставчици</span> <span class="label label-important">{{ Speditor::count() }}</span></a>
+        <ul>
+          <li><a href="{{ route('admin.add-speditor') }}">Добави доставчик</a></li>
+          <li><a href="{{ route('admin.view-speditors') }}">Всички доставчици</a></li>
         </ul>
       </li>
       <li class="content"> <span>Monthly Bandwidth Transfer</span>
