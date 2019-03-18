@@ -14,6 +14,7 @@ use App\Tag;
 use App\ProductsTags;
 use App\Speditor;
 use App\City;
+use App\Holiday;
 
 class ProductController extends Controller
 {
@@ -27,6 +28,7 @@ class ProductController extends Controller
             if ($category_id === "0"){
                 return redirect('/admin/add-product')->with('flash_message_error', 'Необходимо е да изберете категория за продукта!');
             }
+            $holiday_id = $request->input('holiday_id');
             $product_name = $request->input('product_name');
             $product_code = $request->input('product_code');
             $first_color = $request->input('first_color');
@@ -58,6 +60,7 @@ class ProductController extends Controller
             $product = new Product();
             $product->user_id = $user_id;
             $product->category_id = $category_id;
+            $product->holiday_id = $holiday_id;
             $product->product_name = $product_name;
             $product->product_code = $product_code;
             $product->first_color = $first_color;
@@ -111,19 +114,21 @@ class ProductController extends Controller
             $product->save();
             // Add tags to tags table
             // Delete oll tags
-            foreach ($request->tags as $tag) {
-                if (Tag::where(['name'=>$tag])->get()->count() > 0){
-                    $tag_id = Tag::where(['name'=>$tag])->first()->id;
-                }else{
-                    $new_tag = new Tag();
-                    $new_tag->name = $tag;
-                    $new_tag->save();
-                    $tag_id = $new_tag->id;
+            if (!empty($request->tags)){
+                foreach ($request->tags as $tag) {
+                    if (Tag::where(['name'=>$tag])->get()->count() > 0){
+                        $tag_id = Tag::where(['name'=>$tag])->first()->id;
+                    }else{
+                        $new_tag = new Tag();
+                        $new_tag->name = $tag;
+                        $new_tag->save();
+                        $tag_id = $new_tag->id;
+                    }
+                    $products_tag = new ProductsTags();
+                    $products_tag->product_id = $product->id;
+                    $products_tag->tag_id = $tag_id;
+                    $products_tag->save();
                 }
-                $products_tag = new ProductsTags();
-                $products_tag->product_id = $product->id;
-                $products_tag->tag_id = $tag_id;
-                $products_tag->save();
             }
             return redirect('/admin/view-products')->with('flash_message_success', 'Успешно създадохте нов продукт!');
         }
@@ -131,11 +136,13 @@ class ProductController extends Controller
         $users = User::where(['admin'=>0])->get();
         $speditors = Speditor::all();
         $cities = City::all();
+        $holidays = Holiday::where(['parent_id'=>0])->get();
         return view('admin.products.add_product')->with([
             'categories'=>$categories,
             'users'=>$users,
             'speditors'=>$speditors,
-            'cities'=>$cities
+            'cities'=>$cities,
+            'holidays'=>$holidays
             ]);
     }
 
@@ -184,6 +191,7 @@ class ProductController extends Controller
             }
             $product->user_id = $request->input('user_id');
             $product->category_id = $request->input('category_id');
+            $product->holiday_id = $request->input('holiday_id');
             $product->product_name = $request->input('product_name');
             $product->product_code = $request->input('product_code');
             $product->first_color = $request->input('first_color');
@@ -241,13 +249,15 @@ class ProductController extends Controller
         $tags = ProductsTags::where(['product_id'=>$product->id])->get();
         $speditors = Speditor::all();
         $cities = City::all();
+        $holidays = Holiday::where(['parent_id'=>0])->get();
         return view('admin.products.edit_product')->with([
             'product'=>$product,
             'categories'=>$categories,
             'users'=>$users,
             'tags'=>$tags,
             'speditors'=>$speditors,
-            'cities'=>$cities
+            'cities'=>$cities,
+            'holidays'=>$holidays
             ]);
     }
 

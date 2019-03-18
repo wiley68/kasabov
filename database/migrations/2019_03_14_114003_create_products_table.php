@@ -17,6 +17,7 @@ class CreateProductsTable extends Migration
             $table->increments('id');
             $table->integer('user_id');
             $table->integer('category_id');
+            $table->integer('holiday_id')->nullable();
             $table->string('product_name');
             $table->string('product_code')->unique();
             $table->string('first_color')->default('#ffffff');

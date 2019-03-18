@@ -1,4 +1,5 @@
 <?php use App\Http\Controllers\CategoryController; ?>
+<?php use App\Http\Controllers\HolidayController; ?>
 <?php use App\Http\Controllers\SpeditorController; ?>
 <?php use App\Http\Controllers\CityController; ?>
 <?php use App\User; ?>
@@ -87,6 +88,7 @@
                                         <p><strong>Наименование:</strong> {{ $product->product_name }}</p>
                                         <p><strong>Собственик:</strong> {{ User::where(['id'=>$product->user_id])->first()->name }}</p>
                                         <p><strong>Категория:</strong> {{ CategoryController::getCategoryById($product->category_id)->name }}</p>
+                                        <p><strong>Празник:</strong> {{ HolidayController::getHolidayById($product->holiday_id)->name }}</p>
                                         <p><strong>Количество:</strong> {{ $product->quantity }}</p>
                                         <p><strong>Цена:</strong> {{ $product->price }}</p>
                                         <p><strong>Основен цвят:</strong> <i class="icon-stop" style="color:{{ $product->first_color }};"></i></p>

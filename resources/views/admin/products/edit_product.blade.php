@@ -1,4 +1,5 @@
 <?php use App\Category; ?>
+<?php use App\Holiday; ?>
 <?php use App\Tag; ?>
 @extends('layouts.adminLayout.admin_design')
 @section('content')
@@ -63,6 +64,19 @@
                                             <option value="{{ $category->id }}" @if ($category->id === $product->category_id) selected @endif>{{ $category->name }}</option>
                                             @foreach (Category::where(['parent_id'=>$category->id])->get() as $item)
                                                 <option value="{{ $item->id }}" @if ($item->id === $product->category_id) selected @endif>&nbsp;--&nbsp;{{ $item->name }}</option>
+                                            @endforeach
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label">Празник</label>
+                                <div class="controls">
+                                    <select name="holiday_id" id="holiday_id" style="width:314px;">
+                                        @foreach ($holidays as $holiday)
+                                            <option value="{{ $holiday->id }}" @if ($holiday->id === $product->holiday_id) selected @endif>{{ $holiday->name }}</option>
+                                            @foreach (Holiday::where(['parent_id'=>$holiday->id])->get() as $item)
+                                                <option value="{{ $item->id }}" @if ($item->id === $product->holiday_id) selected @endif>&nbsp;--&nbsp;{{ $item->name }}</option>
                                             @endforeach
                                         @endforeach
                                     </select>
@@ -160,7 +174,7 @@
                                     <select name="send_from_id" id="send_from_id" style="width:314px;">
                                         <option value="0" selected>Избери населено място</option>
                                         @foreach ($cities as $city)
-                                            <option value="{{ $city->id }}" @if ($city->id === $product->send_from_id) selected @endif>{{ $city->city }}&nbsp;--{{ $city->oblast }}</option>
+                                            <option value="{{ $city->id }}" @if ($city->id === $product->send_from_id) selected @endif>{{ $city->city }}&nbsp;--&nbsp;{{ $city->oblast }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -181,10 +195,13 @@
                                 </div>
                             </div>
                             <div class="control-group">
-                                <label class="control-label">Важи за:</label>
+                                <label class="control-label">Важи за</label>
                                 <div class="controls">
                                     <select name="send_free_id" id="send_free_id" style="width:314px;">
-                                        <option value="0" selected>Няма посочен</option>
+                                        <option value="0" selected>Избери населено място</option>
+                                        @foreach ($cities as $city)
+                                            <option value="{{ $city->id }}" @if ($city->id === $product->send_free_id) selected @endif>{{ $city->city }}&nbsp;--&nbsp;{{ $city->oblast }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>
