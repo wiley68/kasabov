@@ -1,4 +1,6 @@
 <?php use App\Http\Controllers\CategoryController; ?>
+<?php use App\Http\Controllers\SpeditorController; ?>
+<?php use App\Http\Controllers\CityController; ?>
 <?php use App\User; ?>
 <?php use App\ProductsTags; ?>
 <?php use App\Tag; ?>
@@ -122,8 +124,8 @@
                                         }
                                         @endphp
                                         <p><strong>Състояние:</strong> {{ $condition_txt }}</p>
-                                        <p><strong>Изпраща се с:</strong> {{ $product->send_id }}</p>
-                                        <p><strong>Изпраща се от:</strong> {{ $product->send_from_id }}</p>
+                                        <p><strong>Изпраща се с:</strong> {{ SpeditorController::getSpeditorById($product->send_id)->name }}</p>
+                                        <p><strong>Изпраща се от:</strong> {{ CityController::getCityById($product->send_from_id)->city }}&nbsp;, област: {{ CityController::getCityById($product->send_from_id)->oblast }}</p>
                                         <p><strong>Цена за изпращане:</strong> {{ $product->price_send }}</p>
                                         <p><strong>Безплатна доставка:</strong> @if ($product->send_free === 1) Да @else Не @endif</p>
                                         <p><strong>Важи за:</strong> {{ $product->send_free_id }}</p>

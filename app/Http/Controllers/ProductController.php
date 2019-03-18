@@ -13,6 +13,7 @@ use App\ProductsImage;
 use App\Tag;
 use App\ProductsTags;
 use App\Speditor;
+use App\City;
 
 class ProductController extends Controller
 {
@@ -129,10 +130,12 @@ class ProductController extends Controller
         $categories = Category::where(['parent_id'=>0])->get();
         $users = User::where(['admin'=>0])->get();
         $speditors = Speditor::all();
+        $cities = City::all();
         return view('admin.products.add_product')->with([
             'categories'=>$categories,
             'users'=>$users,
-            'speditors'=>$speditors
+            'speditors'=>$speditors,
+            'cities'=>$cities
             ]);
     }
 
@@ -237,12 +240,14 @@ class ProductController extends Controller
         $users = User::where(['admin'=>0])->get();
         $tags = ProductsTags::where(['product_id'=>$product->id])->get();
         $speditors = Speditor::all();
+        $cities = City::all();
         return view('admin.products.edit_product')->with([
             'product'=>$product,
             'categories'=>$categories,
             'users'=>$users,
             'tags'=>$tags,
-            'speditors'=>$speditors
+            'speditors'=>$speditors,
+            'cities'=>$cities
             ]);
     }
 

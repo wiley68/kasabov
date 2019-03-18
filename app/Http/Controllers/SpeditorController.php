@@ -21,7 +21,7 @@ class SpeditorController extends Controller
     }
 
     public function editSpeditor(Request $request, $id=null){
-        $speditor = Tag::where(['id'=>$id])->first();
+        $speditor = Speditor::where(['id'=>$id])->first();
         if ($request->isMethod('post')){
             $speditor->name = $request->input('speditor_name');
             $speditor->description = $request->input('speditor_description');
@@ -33,7 +33,7 @@ class SpeditorController extends Controller
 
     public function deleteSpeditor(Request $request, $id=null){
         if (!empty($id)){
-            $speditor = Tag::where(['id'=>$id])->first();
+            $speditor = Speditor::where(['id'=>$id])->first();
             $speditor->delete();
             return redirect('/admin/view-speditors')->with('flash_message_success', 'Успешно изтрихте доставчика!');
         }

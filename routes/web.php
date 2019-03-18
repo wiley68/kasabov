@@ -56,5 +56,10 @@ Route::group(['middleware' => ['auth']], function () {
     Route::match(['get', 'post'], '/admin/edit-speditor/{id}', 'SpeditorController@editSpeditor')->name('admin.edit-speditor');
     Route::get('/admin/delete-speditor/{id}', 'SpeditorController@deleteSpeditor')->name('admin.delete-speditor');
     Route::get('/admin/view-speditors', 'SpeditorController@viewSpeditors')->name('admin.view-speditors');
+    // City routes
+    Route::match(['get', 'post'], '/admin/add-city', 'CityController@addCity')->name('admin.add-city');
+    Route::match(['get', 'post'], '/admin/edit-city/{id}', 'CityController@editCity')->name('admin.edit-city');
+    Route::get('/admin/delete-city/{id}', 'CityController@deleteCity')->name('admin.delete-city');
+    Route::get('/admin/view-cities', 'CityController@viewCities')->name('admin.view-cities');
 });
 Route::get('/logout', 'AdminController@logout')->name('logout');

@@ -3,6 +3,7 @@
 <?php use App\Tag; ?>
 <?php use App\Product; ?>
 <?php use App\Speditor; ?>
+<?php use App\City; ?>
 <!--sidebar-menu-->
 <div id="sidebar"><a href="{{ route('admin.dashboard') }}" class="visible-phone"><i class="icon icon-home"></i> Панел Управление</a>
     <ul>
@@ -35,6 +36,12 @@
         <ul>
           <li><a href="{{ route('admin.add-speditor') }}">Добави доставчик</a></li>
           <li><a href="{{ route('admin.view-speditors') }}">Всички доставчици</a></li>
+        </ul>
+      </li>
+      <li class="submenu"> <a href="#"><i class="icon icon-th-list"></i> <span>Населени места</span> <span class="label label-important">{{ City::count() }}</span></a>
+        <ul>
+          <li><a href="{{ route('admin.add-city') }}">Добави населено място</a></li>
+          <li><a href="{{ route('admin.view-cities') }}">Всички населени места</a></li>
         </ul>
       </li>
       <li class="content"> <span>Monthly Bandwidth Transfer</span>

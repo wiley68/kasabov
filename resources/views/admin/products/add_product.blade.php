@@ -132,11 +132,14 @@
                                 </div>
                             </div>
                             <div class="control-group">
-                                <label class="control-label">Изпраща се от:</label>
+                                <label class="control-label">Изпраща се от</label>
                                 <div class="controls">
                                     <select name="send_from_id" id="send_from_id" style="width:314px;">
-                            <option value="0" selected>Няма посочен</option>
-                        </select>
+                                        <option value="0" selected>Избери населено място</option>
+                                        @foreach ($cities as $city)
+                                            <option value="{{ $city->id }}">{{ $city->city }}&nbsp;--{{ $city->oblast }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
                             <div class="control-group">
