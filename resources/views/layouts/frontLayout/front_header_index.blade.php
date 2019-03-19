@@ -20,9 +20,7 @@
                             </li>
                         @endforeach
                         <li class="nav-item">
-                            <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Всички празници ...<i class="lni-chevron-down"></i>
-                            </a>
+                            <a class="nav-link" href="#" aria-expanded="false">Всички празници ...</a>
                         </li>
                     </ul>
                     <div class="header-top-right float-right">
@@ -76,7 +74,7 @@
                                         </div>
                                         <i class="lni-menu"></i>
                                     </div>
-                                    <button class="btn btn-common" type="button"><i class="lni-search"></i> Покажи резултата</button>
+                                    <button class="btn btn-common" type="button"><i class="lni-search"></i> Намери</button>
                                 </form>
                             </div>
                         </div>
