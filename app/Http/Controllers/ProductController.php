@@ -226,21 +226,24 @@ class ProductController extends Controller
             $product->save();
 
             // Add tags to tags table
-            // Delete oll tags
-            ProductsTags::where(['product_id'=>$product->id])->delete();
-            foreach ($request->tags as $tag) {
-                if (Tag::where(['name'=>$tag])->get()->count() > 0){
-                    $tag_id = Tag::where(['name'=>$tag])->first()->id;
-                }else{
-                    $new_tag = new Tag();
-                    $new_tag->name = $tag;
-                    $new_tag->save();
-                    $tag_id = $new_tag->id;
+            // Delete all tags
+            $tags_count = ProductsTags::where(['product_id'=>$product->id])->count();
+            if ($tags_count > 0){
+                ProductsTags::where(['product_id'=>$product->id])->delete();
+                foreach ($request->tags as $tag) {
+                    if (Tag::where(['name'=>$tag])->get()->count() > 0){
+                        $tag_id = Tag::where(['name'=>$tag])->first()->id;
+                    }else{
+                        $new_tag = new Tag();
+                        $new_tag->name = $tag;
+                        $new_tag->save();
+                        $tag_id = $new_tag->id;
+                    }
+                    $products_tag = new ProductsTags();
+                    $products_tag->product_id = $product->id;
+                    $products_tag->tag_id = $tag_id;
+                    $products_tag->save();
                 }
-                $products_tag = new ProductsTags();
-                $products_tag->product_id = $product->id;
-                $products_tag->tag_id = $tag_id;
-                $products_tag->save();
             }
             return redirect('/admin/edit-product/'.$product->id)->with('flash_message_success', 'Успешно редактирахте продукта!');
         }

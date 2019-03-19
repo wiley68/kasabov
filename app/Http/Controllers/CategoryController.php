@@ -13,11 +13,13 @@ class CategoryController extends Controller
             $category_parent_id = $request->input('parent_id');
             $category_description = $request->input('category_description');
             $category_url = $request->input('category_url');
+            $category_icon = $request->input('category_icon');
             $category = new Category();
             $category->name = $category_name;
             $category->parent_id = $category_parent_id;
             $category->description = $category_description;
             $category->url = $category_url;
+            $category->icon = $category_icon;
             $category->save();
             return redirect('/admin/view-categories')->with('flash_message_success', 'Успешно създадохте нова категория!');
         }
@@ -32,6 +34,7 @@ class CategoryController extends Controller
             $category->parent_id = $request->input('parent_id');
             $category->description = $request->input('category_description');
             $category->url = $request->input('category_url');
+            $category->icon = $request->input('category_icon');
             $category->save();
             return redirect('/admin/view-categories')->with('flash_message_success', 'Успешно редактирахте категорията!');
         }

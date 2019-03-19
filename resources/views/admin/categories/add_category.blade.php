@@ -45,8 +45,14 @@
                     <input type="text" name="category_url" id="category_url">
                   </div>
                 </div>
+                <div class="control-group">
+                    <label class="control-label">Икона</label>
+                    <div class="controls">
+                        <input type="text" name="category_icon" id="category_icon">
+                    </div>
+                </div>
                 <div class="form-actions">
-                  <input type="submit" value="Добави категорията" class="btn btn-success">
+                    <input type="submit" value="Добави категорията" class="btn btn-success">
                 </div>
               </form>
             </div>

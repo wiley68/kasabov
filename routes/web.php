@@ -11,10 +11,6 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
@@ -63,3 +59,9 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/admin/view-cities', 'CityController@viewCities')->name('admin.view-cities');
 });
 Route::get('/logout', 'AdminController@logout')->name('logout');
+
+// Frontend routes
+Route::get('/', function () {
+    return view('welcome');
+});
+Route::get('/', 'IndexController@index')->name('index');

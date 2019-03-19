@@ -45,6 +45,12 @@
                     <input type="text" name="category_url" id="category_url" value="{{ $category->url }}">
                   </div>
                 </div>
+                <div class="control-group">
+                    <label class="control-label">Икона</label>
+                    <div class="controls">
+                        <input type="text" name="category_icon" id="category_icon" value="{{ $category->icon }}">
+                    </div>
+                </div>
                 <div class="form-actions">
                   <input type="submit" value="Редактирай категорията" class="btn btn-success">
                 </div>
