@@ -20,9 +20,7 @@
                             </li>
                         @endforeach
                         <li class="nav-item">
-                            <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Всички празници ...<i class="lni-chevron-down"></i>
-                            </a>
+                            <a class="nav-link" href="#" aria-expanded="false">Всички празници ...</a>
                         </li>
                     </ul>
                     <div class="header-top-right float-right">
