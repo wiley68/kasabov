@@ -8,7 +8,7 @@
                 <div class="widget">
                   <div class="footer-logo"><img src="{{ asset('images/frontend_images/logo.png') }}" alt=""></div>
                   <div class="textwidget">
-                    <p>Някакъв текст, който описва дейността. Някакъв текст, който описва дейността. Някакъв текст, който описва дейността. Някакъв текст, който описва дейността. Някакъв текст, който описва дейността. </p>
+                    <p>{{ $property->footer_text }}</p>
                   </div>
                   <ul class="mt-3 footer-social">
                     <li><a class="facebook" href="#"><i class="lni-facebook-filled"></i></a></li>
@@ -37,16 +37,16 @@
               </div>
               <div class="col-lg-4 col-md-4 col-xs-6 col-mb-12">
                 <div class="widget">
-                  <h3 class="block-title">Contact Info</h3>
+                  <h3 class="block-title">За контакт</h3>
                   <ul class="contact-footer">
                     <li>
-                      <strong><i class="lni-phone"></i></strong><span>+1 555 444 66647 <br> +1 555 444 66647</span>
+                      <strong><i class="lni-phone"></i></strong><span>{{ $property->footer_phone1 }} <br> {{ $property->footer_phone2 }}</span>
                     </li>
                     <li>
-                      <strong><i class="lni-envelope"></i></strong><span>contact@mail.com <br> support@mail.com</span>
+                      <strong><i class="lni-envelope"></i></strong><span>{{ $property->footer_mail1 }} <br> {{ $property->footer_mail2 }}</span>
                     </li>
                     <li>
-                      <strong><i class="lni-map-marker"></i></strong><span><a href="#">9870 St Vincent Place, Glasgow, DC 45  <br>Fr 45</a></span>
+                      <strong><i class="lni-map-marker"></i></strong><span><a href="#">{{ $property->footer_address }}</a></span>
                     </li>
                   </ul>
                 </div>
@@ -62,7 +62,7 @@
             <div class="row">
               <div class="col-md-12">
                 <div class="site-info text-center">
-                  <p>Създаден от <a href="https://avalonb.com">Авалон</a></p>
+                  <p>{!! $property->footer_rites !!}</a></p>
                 </div>
               </div>
             </div>

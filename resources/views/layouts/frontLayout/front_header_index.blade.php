@@ -46,8 +46,8 @@
             <div class="row justify-content-center">
                 <div class="col-md-12 col-lg-9 col-xs-12 text-center">
                     <div class="contents">
-                        <h1 class="head-title">Добре дошли в <span class="year">PartyBox</span></h1>
-                        <p>Някакъв надпис , който да посреща потребителите ... Някакъв надпис , който да посреща потребителите ... </p>
+                        <h1 class="head-title">{{ $property->header_title }} <span class="year"><a href="{{ route('index') }}">PartyBox</a></span></h1>
+                        <p>{{ $property->header_subtitle }}</p>
                         <div class="search-bar">
                             <div class="search-inner">
                                 <form class="search-form">
@@ -76,7 +76,7 @@
                                         </div>
                                         <i class="lni-menu"></i>
                                     </div>
-                                    <button class="btn btn-common" type="button"><i class="lni-search"></i> Покажи резултата</button>
+                                    <button class="btn btn-common" type="button"><i class="lni-search"></i> Намери</button>
                                 </form>
                             </div>
                         </div>

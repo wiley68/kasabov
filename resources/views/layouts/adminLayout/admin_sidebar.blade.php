@@ -44,6 +44,11 @@
           <li><a href="{{ route('admin.view-cities') }}">Всички населени места</a></li>
         </ul>
       </li>
+      <li class="submenu"> <a href="#"><i class="icon icon-th-list"></i> <span>Настройки</span> </a>
+        <ul>
+          <li><a href="{{ route('admin.edit-landing-page') }}">Начална страница</a></li>
+        </ul>
+      </li>
       <li class="content"> <span>Monthly Bandwidth Transfer</span>
         <div class="progress progress-mini progress-danger active progress-striped">
           <div style="width: 77%;" class="bar"></div>

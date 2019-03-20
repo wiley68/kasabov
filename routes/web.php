@@ -57,6 +57,8 @@ Route::group(['middleware' => ['auth']], function () {
     Route::match(['get', 'post'], '/admin/edit-city/{id}', 'CityController@editCity')->name('admin.edit-city');
     Route::get('/admin/delete-city/{id}', 'CityController@deleteCity')->name('admin.delete-city');
     Route::get('/admin/view-cities', 'CityController@viewCities')->name('admin.view-cities');
+    // LandingPage routes
+    Route::match(['get', 'post'], '/admin/edit-landing-page', 'IndexController@editLandingPage')->name('admin.edit-landing-page');
 });
 Route::get('/logout', 'AdminController@logout')->name('logout');
 

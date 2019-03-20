@@ -10,8 +10,8 @@
         <div class="row">
             <div class="col-12 text-center">
                 <div class="heading">
-                    <h1 class="section-title">Категории продукти</h1>
-                    <h4 class="sub-title">някакъв обяснителен текст</h4>
+                    <h1 class="section-title">{{ $property->category_title }}</h1>
+                    <h4 class="sub-title"><a href="#">покажи всички продукти</a></h4>
                 </div>
             </div>
             @php
@@ -46,8 +46,8 @@
         <div class="row">
             <div class="col-12 text-center">
                 <div class="heading">
-                    <h1 class="section-title">Най-харесвани продукти</h1>
-                    <h4 class="sub-title">някакъв обяснителен текст</h4>
+                    <h1 class="section-title">{{ $property->best_title }}</h1>
+                    <h4 class="sub-title">{{ $property->best_subtitle }}</h4>
                 </div>
             </div>
             @foreach ($latest as $item)
@@ -94,8 +94,8 @@
         <div class="row">
             <div class="col-12 text-center">
                 <div class="heading">
-                    <h1 class="section-title">Featured Products</h1>
-                    <h4 class="sub-title">Discover & connect with top-rated local businesses</h4>
+                    <h1 class="section-title">{{ $property->featured_title }}</h1>
+                    <h4 class="sub-title">{{ $property->featured_subtitle }}</h4>
                 </div>
             </div>
             <div class="col-md-12 wow fadeIn" data-wow-delay="0.5s">
@@ -368,8 +368,8 @@
         <div class="row">
             <div class="col-12 text-center">
                 <div class="heading">
-                    <h1 class="section-title">How It Works?</h1>
-                    <h4 class="sub-title">Discover & connect with top-rated local businesses</h4>
+                    <h1 class="section-title">{{ $property->works_title }}</h1>
+                    <h4 class="sub-title">{{ $property->works_subtitle }}</h4>
                 </div>
             </div>
             <div class="col-lg-4 col-md-4 col-xs-12">
@@ -377,7 +377,7 @@
                     <div class="icon-box">
                         <i class="lni-users"></i>
                     </div>
-                    <p>Create an Account</p>
+                    <p>{{ $property->create_account }}</p>
                 </div>
             </div>
             <div class="col-lg-4 col-md-4 col-xs-12">
@@ -385,7 +385,7 @@
                     <div class="icon-box">
                         <i class="lni-bookmark-alt"></i>
                     </div>
-                    <p>Post Free Ad</p>
+                    <p>{{ $property->post_add }}</p>
                 </div>
             </div>
             <div class="col-lg-4 col-md-4 col-xs-12">
@@ -393,7 +393,7 @@
                     <div class="icon-box">
                         <i class="lni-thumbs-up"></i>
                     </div>
-                    <p>Deal Done</p>
+                    <p>{{ $property->deal_done }}</p>
                 </div>
             </div>
             <hr class="works-line">
@@ -408,79 +408,79 @@
         <div class="row">
             <div class="col-12 text-center">
                 <div class="heading">
-                    <h1 class="section-title">Key Features</h1>
-                    <h4 class="sub-title">Find the best places</h4>
+                    <h1 class="section-title">{{ $property->key_title }}</h1>
+                    <h4 class="sub-title">{{ $property->key_subtitle }}</h4>
                 </div>
             </div>
-            <!-- Services item -->
+            <!-- feature 1 -->
             <div class="col-md-6 col-lg-4 col-xs-12">
                 <div class="services-item wow fadeInRight" data-wow-delay="0.2s">
                     <div class="icon">
-                        <i class="lni-leaf"></i>
+                        <i class="{{ $property->key_icon1 }}"></i>
                     </div>
                     <div class="services-content">
-                        <h3><a href="#">Elegant Design</a></h3>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quo aut magni perferendis.</p>
+                        <h3><a href="#">{{ $property->key_title1 }}</a></h3>
+                        <p>{{ $property->key_description1 }}</p>
                     </div>
                 </div>
             </div>
-            <!-- Services item -->
+            <!-- feature 2 -->
             <div class="col-md-6 col-lg-4 col-xs-12">
-                <div class="services-item wow fadeInRight" data-wow-delay="0.4s">
+                <div class="services-item wow fadeInRight" data-wow-delay="0.2s">
                     <div class="icon">
-                        <i class="lni-display"></i>
+                        <i class="{{ $property->key_icon2 }}"></i>
                     </div>
                     <div class="services-content">
-                        <h3><a href="#">Responsive Design</a></h3>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quo aut magni perferendis.</p>
+                        <h3><a href="#">{{ $property->key_title2 }}</a></h3>
+                        <p>{{ $property->key_description2 }}</p>
                     </div>
                 </div>
             </div>
-            <!-- Services item -->
+            <!-- feature 3 -->
             <div class="col-md-6 col-lg-4 col-xs-12">
-                <div class="services-item wow fadeInRight" data-wow-delay="0.6s">
+                <div class="services-item wow fadeInRight" data-wow-delay="0.2s">
                     <div class="icon">
-                        <i class="lni-color-pallet"></i>
+                        <i class="{{ $property->key_icon3 }}"></i>
                     </div>
                     <div class="services-content">
-                        <h3><a href="#">Clean UI</a></h3>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quo aut magni perferendis.</p>
+                        <h3><a href="#">{{ $property->key_title3 }}</a></h3>
+                        <p>{{ $property->key_description3 }}</p>
                     </div>
                 </div>
             </div>
-            <!-- Services item -->
+            <!-- feature 4 -->
             <div class="col-md-6 col-lg-4 col-xs-12">
-                <div class="services-item wow fadeInRight" data-wow-delay="0.8s">
+                <div class="services-item wow fadeInRight" data-wow-delay="0.2s">
                     <div class="icon">
-                        <i class="lni-emoji-smile"></i>
+                        <i class="{{ $property->key_icon4 }}"></i>
                     </div>
                     <div class="services-content">
-                        <h3><a href="#">UX Friendly</a></h3>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quo aut magni perferendis.</p>
+                        <h3><a href="#">{{ $property->key_title4 }}</a></h3>
+                        <p>{{ $property->key_description4 }}</p>
                     </div>
                 </div>
             </div>
-            <!-- Services item -->
+            <!-- feature 5 -->
             <div class="col-md-6 col-lg-4 col-xs-12">
-                <div class="services-item wow fadeInRight" data-wow-delay="1s">
+                <div class="services-item wow fadeInRight" data-wow-delay="0.2s">
                     <div class="icon">
-                        <i class="lni-pencil-alt"></i>
+                        <i class="{{ $property->key_icon5 }}"></i>
                     </div>
                     <div class="services-content">
-                        <h3><a href="#">Easily Customizable</a></h3>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quo aut magni perferendis.</p>
+                        <h3><a href="#">{{ $property->key_title5 }}</a></h3>
+                        <p>{{ $property->key_description5 }}</p>
                     </div>
                 </div>
             </div>
-            <!-- Services item -->
+            <!-- feature 6 -->
             <div class="col-md-6 col-lg-4 col-xs-12">
-                <div class="services-item wow fadeInRight" data-wow-delay="1.2s">
+                <div class="services-item wow fadeInRight" data-wow-delay="0.2s">
                     <div class="icon">
-                        <i class="lni-headphone-alt"></i>
+                        <i class="{{ $property->key_icon6 }}"></i>
                     </div>
                     <div class="services-content">
-                        <h3><a href="#">Security Support</a></h3>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quo aut magni perferendis.</p>
+                        <h3><a href="#">{{ $property->key_title6 }}</a></h3>
+                        <p>{{ $property->key_description6 }}</p>
                     </div>
                 </div>
             </div>
@@ -495,8 +495,8 @@
         <div class="row">
             <div class="col-12 text-center">
                 <div class="heading">
-                    <h1 class="section-title">Pricing Plan</h1>
-                    <h4 class="sub-title">Discover & connect with top-rated local businesses</h4>
+                    <h1 class="section-title">Ценови пакети</h1>
+                    <h4 class="sub-title">някакъв обяснителен текст. някакъв обяснителен текст. някакъв обяснителен текст.</h4>
                 </div>
             </div>
             <div class="col-lg-4 col-md-6 col-xs-12">
@@ -517,7 +517,7 @@
                         <li>For 30 days</li>
                         <li>100% Secure!</li>
                     </ul>
-                    <button class="btn btn-common">Purchase</button>
+                    <button class="btn btn-common">Поръчай</button>
                 </div>
             </div>
             <div class="col-lg-4 col-md-6 col-xs-12">
@@ -538,7 +538,7 @@
                         <li>For 30 days</li>
                         <li>100% Secure!</li>
                     </ul>
-                    <button class="btn btn-common">Purchase</button>
+                    <button class="btn btn-common">Поръчай</button>
                 </div>
             </div>
             <div class="col-lg-4 col-md-6 col-xs-12">
@@ -559,7 +559,7 @@
                         <li>For 30 days</li>
                         <li>100% Secure!</li>
                     </ul>
-                    <button class="btn btn-common">Purchase</button>
+                    <button class="btn btn-common">Поръчай</button>
                 </div>
             </div>
         </div>
@@ -579,11 +579,10 @@
                         </div>
                         <div class="testimonial-item">
                             <div class="content">
-                                <p class="description">Eiusmod tempor incidiunt labore velit dolore magna aliqu sed eniminim veniam quis nostrud
-                                    exercition eullamco laborisaa, Eiusmod tempor incidiunt labore velit dolore magna.</p>
+                                <p class="description">{{ $property->testimonials_description1 }}</p>
                                 <div class="info-text">
-                                    <h2><a href="#">Josh Rossi</a></h2>
-                                    <h4><a href="#">CEO of Fiverr</a></h4>
+                                    <h2><a href="#">{{ $property->testimonials_name1 }}</a></h2>
+                                    <h4><a href="#">{{ $property->testimonials_title1 }}</a></h4>
                                 </div>
                             </div>
                         </div>
@@ -595,11 +594,10 @@
                             </div>
                             <div class="testimonial-item">
                                 <div class="content">
-                                    <p class="description">Eiusmod tempor incidiunt labore velit dolore magna aliqu sed eniminim veniam quis nostrud
-                                        exercition eullamco laborisaa, Eiusmod tempor incidiunt labore velit dolore magna.</p>
+                                    <p class="description">{{ $property->testimonials_description2 }}</p>
                                     <div class="info-text">
-                                        <h2><a href="#">Jessica</a></h2>
-                                        <h4><a href="#">CEO of Dropbox</a></h4>
+                                        <h2><a href="#">{{ $property->testimonials_name2 }}</a></h2>
+                                        <h4><a href="#">{{ $property->testimonials_title2 }}</a></h4>
                                     </div>
                                 </div>
                             </div>
@@ -612,45 +610,10 @@
                             </div>
                             <div class="testimonial-item">
                                 <div class="content">
-                                    <p class="description">Eiusmod tempor incidiunt labore velit dolore magna aliqu sed eniminim veniam quis nostrud
-                                        exercition eullamco laborisaa, Eiusmod tempor incidiunt labore velit dolore magna.</p>
+                                    <p class="description">{{ $property->testimonials_description3 }}</p>
                                     <div class="info-text">
-                                        <h2><a href="#">Johnny Zeigler</a></h2>
-                                        <h4><a href="#">CEO of Fiverr</a></h4>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="item">
-                            <div class="img-thumb">
-                                <img src="assets/img/testimonial/img4.png" alt="">
-                            </div>
-                            <div class="testimonial-item">
-                                <div class="content">
-                                    <p class="description">Eiusmod tempor incidiunt labore velit dolore magna aliqu sed eniminim veniam quis nostrud
-                                        exercition eullamco laborisaa, Eiusmod tempor incidiunt labore velit dolore magna.</p>
-                                    <div class="info-text">
-                                        <h2><a href="#">Josh Rossi</a></h2>
-                                        <h4><a href="#">CEO of Fiverr</a></h4>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="item">
-                            <div class="img-thumb">
-                                <img src="assets/img/testimonial/img5.png" alt="">
-                            </div>
-                            <div class="testimonial-item">
-                                <div class="content">
-                                    <p class="description">Eiusmod tempor incidiunt labore velit dolore magna aliqu sed eniminim veniam quis nostrud
-                                        exercition eullamco laborisaa, Eiusmod tempor incidiunt labore velit dolore magna.</p>
-                                    <div class="info-text">
-                                        <h2><a href="#">Priyanka</a></h2>
-                                        <h4><a href="#">CEO of Dropbox</a></h4>
+                                        <h2><a href="#">{{ $property->testimonials_name3 }}</a></h2>
+                                        <h4><a href="#">{{ $property->testimonials_title3 }}</a></h4>
                                     </div>
                                 </div>
                             </div>
@@ -670,8 +633,8 @@
         <div class="row">
             <div class="col-12 text-center">
                 <div class="heading">
-                    <h1 class="section-title">Blog Post</h1>
-                    <h4 class="sub-title">Discover & connect with top-rated local businesses</h4>
+                    <h1 class="section-title">Новини</h1>
+                    <h4 class="sub-title">някакъв обяснителен текст. някакъв обяснителен текст. някакъв обяснителен текст.</h4>
                 </div>
             </div>
             <div class="col-lg-4 col-md-6 col-xs-12 blog-item">
@@ -693,7 +656,7 @@
                         <p>
                             Reprehenderit nemo quod tempore doloribus ratione distinctio quis quidem vitae sunt reiciendis, molestias omnis soluta.
                         </p>
-                        <a href="single-post.html" class="btn btn-common">Read More</a>
+                        <a href="single-post.html" class="btn btn-common">Прочети още...</a>
                     </div>
                 </div>
                 <!-- Blog Item Wrapper Ends-->
@@ -718,7 +681,7 @@
                         <p>
                             Reprehenderit nemo quod tempore doloribus ratione distinctio quis quidem vitae sunt reiciendis, molestias omnis soluta.
                         </p>
-                        <a href="single-post.html" class="btn btn-common">Read More</a>
+                        <a href="single-post.html" class="btn btn-common">Прочети още...</a>
                     </div>
                 </div>
                 <!-- Blog Item Wrapper Ends-->
@@ -743,7 +706,7 @@
                         <p>
                             Reprehenderit nemo quod tempore doloribus ratione distinctio quis quidem vitae sunt reiciendis, molestias omnis soluta.
                         </p>
-                        <a href="single-post.html" class="btn btn-common">Read More</a>
+                        <a href="single-post.html" class="btn btn-common">Прочети още...</a>
                     </div>
                 </div>
                 <!-- Blog Item Wrapper Ends-->
@@ -763,16 +726,16 @@
                         <i class="lni-pointer"></i>
                     </div>
                     <div class="sub-text">
-                        <h3>Subscribe to Newsletter</h3>
-                        <p>and receive new ads in inbox</p>
+                        <h3>Запиши се за новини</h3>
+                        <p>ще можете да получавате актуална информация</p>
                     </div>
                 </div>
             </div>
             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                 <form>
                     <div class="subscribe">
-                        <input class="form-control" name="EMAIL" placeholder="Enter your Email" required="" type="email">
-                        <button class="btn btn-common" type="submit">Subscribe</button>
+                        <input class="form-control" name="EMAIL" placeholder="Въведете Вашия Email" required="" type="email">
+                        <button class="btn btn-common" type="submit">Абонирай се</button>
                     </div>
                 </form>
             </div>
