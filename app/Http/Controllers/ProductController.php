@@ -403,4 +403,20 @@ class ProductController extends Controller
         ]);
     }
 
+    public function frontGetProduct(Request $request, $id=null){
+        $product = Product::where(['id'=>$id])->first();
+        $holidays_count = Holiday::where(['parent_id'=>0])->count();
+        if ($holidays_count >= 5){
+            $holidays_count = 5;
+        }
+        $holidays = Holiday::where(['parent_id'=>0])->take($holidays_count)->get();
+        $property = LandingPage::first();
+
+        return view('/front/get_product')->with([
+            'product'=>$product,
+            'holidays'=>$holidays,
+            'property'=>$property
+        ]);
+    }
+
 }

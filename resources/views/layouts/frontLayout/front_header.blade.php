@@ -44,7 +44,17 @@
             <div class="row justify-content-center">
                 <div class="col-md-12 col-lg-9 col-xs-12 text-center">
                     <div class="contents-ctg">
-                        <h5><a href="{{ route('index') }}">В началото</a> <i class="fas fa-chevron-right"></i> <a href="{{ route('front.view-products') }}">Всички продукти</a></h5>
+                        <h5>
+                            <a href="{{ route('index') }}">В началото</a>
+                            <i class="fas fa-chevron-right"></i>
+                            @if(Route::current()->getName() == 'products')
+                            <a href="{{ route('products') }}">Всички продукти</a>
+                            @elseif(Route::current()->getName() == 'product')
+                            <a href="{{ route('products') }}">Всички продукти</a>
+                            <i class="fas fa-chevron-right"></i>
+                            <a href="{{ route('product', ['id=>{{ $product->id }}']) }}">{{ $product->product_name }}</a>
+                            @endif
+                        </h5>
                     </div>
                 </div>
             </div>

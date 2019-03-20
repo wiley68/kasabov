@@ -9,7 +9,7 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-3 col-md-12 col-xs-12 page-sidebar">
-    @include('layouts.frontLayout.front_sidebar')
+                @include('layouts.frontLayout.front_sidebar')
             </div>
             <div class="col-lg-9 col-md-12 col-xs-12 page-content">
                 <!-- Product filter Start -->
@@ -66,7 +66,7 @@
                                         </figure>
                                         <div class="content-wrapper">
                                             <div class="feature-content">
-                                                <h4><a href="ads-details.html">{{ $product->product_name }}</a></h4>
+                                                <h4><a href="{{ route('product', ['id'=>$product->id]) }}">{{ $product->product_name }}</a></h4>
                                                 <p class="listing-tagline">{{ $product->product_code }}</p>
                                                 <div class="meta-tag">
                                                     <div class="listing-review">
@@ -82,7 +82,7 @@
                                             </div>
                                             <div class="listing-bottom clearfix">
                                                 <a href="#" class="float-left"><i class="lni-map-marker"></i> {{ City::where(['id'=>$product->send_id])->first()->city }}</a>
-                                                <a href="ads-details.html" class="float-right">Прегледай Детайлно</a>
+                                                <a href="{{ route('product', ['id'=>$product->id]) }}" class="float-right">Прегледай Детайлно</a>
                                             </div>
                                         </div>
                                     </div>

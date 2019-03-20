@@ -11,7 +11,7 @@
             <div class="col-12 text-center">
                 <div class="heading">
                     <h1 class="section-title">{{ $property->category_title }}</h1>
-                    <h4 class="sub-title"><a href="{{ route('front.view-products') }}">покажи всички продукти</a></h4>
+                    <h4 class="sub-title"><a href="{{ route('products') }}">покажи всички продукти</a></h4>
                 </div>
             </div>
             @php $bg_count = 1;
