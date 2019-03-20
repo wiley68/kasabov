@@ -15,6 +15,7 @@ use App\ProductsTags;
 use App\Speditor;
 use App\City;
 use App\Holiday;
+use App\LandingPage;
 
 class ProductController extends Controller
 {
@@ -382,6 +383,24 @@ class ProductController extends Controller
             ProductsImage::where(['id'=>$id])->delete();
             return redirect()->back()->with('flash_message_success', 'Успешно изтрихте снимката на продукта!');
         }
+    }
+
+    public function frontViewProducts(){
+        $holidays_count = Holiday::where(['parent_id'=>0])->count();
+        if ($holidays_count >= 5){
+            $holidays_count = 5;
+        }
+        $holidays = Holiday::where(['parent_id'=>0])->take($holidays_count)->get();
+        $property = LandingPage::first();
+        $categories = Category::where(['parent_id'=>0])->get();
+        $products = Product::all();
+
+        return view('/front/view_products')->with([
+            'holidays'=>$holidays,
+            'property'=>$property,
+            'categories'=>$categories,
+            'products'=>$products
+        ]);
     }
 
 }

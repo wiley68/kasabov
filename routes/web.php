@@ -63,7 +63,5 @@ Route::group(['middleware' => ['auth']], function () {
 Route::get('/logout', 'AdminController@logout')->name('logout');
 
 // Frontend routes
-Route::get('/', function () {
-    return view('welcome');
-});
 Route::get('/', 'IndexController@index')->name('index');
+Route::match(['get', 'post'], '/products', 'ProductController@frontViewProducts')->name('front.view-products');
