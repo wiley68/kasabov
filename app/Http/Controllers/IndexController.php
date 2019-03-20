@@ -29,6 +29,11 @@ class IndexController extends Controller
             $latest_count = 6;
         }
         $latest = Product::all()->take($latest_count);
+        $featured_products_count = Product::count();
+        if ($featured_products_count >= 6){
+            $featured_products_count = 6;
+        }
+        $featured_products = Product::all()->take($featured_products_count);
         $property = LandingPage::first();
         return view('index')->with([
             'holidays'=>$holidays,
@@ -36,7 +41,8 @@ class IndexController extends Controller
             'categories'=>$categories,
             'categories_top'=>$categories_top,
             'latest'=>$latest,
-            'property'=>$property
+            'property'=>$property,
+            'featured_products'=>$featured_products
         ]);
     }
 

@@ -14,10 +14,8 @@
                     <h4 class="sub-title"><a href="#">покажи всички продукти</a></h4>
                 </div>
             </div>
-            @php
-                $bg_count = 1;
-            @endphp
-            @foreach ($categories_top as $category_top)
+            @php $bg_count = 1;
+@endphp @foreach ($categories_top as $category_top)
             <div class="col-lg-2 col-md-3 col-xs-12">
                 <a href="#">
                     <div class="category-icon-item lis-bg{{ $bg_count }}">
@@ -31,10 +29,8 @@
                     </div>
                 </a>
             </div>
-            @php
-                $bg_count++;
-            @endphp
-            @endforeach
+            @php $bg_count++;
+@endphp @endforeach
         </div>
     </div>
 </section>
@@ -51,10 +47,18 @@
                 </div>
             </div>
             @foreach ($latest as $item)
+            @php
+                $category_parent_id = Category::where(['id'=>$item->category_id])->first()->parent_id;
+                if ($category_parent_id !== 0){
+                    $category_parent = Category::where(['id'=>$category_parent_id])->first()->name;
+                }else{
+                    $category_parent = Category::where(['id'=>$item->category_id])->first()->name;
+                }
+            @endphp
             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4">
                 <div class="featured-box">
                     <figure>
-                        <div class="homes-tag featured">{{ $item->name }}</div>
+                        <div class="homes-tag featured">{{ Category::where(['id'=>$item->category_id])->first()->name }}</div>
                         <div class="homes-tag rent"><i class="lni-heart"></i> 202</div>
                         <span class="price-save">{{ $item->price }}</span>
                         <a href="#"><img class="img-fluid" src="{{ asset('/images/backend_images/products/small/'.$item->image) }}" alt=""></a>
@@ -71,7 +75,7 @@
                                     <a href="#"><i class="lni-user"></i> {{ User::where(['id'=>$item->user_id])->first()->name }}</a>
                                 </div>
                                 <div class="listing-category">
-                                    <a href="#"><i class="{{ Category::where(['id'=>$item->category_id])->first()->icon }}"></i>{{ Category::where(['id'=>$item->category_id])->first()->name }}</a>
+                                    <a href="#"><i class="{{ Category::where(['id'=>$item->category_id])->first()->icon }}"></i>{{ $category_parent }}</a>
                                 </div>
                             </div>
                         </div>
@@ -100,24 +104,33 @@
             </div>
             <div class="col-md-12 wow fadeIn" data-wow-delay="0.5s">
                 <div id="new-products" class="owl-carousel owl-theme">
+                    @foreach ($featured_products as $featured_product)
+                    @php
+                        $featured_category_parent_id = Category::where(['id'=>$featured_product->category_id])->first()->parent_id;
+                        if ($featured_category_parent_id !== 0){
+                            $featured_category_parent = Category::where(['id'=>$featured_category_parent_id])->first()->name;
+                        }else{
+                            $featured_category_parent = Category::where(['id'=>$featured_product->category_id])->first()->name;
+                        }
+                    @endphp
                     <div class="item">
                         <div class="product-item">
                             <div class="carousel-thumb">
-                                <img class="img-fluid" src="assets/img/product/img1.jpg" alt="">
+                                <img class="img-fluid" src="{{ asset('/images/backend_images/products/small/'.$featured_product->image) }}" alt="">
                                 <div class="overlay">
                                     <div>
-                                        <a class="btn btn-common" href="ads-details.html">View Details</a>
+                                        <a class="btn btn-common" href="ads-details.html">Виж детайлно</a>
                                     </div>
                                 </div>
                                 <div class="btn-product bg-sale">
-                                    <a href="#">Sale</a>
+                                    <a href="#">Топ</a>
                                 </div>
-                                <span class="price">$999.00</span>
+                                <span class="price">{{ $featured_product->price }}</span>
                             </div>
                             <div class="product-content-inner">
                                 <div class="product-content">
-                                    <h3 class="product-title"><a href="ads-details.html">Macbook Pro 2020</a></h3>
-                                    <span>Electronic / Computers</span>
+                                    <h3 class="product-title"><a href="ads-details.html">{{ $featured_product->product_name }}</a></h3>
+                                    <span>{{ $featured_category_parent }} / {{ Category::where(['id'=>$featured_product->category_id])->first()->name }}</span>
                                     <div class="icon">
                                         <span><i class="lni-bookmark"></i></span>
                                         <span><i class="lni-heart"></i></span>
@@ -126,235 +139,25 @@
                                 <div class="card-text clearfix">
                                     <div class="float-left">
                                         <span class="icon-wrap">
-                            <i class="lni-star-filled"></i>
-                            <i class="lni-star-filled"></i>
-                            <i class="lni-star-filled"></i>
-                            <i class="lni-star-filled"></i>
-                            <i class="lni-star-filled"></i>
-                            <i class="lni-star"></i>
-                          </span>
+                                <i class="lni-star-filled"></i>
+                                <i class="lni-star-filled"></i>
+                                <i class="lni-star-filled"></i>
+                                <i class="lni-star-filled"></i>
+                                <i class="lni-star-filled"></i>
+                                <i class="lni-star"></i>
+                              </span>
                                         <span class="count-review">
-                            (12 Review)
-                          </span>
+                                (12)
+                              </span>
                                     </div>
                                     <div class="float-right">
-                                        <a class="address" href="#"><i class="lni-map-marker"></i> New York</a>
+                                        <a class="address" href="#"><i class="lni-map-marker"></i> {{ City::where(['id'=>$featured_product->send_id])->first()->city }}</a>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="item">
-                        <div class="product-item">
-                            <div class="carousel-thumb">
-                                <img class="img-fluid" src="assets/img/product/img2.jpg" alt="">
-                                <div class="overlay">
-                                    <div>
-                                        <a class="btn btn-common" href="ads-details.html">View Details</a>
-                                    </div>
-                                </div>
-                                <span class="price">$269.00</span>
-                            </div>
-                            <div class="product-content-inner">
-                                <div class="product-content">
-                                    <h3 class="product-title"><a href="ads-details.html">Nikon Camera</a></h3>
-                                    <span>Electronic / Camera</span>
-                                    <div class="icon">
-                                        <span><i class="lni-bookmark"></i></span>
-                                        <span><i class="lni-heart"></i></span>
-                                    </div>
-                                </div>
-                                <div class="card-text clearfix">
-                                    <div class="float-left">
-                                        <span class="icon-wrap">
-                            <i class="lni-star-filled"></i>
-                            <i class="lni-star-filled"></i>
-                            <i class="lni-star-filled"></i>
-                            <i class="lni-star-filled"></i>
-                            <i class="lni-star-filled"></i>
-                            <i class="lni-star-filled"></i>
-                          </span>
-                                        <span class="count-review">
-                            (2 Review)
-                          </span>
-                                    </div>
-                                    <div class="float-right">
-                                        <a class="address" href="#"><i class="lni-map-marker"></i> California</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="product-item">
-                            <div class="carousel-thumb">
-                                <img class="img-fluid" src="assets/img/product/img3.jpg" alt="">
-                                <div class="overlay">
-                                    <div>
-                                        <a class="btn btn-common" href="ads-details.html">View Details</a>
-                                    </div>
-                                </div>
-                                <div class="btn-product bg-slod">
-                                    <a href="#">Sold</a>
-                                </div>
-                                <span class="price">$799.00</span>
-                            </div>
-                            <div class="product-content-inner">
-                                <div class="product-content">
-                                    <h3 class="product-title"><a href="ads-details.html">iPhone X Refurbished</a></h3>
-                                    <span>Electronic / Phones</span>
-                                    <div class="icon">
-                                        <span><i class="lni-bookmark"></i></span>
-                                        <span><i class="lni-heart"></i></span>
-                                    </div>
-                                </div>
-                                <div class="card-text clearfix">
-                                    <div class="float-left">
-                                        <span class="icon-wrap">
-                            <i class="lni-star-filled"></i>
-                            <i class="lni-star-filled"></i>
-                            <i class="lni-star-filled"></i>
-                            <i class="lni-star-filled"></i>
-                            <i class="lni-star-filled"></i>
-                            <i class="lni-star"></i>
-                          </span>
-                                        <span class="count-review">
-                            (8 Review)
-                          </span>
-                                    </div>
-                                    <div class="float-right">
-                                        <a class="address" href="#"><i class="lni-map-marker"></i> New York</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="product-item">
-                            <div class="carousel-thumb">
-                                <img class="img-fluid" src="assets/img/product/img4.jpg" alt="">
-                                <div class="overlay">
-                                    <div>
-                                        <a class="btn btn-common" href="ads-details.html">View Details</a>
-                                    </div>
-                                </div>
-                                <span class="price">$99.00</span>
-                            </div>
-                            <div class="product-content-inner">
-                                <div class="product-content">
-                                    <h3 class="product-title"><a href="ads-details.html">Brown Leather Bag</a></h3>
-                                    <span>Sports / Bag</span>
-                                    <div class="icon">
-                                        <span><i class="lni-bookmark"></i></span>
-                                        <span><i class="lni-heart"></i></span>
-                                    </div>
-                                </div>
-                                <div class="card-text clearfix">
-                                    <div class="float-left">
-                                        <span class="icon-wrap">
-                            <i class="lni-star-filled"></i>
-                            <i class="lni-star-filled"></i>
-                            <i class="lni-star-filled"></i>
-                            <i class="lni-star-filled"></i>
-                            <i class="lni-star-filled"></i>
-                            <i class="lni-star"></i>
-                          </span>
-                                        <span class="count-review">
-                            (12 Review)
-                          </span>
-                                    </div>
-                                    <div class="float-right">
-                                        <a class="address" href="#"><i class="lni-map-marker"></i> New York</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="product-item">
-                            <div class="carousel-thumb">
-                                <img class="img-fluid" src="assets/img/product/img5.jpg" alt="">
-                                <div class="overlay">
-                                    <div>
-                                        <a class="btn btn-common" href="ads-details.html">View Details</a>
-                                    </div>
-                                </div>
-                                <span class="price">$99.00</span>
-                            </div>
-                            <div class="product-content-inner">
-                                <div class="product-content">
-                                    <h3 class="product-title"><a href="ads-details.html">iMac Pro 2020</a></h3>
-                                    <span>Sports / Display</span>
-                                    <div class="icon">
-                                        <span><i class="lni-bookmark"></i></span>
-                                        <span><i class="lni-heart"></i></span>
-                                    </div>
-                                </div>
-                                <div class="card-text clearfix">
-                                    <div class="float-left">
-                                        <span class="icon-wrap">
-                            <i class="lni-star-filled"></i>
-                            <i class="lni-star-filled"></i>
-                            <i class="lni-star-filled"></i>
-                            <i class="lni-star-filled"></i>
-                            <i class="lni-star-filled"></i>
-                            <i class="lni-star"></i>
-                          </span>
-                                        <span class="count-review">
-                            (12 Review)
-                          </span>
-                                    </div>
-                                    <div class="float-right">
-                                        <a class="address" href="#"><i class="lni-map-marker"></i> New York</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="product-item">
-                            <div class="carousel-thumb">
-                                <img class="img-fluid" src="assets/img/product/img6.jpg" alt="">
-                                <div class="overlay">
-                                    <div>
-                                        <a class="btn btn-common" href="ads-details.html">View Details</a>
-                                    </div>
-                                </div>
-                                <div class="btn-product bg-sale">
-                                    <a href="#">Sale</a>
-                                </div>
-                                <span class="price">$99.00</span>
-                            </div>
-                            <div class="product-content-inner">
-                                <div class="product-content">
-                                    <h3 class="product-title"><a href="ads-details.html">Baby Toy</a></h3>
-                                    <span>Sports / Baby Toys</span>
-                                    <div class="icon">
-                                        <span><i class="lni-bookmark"></i></span>
-                                        <span><i class="lni-heart"></i></span>
-                                    </div>
-                                </div>
-                                <div class="card-text clearfix">
-                                    <div class="float-left">
-                                        <span class="icon-wrap">
-                            <i class="lni-star-filled"></i>
-                            <i class="lni-star-filled"></i>
-                            <i class="lni-star-filled"></i>
-                            <i class="lni-star-filled"></i>
-                            <i class="lni-star-filled"></i>
-                            <i class="lni-star"></i>
-                          </span>
-                                        <span class="count-review">
-                            (12 Review)
-                          </span>
-                                    </div>
-                                    <div class="float-right">
-                                        <a class="address" href="#"><i class="lni-map-marker"></i> New York</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    @endforeach
                 </div>
             </div>
         </div>
