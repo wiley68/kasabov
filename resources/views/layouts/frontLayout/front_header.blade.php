@@ -52,7 +52,7 @@
                             @elseif(Route::current()->getName() == 'product')
                             <a href="{{ route('products') }}">Всички продукти</a>
                             <i class="fas fa-chevron-right"></i>
-                            <a href="{{ route('product', ['id=>{{ $product->id }}']) }}">{{ $product->product_name }}</a>
+                            <a href="{{ route('product', ['id'=>$product->id]) }}">{{ $product->product_name }}</a>
                             @endif
                         </h5>
                     </div>

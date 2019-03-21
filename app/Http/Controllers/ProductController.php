@@ -16,6 +16,7 @@ use App\Speditor;
 use App\City;
 use App\Holiday;
 use App\LandingPage;
+use Carbon\Carbon;
 
 class ProductController extends Controller
 {
@@ -417,6 +418,14 @@ class ProductController extends Controller
             'holidays'=>$holidays,
             'property'=>$property
         ]);
+    }
+
+    public static function getCreatedAtAttribute($date){
+        return Carbon::createFromFormat('Y-m-d H:i:s', $date)->format('d.m.Y H:i:s');
+    }
+
+    public static function getUpdatedAtAttribute($date){
+        return Carbon::createFromFormat('Y-m-d H:i:s', $date)->format('d.m.Y H:i:s');
     }
 
 }
