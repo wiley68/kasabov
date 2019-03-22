@@ -387,6 +387,16 @@ class ProductController extends Controller
     }
 
     public function frontViewProducts(){
+        if (request()->category){
+            $categories_parent = Category::where(['parent_id'=>request()->category])->get();
+            $categories_in[] = request()->category;
+            foreach ($categories_parent as $category_parent) {
+                $categories_in[] = $category_parent->id;
+            }
+            $products = Product::whereIn('category_id', $categories_in)->get();
+        }else{
+            $products = Product::all();
+        }
         $holidays_count = Holiday::where(['parent_id'=>0])->count();
         if ($holidays_count >= 5){
             $holidays_count = 5;
@@ -394,7 +404,6 @@ class ProductController extends Controller
         $holidays = Holiday::where(['parent_id'=>0])->take($holidays_count)->get();
         $property = LandingPage::first();
         $categories = Category::where(['parent_id'=>0])->get();
-        $products = Product::all();
 
         return view('/front/view_products')->with([
             'holidays'=>$holidays,
@@ -426,6 +435,16 @@ class ProductController extends Controller
 
     public static function getUpdatedAtAttribute($date){
         return Carbon::createFromFormat('Y-m-d H:i:s', $date)->format('d.m.Y H:i:s');
+    }
+
+    public static function frontGetProductByUser($user_id){
+        $products_by_user_count = Product::where(['user_id'=>$user_id])->count();
+        if ($products_by_user_count >= 5){
+            $products_by_user_count = 5;
+        }
+        $products_by_user = Product::where(['user_id'=>$user_id])->take($products_by_user_count)->get();
+
+        return $products_by_user;
     }
 
 }

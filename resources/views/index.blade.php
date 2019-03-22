@@ -14,10 +14,12 @@
                     <h4 class="sub-title"><a href="{{ route('products') }}">покажи всички продукти</a></h4>
                 </div>
             </div>
-            @php $bg_count = 1;
-@endphp @foreach ($categories_top as $category_top)
+            @php
+                $bg_count = 1;
+            @endphp
+            @foreach ($categories_top as $category_top)
             <div class="col-lg-2 col-md-3 col-xs-12">
-                <a href="#">
+                <a href="{{ route('products', ['category'=>$category_top->id]) }}">
                     <div class="category-icon-item lis-bg{{ $bg_count }}">
                         <div class="icon-box">
                             <div class="icon">
@@ -29,8 +31,10 @@
                     </div>
                 </a>
             </div>
-            @php $bg_count++;
-@endphp @endforeach
+            @php
+                $bg_count++;
+            @endphp
+            @endforeach
         </div>
     </div>
 </section>

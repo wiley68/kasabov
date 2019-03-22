@@ -1,9 +1,24 @@
 <?php use App\ProductsImage; ?>
 <?php use App\City; ?>
 <?php use App\User; ?>
+<?php use App\Category; ?>
 <?php use App\Http\Controllers\ProductController; ?>
+<?php use App\Http\Controllers\HolidayController; ?>
+<?php use App\Http\Controllers\SpeditorController; ?>
+<?php use App\Http\Controllers\CityController; ?>
+<?php use App\ProductsTags; ?>
+<?php use App\Tag; ?>
+
 @extends('layouts.frontLayout.front_design')
 @section('content')
+@php
+$category_parent_id = Category::where(['id'=>$product->category_id])->first()->parent_id;
+if ($category_parent_id !== 0){
+    $category_parent = Category::where(['id'=>$category_parent_id])->first()->name;
+}else{
+    $category_parent = Category::where(['id'=>$product->category_id])->first()->name;
+}
+@endphp
 <!-- Ads Details Start -->
 <div class="section-padding">
     <div class="container">
@@ -37,36 +52,91 @@
                             <span><a href="#"><i class="lni-eye"></i> 299 View</a></span>
                         </div>
                         <p class="mb-4">{!! $product->description !!}</p>
-
+                        <hr />
                         <h4 class="title-small mb-3">Параметри:</h4>
                         <ul class="list-specification">
-                            <li><i class="lni-check-mark-circle"></i> 256GB PCIe flash storage</li>
-                            <li><i class="lni-check-mark-circle"></i> 2.7 GHz dual-core Intel Core i5</li>
-                            <li><i class="lni-check-mark-circle"></i> Turbo Boost up to 3.1GHz</li>
-                            <li><i class="lni-check-mark-circle"></i> Intel Iris Graphics 6100</li>
-                            <li><i class="lni-check-mark-circle"></i> 8GB memory</li>
-                            <li><i class="lni-check-mark-circle"></i> 10 hour battery life</li>
-                            <li><i class="lni-check-mark-circle"></i> 13.3" Retina Display</li>
-                            <li><i class="lni-check-mark-circle"></i> 1 Year international warranty</li>
+                            <li><i class="lni-check-mark-circle"></i> Номер: {{ $product->id }}</li>
+                            <li><i class="lni-check-mark-circle"></i> Код: {{ $product->product_code }}</li>
+                            <li><i class="lni-check-mark-circle"></i> Наименование: {{ $product->product_name }}</li>
+                            <li><i class="lni-check-mark-circle"></i> Категория: <i class="{{ Category::where(['id'=>$product->category_id])->first()->icon }}"></i>&nbsp;{{ $category_parent }}</li>
+                            <li><i class="lni-check-mark-circle"></i> Празник: {{ HolidayController::getHolidayById($product->holiday_id)->name }}</li>
+                            <li><i class="lni-check-mark-circle"></i> Цена: {{ $product->price }}</li>
+                            <li><i class="lni-check-mark-circle"></i> Основен цвят: {{ $product->first_color }}</li>
+                            <li><i class="lni-check-mark-circle"></i> Втори цвят: {{ $product->second_color }}</li>
+                            @php
+                            switch ($product->age) {
+                                case 'child':
+                                    $age_txt = 'За деца';
+                                    break;
+                                case 'adult':
+                                    $age_txt = 'За възрастни';
+                                    break;
+                            }
+                            @endphp
+                            <li><i class="lni-check-mark-circle"></i> Възрастова група: {{ $age_txt }}</li>
+                            @php
+                            switch ($product->pol) {
+                                case 'woman':
+                                    $pol_txt = 'За жени';
+                                    break;
+                                case 'man':
+                                    $pol_txt = 'За мъже';
+                                    break;
+                            }
+                            @endphp
+                            <li><i class="lni-check-mark-circle"></i> Пол: {{ $pol_txt }}</li>
+                            @php
+                            switch ($product->condition) {
+                                case 'old':
+                                    $condition_txt = 'Употребяван';
+                                    break;
+                                case 'new':
+                                    $condition_txt = 'Нов';
+                                    break;
+                            }
+                            @endphp
+                            <li><i class="lni-check-mark-circle"></i> Състояние: {{ $condition_txt }}</li>
+                            <li><i class="lni-check-mark-circle"></i> Изпраща се с: {{ SpeditorController::getSpeditorById($product->send_id)->name }}</li>
+                            <li><i class="lni-check-mark-circle"></i> Изпраща се от: {{ CityController::getCityById($product->send_from_id)->city }}&nbsp;, област: {{ CityController::getCityById($product->send_from_id)->oblast }}</li>
+                            <li><i class="lni-check-mark-circle"></i> Цена за изпращане: {{ $product->price_send }}</li>
+                            <li><i class="lni-check-mark-circle"></i> Безплатна доставка: @if ($product->send_free === 1) Да @else Не @endif</li>
+                            <li><i class="lni-check-mark-circle"></i> Важи за: {{ CityController::getCityById($product->send_free_id)->city }}&nbsp;, област: {{ CityController::getCityById($product->send_free_id)->oblast }}</li>
+                            @php
+                            switch ($product->available_for) {
+                                case 'city':
+                                    $available_for_txt = 'Населено място';
+                                    break;
+                                case 'cities':
+                                    $available_for_txt = 'Населени места';
+                                    break;
+                                case 'area':
+                                    $available_for_txt = 'Област';
+                                    break;
+                                case 'country':
+                                    $available_for_txt = 'Цялата страна';
+                                    break;
+                            }
+                            @endphp
+                            <li><i class="lni-check-mark-circle"></i> Доставя за: {{ $available_for_txt }}</li>
+                            <li><i class="lni-check-mark-circle"></i> Може да се вземе от обект: @if ($product->object == 1) Да @else Не @endif</li>
+                            <li><i class="lni-check-mark-circle"></i> Адрес на обекта: {{ $product->object_name }}</li>
+                            <li><i class="lni-check-mark-circle"></i> Възможност за персонализиране: @if ($product->personalize == 1) Да @else Не @endif</li>
                         </ul>
+                        <hr />
                         <p class="mb-4">
-                            Up for sale we have a vintage Raleigh Sport Men’s Bicycle. This bike does have some general wear and surface corrosion on
-                            some of the parts but is overall in good shape. It has been checked out and does work. Brakes
-                            and gears work. Seat is fully intact. Frame and fenders are in nice shape with minimal wear.
-                            A few minor dents in the fenders but most of the paint is intact.
+                        @foreach (ProductsTags::where(['product_id'=>$product->id])->get() as $product_tag)
+                            <button type="button" class="btn btn-outline-info">{{ Tag::where(['id'=>$product_tag->tag_id])->first()->name }}</button>
+                        @endforeach
                         </p>
                     </div>
                     <div class="tag-bottom">
                         <div class="float-left">
                             <ul class="advertisement">
                                 <li>
-                                    <p><strong><i class="lni-folder"></i> Categories:</strong> <a href="#">Electronics</a></p>
+                                    <p><strong><i class="lni-folder"></i> Категория:</strong> <a href="#">{{ $category_parent }}</a></p>
                                 </li>
                                 <li>
-                                    <p><strong><i class="lni-archive"></i> Condition:</strong> New</p>
-                                </li>
-                                <li>
-                                    <p><strong><i class="lni-package"></i> Brand:</strong> <a href="#">Apple</a></p>
+                                    <p><strong><i class="lni-archive"></i> Състояние:</strong> <a href="#">{{ $condition_txt }}</a></p>
                                 </li>
                             </ul>
                         </div>
@@ -94,7 +164,7 @@
                             </div>
                             <div class="agent-title">
                                 <div class="agent-photo">
-                                    <a href="#"><img src="assets/img/productinfo/agent.jpg" alt=""></a>
+                                    <a href="#"><img src="{{ asset('images/frontend_images/productinfo/agent.jpg') }}" alt=""></a>
                                 </div>
                                 <div class="agent-details">
                                     <h3><a href="#">{{ User::where(['id'=>$product->user_id])->first()->name }}</a></h3>
@@ -109,113 +179,23 @@
                     </div>
                     <!-- Popular Posts widget -->
                     <div class="widget">
-                        <h4 class="widget-title">More Ads From Seller</h4>
+                        <h4 class="widget-title">Продукти от продавача</h4>
                         <ul class="posts-list">
-                            <li>
-                                <div class="widget-thumb">
-                                    <a href="#"><img src="assets/img/details/img1.jpg" alt="" /></a>
-                                </div>
-                                <div class="widget-content">
-                                    <h4><a href="#">Little Harbor Yacht 38</a></h4>
-                                    <div class="meta-tag">
-                                        <span>
-                            <a href="#"><i class="lni-user"></i> Smith</a>
-                          </span>
-                                        <span>
-                            <a href="#"><i class="lni-map-marker"></i> New Your</a>
-                          </span>
-                                        <span>
-                            <a href="#"><i class="lni-tag"></i> Radio</a>
-                          </span>
+                            @foreach (ProductController::frontGetProductByUser($product->user_id) as $item)
+                                <li>
+                                    <div class="widget-thumb">
+                                        <a href="#"><img src="{{ asset('/images/backend_images/products/small/'.$item->image) }}" alt="" /></a>
                                     </div>
-                                    <h4 class="price">$480.00</h4>
-                                </div>
-                                <div class="clearfix"></div>
-                            </li>
-                            <li>
-                                <div class="widget-thumb">
-                                    <a href="#"><img src="assets/img/details/img2.jpg" alt="" /></a>
-                                </div>
-                                <div class="widget-content">
-                                    <h4><a href="#">Little Harbor Yacht 38</a></h4>
-                                    <div class="meta-tag">
-                                        <span>
-                            <a href="#"><i class="lni-user"></i> Smith</a>
-                          </span>
-                                        <span>
-                            <a href="#"><i class="lni-map-marker"></i> New Your</a>
-                          </span>
-                                        <span>
-                            <a href="#"><i class="lni-tag"></i> Radio</a>
-                          </span>
+                                    <div class="widget-content">
+                                        <h4><a href="#">{{ $item->product_name }}</a></h4>
+                                        <div class="meta-tag">
+                                            <span><a href="#"><i class="lni-map-marker"></i> {{ CityController::getCityById($item->send_from_id)->city }}</a></span>
+                                        </div>
+                                        <h4 class="price">{{ $item->price }}</h4>
                                     </div>
-                                    <h4 class="price">$480.00</h4>
-                                </div>
-                                <div class="clearfix"></div>
-                            </li>
-                            <li>
-                                <div class="widget-thumb">
-                                    <a href="#"><img src="assets/img/details/img3.jpg" alt="" /></a>
-                                </div>
-                                <div class="widget-content">
-                                    <h4><a href="#">Little Harbor Yacht 38</a></h4>
-                                    <div class="meta-tag">
-                                        <span>
-                            <a href="#"><i class="lni-user"></i> Smith</a>
-                          </span>
-                                        <span>
-                            <a href="#"><i class="lni-map-marker"></i> New Your</a>
-                          </span>
-                                        <span>
-                            <a href="#"><i class="lni-tag"></i> Radio</a>
-                          </span>
-                                    </div>
-                                    <h4 class="price">$480.00</h4>
-                                </div>
-                                <div class="clearfix"></div>
-                            </li>
-                            <li>
-                                <div class="widget-thumb">
-                                    <a href="#"><img src="assets/img/details/img4.jpg" alt="" /></a>
-                                </div>
-                                <div class="widget-content">
-                                    <h4><a href="#">Little Harbor Yacht 38</a></h4>
-                                    <div class="meta-tag">
-                                        <span>
-                            <a href="#"><i class="lni-user"></i> Smith</a>
-                          </span>
-                                        <span>
-                            <a href="#"><i class="lni-map-marker"></i> New Your</a>
-                          </span>
-                                        <span>
-                            <a href="#"><i class="lni-tag"></i> Radio</a>
-                          </span>
-                                    </div>
-                                    <h4 class="price">$480.00</h4>
-                                </div>
-                                <div class="clearfix"></div>
-                            </li>
-                            <li>
-                                <div class="widget-thumb">
-                                    <a href="#"><img src="assets/img/details/img5.jpg" alt="" /></a>
-                                </div>
-                                <div class="widget-content">
-                                    <h4><a href="#">Little Harbor Yacht 38</a></h4>
-                                    <div class="meta-tag">
-                                        <span>
-                            <a href="#"><i class="lni-user"></i> Smith</a>
-                          </span>
-                                        <span>
-                            <a href="#"><i class="lni-map-marker"></i> New Your</a>
-                          </span>
-                                        <span>
-                            <a href="#"><i class="lni-tag"></i> Radio</a>
-                          </span>
-                                    </div>
-                                    <h4 class="price">$480.00</h4>
-                                </div>
-                                <div class="clearfix"></div>
-                            </li>
+                                    <div class="clearfix"></div>
+                                </li>
+                            @endforeach
                         </ul>
                     </div>
 

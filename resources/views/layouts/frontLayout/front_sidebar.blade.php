@@ -1,4 +1,5 @@
 <?php use App\Category; ?>
+<?php use App\Product; ?>
 <aside>
     <!-- Searcg Widget -->
     <div class="widget_search">
@@ -13,8 +14,19 @@
         <ul class="categories-list">
             @foreach ($categories as $category)
             <li>
-                <a href="#"><i class="{{ $category->icon }}"></i>{{ $category->name }} <span class="category-counter">({{ Category::where(['parent_id'=>$category->id])->count() }})</span></a>
+                @php
+                    $categories_parent = Category::where(['parent_id'=>$category->id])->get();
+                    $categories_in[] = $category->id;
+                    foreach ($categories_parent as $category_parent) {
+                        $categories_in[] = $category_parent->id;
+                    }
+                    $products_count = Product::whereIn('category_id', $categories_in)->count();
+                @endphp
+                <a href="{{ route('products', ['category'=>$category->id]) }}"><i class="{{ $category->icon }}"></i>{{ $category->name }} <span class="category-counter">({{ $products_count }})</span></a>
             </li>
+            @php
+                $categories_in = null;
+            @endphp
             @endforeach
         </ul>
     </div>
