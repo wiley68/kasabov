@@ -1,6 +1,7 @@
 <?php use App\Category; ?>
 <?php use App\User; ?>
 <?php use App\City; ?>
+<?php use App\Product; ?>
 @extends('layouts.frontLayout.front_design_index')
 @section('content')
 
@@ -18,6 +19,14 @@
                 $bg_count = 1;
             @endphp
             @foreach ($categories_top as $category_top)
+            @php
+            $categories_parent = Category::where(['parent_id'=>$category_top->id])->get();
+            $categories_in[] = $category_top->id;
+            foreach ($categories_parent as $category_parent) {
+                $categories_in[] = $category_parent->id;
+            }
+            $products_count = Product::whereIn('category_id', $categories_in)->count();
+            @endphp
             <div class="col-lg-2 col-md-3 col-xs-12">
                 <a href="{{ route('products', ['category'=>$category_top->id]) }}">
                     <div class="category-icon-item lis-bg{{ $bg_count }}">
@@ -26,13 +35,14 @@
                                 <i class="{{ $category_top->icon }}"></i>
                             </div>
                             <h4>{{ $category_top->name }}</h4>
-                            <p class="categories-listing">{{ Category::where(['parent_id'=>$category_top->id])->count() }} продукта</p>
+                            <p class="categories-listing">{{ $products_count }} продукта</p>
                         </div>
                     </div>
                 </a>
             </div>
             @php
                 $bg_count++;
+                $categories_in = null;
             @endphp
             @endforeach
         </div>
