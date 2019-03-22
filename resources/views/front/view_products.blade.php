@@ -15,30 +15,24 @@
                 <!-- Product filter Start -->
                 <div class="product-filter">
                     <div class="short-name">
-                        <span>Showing (1 - 12 products of 7371 products)</span>
+                        @php
+                            $current_page = 1;
+                            if (!empty(request('page'))){
+                                $current_page = intval(request('page'));
+                            }
+                        @endphp
+                        <span>Показани (1 - 4 продукта от общо {{ $all_products_count }} продукта)</span>
                     </div>
                     <div class="Show-item">
-                        <span>Show Items</span>
-                        <form class="woocommerce-ordering" method="post">
-                            <label>
-                      <select name="order" class="orderby">
-                        <option selected="selected" value="menu-order">49 items</option>
-                        <option value="popularity">popularity</option>
-                        <option value="popularity">Average ration</option>
-                        <option value="popularity">newness</option>
-                        <option value="popularity">price</option>
-                      </select>
-                    </label>
-                        </form>
+                        <span>Подреждане на резултатите</span>
+                        <select id="order_by" class="orderby">
+                            <option @if(request('sort_by') == '') selected @endif value="all">Без подредба</option>
+                            <option @if((request('sort_by') == 'product_name') && (request('sort') == 'asc')) selected @endif value="name_asc">Име A-Я</option>
+                            <option @if((request('sort_by') == 'product_name') && (request('sort') == 'desc')) selected @endif value="name_desc">Име Я-А</option>
+                            <option @if((request('sort_by') == 'price') && (request('sort') == 'asc')) selected @endif value="price_asc">Цена възходящо</option>
+                            <option @if((request('sort_by') == 'price') && (request('sort') == 'desc')) selected @endif value="price_desc">Цена низходящо</option>
+                        </select>
                     </div>
-                    <ul class="nav nav-tabs">
-                        <li class="nav-item">
-                            <a class="nav-link active" data-toggle="tab" href="#grid-view"><i class="lni-grid"></i></a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" data-toggle="tab" href="#list-view"><i class="lni-list"></i></a>
-                        </li>
-                    </ul>
                 </div>
                 <!-- Product filter End -->
 
@@ -90,165 +84,12 @@
                                 @endforeach
                             </div>
                         </div>
-                        <div id="list-view" class="tab-pane fade">
-                            <div class="row">
-                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                    <div class="featured-box">
-                                        <figure>
-                                            <div class="homes-tag featured">Cameras</div>
-                                            <div class="homes-tag rent"><i class="lni-heart"></i> 200</div>
-                                            <span class="price-save">
-                              $200
-                            </span>
-                                            <a href="#"><img class="img-fluid" src="assets/img/featured/img-1.jpg" alt=""></a>
-                                        </figure>
-                                        <div class="content-wrapper">
-                                            <div class="feature-content">
-                                                <h4><a href="ads-details.html">Canon SX Powershot ...</a></h4>
-                                                <p class="listing-tagline">Club and shop for you</p>
-                                                <div class="meta-tag">
-                                                    <div class="listing-review">
-                                                        <span class="review-avg">4.5</span> 2 Ratings
-                                                    </div>
-                                                    <div class="user-name">
-                                                        <a href="#"><i class="lni-user"></i> Jone</a>
-                                                    </div>
-                                                    <div class="listing-category">
-                                                        <a href="#"><i class="lni-display"></i>Electronic </a>
-                                                    </div>
-                                                </div>
-                                                <p class="dsc">Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                                                    Lorem Ipsum has been the industry.</p>
-                                            </div>
-                                            <div class="listing-bottom clearfix">
-                                                <a href="#" class="float-left"><i class="lni-map-marker"></i> New York, US</a>
-                                                <a href="ads-details.html" class="float-right">View Details</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                    <div class="featured-box">
-                                        <figure>
-                                            <div class="homes-tag featured">Laptop</div>
-                                            <div class="homes-tag rent"><i class="lni-heart"></i> 152</div>
-                                            <span class="price-save">
-                              $1499
-                            </span>
-                                            <a href="#"><img class="img-fluid" src="assets/img/featured/img-2.jpg" alt=""></a>
-                                        </figure>
-                                        <div class="content-wrapper">
-                                            <div class="feature-content">
-                                                <h4><a href="ads-details.html">Apple Macbook Pro ...</a></h4>
-                                                <p class="listing-tagline">Club and shop for you</p>
-                                                <div class="meta-tag">
-                                                    <div class="listing-review">
-                                                        <span class="review-avg">4.5</span> 2 Ratings
-                                                    </div>
-                                                    <div class="user-name">
-                                                        <a href="#"><i class="lni-user"></i> Jessica</a>
-                                                    </div>
-                                                    <div class="listing-category">
-                                                        <a href="#"><i class="lni-laptop"></i>Computers</a>
-                                                    </div>
-                                                </div>
-                                                <p class="dsc">Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                                                    Lorem Ipsum has been the industry.</p>
-                                            </div>
-                                            <div class="listing-bottom clearfix">
-                                                <a href="#" class="float-left"><i class="lni-map-marker"></i> California, US</a>
-                                                <a href="ads-details.html" class="float-right">View Details</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                    <div class="featured-box">
-                                        <figure>
-                                            <div class="homes-tag featured">Cars</div>
-                                            <div class="homes-tag rent"><i class="lni-heart"></i> 155</div>
-                                            <span class="price-save">
-                              $2000
-                            </span>
-                                            <a href="#"><img class="img-fluid" src="assets/img/featured/img-3.jpg" alt=""></a>
-                                        </figure>
-                                        <div class="content-wrapper">
-                                            <div class="feature-content">
-                                                <h4><a href="ads-details.html">Mercedes Benz E200 ...</a></h4>
-                                                <p class="listing-tagline">Club and shop for you</p>
-                                                <div class="meta-tag">
-                                                    <div class="listing-review">
-                                                        <span class="review-avg">4.5</span> 3 Ratings
-                                                    </div>
-                                                    <div class="user-name">
-                                                        <a href="#"><i class="lni-user"></i> Maria Barlow</a>
-                                                    </div>
-                                                    <div class="listing-category">
-                                                        <a href="#"><i class="lni-car"></i>Vehicle </a>
-                                                    </div>
-                                                </div>
-                                                <p class="dsc">Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                                                    Lorem Ipsum has been the industry.</p>
-                                            </div>
-                                            <div class="listing-bottom clearfix">
-                                                <a href="#" class="float-left"><i class="lni-map-marker"></i> Washington, US</a>
-                                                <a href="ads-details.html" class="float-right">View Details</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                                    <div class="featured-box">
-                                        <figure>
-                                            <div class="homes-tag featured">Bags</div>
-                                            <div class="homes-tag rent"><i class="lni-heart"></i> 129</div>
-                                            <span class="price-save">
-                              $30
-                            </span>
-                                            <a href="#"><img class="img-fluid" src="assets/img/featured/img-4.jpg" alt=""></a>
-                                        </figure>
-                                        <div class="content-wrapper">
-                                            <div class="feature-content">
-                                                <h4><a href="ads-details.html">Brown Leather Bag ...</a></h4>
-                                                <p class="listing-tagline">Club and shop for you</p>
-                                                <div class="meta-tag">
-                                                    <div class="listing-review">
-                                                        <span class="review-avg">4.5</span> 5 Ratings
-                                                    </div>
-                                                    <div class="user-name">
-                                                        <a href="#"><i class="lni-user"></i> Rossi Josh</a>
-                                                    </div>
-                                                    <div class="listing-category">
-                                                        <a href="#"><i class="lni-leaf"></i>Others</a>
-                                                    </div>
-                                                </div>
-                                                <p class="dsc">Lorem Ipsum is simply dummy text of the printing and typesetting industry.
-                                                    Lorem Ipsum has been the industry.</p>
-                                            </div>
-                                            <div class="listing-bottom clearfix">
-                                                <a href="#" class="float-left"><i class="lni-map-marker"></i> Chicago, US</a>
-                                                <a href="ads-details.html" class="float-right">View Details</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
                 <!-- Adds wrapper End -->
 
                 <!-- Start Pagination -->
-                <div class="pagination-bar">
-                    <nav>
-                        <ul class="pagination justify-content-center">
-                            <li class="page-item"><a class="page-link active" href="#">1</a></li>
-                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                        </ul>
-                    </nav>
-                </div>
+                {{ $products->links() }}
                 <!-- End Pagination -->
 
             </div>
@@ -256,4 +97,69 @@
     </div>
 </div>
 <!-- Main container End -->
+@endsection
+
+@section('scripts')
+<script>
+    $("#order_by").change(function(){
+        sort_request = $(this).val();
+        switch(sort_request) {
+            case 'name_asc':
+                sort = 'asc';
+                sort_by = 'product_name';
+            break;
+            case 'name_desc':
+                sort = 'desc';
+                sort_by = 'product_name';
+            break;
+            case 'price_asc':
+                sort = 'asc';
+                sort_by = 'price';
+            break;
+            case 'price_desc':
+                sort = 'desc';
+                sort_by = 'price';
+            break;
+            case 'all':
+                sort = '';
+                sort_by = '';
+            break;
+            default:
+                sort = '';
+                sort_by = '';
+        }
+
+        // base url
+        url = '{{ route('products') }}';
+
+        // category url
+        category_id = '{{ request('category_id') }}';
+        if (category_id !== ''){
+            category_id_url = '&category_id=' + category_id;
+        }else{
+            category_id_url = '';
+        }
+
+        //sort_by url
+        if (sort_by !== ''){
+            sort_by_url = '&sort_by=' + sort_by;
+        }else{
+            sort_by_url = '';
+        }
+
+        //sort url
+        if (sort !== ''){
+            sort_url = '&sort=' + sort;
+        }else{
+            sort_url = '';
+        }
+
+        // go to location filter
+        if ((category_id_url == '') && (sort_by == '') && (sort == '')){
+            window.location = url;
+        }else{
+            window.location = url + '?filter=yes' + category_id_url + sort_by_url + sort_url;
+        }
+    });
+</script>
 @endsection

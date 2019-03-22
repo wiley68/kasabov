@@ -387,29 +387,59 @@ class ProductController extends Controller
     }
 
     public function frontViewProducts(){
-        if (request()->category){
-            $categories_parent = Category::where(['parent_id'=>request()->category])->get();
-            $categories_in[] = request()->category;
-            foreach ($categories_parent as $category_parent) {
-                $categories_in[] = $category_parent->id;
+        // Filter products result
+        $products = new Product;
+        $all_products_count = $products->count();
+        $paginate = 4;
+        $queries = [];
+        $columns = [
+            'category_id'
+        ];
+        foreach ($columns as $column) {
+            if (request()->has($column)){
+                if ($column == 'category_id'){
+                    $categories_parent = Category::where(['parent_id'=>request($column)])->get();
+                    $categories_in[] = request($column);
+                    foreach ($categories_parent as $category_parent) {
+                        $categories_in[] = $category_parent->id;
+                    }
+                    $products = $products->whereIn($column, $categories_in);
+                }else{
+                    $products = $products->where($column, request($column));
+                }
+                $queries[$column] = request($column);
             }
-            $products = Product::whereIn('category_id', $categories_in)->get();
-        }else{
-            $products = Product::all();
         }
+        // Sorting products
+        if (request()->has('sort')){
+            if (request()->has('sort_by')){
+                $products = $products->orderBy(request('sort_by'), request('sort'));
+                $queries['sort'] = request('sort');
+                $queries['sort_by'] = request('sort_by');
+            }
+        }
+
+        // result products paginating
+        $products = $products->paginate($paginate)->appends($queries);
+
+        // Add holidays
         $holidays_count = Holiday::where(['parent_id'=>0])->count();
         if ($holidays_count >= 5){
             $holidays_count = 5;
         }
         $holidays = Holiday::where(['parent_id'=>0])->take($holidays_count)->get();
+        // Add property
         $property = LandingPage::first();
+        // Add category
         $categories = Category::where(['parent_id'=>0])->get();
 
         return view('/front/view_products')->with([
             'holidays'=>$holidays,
             'property'=>$property,
             'categories'=>$categories,
-            'products'=>$products
+            'products'=>$products,
+            'all_products_count'=>$all_products_count,
+            'paginate'=>$paginate
         ]);
     }
 

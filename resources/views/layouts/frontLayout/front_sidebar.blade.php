@@ -22,7 +22,7 @@
                     }
                     $products_count = Product::whereIn('category_id', $categories_in)->count();
                 @endphp
-                <a href="{{ route('products', ['category'=>$category->id]) }}"><i class="{{ $category->icon }}"></i>{{ $category->name }} <span class="category-counter">({{ $products_count }})</span></a>
+                <a href="{{ route('products', ['category_id'=>$category->id]) }}"><i class="{{ $category->icon }}"></i>{{ $category->name }} <span class="category-counter">({{ $products_count }})</span></a>
             </li>
             @php
                 $categories_in = null;

@@ -28,7 +28,7 @@
             $products_count = Product::whereIn('category_id', $categories_in)->count();
             @endphp
             <div class="col-lg-2 col-md-3 col-xs-12">
-                <a href="{{ route('products', ['category'=>$category_top->id]) }}">
+                <a href="{{ route('products', ['category_id'=>$category_top->id]) }}">
                     <div class="category-icon-item lis-bg{{ $bg_count }}">
                         <div class="icon-box">
                             <div class="icon">
