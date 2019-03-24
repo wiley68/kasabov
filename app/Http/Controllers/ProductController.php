@@ -393,7 +393,8 @@ class ProductController extends Controller
         $paginate = 4;
         $queries = [];
         $columns = [
-            'category_id'
+            'category_id',
+            'holiday_id'
         ];
         foreach ($columns as $column) {
             if (request()->has($column)){
@@ -405,7 +406,16 @@ class ProductController extends Controller
                     }
                     $products = $products->whereIn($column, $categories_in);
                 }else{
-                    $products = $products->where($column, request($column));
+                    if ($column == 'holiday_id'){
+                        $holidays_parent = Holiday::where(['parent_id'=>request($column)])->get();
+                        $holidays_in[] = request($column);
+                        foreach ($holidays_parent as $holiday_parent) {
+                            $holidays_in[] = $holiday_parent->id;
+                        }
+                        $products = $products->whereIn($column, $holidays_in);
+                    }else{
+                        $products = $products->where($column, request($column));
+                    }
                 }
                 $queries[$column] = request($column);
             }
@@ -423,15 +433,13 @@ class ProductController extends Controller
         $products = $products->paginate($paginate)->appends($queries);
 
         // Add holidays
-        $holidays_count = Holiday::where(['parent_id'=>0])->count();
-        if ($holidays_count >= 5){
-            $holidays_count = 5;
-        }
-        $holidays = Holiday::where(['parent_id'=>0])->take($holidays_count)->get();
+        $holidays = Holiday::where(['parent_id'=>0])->get();
         // Add property
         $property = LandingPage::first();
         // Add category
         $categories = Category::where(['parent_id'=>0])->get();
+        // Add speditors
+        $speditors = Speditor::all();
 
         return view('/front/view_products')->with([
             'holidays'=>$holidays,
@@ -439,7 +447,8 @@ class ProductController extends Controller
             'categories'=>$categories,
             'products'=>$products,
             'all_products_count'=>$all_products_count,
-            'paginate'=>$paginate
+            'paginate'=>$paginate,
+            'speditors'=>$speditors
         ]);
     }
 

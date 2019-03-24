@@ -9,7 +9,7 @@
                     <ul class="navbar-nav mr-auto w-100 justify-content-left">
                         @foreach ($holidays as $holiday)
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <a class="nav-link dropdown-toggle" href="{{ route('products', ['filter'=>'yes', 'holiday_id'=>$holiday->id]) }}" aria-haspopup="true" aria-expanded="false">
                                     {{ $holiday->name }}<i class="lni-chevron-down"></i>
                                 </a>
                                 <ul class="dropdown-menu">

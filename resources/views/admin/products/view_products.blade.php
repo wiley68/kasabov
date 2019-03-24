@@ -130,7 +130,7 @@
                                         <p><strong>Изпраща се от:</strong> {{ CityController::getCityById($product->send_from_id)->city }}&nbsp;, област: {{ CityController::getCityById($product->send_from_id)->oblast }}</p>
                                         <p><strong>Цена за изпращане:</strong> {{ $product->price_send }}</p>
                                         <p><strong>Безплатна доставка:</strong> @if ($product->send_free === 1) Да @else Не @endif</p>
-                                        <p><strong>Важи за:</strong> {{ CityController::getCityById($product->send_free_id)->city }}&nbsp;, област: {{ CityController::getCityById($product->send_free_id)->oblast }}</p>
+                                        <p><strong>Важи за:</strong> {{ $product->send_free_id }}&nbsp;, област: {{ $product->send_free_id }}</p>
                                         @php
                                         switch ($product->available_for) {
                                             case 'city':

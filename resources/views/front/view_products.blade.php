@@ -1,6 +1,7 @@
 <?php use App\Category; ?>
 <?php use App\User; ?>
 <?php use App\City; ?>
+<?php use App\Holiday; ?>
 @extends('layouts.frontLayout.front_design')
 @section('content')
 
@@ -20,8 +21,10 @@
                             if (!empty(request('page'))){
                                 $current_page = intval(request('page'));
                             }
+                            $start_products_count = ($current_page - 1) * $paginate + 1;
+                            $end_products_count = $start_products_count + $products->count() - 1;
                         @endphp
-                        <span>Показани (1 - 4 продукта от общо {{ $all_products_count }} продукта)</span>
+                        <span>Показани ({{ $start_products_count }} - {{ $end_products_count }} продукта от общо {{ $all_products_count }} продукта)</span>
                     </div>
                     <div class="Show-item">
                         <span>Подреждане на резултатите</span>
@@ -53,7 +56,7 @@
                                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                                     <div class="featured-box">
                                         <figure>
-                                            <div class="homes-tag featured">{{ Category::where(['id'=>$product->category_id])->first()->name }}</div>
+                                            <div class="homes-tag featured">{{ Holiday::where(['id'=>$product->holiday_id])->first()->name }}</div>
                                             <div class="homes-tag rent"><i class="lni-heart"></i> 202</div>
                                             <span class="price-save">{{ $product->price }}</span>
                                             <a href="#"><img class="img-fluid" src="{{ asset('/images/backend_images/products/small/'.$product->image) }}" alt=""></a>
@@ -133,6 +136,14 @@
         url = '{{ route('products') }}';
 
         // category url
+        category_id = '{{ request('category_id') }}';
+        if (category_id !== ''){
+            category_id_url = '&category_id=' + category_id;
+        }else{
+            category_id_url = '';
+        }
+
+        // holiday url
         category_id = '{{ request('category_id') }}';
         if (category_id !== ''){
             category_id_url = '&category_id=' + category_id;

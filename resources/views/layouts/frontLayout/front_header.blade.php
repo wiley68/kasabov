@@ -1,4 +1,5 @@
 <?php use App\Holiday; ?>
+<?php use App\Category; ?>
 <!-- Header Area wrapper Starts -->
 <header id="header-wrap">
     <!-- Navbar Start -->
@@ -7,18 +8,18 @@
             <div class="theme-header clearfix">
                 <div class="collapse navbar-collapse" id="main-navbar">
                     <ul class="navbar-nav mr-auto w-100 justify-content-left">
-                        @foreach ($holidays as $holiday)
+                        @for ($i = 0; $i < 5; $i++)
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    {{ $holiday->name }}<i class="lni-chevron-down"></i>
-                                </a>
+                            <a class="nav-link dropdown-toggle" href="{{ route('products', ['filter'=>'yes', 'holiday_id'=>$holidays[$i]->id]) }}" aria-haspopup="true" aria-expanded="false">
+                                {{ $holidays[$i]->name }}<i class="lni-chevron-down"></i>
+                            </a>
                             <ul class="dropdown-menu">
-                                @foreach (Holiday::where(['parent_id'=>$holiday->id])->get() as $item)
-                                <li><a class="dropdown-item" href="#">{{ $item->name }}</a></li>
+                                @foreach (Holiday::where(['parent_id'=>$holidays[$i]->id])->get() as $item)
+                                <li><a class="dropdown-item" href="{{ route('products', ['filter'=>'yes', 'holiday_id'=>$item->id]) }}">{{ $item->name }}</a></li>
                                 @endforeach
                             </ul>
                         </li>
-                        @endforeach
+                        @endfor
                         <li class="nav-item">
                             <a class="nav-link" href="#" aria-expanded="false">Всички празници ...</a>
                         </li>
@@ -48,7 +49,21 @@
                             <a href="{{ route('index') }}">В началото</a>
                             <i class="fas fa-chevron-right"></i>
                             @if(Route::current()->getName() == 'products')
-                            <a href="{{ route('products') }}">Всички продукти</a>
+                                @if(request('filter') == 'yes')
+                                    <a href="{{ route('products') }}">Всички продукти</a>
+                                    <i class="fas fa-chevron-right"></i>
+                                    @if(!empty(request('holiday_id')))
+                                        <a href="{{ route('products', ['filter'=>'yes', 'holiday_id'=>request('holiday_id')]) }}">{{ Holiday::where(['id'=>request('holiday_id')])->first()->name }}</a>
+                                        @if(!empty(request('category_id')))
+                                            <i class="fas fa-chevron-right"></i>
+                                        @endif
+                                    @endif
+                                    @if(!empty(request('category_id')))
+                                        <a href="{{ route('products', ['filter'=>'yes', 'category_id'=>request('category_id')]) }}">{{ Category::where(['id'=>request('category_id')])->first()->name }}</a>
+                                    @endif
+                                @else
+                                    <a href="{{ route('products') }}">Всички продукти</a>
+                                @endif
                             @elseif(Route::current()->getName() == 'product')
                             <a href="{{ route('products') }}">Всички продукти</a>
                             <i class="fas fa-chevron-right"></i>

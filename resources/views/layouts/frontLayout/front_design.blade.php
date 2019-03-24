@@ -12,6 +12,8 @@
 <link rel="stylesheet" href="{{ asset('css/frontend_css/owl.carousel.css') }}" />
 <link rel="stylesheet" href="{{ asset('css/frontend_css/main.css') }}" />
 <link rel="stylesheet" href="{{ asset('css/frontend_css/responsive.css') }}" />
+<link rel="stylesheet" href="{{ asset('css/frontend_css/front.css') }}" />
+<link rel="stylesheet" href="{{ asset('css/backend_css/select2.css') }}" />
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 <!-- index controller -->
 </head>
@@ -36,6 +38,14 @@
 <script src="{{ asset('js/frontend_js/form-validator.min.js') }}"></script>
 <script src="{{ asset('js/frontend_js/contact-form-script.min.js') }}"></script>
 <script src="{{ asset('js/frontend_js/summernote.js') }}"></script>
+<script src="{{ asset('js/frontend_js/front.js') }}"></script>
+<script src="{{ asset('js/backend_js/select2.min.js') }}"></script>
+<script>
+    $(document).ready(function() {
+        $('select').select2();
+        $( "#price_slider" ).slider();
+    });
+</script>
 <!-- index controller -->
 @yield('scripts')
 </body>
