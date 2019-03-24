@@ -64,5 +64,5 @@ Route::get('/logout', 'AdminController@logout')->name('logout');
 
 // Frontend routes
 Route::get('/', 'IndexController@index')->name('index');
-Route::get('/products', 'ProductController@frontViewProducts')->name('products');
+Route::match(['get', 'post'], '/products', 'ProductController@frontViewProducts')->name('products');
 Route::get('/product/{id}', 'ProductController@frontGetProduct')->name('product');

@@ -399,18 +399,23 @@ class ProductController extends Controller
         foreach ($columns as $column) {
             if (request()->has($column)){
                 if ($column == 'category_id'){
-                    $categories_parent = Category::where(['parent_id'=>request($column)])->get();
-                    $categories_in[] = request($column);
-                    foreach ($categories_parent as $category_parent) {
-                        $categories_in[] = $category_parent->id;
-                    }
-                    $products = $products->whereIn($column, $categories_in);
+                    //foreach (request($column) as $category_id) {
+                        //$categories_parent = Category::where(['parent_id'=>$category_id])->get();
+                        //$categories_in[] = $category_id;
+                        //foreach ($categories_parent as $category_parent) {
+                        //    $categories_in[] = $category_parent->id;
+                        //}
+                    //}
+                    //$products = $products->whereIn($column, $categories_in);
+                    //$products = $products->where($column, 1);
                 }else{
                     if ($column == 'holiday_id'){
-                        $holidays_parent = Holiday::where(['parent_id'=>request($column)])->get();
-                        $holidays_in[] = request($column);
-                        foreach ($holidays_parent as $holiday_parent) {
-                            $holidays_in[] = $holiday_parent->id;
+                        foreach (request($column) as $holiday_id) {
+                            $holidays_parent = Holiday::where(['parent_id'=>$holiday_id])->get();
+                            $holidays_in[] = $holiday_id;
+                            foreach ($holidays_parent as $holiday_parent) {
+                                $holidays_in[] = $holiday_parent->id;
+                            }
                         }
                         $products = $products->whereIn($column, $holidays_in);
                     }else{

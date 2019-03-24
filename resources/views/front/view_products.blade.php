@@ -59,7 +59,7 @@
                                             <div class="homes-tag featured">{{ Holiday::where(['id'=>$product->holiday_id])->first()->name }}</div>
                                             <div class="homes-tag rent"><i class="lni-heart"></i> 202</div>
                                             <span class="price-save">{{ $product->price }}</span>
-                                            <a href="#"><img class="img-fluid" src="{{ asset('/images/backend_images/products/small/'.$product->image) }}" alt=""></a>
+                                            <a href="#"><img class="img-fluid" src="{{ asset('/images/backend_images/products/large/'.$product->image) }}" alt=""></a>
                                         </figure>
                                         <div class="content-wrapper">
                                             <div class="feature-content">
@@ -135,22 +135,6 @@
         // base url
         url = '{{ route('products') }}';
 
-        // category url
-        category_id = '{{ request('category_id') }}';
-        if (category_id !== ''){
-            category_id_url = '&category_id=' + category_id;
-        }else{
-            category_id_url = '';
-        }
-
-        // holiday url
-        category_id = '{{ request('category_id') }}';
-        if (category_id !== ''){
-            category_id_url = '&category_id=' + category_id;
-        }else{
-            category_id_url = '';
-        }
-
         //sort_by url
         if (sort_by !== ''){
             sort_by_url = '&sort_by=' + sort_by;
@@ -166,10 +150,10 @@
         }
 
         // go to location filter
-        if ((category_id_url == '') && (sort_by == '') && (sort == '')){
+        if ((sort_by == '') && (sort == '')){
             window.location = url;
         }else{
-            window.location = url + '?filter=yes' + category_id_url + sort_by_url + sort_url;
+            window.location = url + '?filter=yes' + sort_by_url + sort_url;
         }
     });
 </script>
