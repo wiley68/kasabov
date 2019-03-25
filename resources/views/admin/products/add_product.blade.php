@@ -97,13 +97,31 @@
                             <div class="control-group">
                                 <label class="control-label">Основен цвят</label>
                                 <div class="controls">
-                                    <input type="color" id="first_color" name="first_color" value="#ffffff">
+                                    <select name="first_color" id="first_color" style="width:314px;">
+                                        <option value="white">Бял</option>
+                                        <option value="gray">Сив</option>
+                                        <option value="black">Черен</option>
+                                        <option value="red">Червен</option>
+                                        <option value="yellow">Жълт</option>
+                                        <option value="green">Зелен</option>
+                                        <option value="blue">Син</option>
+                                        <option value="brown">Кафяв</option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="control-group">
                                 <label class="control-label">Втори цвят</label>
                                 <div class="controls">
-                                    <input type="color" id="second_color" name="second_color" value="#ffffff">
+                                    <select name="second_color" id="second_color" style="width:314px;">
+                                        <option value="white">Бял</option>
+                                        <option value="gray">Сив</option>
+                                        <option value="black">Черен</option>
+                                        <option value="red">Червен</option>
+                                        <option value="yellow">Жълт</option>
+                                        <option value="green">Зелен</option>
+                                        <option value="blue">Син</option>
+                                        <option value="brown">Кафяв</option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="control-group">

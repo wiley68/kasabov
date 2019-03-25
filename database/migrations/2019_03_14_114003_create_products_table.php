@@ -20,8 +20,8 @@ class CreateProductsTable extends Migration
             $table->integer('holiday_id')->default(0);
             $table->string('product_name');
             $table->string('product_code')->unique();
-            $table->string('first_color')->default('#ffffff');
-            $table->string('second_color')->default('#ffffff');
+            $table->string('first_color')->default('white');
+            $table->string('second_color')->default('white');
             $table->enum('age', array('child', 'adult', 'any'));
             $table->enum('pol', array('man', 'woman', 'any'));
             $table->enum('condition', array('new', 'old'));

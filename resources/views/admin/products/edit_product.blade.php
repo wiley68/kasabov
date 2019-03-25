@@ -120,13 +120,31 @@
                             <div class="control-group">
                                 <label class="control-label">Основен цвят</label>
                                 <div class="controls">
-                                    <input type="color" id="first_color" name="first_color" value="{{ $product->first_color }}">
+                                    <select name="first_color" id="first_color" style="width:314px;">
+                                        <option value="white" @if($product->first_color == 'white') selected @endif>Бял</option>
+                                        <option value="gray" @if($product->first_color == 'gray') selected @endif>Сив</option>
+                                        <option value="black" @if($product->first_color == 'black') selected @endif>Черен</option>
+                                        <option value="red" @if($product->first_color == 'red') selected @endif>Червен</option>
+                                        <option value="yellow" @if($product->first_color == 'yellow') selected @endif>Жълт</option>
+                                        <option value="green" @if($product->first_color == 'green') selected @endif>Зелен</option>
+                                        <option value="blue" @if($product->first_color == 'blue') selected @endif>Син</option>
+                                        <option value="brown" @if($product->first_color == 'brown') selected @endif>Кафяв</option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="control-group">
                                 <label class="control-label">Втори цвят</label>
                                 <div class="controls">
-                                    <input type="color" id="second_color" name="second_color" value="{{ $product->second_color }}">
+                                    <select name="second_color" id="second_color" style="width:314px;">
+                                        <option value="white" @if($product->second_color == 'white') selected @endif>Бял</option>
+                                        <option value="gray" @if($product->second_color == 'gray') selected @endif>Сив</option>
+                                        <option value="black" @if($product->second_color == 'black') selected @endif>Черен</option>
+                                        <option value="red" @if($product->second_color == 'red') selected @endif>Червен</option>
+                                        <option value="yellow" @if($product->second_color == 'yellow') selected @endif>Жълт</option>
+                                        <option value="green" @if($product->second_color == 'green') selected @endif>Зелен</option>
+                                        <option value="blue" @if($product->second_color == 'blue') selected @endif>Син</option>
+                                        <option value="brown" @if($product->second_color == 'brown') selected @endif>Кафяв</option>
+                                    </select>
                                 </div>
                             </div>
                             <div class="control-group">
