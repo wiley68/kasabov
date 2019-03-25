@@ -46,7 +46,14 @@ class CityController extends Controller
 
     public static function getCityById($id=null){
         if (!empty($id)){
-            $city = City::where(['id'=>$id])->first();
+            $city = !empty(City::where(['id'=>$id])->first()) ? City::where(['id'=>$id])->first()->city : '';
+            return $city;
+        }
+    }
+
+    public static function getOblastById($id=null){
+        if (!empty($id)){
+            $city = !empty(City::where(['id'=>$id])->first()) ? City::where(['id'=>$id])->first()->oblast : '';
             return $city;
         }
     }

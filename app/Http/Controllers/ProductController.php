@@ -49,7 +49,11 @@ class ProductController extends Controller
             $send_free_id = $request->input('send_free_id');
             $available_for = $request->input('available_for');
             $object = $request->input('object');
-            $object_name = $request->input('object_name');
+            if (empty($request->input('object_name'))){
+                $object_name = '';
+            }else{
+                $object_name = $request->input('object_name');
+            }
             $personalize = $request->input('personalize');
             $description = $request->input('description');
             if (empty($request->input('quantity'))){
@@ -212,7 +216,11 @@ class ProductController extends Controller
             $product->send_free_id = $request->input('send_free_id');
             $product->available_for = $request->input('available_for');
             $product->object = $request->input('object');
-            $product->object_name = $request->input('object_name');
+            if (empty($request->input('object_name'))){
+                $product->object_name = '';
+            }else{
+                $product->object_name = $request->input('object_name');
+            }
             $product->personalize = $request->input('personalize');
             $product->description = $request->input('description');
             if (empty($product->description)){

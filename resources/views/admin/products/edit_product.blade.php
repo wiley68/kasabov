@@ -73,6 +73,7 @@
                                 <label class="control-label">Празник</label>
                                 <div class="controls">
                                     <select name="holiday_id" id="holiday_id" style="width:314px;">
+                                        <option value="0" @if (0 === $product->holiday_id) selected @endif selected>Избери празник</option>
                                         @foreach ($holidays as $holiday)
                                             <option value="{{ $holiday->id }}" @if ($holiday->id === $product->holiday_id) selected @endif>{{ $holiday->name }}</option>
                                             @foreach (Holiday::where(['parent_id'=>$holiday->id])->get() as $item)

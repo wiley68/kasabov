@@ -17,7 +17,7 @@ class CreateProductsTable extends Migration
             $table->increments('id');
             $table->integer('user_id');
             $table->integer('category_id');
-            $table->integer('holiday_id')->nullable();
+            $table->integer('holiday_id')->default(0);
             $table->string('product_name');
             $table->string('product_code')->unique();
             $table->string('first_color')->default('#ffffff');
@@ -25,14 +25,14 @@ class CreateProductsTable extends Migration
             $table->enum('age', array('child', 'adult', 'any'));
             $table->enum('pol', array('man', 'woman', 'any'));
             $table->enum('condition', array('new', 'old'));
-            $table->integer('send_id')->nullable();
-            $table->integer('send_from_id')->nullable();
+            $table->integer('send_id')->default(0);
+            $table->integer('send_from_id')->default(0);
             $table->float('price_send')->default(0.00);
             $table->boolean('send_free')->default(false);
             $table->integer('send_free_id')->default(0);
             $table->enum('available_for', array('city', 'cities', 'area', 'country'))->default('country');
             $table->boolean('object')->default(false);
-            $table->string('object_name')->nullable();
+            $table->string('object_name')->default('');
             $table->boolean('personalize');
             $table->text('description');
             $table->integer('quantity')->default(1);

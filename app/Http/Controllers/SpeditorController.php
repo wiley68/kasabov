@@ -46,7 +46,7 @@ class SpeditorController extends Controller
 
     public static function getSpeditorById($id=null){
         if (!empty($id)){
-            $speditor = Speditor::where(['id'=>$id])->first();
+            $speditor = !empty(Speditor::where(['id'=>$id])->first()) ? Speditor::where(['id'=>$id])->first()->name : '';
             return $speditor;
         }
     }

@@ -88,7 +88,7 @@
                                         <p><strong>Наименование:</strong> {{ $product->product_name }}</p>
                                         <p><strong>Собственик:</strong> {{ User::where(['id'=>$product->user_id])->first()->name }}</p>
                                         <p><strong>Категория:</strong> {{ CategoryController::getCategoryById($product->category_id)->name }}</p>
-                                        <p><strong>Празник:</strong> {{ HolidayController::getHolidayById($product->holiday_id)->name }}</p>
+                                        <p><strong>Празник:</strong> {{ HolidayController::getHolidayById($product->holiday_id) }}</p>
                                         <p><strong>Количество:</strong> {{ $product->quantity }}</p>
                                         <p><strong>Цена:</strong> {{ $product->price }}</p>
                                         <p><strong>Основен цвят:</strong> <i class="icon-stop" style="color:{{ $product->first_color }};"></i></p>
@@ -126,8 +126,8 @@
                                         }
                                         @endphp
                                         <p><strong>Състояние:</strong> {{ $condition_txt }}</p>
-                                        <p><strong>Изпраща се с:</strong> {{ SpeditorController::getSpeditorById($product->send_id)->name }}</p>
-                                        <p><strong>Изпраща се от:</strong> {{ CityController::getCityById($product->send_from_id)->city }}&nbsp;, област: {{ CityController::getCityById($product->send_from_id)->oblast }}</p>
+                                        <p><strong>Изпраща се с:</strong> {{ SpeditorController::getSpeditorById($product->send_id) }}</p>
+                                        <p><strong>Изпраща се от:</strong> {{ CityController::getCityById($product->send_from_id) }}&nbsp;, област: {{ CityController::getOblastById($product->send_from_id) }}</p>
                                         <p><strong>Цена за изпращане:</strong> {{ $product->price_send }}</p>
                                         <p><strong>Безплатна доставка:</strong> @if ($product->send_free === 1) Да @else Не @endif</p>
                                         <p><strong>Важи за:</strong> {{ $product->send_free_id }}&nbsp;, област: {{ $product->send_free_id }}</p>

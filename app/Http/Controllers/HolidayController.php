@@ -54,7 +54,7 @@ class HolidayController extends Controller
 
     public static function getHolidayById($id=null){
         if (!empty($id)){
-            $holiday = Holiday::where(['id'=>$id])->first();
+            $holiday = !empty(Holiday::where(['id'=>$id])->first()) ? Holiday::where(['id'=>$id])->first()->name : '';
             return $holiday;
         }
     }
