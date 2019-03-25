@@ -1606,6 +1606,7 @@ a.back-to-top:hover, a.back-to-top:focus {
   float: left;
   overflow: hidden;
   position: relative;
+  border: 1px solid lightgrey;
 }
 
 .featured-box figure img {

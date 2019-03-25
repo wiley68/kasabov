@@ -397,25 +397,26 @@ class ProductController extends Controller
     public function frontViewProducts(){
         // Filter products result
         $products = new Product;
-        $all_products_count = $products->count();
-        $paginate = 4;
+        $paginate = 8;
         $queries = [];
         $columns = [
             'category_id',
-            'holiday_id'
+            'holiday_id',
+            'first_color',
+            'second_color',
+            'age'
         ];
         foreach ($columns as $column) {
             if (request()->has($column)){
                 if ($column == 'category_id'){
-                    //foreach (request($column) as $category_id) {
-                        //$categories_parent = Category::where(['parent_id'=>$category_id])->get();
-                        //$categories_in[] = $category_id;
-                        //foreach ($categories_parent as $category_parent) {
-                        //    $categories_in[] = $category_parent->id;
-                        //}
-                    //}
-                    //$products = $products->whereIn($column, $categories_in);
-                    //$products = $products->where($column, 1);
+                    foreach (request($column) as $category_id) {
+                        $categories_parent = Category::where(['parent_id'=>$category_id])->get();
+                        $categories_in[] = $category_id;
+                        foreach ($categories_parent as $category_parent) {
+                            $categories_in[] = $category_parent->id;
+                        }
+                    }
+                    $products = $products->whereIn($column, $categories_in);
                 }else{
                     if ($column == 'holiday_id'){
                         foreach (request($column) as $holiday_id) {
@@ -443,6 +444,7 @@ class ProductController extends Controller
         }
 
         // result products paginating
+        $all_products_count = $products->count();
         $products = $products->paginate($paginate)->appends($queries);
 
         // Add holidays

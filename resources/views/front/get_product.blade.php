@@ -18,6 +18,11 @@ if ($category_parent_id !== 0){
 }else{
     $category_parent = Category::where(['id'=>$product->category_id])->first()->name;
 }
+if(!empty($product->image)){
+    $image = asset('/images/backend_images/products/large/'.$product->image);
+}else{
+    $image = asset('/images/backend_images/products/large/no-image-1200.png');
+}
 @endphp
 <!-- Ads Details Start -->
 <div class="section-padding">
@@ -29,7 +34,7 @@ if ($category_parent_id !== 0){
                     <div id="owl-demo" class="owl-carousel owl-theme">
                         <div class="item">
                             <div class="product-img">
-                                <img class="img-fluid" src="{{ asset('/images/backend_images/products/large/'.$product->image) }}" alt="">
+                                <img class="img-fluid" src="{{ $image }}" alt="">
                             </div>
                             <span class="price">{{ $product->price }}</span>
                         </div>
@@ -59,7 +64,7 @@ if ($category_parent_id !== 0){
                             <li><i class="lni-check-mark-circle"></i> Код: {{ $product->product_code }}</li>
                             <li><i class="lni-check-mark-circle"></i> Наименование: {{ $product->product_name }}</li>
                             <li><i class="lni-check-mark-circle"></i> Категория: <i class="{{ Category::where(['id'=>$product->category_id])->first()->icon }}"></i>&nbsp;{{ $category_parent }}</li>
-                            <li><i class="lni-check-mark-circle"></i> Празник: {{ HolidayController::getHolidayById($product->holiday_id)->name }}</li>
+                            <li><i class="lni-check-mark-circle"></i> Празник: {{ HolidayController::getHolidayById($product->holiday_id) }}</li>
                             <li><i class="lni-check-mark-circle"></i> Цена: {{ $product->price }}</li>
                             <li><i class="lni-check-mark-circle"></i> Основен цвят: {{ $product->first_color }}</li>
                             <li><i class="lni-check-mark-circle"></i> Втори цвят: {{ $product->second_color }}</li>
@@ -71,6 +76,9 @@ if ($category_parent_id !== 0){
                                 case 'adult':
                                     $age_txt = 'За възрастни';
                                     break;
+                                case 'any':
+                                    $age_txt = 'Без значение';
+                                    break;
                             }
                             @endphp
                             <li><i class="lni-check-mark-circle"></i> Възрастова група: {{ $age_txt }}</li>
@@ -81,6 +89,9 @@ if ($category_parent_id !== 0){
                                     break;
                                 case 'man':
                                     $pol_txt = 'За мъже';
+                                    break;
+                                case 'any':
+                                    $pol_txt = 'Без значение';
                                     break;
                             }
                             @endphp
@@ -96,11 +107,11 @@ if ($category_parent_id !== 0){
                             }
                             @endphp
                             <li><i class="lni-check-mark-circle"></i> Състояние: {{ $condition_txt }}</li>
-                            <li><i class="lni-check-mark-circle"></i> Изпраща се с: {{ SpeditorController::getSpeditorById($product->send_id)->name }}</li>
-                            <li><i class="lni-check-mark-circle"></i> Изпраща се от: {{ CityController::getCityById($product->send_from_id)->city }}&nbsp;, област: {{ CityController::getCityById($product->send_from_id)->oblast }}</li>
+                            <li><i class="lni-check-mark-circle"></i> Изпраща се с: {{ SpeditorController::getSpeditorById($product->send_id) }}</li>
+                            <li><i class="lni-check-mark-circle"></i> Изпраща се от: {{ CityController::getCityById($product->send_from_id) }}&nbsp;, област: {{ CityController::getOblastById($product->send_from_id) }}</li>
                             <li><i class="lni-check-mark-circle"></i> Цена за изпращане: {{ $product->price_send }}</li>
                             <li><i class="lni-check-mark-circle"></i> Безплатна доставка: @if ($product->send_free === 1) Да @else Не @endif</li>
-                            <li><i class="lni-check-mark-circle"></i> Важи за: {{ CityController::getCityById($product->send_free_id)->city }}&nbsp;, област: {{ CityController::getCityById($product->send_free_id)->oblast }}</li>
+                            <li><i class="lni-check-mark-circle"></i> Важи за: {{ CityController::getCityById($product->send_free_id) }}&nbsp;, област: {{ CityController::getOblastById($product->send_free_id) }}</li>
                             @php
                             switch ($product->available_for) {
                                 case 'city':
@@ -189,7 +200,7 @@ if ($category_parent_id !== 0){
                                     <div class="widget-content">
                                         <h4><a href="#">{{ $item->product_name }}</a></h4>
                                         <div class="meta-tag">
-                                            <span><a href="#"><i class="lni-map-marker"></i> {{ CityController::getCityById($item->send_from_id)->city }}</a></span>
+                                            <span><a href="#"><i class="lni-map-marker"></i> {{ CityController::getCityById($item->send_from_id) }}</a></span>
                                         </div>
                                         <h4 class="price">{{ $item->price }}</h4>
                                     </div>

@@ -52,6 +52,11 @@
                                 }else{
                                     $category_parent = Category::where(['id'=>$product->category_id])->first()->name;
                                 }
+                                if(!empty($product->image)){
+                                    $image = asset('/images/backend_images/products/large/'.$product->image);
+                                }else{
+                                    $image = asset('/images/backend_images/products/large/no-image-1200.png');
+                                }
                                 @endphp
                                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                                     <div class="featured-box">
@@ -59,7 +64,7 @@
                                             <div class="homes-tag featured">{{ Holiday::where(['id'=>$product->holiday_id])->first()->name }}</div>
                                             <div class="homes-tag rent"><i class="lni-heart"></i> 202</div>
                                             <span class="price-save">{{ $product->price }}</span>
-                                            <a href="#"><img class="img-fluid" src="{{ asset('/images/backend_images/products/large/'.$product->image) }}" alt=""></a>
+                                            <a href="#"><img class="img-fluid" src="{{ $image }}" alt=""></a>
                                         </figure>
                                         <div class="content-wrapper">
                                             <div class="feature-content">

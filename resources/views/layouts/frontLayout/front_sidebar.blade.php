@@ -37,25 +37,35 @@
                     <p>Максимална цена: 0 - 20000</p>
                     <input type="range" min="0" max="20000" value="1000">
                     <div style="padding-bottom:10px;"></div>
-                    <select style="width:100%;" name="first_color_filter">
-                                <option value="0">Основен цвят - всички</option>
-                                <option value="red">Червен</option>
-                                <option value="yellow">Жълт</option>
-                                <option value="green">Зелен</option>
-                            </select>
+                    <select style="width:100%;" name="first_color">
+                        <option value="0">Основен цвят - всички</option>
+                        <option value="white" @if(request()->has('first_color') AND request('first_color') == 'white') selected @endif>Бял</option>
+                        <option value="gray" @if(request()->has('first_color') AND request('first_color') == 'gray') selected @endif>Сив</option>
+                        <option value="black" @if(request()->has('first_color') AND request('first_color') == 'black') selected @endif>Черен</option>
+                        <option value="red" @if(request()->has('first_color') AND request('first_color') == 'red') selected @endif>Червен</option>
+                        <option value="yellow" @if(request()->has('first_color') AND request('first_color') == 'yellow') selected @endif>Жълт</option>
+                        <option value="green" @if(request()->has('first_color') AND request('first_color') == 'green') selected @endif>Зелен</option>
+                        <option value="blue" @if(request()->has('first_color') AND request('first_color') == 'blue') selected @endif>Син</option>
+                        <option value="brown" @if(request()->has('first_color') AND request('first_color') == 'brown') selected @endif>Кафяв</option>
+                    </select>
                     <div style="padding-bottom:10px;"></div>
-                    <select style="width:100%;" name="second_color_filter">
-                                <option value="0">Втори цвят - всички</option>
-                                <option value="red">Червен</option>
-                                <option value="yellow">Жълт</option>
-                                <option value="green">Зелен</option>
-                            </select>
+                    <select style="width:100%;" name="second_color">
+                        <option value="0">Втори цвят - всички</option>
+                        <option value="white" @if(request()->has('second_color') AND request('second_color') == 'white') selected @endif>Бял</option>
+                        <option value="gray" @if(request()->has('second_color') AND request('second_color') == 'gray') selected @endif>Сив</option>
+                        <option value="black" @if(request()->has('second_color') AND request('second_color') == 'black') selected @endif>Черен</option>
+                        <option value="red" @if(request()->has('second_color') AND request('second_color') == 'red') selected @endif>Червен</option>
+                        <option value="yellow" @if(request()->has('second_color') AND request('second_color') == 'yellow') selected @endif>Жълт</option>
+                        <option value="green" @if(request()->has('second_color') AND request('second_color') == 'green') selected @endif>Зелен</option>
+                        <option value="blue" @if(request()->has('second_color') AND request('second_color') == 'blue') selected @endif>Син</option>
+                        <option value="brown" @if(request()->has('second_color') AND request('second_color') == 'brown') selected @endif>Кафяв</option>
+                    </select>
                     <div style="padding-bottom:10px;"></div>
-                    <select style="width:100%;" name="age_filter">
-                                <option value="0">Възрастова група - всички</option>
-                                <option value="red">За деца</option>
-                                <option value="yellow">За възрастни</option>
-                            </select>
+                    <select style="width:100%;" name="age">
+                        <option value="0">Възрастова група - всички</option>
+                        <option value="child" @if(request()->has('age') AND request('age') == 'child') selected @endif>За деца</option>
+                        <option value="adult" @if(request()->has('age') AND request('age') == 'adult') selected @endif>За възрастни</option>
+                    </select>
                     <div style="padding-bottom:10px;"></div>
                     <select style="width:100%;" name="pol_filter">
                                 <option value="0">Пол - всички</option>
