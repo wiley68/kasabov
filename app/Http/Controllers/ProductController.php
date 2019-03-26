@@ -428,7 +428,9 @@ class ProductController extends Controller
                         }
                         $products = $products->whereIn($column, $holidays_in);
                     }else{
-                        $products = $products->where($column, request($column));
+                        if (request($column) !== 0){
+                            $products = $products->where($column, request($column));
+                        }
                     }
                 }
                 $queries[$column] = request($column);
