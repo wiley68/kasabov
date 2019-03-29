@@ -48,6 +48,25 @@ class ProductController extends Controller
             $send_free = $request->input('send_free');
             $send_free_id = $request->input('send_free_id');
             $available_for = $request->input('available_for');
+            $available_cities = [];
+            switch ($available_for) {
+                case 'country':
+                    $available_for_city = 0;
+                    break;
+                case 'city':
+                    $available_for_city = $request->input('available_for_city');
+                    break;
+                case 'cities':
+                    $available_for_city = 0;
+                    $available_cities = $request->input('available_for_cities');
+                    break;
+                case 'area':
+                    $available_for_city = $request->input('available_for_oblast');
+                    break;
+                default:
+                    $available_for_city = 0;
+                    break;
+            }
             $object = $request->input('object');
             if (empty($request->input('object_name'))){
                 $object_name = '';
@@ -118,6 +137,16 @@ class ProductController extends Controller
                 $product->image = '';
             }
             $product->save();
+            // Add city to cities table
+            if(!empty($available_cities)){
+                dd($available_cities);
+                foreach ($available_cities as $available_city) {
+                    $new_city = new ProductsCity();
+                    $new_city->product_id = $product->id;
+                    $new_city->city_id = $available_city;
+                    $new_city->save();
+                }
+            }
             // Add tags to tags table
             // Delete oll tags
             if (!empty($request->tags)){

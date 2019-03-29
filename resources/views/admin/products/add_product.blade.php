@@ -167,12 +167,9 @@
                             <div class="control-group">
                                 <label class="control-label">Изпраща се от</label>
                                 <div class="controls">
-                                    <select name="send_from_id" id="send_from_id" style="width:314px;">
-                                        <option value="0" selected>Избери населено място</option>
-                                        @foreach ($cities as $city)
-                                            <option value="{{ $city->id }}">{{ $city->city }}&nbsp;--&nbsp;{{ $city->oblast }}</option>
-                                        @endforeach
-                                    </select>
+                                    <input type="text" name="send_from_id_txt" id="send_from_id_txt" placeholder="Избери населено място" />
+                                    <input type="hidden" name="send_from_id" id="send_from_id" value="0" />
+                                    <a href="#choose_city_form" data-toggle="modal" title="Избери населено място" class="btn btn-success btn-mini">Избери</a>
                                 </div>
                             </div>
                             <div class="control-group">
@@ -205,11 +202,45 @@
                                 <label class="control-label">Доставя за:</label>
                                 <div class="controls">
                                     <select name="available_for" id="available_for" style="width:314px;">
-                            <option value="country" selected>Цялата страна</option>
-                            <option value="city">Населено място</option>
-                            <option value="cities">Населени места</option>
-                            <option value="area">Област</option>
-                        </select>
+                                        <option value="country" selected>Цялата страна</option>
+                                        <option value="city">Населено място</option>
+                                        <option value="cities">Населени места</option>
+                                        <option value="area">Област</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div id="available_for_city_div" class="control-group">
+                                <label class="control-label">Избери</label>
+                                <div class="controls">
+                                    <select name="available_for_city" id="available_for_city" style="width:314px;">
+                                        <option value="0" selected>Избери населено място</option>
+                                        @foreach ($cities as $city)
+                                            <option value="{{ $city->id }}">{{ $city->city }}&nbsp;--&nbsp;{{ $city->oblast }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div id="available_for_oblast_div" class="control-group">
+                                <label class="control-label">Избери</label>
+                                <div class="controls">
+                                    <select name="available_for_oblast" id="available_for_oblast" style="width:314px;">
+                                        <option value="0" selected>Избери област</option>
+                                        @foreach ($cities as $city)
+                                            @if($city->city === $city->oblast)
+                                            <option value="{{ $city->id }}">{{ $city->city }}</option>
+                                            @endif
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div id="available_for_cities_div" class="control-group">
+                                <label class="control-label">Избери</label>
+                                <div class="controls">
+                                    <select multiple name="available_for_cities" id="available_for_cities" style="width:314px;">
+                                        @foreach ($cities as $city)
+                                            <option value="{{ $city->id }}">{{ $city->city }}&nbsp;--&nbsp;{{ $city->oblast }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
                             <div class="control-group">
@@ -271,10 +302,69 @@
         </div>
     </div>
 </div>
+<!-- Choose city form -->
+<div id="choose_city_form" class="modal hide" style="width:900px;min-height:700px;">
+    <div class="modal-header">
+        <button data-dismiss="modal" class="close" type="button">×</button>
+        <h3>Избери населено място</h3>
+    </div>
+    <div class="modal-body" style="min-height:700px;">
+            <div class="container-fluid">
+                    <div class="row-fluid">
+                <table class="table table-bordered data-table">
+                        <thead>
+                          <tr>
+                            <th>Продукт №</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($cities as $city)
+                            <tr class="gradeX">
+                                <td>{{ $city->city }}</td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                      </table>
+                    </div>
+        </div>
+</div>
+    <div class="modal-footer"><a data-dismiss="modal" class="btn btn-inverse" href="#">Затвори</a> </div>
+</div>
 @endsection
 
 @section('scripts')
     <script>
+        function hideAll(){
+            $('#available_for_city_div').hide();
+            $('#available_for_oblast_div').hide();
+            $('#available_for_cities_div').hide();
+        }
+
+        hideAll();
+
+        $('#available_for').change(function(){
+            switch ($(this).val()) {
+                case 'country':
+                    hideAll();
+                    break;
+                case 'city':
+                    hideAll();
+                    $('#available_for_city_div').show();
+                    break;
+                case 'cities':
+                    hideAll();
+                    $('#available_for_cities_div').show();
+                    break;
+                case 'area':
+                    hideAll();
+                    $('#available_for_oblast_div').show();
+                    break;
+                default:
+                    hideAll();
+                    break;
+            }
+        });
+
 	    $('.textarea_editor').wysihtml5();
         // Add tags
         function isNullOrWhitespace( input ) {
@@ -294,5 +384,7 @@
             // Remove tag from products_tags table by ajax
             item.parentElement.remove();
         };
+        // Choose send_from_id
+
     </script>
 @stop
