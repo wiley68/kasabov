@@ -17,6 +17,7 @@ use App\City;
 use App\Holiday;
 use App\LandingPage;
 use Carbon\Carbon;
+use App\ProductsCity;
 
 class ProductController extends Controller
 {
@@ -58,7 +59,9 @@ class ProductController extends Controller
                     break;
                 case 'cities':
                     $available_for_city = 0;
-                    $available_cities = $request->input('available_for_cities');
+                    foreach ($request->input('available_for_cities') as $item) {
+                        $available_cities[] = $item;
+                    }
                     break;
                 case 'area':
                     $available_for_city = $request->input('available_for_oblast');
@@ -99,6 +102,7 @@ class ProductController extends Controller
             $product->send_free = $send_free;
             $product->send_free_id = $send_free_id;
             $product->available_for = $available_for;
+            $product->available_for_city = $available_for_city;
             $product->object = $object;
             $product->object_name = $object_name;
             $product->personalize = $personalize;
@@ -139,7 +143,6 @@ class ProductController extends Controller
             $product->save();
             // Add city to cities table
             if(!empty($available_cities)){
-                dd($available_cities);
                 foreach ($available_cities as $available_city) {
                     $new_city = new ProductsCity();
                     $new_city->product_id = $product->id;
@@ -244,6 +247,28 @@ class ProductController extends Controller
             $product->send_free = $request->input('send_free');
             $product->send_free_id = $request->input('send_free_id');
             $product->available_for = $request->input('available_for');
+            $available_cities = [];
+            switch ($product->available_for) {
+                case 'country':
+                    $available_for_city = 0;
+                    break;
+                case 'city':
+                    $available_for_city = $request->input('available_for_city');
+                    break;
+                case 'cities':
+                    $available_for_city = 0;
+                    foreach ($request->input('available_for_cities') as $item) {
+                        $available_cities[] = $item;
+                    }
+                    break;
+                case 'area':
+                    $available_for_city = $request->input('available_for_oblast');
+                    break;
+                default:
+                    $available_for_city = 0;
+                    break;
+            }
+            $product->available_for_city = $available_for_city;
             $product->object = $request->input('object');
             if (empty($request->input('object_name'))){
                 $product->object_name = '';
@@ -284,6 +309,22 @@ class ProductController extends Controller
                     $products_tag->save();
                 }
             }
+            // Add city to cities table
+            // Delete old cities
+            $products_cities_count = ProductsCity::where(['product_id'=>$product->id])->count();
+            if ($products_cities_count > 0){
+                ProductsCity::where(['product_id'=>$product->id])->delete();
+            }
+            // Add new cities
+            if(!empty($available_cities)){
+                foreach ($available_cities as $available_city) {
+                    $new_city = new ProductsCity();
+                    $new_city->product_id = $product->id;
+                    $new_city->city_id = $available_city;
+                    $new_city->save();
+                }
+            }
+
             return redirect('/admin/edit-product/'.$product->id)->with('flash_message_success', 'Успешно редактирахте продукта!');
         }
         $categories = Category::where(['parent_id'=>0])->get();
@@ -331,6 +372,12 @@ class ProductController extends Controller
                 }
                 $image->delete();
             }
+            // Delete products_cities
+            $productsCities = ProductsCity::where(['product_id'=>$id])->get();
+            foreach ($productsCities as $product_city) {
+                $product_city->delete();
+            }
+            // Delete product
             $product->delete();
             return redirect('/admin/view-products')->with('flash_message_success', 'Успешно изтрихте продукта!');
         }

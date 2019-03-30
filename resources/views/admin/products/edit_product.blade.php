@@ -1,6 +1,8 @@
 <?php use App\Category; ?>
 <?php use App\Holiday; ?>
 <?php use App\Tag; ?>
+<?php use App\City; ?>
+<?php use App\ProductsCity; ?>
 @extends('layouts.adminLayout.admin_design')
 @section('content')
 <script type="text/javascript">
@@ -190,12 +192,9 @@
                             <div class="control-group">
                                 <label class="control-label">Изпраща се от</label>
                                 <div class="controls">
-                                    <select name="send_from_id" id="send_from_id" style="width:314px;">
-                                        <option value="0" selected>Избери населено място</option>
-                                        @foreach ($cities as $city)
-                                            <option value="{{ $city->id }}" @if ($city->id === $product->send_from_id) selected @endif>{{ $city->city }}&nbsp;--&nbsp;{{ $city->oblast }}</option>
-                                        @endforeach
-                                    </select>
+                                    <input type="text" name="send_from_id_txt" id="send_from_id_txt" value="{{ City::where(['id'=>$product->send_from_id])->first()->city }}&nbsp;-&nbsp;{{ City::where(['id'=>$product->send_from_id])->first()->oblast }}" />
+                                    <input type="hidden" name="send_from_id" id="send_from_id" value="{{ $product->send_from_id }}" />
+                                    <a id="btn_send_from_id" href="#choose_city_form" data-toggle="modal" title="Избери населено място" class="btn btn-success btn-mini">Избери</a>
                                 </div>
                             </div>
                             <div class="control-group">
@@ -216,12 +215,9 @@
                             <div class="control-group">
                                 <label class="control-label">Важи за</label>
                                 <div class="controls">
-                                    <select name="send_free_id" id="send_free_id" style="width:314px;">
-                                        <option value="0" selected>Избери населено място</option>
-                                        @foreach ($cities as $city)
-                                            <option value="{{ $city->id }}" @if ($city->id === $product->send_free_id) selected @endif>{{ $city->city }}&nbsp;--&nbsp;{{ $city->oblast }}</option>
-                                        @endforeach
-                                    </select>
+                                    <input type="text" name="send_free_id_txt" id="send_free_id_txt" value="{{ City::where(['id'=>$product->send_free_id])->first()->city }}&nbsp;-&nbsp;{{ City::where(['id'=>$product->send_free_id])->first()->oblast }}" />
+                                    <input type="hidden" name="send_free_id" id="send_free_id" value="{{ $product->send_free_id }}" />
+                                    <a id="btn_send_free_id" href="#choose_city_form" data-toggle="modal" title="Избери населено място" class="btn btn-success btn-mini">Избери</a>
                                 </div>
                             </div>
                             <div class="control-group">
@@ -232,6 +228,50 @@
                                         <option value="city" @if ($product->available_for === 'city') selected @endif>Населено място</option>
                                         <option value="cities" @if ($product->available_for === 'cities') selected @endif>Населени места</option>
                                         <option value="area" @if ($product->available_for === 'area') selected @endif>Област</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div id="available_for_city_div" class="control-group">
+                                <label class="control-label">Избери</label>
+                                <div class="controls">
+                                    @php
+                                        if($product->available_for_city != 0){
+                                            $available_for_city_txt = City::where(['id'=>$product->available_for_city])->first()->city . ' - ' . City::where(['id'=>$product->available_for_city])->first()->oblast;
+                                        }else{
+                                            $available_for_city_txt = '';
+                                        }
+                                    @endphp
+                                    <input type="text" name="available_for_city_txt" id="available_for_city_txt" value="{{ $available_for_city_txt }}" />
+                                    <input type="hidden" name="available_for_city" id="available_for_city" value="{{ $product->available_for_city }}" />
+                                    <a id="btn_available_for_city" href="#choose_city_form" data-toggle="modal" title="Избери населено място" class="btn btn-success btn-mini">Избери</a>
+                                </div>
+                            </div>
+                            <div id="available_for_oblast_div" class="control-group">
+                                <label class="control-label">Избери</label>
+                                <div class="controls">
+                                    <select name="available_for_oblast" id="available_for_oblast" style="width:314px;">
+                                        <option value="0" selected>Избери област</option>
+                                        @foreach ($cities as $city)
+                                            @if($city->city === $city->oblast)
+                                            <option value="{{ $city->id }}" @if ($product->available_for_city === $city->id) selected @endif>{{ $city->city }}</option>
+                                            @endif
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div id="available_for_cities_div" class="control-group">
+                                <label class="control-label">Избери</label>
+                                <div class="controls">
+                                    <select multiple name="available_for_cities[ ]" id="available_for_cities" style="width:314px;">
+                                        @foreach ($cities as $city)
+                                            @php
+                                                $city_arr = [];
+                                                foreach (ProductsCity::where(['product_id'=>$product->id])->get() as $product_city) {
+                                                    $city_arr[] = $product_city->city_id;
+                                                }
+                                            @endphp
+                                            <option value="{{ $city->id }}" @if (in_array($city->id, $city_arr)) selected @endif>{{ $city->city }}&nbsp;--&nbsp;{{ $city->oblast }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>
@@ -309,11 +349,115 @@
         </div>
     </div>
 </div>
-@endsection
+<!-- Choose city form -->
+<div id="choose_city_form" class="modal hide" style="width:900px;min-height:560px;">
+        <div class="modal-header">
+            <button data-dismiss="modal" class="close" type="button">×</button>
+            <h3>Избери населено място</h3>
+        </div>
+        <div class="modal-body" style="min-height:560px;">
+            <div class="container-fluid">
+                <div class="row-fluid">
+                    <table id="table_city" class="table table-bordered data-table">
+                        <thead>
+                            <tr>
+                                <th>№</th>
+                                <th>Населено място</th>
+                                <th>Област</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($cities as $city)
+                            <tr class="gradeX">
+                                <td>{{ $city->id }}</td>
+                                <td>{{ $city->city }}</td>
+                                <td>{{ $city->oblast }}</td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button data-dismiss="modal" class="btn btn-primary" id="btn_select_city">Избери</button>
+            <a data-dismiss="modal" class="btn btn-inverse" href="#">Затвори</a>
+        </div>
+    </div>
+    @endsection
 
 @section('scripts')
     <script>
+        // Save clicked ciry choose button
+        var city_btn_click = 0;
+
+        // Select city row
+        $('#table_city tbody').on( 'click', 'tr', function () {
+    		if ( $(this).hasClass('selected_tr') ) {
+	    		$(this).removeClass('selected_tr');
+	    	} else {
+			    $('#table_city tbody tr').removeClass('selected_tr');
+			    $(this).addClass('selected_tr');
+		    }
+	    });
+
+        // Hide all city chooses
+        function hideAll(){
+            switch ($('#available_for').val()) {
+                case 'country':
+                    $('#available_for_city_div').hide();
+                    $('#available_for_oblast_div').hide();
+                    $('#available_for_cities_div').hide();
+                    break;
+                case 'city':
+                    $('#available_for_oblast_div').hide();
+                    $('#available_for_cities_div').hide();
+                    $('#available_for_city_div').show();
+                    break;
+                case 'cities':
+                    $('#available_for_city_div').hide();
+                    $('#available_for_oblast_div').hide();
+                    $('#available_for_cities_div').show();
+                    break;
+                case 'area':
+                    $('#available_for_city_div').hide();
+                    $('#available_for_cities_div').hide();
+                    $('#available_for_oblast_div').show();
+                    break;
+                default:
+                    $('#available_for_city_div').hide();
+                    $('#available_for_oblast_div').hide();
+                    $('#available_for_cities_div').hide();
+                    break;
+            }
+        }
+        hideAll();
+        $('#available_for').change(function(){
+            switch ($(this).val()) {
+                case 'country':
+                    hideAll();
+                    break;
+                case 'city':
+                    hideAll();
+                    $('#available_for_city_div').show();
+                    break;
+                case 'cities':
+                    hideAll();
+                    $('#available_for_cities_div').show();
+                    break;
+                case 'area':
+                    hideAll();
+                    $('#available_for_oblast_div').show();
+                    break;
+                default:
+                    hideAll();
+                    break;
+            }
+        });
+
+        // Add text editor
 	    $('.textarea_editor').wysihtml5();
+
         // Add tags
         function isNullOrWhitespace( input ) {
             if (typeof input === 'undefined' || input == null) return true;
@@ -348,6 +492,53 @@
                 divTags.innerHTML += '<p><span class="label label-success">'+tagAdd.value+'</span><input type="hidden" name="tags[]" value="'+tagAdd.value+'"> <span onclick="removeTag(this);" style="color:red;cursor:pointer;">Изтрий</span></p>';
                 tagAdd.value = '';
             }
+        });
+
+        // Choose send_from_id
+        $('#btn_send_from_id').click(function(){
+            city_btn_click = 1;
+            $('#table_city tr').each(function(){
+                $(this).removeClass('selected_tr');
+            });
+        });
+        $('#btn_send_free_id').click(function(){
+            city_btn_click = 2;
+            $('#table_city tr').each(function(){
+                $(this).removeClass('selected_tr');
+            });
+        });
+        $('#btn_available_for_city').click(function(){
+            city_btn_click = 3;
+            $('#table_city tr').each(function(){
+                $(this).removeClass('selected_tr');
+            });
+        });
+        $('#btn_select_city').click(function(){
+            if (city_btn_click == 1){
+                $('#send_from_id').val(('tr', $('.selected_tr')).find("td:nth-child(1)").html());
+                if (('tr', $('.selected_tr')).find("td:nth-child(2)").html() == ('tr', $('.selected_tr')).find("td:nth-child(3)").html()){
+                    $('#send_from_id_txt').val(('tr', $('.selected_tr')).find("td:nth-child(2)").html());
+                }else{
+                    $('#send_from_id_txt').val(('tr', $('.selected_tr')).find("td:nth-child(2)").html() + ' - ' + ('tr', $('.selected_tr')).find("td:nth-child(3)").html());
+                }
+            }
+            if (city_btn_click == 2){
+                $('#send_free_id').val(('tr', $('.selected_tr')).find("td:nth-child(1)").html());
+                if (('tr', $('.selected_tr')).find("td:nth-child(2)").html() == ('tr', $('.selected_tr')).find("td:nth-child(3)").html()){
+                    $('#send_free_id_txt').val(('tr', $('.selected_tr')).find("td:nth-child(2)").html());
+                }else{
+                    $('#send_free_id_txt').val(('tr', $('.selected_tr')).find("td:nth-child(2)").html() + ' - ' + ('tr', $('.selected_tr')).find("td:nth-child(3)").html());
+                }
+            }
+            if (city_btn_click == 3){
+                $('#available_for_city').val(('tr', $('.selected_tr')).find("td:nth-child(1)").html());
+                if (('tr', $('.selected_tr')).find("td:nth-child(2)").html() == ('tr', $('.selected_tr')).find("td:nth-child(3)").html()){
+                    $('#available_for_city_txt').val(('tr', $('.selected_tr')).find("td:nth-child(2)").html());
+                }else{
+                    $('#available_for_city_txt').val(('tr', $('.selected_tr')).find("td:nth-child(2)").html() + ' - ' + ('tr', $('.selected_tr')).find("td:nth-child(3)").html());
+                }
+            }
+            city_btn_click = 0;
         });
     </script>
 @stop
