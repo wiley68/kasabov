@@ -63,9 +63,9 @@
                                     <div class="form-group inputwithicon">
                                         <div class="select">
                                             <select>
-                                                <option value="0">Избери населено място</option>
+                                                <option value="0">Избери област</option>
                                                 @foreach ($cities as $city)
-                                                    <option value="{{ $city->id }}">{{ $city->city }}&nbsp;--&nbsp;{{ $city->oblast }}</option>
+                                                    <option value="{{ $city->id }}">{{ $city->city }}</option>
                                                 @endforeach
                                             </select>
                                         </div>
@@ -75,7 +75,7 @@
                                         <div class="select">
                                             <select>
                                                 <option value="0">Избери категория</option>
-                                                @foreach ($categories as $category)
+                                                @foreach ($categories_top as $category)
                                                     <option value="{{ $category->id }}">{{ $category->name }}</option>
                                                 @endforeach
                                             </select>
