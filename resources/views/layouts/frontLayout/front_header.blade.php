@@ -10,18 +10,26 @@
                     <ul class="navbar-nav mr-auto w-100 justify-content-left">
                         @for ($i = 0; $i < 5; $i++)
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="{{ route('products', ['filter'=>'yes', 'holiday_id'=>$holidays[$i]->id]) }}" aria-haspopup="true" aria-expanded="false">
+                            @php
+                                $holiday_ids = [];
+                                $holiday_ids[] = $holidays[$i]->id;
+                            @endphp
+                            <a class="nav-link dropdown-toggle" href="{{ route('products', ['holiday_id'=>$holiday_ids]) }}" aria-haspopup="true" aria-expanded="false">
                                 {{ $holidays[$i]->name }}<i class="lni-chevron-down"></i>
                             </a>
                             <ul class="dropdown-menu">
                                 @foreach (Holiday::where(['parent_id'=>$holidays[$i]->id])->get() as $item)
-                                <li><a class="dropdown-item" href="{{ route('products', ['filter'=>'yes', 'holiday_id'=>$item->id]) }}">{{ $item->name }}</a></li>
+                                @php
+                                    $item_ids = [];
+                                    $item_ids[] = $item->id;
+                                @endphp
+                                <li><a class="dropdown-item" href="{{ route('products', ['holiday_id'=>$item_ids]) }}">{{ $item->name }}</a></li>
                                 @endforeach
                             </ul>
                         </li>
                         @endfor
                         <li class="nav-item">
-                            <a class="nav-link" href="#" aria-expanded="false">Всички празници ...</a>
+                            <a class="nav-link" href="{{ route('products') }}" aria-expanded="false">Всички празници ...</a>
                         </li>
                     </ul>
                     <div class="header-top-right float-right">

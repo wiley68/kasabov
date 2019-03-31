@@ -477,10 +477,7 @@ class ProductController extends Controller
         $queries = [];
         $columns = [
             'category_id',
-            'holiday_id',
-            'first_color',
-            'second_color',
-            'age'
+            'holiday_id'
         ];
         foreach ($columns as $column) {
             if (request()->has($column)){
