@@ -39,6 +39,7 @@
 <script src="{{ asset('js/backend_js/bootstrap-wysihtml5.js') }}"></script>
 <script src="{{ asset('js/backend_js/matrix.tables.js') }}"></script>
 <script src="{{ asset('js/backend_js/sweetalert.min.js') }}"></script>
+
 @yield('scripts')
 </body>
 </html>
