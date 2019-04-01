@@ -46,12 +46,6 @@
                             <div class="row">
                                 @foreach ($products as $product)
                                 @php
-                                $category_parent_id = Category::where(['id'=>$product->category_id])->first()->parent_id;
-                                if ($category_parent_id !== 0){
-                                    $category_parent = Category::where(['id'=>$category_parent_id])->first()->name;
-                                }else{
-                                    $category_parent = Category::where(['id'=>$product->category_id])->first()->name;
-                                }
                                 if(!empty($product->image)){
                                     $image = asset('/images/backend_images/products/large/'.$product->image);
                                 }else{
@@ -78,7 +72,7 @@
                                                         <a href="#"><i class="lni-user"></i> {{ User::where(['id'=>$product->user_id])->first()->name }}</a>
                                                     </div>
                                                     <div class="listing-category">
-                                                        <a href="#"><i class="{{ Category::where(['id'=>$product->category_id])->first()->icon }}"></i>{{ $category_parent }} </a>
+                                                        <a href="#"><i class="{{ Category::where(['id'=>$product->category_id])->first()->icon }}"></i>{{ Category::where(['id'=>$product->category_id])->first()->name }} </a>
                                                     </div>
                                                 </div>
                                             </div>

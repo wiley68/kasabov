@@ -12,12 +12,6 @@
 @extends('layouts.frontLayout.front_design')
 @section('content')
 @php
-$category_parent_id = Category::where(['id'=>$product->category_id])->first()->parent_id;
-if ($category_parent_id !== 0){
-    $category_parent = Category::where(['id'=>$category_parent_id])->first()->name;
-}else{
-    $category_parent = Category::where(['id'=>$product->category_id])->first()->name;
-}
 if(!empty($product->image)){
     $image = asset('/images/backend_images/products/large/'.$product->image);
 }else{
@@ -63,7 +57,7 @@ if(!empty($product->image)){
                             <li><i class="lni-check-mark-circle"></i> Номер: {{ $product->id }}</li>
                             <li><i class="lni-check-mark-circle"></i> Код: {{ $product->product_code }}</li>
                             <li><i class="lni-check-mark-circle"></i> Наименование: {{ $product->product_name }}</li>
-                            <li><i class="lni-check-mark-circle"></i> Категория: <i class="{{ Category::where(['id'=>$product->category_id])->first()->icon }}"></i>&nbsp;{{ $category_parent }}</li>
+                            <li><i class="lni-check-mark-circle"></i> Категория: <i class="{{ Category::where(['id'=>$product->category_id])->first()->icon }}"></i>&nbsp;{{ Category::where(['id'=>$product->category_id])->first()->name }}</li>
                             <li><i class="lni-check-mark-circle"></i> Празник: {{ HolidayController::getHolidayById($product->holiday_id) }}</li>
                             <li><i class="lni-check-mark-circle"></i> Цена: {{ $product->price }}</li>
                             <li><i class="lni-check-mark-circle"></i> Основен цвят: {{ $product->first_color }}</li>
@@ -144,7 +138,7 @@ if(!empty($product->image)){
                         <div class="float-left">
                             <ul class="advertisement">
                                 <li>
-                                    <p><strong><i class="lni-folder"></i> Категория:</strong> <a href="#">{{ $category_parent }}</a></p>
+                                    <p><strong><i class="lni-folder"></i> Категория:</strong> <a href="#">{{ Category::where(['id'=>$product->category_id])->first()->name }}</a></p>
                                 </li>
                                 <li>
                                     <p><strong><i class="lni-archive"></i> Състояние:</strong> <a href="#">{{ $condition_txt }}</a></p>

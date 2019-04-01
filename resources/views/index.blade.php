@@ -1,4 +1,5 @@
 <?php use App\Category; ?>
+<?php use App\Holiday; ?>
 <?php use App\User; ?>
 <?php use App\City; ?>
 <?php use App\Product; ?>
@@ -65,18 +66,10 @@
                 </div>
             </div>
             @foreach ($latest as $item)
-            @php
-                $category_parent_id = Category::where(['id'=>$item->category_id])->first()->parent_id;
-                if ($category_parent_id !== 0){
-                    $category_parent = Category::where(['id'=>$category_parent_id])->first()->name;
-                }else{
-                    $category_parent = Category::where(['id'=>$item->category_id])->first()->name;
-                }
-            @endphp
             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4">
                 <div class="featured-box">
                     <figure>
-                        <div class="homes-tag featured">{{ Category::where(['id'=>$item->category_id])->first()->name }}</div>
+                        <div class="homes-tag featured">{{ Holiday::where(['id'=>$item->holiday_id])->first()->name }}</div>
                         <div class="homes-tag rent"><i class="lni-heart"></i> 202</div>
                         <span class="price-save">{{ $item->price }}</span>
                         <a href="#"><img class="img-fluid" src="{{ asset('/images/backend_images/products/small/'.$item->image) }}" alt=""></a>
@@ -93,7 +86,7 @@
                                     <a href="#"><i class="lni-user"></i> {{ User::where(['id'=>$item->user_id])->first()->name }}</a>
                                 </div>
                                 <div class="listing-category">
-                                    <a href="#"><i class="{{ Category::where(['id'=>$item->category_id])->first()->icon }}"></i>{{ $category_parent }}</a>
+                                    <a href="#"><i class="{{ Category::where(['id'=>$item->category_id])->first()->icon }}"></i>{{ Category::where(['id'=>$item->category_id])->first()->name }}</a>
                                 </div>
                             </div>
                         </div>
@@ -124,12 +117,12 @@
                 <div id="new-products" class="owl-carousel owl-theme">
                     @foreach ($featured_products as $featured_product)
                     @php
-                        $featured_category_parent_id = Category::where(['id'=>$featured_product->category_id])->first()->parent_id;
-                        if ($featured_category_parent_id !== 0){
-                            $featured_category_parent = Category::where(['id'=>$featured_category_parent_id])->first()->name;
-                        }else{
-                            $featured_category_parent = Category::where(['id'=>$featured_product->category_id])->first()->name;
-                        }
+                        //$featured_category_parent_id = Category::where(['id'=>$featured_product->category_id])->first()->parent_id;
+                        //if ($featured_category_parent_id !== 0){
+                        //    $featured_category_parent = Category::where(['id'=>$featured_category_parent_id])->first()->name;
+                        //}else{
+                        //    $featured_category_parent = Category::where(['id'=>$featured_product->category_id])->first()->name;
+                        //}
                     @endphp
                     <div class="item">
                         <div class="product-item">
@@ -148,7 +141,7 @@
                             <div class="product-content-inner">
                                 <div class="product-content">
                                     <h3 class="product-title"><a href="ads-details.html">{{ $featured_product->product_name }}</a></h3>
-                                    <span>{{ $featured_category_parent }} / {{ Category::where(['id'=>$featured_product->category_id])->first()->name }}</span>
+                                    <span>{{ Category::where(['id'=>$featured_product->category_id])->first()->name }} / {{ Category::where(['id'=>$featured_product->category_id])->first()->name }}</span>
                                     <div class="icon">
                                         <span><i class="lni-bookmark"></i></span>
                                         <span><i class="lni-heart"></i></span>
