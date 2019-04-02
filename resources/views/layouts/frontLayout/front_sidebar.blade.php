@@ -67,45 +67,47 @@
                         <option value="adult" @if(request()->has('age') AND request('age') == 'adult') selected @endif>За възрастни</option>
                     </select>
                     <div style="padding-bottom:10px;"></div>
-                    <select style="width:100%;" name="pol_filter">
-                                <option value="0">Пол - всички</option>
-                                <option value="red">Мъж</option>
-                                <option value="yellow">Жена</option>
-                            </select>
+                    <select style="width:100%;" name="pol">
+                        <option value="0">Пол - всички</option>
+                        <option value="man" @if(request()->has('pol') AND request('pol') == 'man') selected @endif>Мъж</option>
+                        <option value="woman" @if(request()->has('pol') AND request('pol') == 'woman') selected @endif>Жена</option>
+                    </select>
                     <div style="padding-bottom:10px;"></div>
-                    <select style="width:100%;" name="condition_filter">
-                                <option value="0">Състояние - всички</option>
-                                <option value="red">Нов</option>
-                                <option value="yellow">Употребяван</option>
-                            </select>
+                    <select style="width:100%;" name="condition">
+                        <option value="0">Състояние - всички</option>
+                        <option value="new" @if(request()->has('condition') AND request('condition') == 'new') selected @endif>Нов</option>
+                        <option value="old" @if(request()->has('condition') AND request('condition') == 'old') selected @endif>Употребяван</option>
+                    </select>
                     <div style="padding-bottom:10px;"></div>
                     <select style="width:100%;" name="send_id_filter">
-                                <option value="0">Изпраща се с - всички</option>
-                                @foreach ($speditors as $speditor)
-                                    <option value="{{ $speditor->id }}">{{ $speditor->name }}</option>
-                                @endforeach
-                            </select>
+                        <option value="0">Изпраща се с - всички</option>
+                        @foreach ($speditors as $speditor)
+                        <option value="{{ $speditor->id }}">{{ $speditor->name }}</option>
+                        @endforeach
+                    </select>
                     <div style="padding-bottom:10px;"></div>
-                    <select style="width:100%;" name="send_free_filter">
-                                <option value="0">Безплатна дост. - Да , Не</option>
-                                <option value="red">Да</option>
-                                <option value="yellow">Не</option>
-                            </select>
+                    <select style="width:100%;" name="send_free">
+                        <option value=0>Безплатна дост. - Да , Не</option>
+                        <option value=1 @if(request()->has('send_free') AND request('send_free') == 1) selected @endif>Да</option>
+                        <option value=2 @if(request()->has('send_free') AND request('send_free') == 2) selected @endif>Не</option>
+                    </select>
                     <div style="padding-bottom:10px;"></div>
-                    <select style="width:100%;" name="object_filter">
-                                <option value="0">Може ли да се вземе от обект</option>
-                                <option value="red">Да</option>
-                                <option value="yellow">Не</option>
-                            </select>
+                    <select style="width:100%;" name="object">
+                        <option value=0>Може ли да се вземе от обект</option>
+                        <option value=1 @if(request()->has('object') AND request('object') == 1) selected @endif>Да</option>
+                        <option value=2 @if(request()->has('object') AND request('object') == 2) selected @endif>Не</option>
+                    </select>
                     <div style="padding-bottom:10px;"></div>
-                    <select style="width:100%;" name="send_free_filter">
-                                <option value="0">Персонализиране - Да , Не</option>
-                                <option value="red">Да</option>
-                                <option value="yellow">Не</option>
-                            </select>
+                    <select style="width:100%;" name="personalize">
+                        <option value=0>Персонализиране - Да , Не</option>
+                        <option value=1 @if(request()->has('personalize') AND request('personalize') == 1) selected @endif>Да</option>
+                        <option value=2 @if(request()->has('personalize') AND request('personalize') == 2) selected @endif>Не</option>
+                    </select>
                 </ul>
                 <div style="padding-bottom:10px;"></div>
                 <input type="submit" value="Покажи резултата" class="btn btn-primary" />
+                <div style="padding-bottom:5px;"></div>
+                <a href={{ route('products') }} class="btn btn-danger">Нулирай филтъра</a>
             </form>
         </div>
     </div>

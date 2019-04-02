@@ -480,7 +480,13 @@ class ProductController extends Controller
             'category_id',
             'holiday_id',
             'first_color',
-            'second_color'
+            'second_color',
+            'age',
+            'pol',
+            'condition',
+            'send_free',
+            'object',
+            'personalize'
         ];
         foreach ($columns as $column) {
             if (request()->has($column)){
@@ -504,9 +510,19 @@ class ProductController extends Controller
                         }
                         $products = $products->whereIn($column, $holidays_in);
                     }else{
-                        if (request($column) != '0'){
-                            if (($column == 'first_color') || ($column == 'second_color')){
+                        if (
+                            ($column == 'first_color') ||
+                            ($column == 'second_color') ||
+                            ($column == 'age') ||
+                            ($column == 'pol') ||
+                            ($column == 'condition')
+                        ){
+                            if (request($column) != '0'){
                                 $products = $products->where($column, 'like', request($column));
+                            }
+                        }else{
+                            if (($column == 'send_free') || ($column == 'object') || ($column == 'personalize')){
+                                $products = $products->where($column, intval(request($column)));
                             }
                         }
                     }
