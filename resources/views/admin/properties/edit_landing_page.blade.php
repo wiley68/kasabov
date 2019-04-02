@@ -15,29 +15,14 @@
                     <div class="widget-box">
                         <div class="widget-title">
                             <ul class="nav nav-tabs">
-                                <li class="active"><a data-toggle="tab" href="#header_tab">Заглавна част</a></li>
-                                <li><a data-toggle="tab" href="#category_tab">Категории</a></li>
+                                <li class="active"><a data-toggle="tab" href="#category_tab">Категории</a></li>
                                 <li><a data-toggle="tab" href="#producti_tab">Платени продукти</a></li>
                                 <li><a data-toggle="tab" href="#reklama_tab">Рекламна част</a></li>
                                 <li><a data-toggle="tab" href="#footer_tab">Футър част</a></li>
                             </ul>
                         </div>
                         <div class="widget-content tab-content">
-                            <div id="header_tab" class="tab-pane active">
-                                <div class="control-group">
-                                    <label class="control-label">Главно заглавие</label>
-                                    <div class="controls">
-                                        <input type="text" name="header_title" id="header_title" maxlength="48" value="{{ $property->header_title }}">
-                                    </div>
-                                </div>
-                                <div class="control-group">
-                                    <label class="control-label">Главно под-заглавие</label>
-                                    <div class="controls">
-                                        <input type="text" name="header_subtitle" id="header_subtitle" maxlength="128" style="width:800px;" value="{{ $property->header_subtitle }}">
-                                    </div>
-                                </div>
-                            </div>
-                            <div id="category_tab" class="tab-pane">
+                            <div id="category_tab" class="tab-pane active">
                                 <div class="control-group">
                                     <label class="control-label">Категории заглавие</label>
                                     <div class="controls">

@@ -15,8 +15,6 @@ class CreateLandingPagesTable extends Migration
     {
         Schema::create('landing_pages', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('header_title', 48)->nullable();
-            $table->string('header_subtitle', 128)->nullable();
             $table->string('category_title', 48)->nullable();
             $table->string('best_title', 48)->nullable();
             $table->string('best_subtitle', 128)->nullable();

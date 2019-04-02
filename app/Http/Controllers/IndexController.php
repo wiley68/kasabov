@@ -47,8 +47,6 @@ class IndexController extends Controller
     public function editLandingPage(Request $request){
         $property = LandingPage::first();
         if ($request->isMethod('post')){
-            $property->header_title = $request->input('header_title');
-            $property->header_subtitle = $request->input('header_subtitle');
             $property->category_title = $request->input('category_title');
             $property->best_title = $request->input('best_title');
             $property->best_subtitle = $request->input('best_subtitle');

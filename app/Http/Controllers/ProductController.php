@@ -471,13 +471,16 @@ class ProductController extends Controller
     }
 
     public function frontViewProducts(){
+        //dd(request());
         // Filter products result
         $products = new Product;
         $paginate = 8;
         $queries = [];
         $columns = [
             'category_id',
-            'holiday_id'
+            'holiday_id',
+            'first_color',
+            'second_color'
         ];
         foreach ($columns as $column) {
             if (request()->has($column)){
@@ -501,8 +504,10 @@ class ProductController extends Controller
                         }
                         $products = $products->whereIn($column, $holidays_in);
                     }else{
-                        if (request($column) !== 0){
-                            $products = $products->where($column, request($column));
+                        if (request($column) != '0'){
+                            if (($column == 'first_color') || ($column == 'second_color')){
+                                $products = $products->where($column, 'like', request($column));
+                            }
                         }
                     }
                 }

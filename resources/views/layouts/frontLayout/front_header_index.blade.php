@@ -52,8 +52,8 @@
             <div class="row justify-content-center">
                 <div class="col-md-12 col-lg-9 col-xs-12 text-center">
                     <div class="contents">
-                        <h1 class="head-title">{{ $property->header_title }} <span class="year"><a href="{{ route('index') }}">PartyBox</a></span></h1>
-                        <p>{{ $property->header_subtitle }}</p>
+                        <h1 class="head-title"><a href="{{ route('index') }}"><img src="{{ asset('images/backend_images/logo.png') }}" alt="Logo" /></a> <img src="{{ asset('images/backend_images/logo1.png') }}" alt="Logo" /></a> <img src="{{ asset('images/backend_images/logo2.png') }}" alt="Logo" /></a></h1>
+                        <h5>Всичко за твоето парти на едно място</h5>
                         <div class="search-bar">
                             <div class="search-inner">
                                 <form class="search-form">
