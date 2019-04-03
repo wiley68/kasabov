@@ -155,5 +155,25 @@
             window.location = url + '?filter=yes' + sort_by_url + sort_url;
         }
     });
+
+    // On change price range filter
+    $('#min_price').on('input', function () {
+        $('#min_price_current').html(parseFloat($(this).val()).toFixed(2) + '{{ Config::get('settings.currency') }}');
+        min_price_current = parseFloat($(this).val());
+        max_price_current = parseFloat($('#max_price').val());
+        if (min_price_current > max_price_current){
+            $('#max_price').val(min_price_current);
+            $('#max_price_current').html(max_price_current.toFixed(2) + '{{ Config::get('settings.currency') }}');
+        }
+    });
+    $('#max_price').on('input', function () {
+        $('#max_price_current').html(parseFloat($(this).val()).toFixed(2) + '{{ Config::get('settings.currency') }}');
+        min_price_current = parseFloat($('#min_price').val());
+        max_price_current = parseFloat($(this).val());
+        if (min_price_current > max_price_current){
+            $('#min_price').val(max_price_current);
+            $('#min_price_current').html(min_price_current.toFixed(2) + '{{ Config::get('settings.currency') }}');
+        }
+    });
 </script>
 @endsection

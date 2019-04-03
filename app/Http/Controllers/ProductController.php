@@ -471,7 +471,8 @@ class ProductController extends Controller
     }
 
     public function frontViewProducts(){
-        //dd(request());
+        //dd(request('min_price'));
+        //die();
         // Filter products result
         $products = new Product;
         $paginate = 8;
@@ -489,6 +490,8 @@ class ProductController extends Controller
         $send_free = 0;
         $object = 0;
         $personalize = 0;
+        $min_price = 0;
+        $max_price = 0;
 
         // Get holiday requests
         if (!empty(request('holiday_id'))){
@@ -632,6 +635,30 @@ class ProductController extends Controller
             }
         }
 
+        // Get min_price requests
+        if (!empty(request('min_price'))){
+            if (request('min_price') != 0){
+                // Get min_price request var
+                $min_price = request('min_price');
+                // filter products
+                $products = $products->where('price', '>=', $min_price);
+                // save queries
+                $queries['min_price'] = request('min_price');
+            }
+        }
+
+        // Get max_price requests
+        if (!empty(request('max_price'))){
+            if (request('max_price') != 0){
+                // Get max_price request var
+                $max_price = request('max_price');
+                // filter products
+                $products = $products->where('price', '<=', $max_price);
+                // save queries
+                $queries['max_price'] = request('max_price');
+            }
+        }
+
         // Sorting products
         if (request()->has('sort')){
             if (request()->has('sort_by')){
@@ -653,6 +680,8 @@ class ProductController extends Controller
         $categories = Category::where(['parent_id'=>0])->get();
         // Add speditors
         $speditors = Speditor::all();
+        // Get max price
+        $max_price_filter = $products->max('price');
 
         return view('/front/view_products')->with([
             'holidays'=>$holidays,
@@ -661,7 +690,8 @@ class ProductController extends Controller
             'products'=>$products,
             'all_products_count'=>$all_products_count,
             'paginate'=>$paginate,
-            'speditors'=>$speditors
+            'speditors'=>$speditors,
+            'max_price_filter'=>$max_price_filter
         ]);
     }
 

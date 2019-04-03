@@ -32,10 +32,28 @@
                     @endforeach
                     <div style="padding-bottom:10px;"></div>
                     <!-- Price filter -->
-                    <p>Минимална цена: 0 - 20000</p>
-                    <input type="range" min="0" max="20000" value="1000">
-                    <p>Максимална цена: 0 - 20000</p>
-                    <input type="range" min="0" max="20000" value="1000">
+                    @php
+                        if(request()->has('min_price')){
+                            $min_price = request('min_price');
+                        }else{
+                            $min_price = 0;
+                        }
+                        if(request()->has('max_price')){
+                            if ($max_price_filter < request('max_price')){
+                                $max_price = $max_price_filter;
+                            }else{
+                                $max_price = request('max_price');
+                            }
+                        }else{
+                            $max_price = 0;
+                        }
+                    @endphp
+                    <p>Мин. цена: 0 - {{ number_format($max_price_filter, 2, '.', '') }}{{ Config::get('settings.currency') }}</p>
+                    <p>(<span id="min_price_current">{{ number_format($min_price, 2, '.', '') }} {{ Config::get('settings.currency') }}</span>)</p>
+                    <input id="min_price" name="min_price" type="range" min="0" max="{{ $max_price_filter }}" value="{{ $min_price }}">
+                    <p>Макс. цена: 0 - {{ number_format($max_price_filter, 2, '.', '') }}{{ Config::get('settings.currency') }}</p>
+                    <p>(<span id="max_price_current">{{ number_format($max_price, 2, '.', '') }} {{ Config::get('settings.currency') }}</span>)</p>
+                    <input id="max_price" name="max_price" type="range" min="0" max="{{ $max_price_filter }}" value="{{ $max_price }}">
                     <div style="padding-bottom:10px;"></div>
                     <select style="width:100%;" name="first_color">
                         <option value="0">Основен цвят - всички</option>
@@ -117,7 +135,6 @@
     <div class="widget">
         <h4 class="widget-title">Advertisement</h4>
         <div class="add-box">
-            <img class="img-fluid" src="assets/img/img1.jpg" alt="">
         </div>
     </div>
 </aside>

@@ -43,7 +43,6 @@
 <script>
     $(document).ready(function() {
         $('select').select2();
-        $( "#price_slider" ).slider();
     });
 </script>
 <!-- index controller -->
