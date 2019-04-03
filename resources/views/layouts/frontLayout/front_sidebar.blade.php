@@ -70,6 +70,7 @@
                     <div style="padding-bottom:10px;"></div>
                     <select style="width:100%;" name="pol">
                         <option value="0">Пол - всички</option>
+                        <option value="any" @if(request()->has('pol') AND request('pol') == 'any') selected @endif>Без значение</option>
                         <option value="man" @if(request()->has('pol') AND request('pol') == 'man') selected @endif>Мъж</option>
                         <option value="woman" @if(request()->has('pol') AND request('pol') == 'woman') selected @endif>Жена</option>
                     </select>
@@ -80,10 +81,10 @@
                         <option value="old" @if(request()->has('condition') AND request('condition') == 'old') selected @endif>Употребяван</option>
                     </select>
                     <div style="padding-bottom:10px;"></div>
-                    <select style="width:100%;" name="send_id_filter">
+                    <select style="width:100%;" name="send_id">
                         <option value="0">Изпраща се с - всички</option>
                         @foreach ($speditors as $speditor)
-                        <option value="{{ $speditor->id }}">{{ $speditor->name }}</option>
+                        <option value="{{ $speditor->id }}" @if(request()->has('send_id') AND request('send_id') == $speditor->id) selected @endif>{{ $speditor->name }}</option>
                         @endforeach
                     </select>
                     <div style="padding-bottom:10px;"></div>

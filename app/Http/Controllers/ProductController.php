@@ -483,6 +483,12 @@ class ProductController extends Controller
         $first_color = 'white';
         $second_color = 'white';
         $age = 'any';
+        $pol = 'any';
+        $condition = 'new';
+        $send_id = '0';
+        $send_free = 0;
+        $object = 0;
+        $personalize = 0;
 
         // Get holiday requests
         if (!empty(request('holiday_id'))){
@@ -554,62 +560,77 @@ class ProductController extends Controller
             }
         }
 
-        /*
-        $columns = [
-            'category_id',
-            'holiday_id',
-            'first_color',
-            'second_color',
-            'age',
-            'pol',
-            'condition',
-            'send_free',
-            'object',
-            'personalize'
-        ];
-        foreach ($columns as $column) {
-            if (request()->has($column)){
-                if ($column == 'category_id'){
-                    foreach (request($column) as $category_id) {
-                        $categories_parent = Category::where(['parent_id'=>$category_id])->get();
-                        $categories_in[] = $category_id;
-                        foreach ($categories_parent as $category_parent) {
-                            $categories_in[] = $category_parent->id;
-                        }
-                    }
-                    $products = $products->whereIn($column, $categories_in);
-                }else{
-                    if ($column == 'holiday_id'){
-                        foreach (request($column) as $holiday_id) {
-                            $holidays_parent = Holiday::where(['parent_id'=>$holiday_id])->get();
-                            $holidays_in[] = $holiday_id;
-                            foreach ($holidays_parent as $holiday_parent) {
-                                $holidays_in[] = $holiday_parent->id;
-                            }
-                        }
-                        $products = $products->whereIn($column, $holidays_in);
-                    }else{
-                        if (
-                            ($column == 'first_color') ||
-                            ($column == 'second_color') ||
-                            ($column == 'age') ||
-                            ($column == 'pol') ||
-                            ($column == 'condition')
-                        ){
-                            if (request($column) != '0'){
-                                $products = $products->where($column, 'like', request($column));
-                            }
-                        }else{
-                            if (($column == 'send_free') || ($column == 'object') || ($column == 'personalize')){
-                                $products = $products->where($column, intval(request($column)));
-                            }
-                        }
-                    }
-                }
-                $queries[$column] = request($column);
+        // Get pol requests
+        if (!empty(request('pol'))){
+            if (request('pol') != '0'){
+                // Get pol request var
+                $pol = request('pol');
+                // filter products
+                $products = $products->where('pol', 'like', $pol);
+                // save queries
+                $queries['pol'] = request('pol');
             }
         }
-        */
+
+        // Get condition requests
+        if (!empty(request('condition'))){
+            if (request('condition') != '0'){
+                // Get condition request var
+                $condition = request('condition');
+                // filter products
+                $products = $products->where('condition', 'like', $condition);
+                // save queries
+                $queries['condition'] = request('condition');
+            }
+        }
+
+        // Get send_id requests
+        if (!empty(request('send_id'))){
+            if (request('send_id') != '0'){
+                // Get send_id request var
+                $send_id = request('send_id');
+                // filter products
+                $products = $products->where('send_id', $send_id);
+                // save queries
+                $queries['send_id'] = request('send_id');
+            }
+        }
+
+        // Get send_free requests
+        if (!empty(request('send_free'))){
+            if (request('send_free') != 0){
+                // Get send_free request var
+                $send_free = request('send_free');
+                // filter products
+                $products = $products->where('send_free', $send_free);
+                // save queries
+                $queries['send_free'] = request('send_free');
+            }
+        }
+
+        // Get object requests
+        if (!empty(request('object'))){
+            if (request('object') != 0){
+                // Get object request var
+                $object = request('object');
+                // filter products
+                $products = $products->where('object', $object);
+                // save queries
+                $queries['object'] = request('object');
+            }
+        }
+
+        // Get personalize requests
+        if (!empty(request('personalize'))){
+            if (request('personalize') != 0){
+                // Get personalize request var
+                $personalize = request('personalize');
+                // filter products
+                $products = $products->where('personalize', $personalize);
+                // save queries
+                $queries['personalize'] = request('personalize');
+            }
+        }
 
         // Sorting products
         if (request()->has('sort')){
