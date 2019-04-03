@@ -22,7 +22,7 @@ class CreateProductsTable extends Migration
             $table->string('product_code')->unique();
             $table->string('first_color')->default('white');
             $table->string('second_color')->default('white');
-            $table->enum('age', array('child', 'adult', 'any'));
+            $table->enum('age', array('child', 'adult', 'any'))->default('any');
             $table->enum('pol', array('man', 'woman', 'any'));
             $table->enum('condition', array('new', 'old'));
             $table->integer('send_id')->default(0);

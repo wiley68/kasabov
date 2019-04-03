@@ -476,6 +476,85 @@ class ProductController extends Controller
         $products = new Product;
         $paginate = 8;
         $queries = [];
+
+        // Get requests
+        $holiday_id = [];
+        $category_id = [];
+        $first_color = 'white';
+        $second_color = 'white';
+        $age = 'any';
+
+        // Get holiday requests
+        if (!empty(request('holiday_id'))){
+            // Get root holiday and parent holidays
+            $holiday_id = request('holiday_id');
+            foreach (request('holiday_id') as $item) {
+                $holidays_parent = Holiday::where(['parent_id'=>$item])->get();
+                $holidays_in[] = $item;
+                foreach ($holidays_parent as $holiday_parent) {
+                    $holidays_in[] = $holiday_parent->id;
+                }
+            }
+            // filter products
+            $products = $products->whereIn('holiday_id', $holidays_in);
+            // save queries
+            $queries['holiday_id'] = request('holiday_id');
+        }
+
+        // Get category requests
+        if (!empty(request('category_id'))){
+            // Get root category and parent categories
+            $category_id = request('category_id');
+            foreach (request('category_id') as $item) {
+                $categories_parent = Category::where(['parent_id'=>$item])->get();
+                $categories_in[] = $item;
+                foreach ($categories_parent as $category_parent) {
+                    $categories_in[] = $category_parent->id;
+                }
+            }
+            // filter products
+            $products = $products->whereIn('category_id', $categories_in);
+            // save queries
+            $queries['category_id'] = request('category_id');
+        }
+
+        // Get first_color requests
+        if (!empty(request('first_color'))){
+            if (request('first_color') != '0'){
+                // Get first_color request var
+                $first_color = request('first_color');
+                // filter products
+                $products = $products->where('first_color', 'like', $first_color);
+                // save queries
+                $queries['first_color'] = request('first_color');
+            }
+        }
+
+        // Get second_color requests
+        if (!empty(request('second_color'))){
+            if (request('second_color') != '0'){
+                // Get second_color request var
+                $second_color = request('second_color');
+                // filter products
+                $products = $products->where('second_color', 'like', $second_color);
+                // save queries
+                $queries['second_color'] = request('second_color');
+            }
+        }
+
+        // Get age requests
+        if (!empty(request('age'))){
+            if (request('age') != '0'){
+                // Get age request var
+                $age = request('age');
+                // filter products
+                $products = $products->where('age', 'like', $age);
+                // save queries
+                $queries['age'] = request('age');
+            }
+        }
+
+        /*
         $columns = [
             'category_id',
             'holiday_id',
@@ -530,6 +609,8 @@ class ProductController extends Controller
                 $queries[$column] = request($column);
             }
         }
+        */
+
         // Sorting products
         if (request()->has('sort')){
             if (request()->has('sort_by')){

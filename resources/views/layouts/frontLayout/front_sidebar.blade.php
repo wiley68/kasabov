@@ -63,6 +63,7 @@
                     <div style="padding-bottom:10px;"></div>
                     <select style="width:100%;" name="age">
                         <option value="0">Възрастова група - всички</option>
+                        <option value="any" @if(request()->has('age') AND request('age') == 'any') selected @endif>Без значение</option>
                         <option value="child" @if(request()->has('age') AND request('age') == 'child') selected @endif>За деца</option>
                         <option value="adult" @if(request()->has('age') AND request('age') == 'adult') selected @endif>За възрастни</option>
                     </select>
