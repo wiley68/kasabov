@@ -479,8 +479,6 @@ class ProductController extends Controller
         $max_price_filter = $products->max('price');
 
         // Get requests
-        $holiday_id = [];
-        $category_id = [];
         $first_color = 'white';
         $second_color = 'white';
         $age = 'any';
@@ -496,7 +494,6 @@ class ProductController extends Controller
         // Get holiday requests
         if (!empty(request('holiday_id'))){
             // Get root holiday and parent holidays
-            $holiday_id = request('holiday_id');
             foreach (request('holiday_id') as $item) {
                 $holidays_parent = Holiday::where(['parent_id'=>$item])->get();
                 $holidays_in[] = $item;
@@ -513,7 +510,6 @@ class ProductController extends Controller
         // Get category requests
         if (!empty(request('category_id'))){
             // Get root category and parent categories
-            $category_id = request('category_id');
             foreach (request('category_id') as $item) {
                 $categories_parent = Category::where(['parent_id'=>$item])->get();
                 $categories_in[] = $item;
@@ -525,6 +521,30 @@ class ProductController extends Controller
             $products = $products->whereIn('category_id', $categories_in);
             // save queries
             $queries['category_id'] = request('category_id');
+        }
+
+        // Get city requests
+        if (!empty(request('city_id'))){
+            // filter products
+            foreach (request('city_id') as $item) {
+                $oblasten = City::where(['id'=>$item])->first();
+                $oblast_cities = City::where('oblast', 'like', $oblasten->city)->get();
+                $cities_in[] = $item;
+                foreach ($oblast_cities as $oblast_city) {
+                    $cities_in[] = $oblast_city->id;
+                }
+            }
+            $products = $products->whereIn('send_from_id', $cities_in);
+            // save queries
+            $queries['city_id'] = request('city_id');
+        }
+        // Get search requests
+        if (!empty(request('custom_search')) && request('custom_search') != ''){
+
+            // filter products
+            $products = $products->where('product_name', 'like', '%' . request('custom_search') . '%');
+            // save queries
+            $queries['custom_search'] = request('custom_search');
         }
 
         // Get first_color requests

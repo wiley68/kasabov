@@ -29,11 +29,14 @@
                         <span>Показани ({{ $start_products_count }} - {{ $end_products_count }} продукта от общо {{ $all_products_count }} продукта)</span>
                     </div>
                     @csrf
-                    @foreach ($holidays as $holiday)
+                    @foreach (Holiday::all() as $holiday)
                         <input style="display:none;" type="checkbox" @if(request()->has('holiday_id') AND in_array($holiday->id, request('holiday_id'))) checked @endif name="holiday_id[]" value="{{ $holiday->id }}">
                     @endforeach
-                    @foreach ($categories as $category)
+                    @foreach (Category::all() as $category)
                         <input style="display:none;" type="checkbox" @if(request()->has('category_id') AND in_array($category->id, request('category_id'))) checked @endif name="category_id[]" value="{{ $category->id }}">
+                    @endforeach
+                    @foreach (City::all() as $city)
+                        <input style="display:none;" type="checkbox" @if(request()->has('city_id') AND in_array($city->id, request('city_id'))) checked @endif name="city_id[]" value="{{ $city->id }}">
                     @endforeach
                     @php
                         if(request()->has('min_price')){

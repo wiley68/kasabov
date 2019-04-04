@@ -56,12 +56,13 @@
                         <h5>Всичко за твоето парти на едно място</h5>
                         <div class="search-bar">
                             <div class="search-inner">
-                                <form class="search-form">
+                                <form enctype="multipart/form-data" class="search-form" action="{{ route('products') }}" method="post" name="filter_products" id="filter_products" novalidate="novalidate">
+                                @csrf
                                     <div class="form-group">
-                                        <input type="text" name="customword" class="form-control" placeholder="Въведете търсената дума?">
+                                        <input type="text" id="custom_search" name="custom_search" class="form-control" placeholder="Въведете търсената дума?">
                                     </div>
                                     <div class="form-group inputwithicon">
-                                        <div class="select">
+                                        <div class="select" id="city_id_search">
                                             <select>
                                                 <option value="0">Избери област</option>
                                                 @foreach ($cities as $city)
@@ -73,8 +74,8 @@
                                     </div>
                                     <div class="form-group inputwithicon">
                                         <div class="select">
-                                            <select>
-                                                <option value="0">Избери категория</option>
+                                            <select id="category_id_search">
+                                                <option value='0'>Избери категория</option>
                                                 @foreach ($categories_top as $category)
                                                     <option value="{{ $category->id }}">{{ $category->name }}</option>
                                                 @endforeach
@@ -82,7 +83,7 @@
                                         </div>
                                         <i class="lni-menu"></i>
                                     </div>
-                                    <button class="btn btn-common" type="button"><i class="lni-search"></i> Намери</button>
+                                    <button class="btn btn-common" type="button" id="btn_search_form"><i class="lni-search"></i> Намери</button>
                                 </form>
                             </div>
                         </div>
