@@ -471,7 +471,7 @@ class ProductController extends Controller
     }
 
     public function frontViewProducts(){
-        //dd(request('min_price'));
+        //dd(request());
         //die();
         // Filter products result
         $products = new Product;

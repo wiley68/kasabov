@@ -14,6 +14,8 @@
             </div>
             <div class="col-lg-9 col-md-12 col-xs-12 page-content">
                 <!-- Product filter Start -->
+                <!-- Order by form -->
+                <form enctype="multipart/form-data" action="{{ route('products') }}" method="post" name="order_products" id="order_products" novalidate="novalidate">
                 <div class="product-filter">
                     <div class="short-name">
                         @php
@@ -26,17 +28,26 @@
                         @endphp
                         <span>Показани ({{ $start_products_count }} - {{ $end_products_count }} продукта от общо {{ $all_products_count }} продукта)</span>
                     </div>
+                    @csrf
+                    @foreach ($holidays as $holiday)
+                        <input style="display:none;" type="checkbox" @if(request()->has('holiday_id') AND in_array($holiday->id, request('holiday_id'))) checked @endif name="holiday_id[]" value="{{ $holiday->id }}">
+                    @endforeach
+                    @foreach ($categories as $category)
+                        <input style="display:none;" type="checkbox" @if(request()->has('category_id') AND in_array($category->id, request('category_id'))) checked @endif name="category_id[]" value="{{ $category->id }}">
+                    @endforeach
                     <div class="Show-item">
                         <span>Подреждане на резултатите</span>
-                        <select id="order_by" class="orderby">
-                            <option @if(request('sort_by') == '') selected @endif value="all">Без подредба</option>
-                            <option @if((request('sort_by') == 'product_name') && (request('sort') == 'asc')) selected @endif value="name_asc">Име A-Я</option>
-                            <option @if((request('sort_by') == 'product_name') && (request('sort') == 'desc')) selected @endif value="name_desc">Име Я-А</option>
-                            <option @if((request('sort_by') == 'price') && (request('sort') == 'asc')) selected @endif value="price_asc">Цена възходящо</option>
-                            <option @if((request('sort_by') == 'price') && (request('sort') == 'desc')) selected @endif value="price_desc">Цена низходящо</option>
+                        <select id="order_by" name="order_by" class="orderby">
+                            <option value="0">Без подредба</option>
+                            <option value="product_name_asc" @if(request()->has('order_by') AND request('order_by') == 'product_name_asc') selected @endif>Име А-Я</option>
+                            <option value="product_name_desc" @if(request()->has('order_by') AND request('order_by') == 'product_name_desc') selected @endif>Име Я-А</option>
+                            <option value="price_asc" @if(request()->has('order_by') AND request('order_by') == 'price_asc') selected @endif>Цена възходящо</option>
+                            <option value="price_desc" @if(request()->has('order_by') AND request('order_by') == 'price_desc') selected @endif>Цена низходящо</option>
                         </select>
                     </div>
                 </div>
+                </form>
+                <!-- Order by form -->
                 <!-- Product filter End -->
 
                 <!-- Adds wrapper Start -->
@@ -103,59 +114,6 @@
 
 @section('scripts')
 <script>
-    $("#order_by").change(function(){
-        sort_request = $(this).val();
-        switch(sort_request) {
-            case 'name_asc':
-                sort = 'asc';
-                sort_by = 'product_name';
-            break;
-            case 'name_desc':
-                sort = 'desc';
-                sort_by = 'product_name';
-            break;
-            case 'price_asc':
-                sort = 'asc';
-                sort_by = 'price';
-            break;
-            case 'price_desc':
-                sort = 'desc';
-                sort_by = 'price';
-            break;
-            case 'all':
-                sort = '';
-                sort_by = '';
-            break;
-            default:
-                sort = '';
-                sort_by = '';
-        }
-
-        // base url
-        url = '{{ route('products') }}';
-
-        //sort_by url
-        if (sort_by !== ''){
-            sort_by_url = '&sort_by=' + sort_by;
-        }else{
-            sort_by_url = '';
-        }
-
-        //sort url
-        if (sort !== ''){
-            sort_url = '&sort=' + sort;
-        }else{
-            sort_url = '';
-        }
-
-        // go to location filter
-        if ((sort_by == '') && (sort == '')){
-            window.location = url;
-        }else{
-            window.location = url + '?filter=yes' + sort_by_url + sort_url;
-        }
-    });
-
     // On change price range filter
     $('#min_price').on('input', function () {
         $('#min_price_current').html(parseFloat($(this).val()).toFixed(2) + '{{ Config::get('settings.currency') }}');
@@ -174,6 +132,10 @@
             $('#min_price').val(max_price_current);
             $('#min_price_current').html(min_price_current.toFixed(2) + '{{ Config::get('settings.currency') }}');
         }
+    });
+    // Submit order form on change
+    $('#order_by').on('change', function() {
+        document.forms['order_products'].submit();
     });
 </script>
 @endsection
