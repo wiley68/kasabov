@@ -39,11 +39,7 @@
                             $min_price = 0;
                         }
                         if(request()->has('max_price')){
-                            if ($max_price_filter < request('max_price')){
-                                $max_price = $max_price_filter;
-                            }else{
-                                $max_price = request('max_price');
-                            }
+                            $max_price = request('max_price');
                         }else{
                             $max_price = 0;
                         }

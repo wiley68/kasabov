@@ -35,6 +35,74 @@
                     @foreach ($categories as $category)
                         <input style="display:none;" type="checkbox" @if(request()->has('category_id') AND in_array($category->id, request('category_id'))) checked @endif name="category_id[]" value="{{ $category->id }}">
                     @endforeach
+                    @php
+                        if(request()->has('min_price')){
+                            $min_price = request('min_price');
+                        }else{
+                            $min_price = 0;
+                        }
+                        if(request()->has('max_price')){
+                            $max_price = request('max_price');
+                        }else{
+                            $max_price = 0;
+                        }
+                        if(request()->has('first_color')){
+                            $first_color = request('first_color');
+                        }else{
+                            $first_color = "0";
+                        }
+                        if(request()->has('second_color')){
+                            $second_color = request('second_color');
+                        }else{
+                            $second_color = "0";
+                        }
+                        if(request()->has('age')){
+                            $age = request('age');
+                        }else{
+                            $age = "0";
+                        }
+                        if(request()->has('pol')){
+                            $pol = request('pol');
+                        }else{
+                            $pol = "0";
+                        }
+                        if(request()->has('condition')){
+                            $condition = request('condition');
+                        }else{
+                            $condition = "0";
+                        }
+                        if(request()->has('send_id')){
+                            $send_id = request('send_id');
+                        }else{
+                            $send_id = "0";
+                        }
+                        if(request()->has('send_free')){
+                            $send_free = request('send_free');
+                        }else{
+                            $send_free = 0;
+                        }
+                        if(request()->has('object')){
+                            $object = request('object');
+                        }else{
+                            $object = 0;
+                        }
+                        if(request()->has('personalize')){
+                            $personalize = request('personalize');
+                        }else{
+                            $personalize = 0;
+                        }
+                    @endphp
+                    <input name="min_price" type="hidden" value="{{ $min_price }}">
+                    <input name="max_price" type="hidden" value="{{ $max_price }}">
+                    <input name="first_color" type="hidden" value="{{ $first_color }}">
+                    <input name="second_color" type="hidden" value="{{ $second_color }}">
+                    <input name="age" type="hidden" value="{{ $age }}">
+                    <input name="pol" type="hidden" value="{{ $pol }}">
+                    <input name="condition" type="hidden" value="{{ $condition }}">
+                    <input name="send_id" type="hidden" value="{{ $send_id }}">
+                    <input name="send_free" type="hidden" value="{{ $send_free }}">
+                    <input name="object" type="hidden" value="{{ $object }}">
+                    <input name="personalize" type="hidden" value="{{ $personalize }}">
                     <div class="Show-item">
                         <span>Подреждане на резултатите</span>
                         <select id="order_by" name="order_by" class="orderby">

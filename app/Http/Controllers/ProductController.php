@@ -471,12 +471,12 @@ class ProductController extends Controller
     }
 
     public function frontViewProducts(){
-        //dd(request());
-        //die();
         // Filter products result
         $products = new Product;
         $paginate = 8;
         $queries = [];
+        // Get max price
+        $max_price_filter = $products->max('price');
 
         // Get requests
         $holiday_id = [];
@@ -660,11 +660,22 @@ class ProductController extends Controller
         }
 
         // Sorting products
-        if (request()->has('sort')){
-            if (request()->has('sort_by')){
-                $products = $products->orderBy(request('sort_by'), request('sort'));
-                $queries['sort'] = request('sort');
-                $queries['sort_by'] = request('sort_by');
+        if (request()->has('order_by')){
+            if (request('order_by') == 'product_name_asc'){
+                $products = $products->orderBy('product_name', 'asc');
+                $queries['order_by'] = request('order_by');
+            }
+            if (request('order_by') == 'product_name_desc'){
+                $products = $products->orderBy('product_name', 'desc');
+                $queries['order_by'] = request('order_by');
+            }
+            if (request('order_by') == 'price_asc'){
+                $products = $products->orderBy('price', 'asc');
+                $queries['order_by'] = request('order_by');
+            }
+            if (request('order_by') == 'price_desc'){
+                $products = $products->orderBy('price', 'desc');
+                $queries['order_by'] = request('order_by');
             }
         }
 
@@ -680,8 +691,6 @@ class ProductController extends Controller
         $categories = Category::where(['parent_id'=>0])->get();
         // Add speditors
         $speditors = Speditor::all();
-        // Get max price
-        $max_price_filter = $products->max('price');
 
         return view('/front/view_products')->with([
             'holidays'=>$holidays,
