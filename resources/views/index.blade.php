@@ -116,14 +116,6 @@
             <div class="col-md-12 wow fadeIn" data-wow-delay="0.5s">
                 <div id="new-products" class="owl-carousel owl-theme">
                     @foreach ($featured_products as $featured_product)
-                    @php
-                        //$featured_category_parent_id = Category::where(['id'=>$featured_product->category_id])->first()->parent_id;
-                        //if ($featured_category_parent_id !== 0){
-                        //    $featured_category_parent = Category::where(['id'=>$featured_category_parent_id])->first()->name;
-                        //}else{
-                        //    $featured_category_parent = Category::where(['id'=>$featured_product->category_id])->first()->name;
-                        //}
-                    @endphp
                     <div class="item">
                         <div class="product-item">
                             <div class="carousel-thumb">

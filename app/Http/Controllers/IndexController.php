@@ -23,16 +23,16 @@ class IndexController extends Controller
             $categories_top_count = 12;
         }
         $categories_top = Category::where(['parent_id'=>0])->take($categories_top_count)->get();
-        $latest_count = Product::count();
+        $latest_count = Product::where(['featured'=>1])->count();
         if ($latest_count >= 6){
             $latest_count = 6;
         }
-        $latest = Product::all()->take($latest_count);
-        $featured_products_count = Product::count();
+        $latest = Product::where(['featured'=>1])->get()->take($latest_count);
+        $featured_products_count = Product::where(['featured'=>1])->count();
         if ($featured_products_count >= 6){
             $featured_products_count = 6;
         }
-        $featured_products = Product::all()->take($featured_products_count);
+        $featured_products = Product::where(['featured'=>1])->get()->take($featured_products_count);
         $property = LandingPage::first();
         return view('index')->with([
             'holidays'=>$holidays,

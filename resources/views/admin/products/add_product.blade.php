@@ -275,7 +275,7 @@
                         </div>
                         <div class="widget-content nopadding">
                             <div style="padding:10px;">
-                                <textarea name="description" id="description" class="textarea_editor span12" rows="30"></textarea>
+                                <textarea name="description" id="description" class="span12" rows="5"></textarea>
                             </div>
                         </div>
                     </div>
@@ -287,6 +287,22 @@
                             <div style="padding:10px;">
                                 <input type="text" name="tag_add" id="tag_add"> <button id="btn_add_tag" class="btn btn-primary">Добави етикета</button>
                                 <div style="padding-top: 10px;" id="div_tags">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="widget-box">
+                        <div class="widget-title"> <span class="icon"> <i class="icon-info-sign"></i> </span>
+                            <h5>Системни настройки</h5>
+                        </div>
+                        <div class="widget-content nopadding">
+                            <div class="control-group">
+                                <label class="control-label">Специален продукт</label>
+                                <div class="controls">
+                                    <select name="featured" id="featured" style="width:314px;">
+                                        <option value=0>Не</option>
+                                        <option value=1>Да</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -377,9 +393,6 @@
                     break;
             }
         });
-
-        // Add text editor
-	    $('.textarea_editor').wysihtml5();
 
         // Add tags
         function isNullOrWhitespace( input ) {

@@ -84,6 +84,7 @@ class ProductController extends Controller
                 $quantity = $request->input('quantity');
             }
             $price = $request->input('price');
+            $featured = $request->input('featured');
             // Create product column
             $product = new Product();
             $product->user_id = $user_id;
@@ -112,6 +113,7 @@ class ProductController extends Controller
             }
             $product->quantity = $quantity;
             $product->price = $price;
+            $product->featured = $featured;
             //upload image
             if ($request->hasFile('image')){
                 $image_temp = Input::file('image');
@@ -287,6 +289,7 @@ class ProductController extends Controller
             }
             $product->price = $request->input('price');
             $product->image = $filename;
+            $product->featured = $request->input('featured');
             $product->save();
 
             // Add tags to tags table

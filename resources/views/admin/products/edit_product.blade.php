@@ -192,7 +192,14 @@
                             <div class="control-group">
                                 <label class="control-label">Изпраща се от</label>
                                 <div class="controls">
-                                    <input type="text" name="send_from_id_txt" id="send_from_id_txt" value="{{ City::where(['id'=>$product->send_from_id])->first()->city }}&nbsp;-&nbsp;{{ City::where(['id'=>$product->send_from_id])->first()->oblast }}" />
+                                    @php
+                                        if(!empty(City::where(['id'=>$product->send_from_id])->first())){
+                                            $send_from_id_name = City::where(['id'=>$product->send_from_id])->first()->city . '-' . City::where(['id'=>$product->send_from_id])->first()->oblast;
+                                        }else{
+                                            $send_from_id_name = '';
+                                        }
+                                    @endphp
+                                    <input type="text" name="send_from_id_txt" id="send_from_id_txt" value="{{ $send_from_id_name }}" />
                                     <input type="hidden" name="send_from_id" id="send_from_id" value="{{ $product->send_from_id }}" />
                                     <a id="btn_send_from_id" href="#choose_city_form" data-toggle="modal" title="Избери населено място" class="btn btn-success btn-mini">Избери</a>
                                 </div>
@@ -215,7 +222,14 @@
                             <div class="control-group">
                                 <label class="control-label">Важи за</label>
                                 <div class="controls">
-                                    <input type="text" name="send_free_id_txt" id="send_free_id_txt" value="{{ City::where(['id'=>$product->send_free_id])->first()->city }}&nbsp;-&nbsp;{{ City::where(['id'=>$product->send_free_id])->first()->oblast }}" />
+                                    @php
+                                        if(!empty(City::where(['id'=>$product->send_free_id])->first())){
+                                            $city_name = City::where(['id'=>$product->send_free_id])->first()->city . '-' . City::where(['id'=>$product->send_free_id])->first()->oblast;
+                                        }else{
+                                            $city_name = '';
+                                        }
+                                    @endphp
+                                    <input type="text" name="send_free_id_txt" id="send_free_id_txt" value="{{ $city_name }}" />
                                     <input type="hidden" name="send_free_id" id="send_free_id" value="{{ $product->send_free_id }}" />
                                     <a id="btn_send_free_id" href="#choose_city_form" data-toggle="modal" title="Избери населено място" class="btn btn-success btn-mini">Избери</a>
                                 </div>
@@ -313,7 +327,7 @@
                         </div>
                         <div class="widget-content nopadding">
                             <div style="padding:10px;">
-                                <textarea name="description" id="description" class="textarea_editor span12" rows="30">{!! $product->description !!}</textarea>
+                                <textarea name="description" id="description" class="span12" rows="5">{!! $product->description !!}</textarea>
                             </div>
                         </div>
                     </div>
@@ -330,6 +344,22 @@
                                         <p><span class="label label-success">{{ Tag::where(['id'=>$tag->tag_id])->first()->name }}</span><input type="hidden" name="tags[]" value="{{ Tag::where(['id'=>$tag->tag_id])->first()->name }}"> <span onclick="removeTag(this);" style="color:red;cursor:pointer;">Изтрий</span></p>
                                         @endforeach
                                     @endif
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="widget-box">
+                        <div class="widget-title"> <span class="icon"> <i class="icon-info-sign"></i> </span>
+                            <h5>Системни настройки</h5>
+                        </div>
+                        <div class="widget-content nopadding">
+                            <div class="control-group">
+                                <label class="control-label">Специален продукт</label>
+                                <div class="controls">
+                                    <select name="featured" id="featured" style="width:314px;">
+                                        <option value=0 @if ($product->featured === 0) selected @endif>Не</option>
+                                        <option value=1 @if ($product->featured === 1) selected @endif>Да</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -454,9 +484,6 @@
                     break;
             }
         });
-
-        // Add text editor
-	    $('.textarea_editor').wysihtml5();
 
         // Add tags
         function isNullOrWhitespace( input ) {
