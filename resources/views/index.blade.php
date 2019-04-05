@@ -65,35 +65,35 @@
                     <h4 class="sub-title">{{ $property->best_subtitle }}</h4>
                 </div>
             </div>
-            @foreach ($latest as $item)
+            @foreach ($featured_products as $featured_product)
             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4">
                 <div class="featured-box">
                     <figure>
-                        <div class="homes-tag featured">{{ Holiday::where(['id'=>$item->holiday_id])->first()->name }}</div>
-                        <div class="homes-tag rent"><i class="lni-heart"></i> 202</div>
-                        <span class="price-save">{{ number_format($item->price, 2, '.', '') }}{{ Config::get('settings.currency') }}</span>
-                        <a href="{{ route('product', ['id'=>$item->id]) }}"><img class="img-fluid" src="{{ asset('/images/backend_images/products/small/'.$item->image) }}" alt=""></a>
+                        <div class="homes-tag featured">{{ Holiday::where(['id'=>$featured_product->holiday_id])->first()->name }}</div>
+                        <div class="homes-tag rent"><i class="lni-heart"></i> {{ $featured_product->likes }}</div>
+                        <span class="price-save">{{ number_format($featured_product->price, 2, '.', '') }}{{ Config::get('settings.currency') }}</span>
+                        <a href="{{ route('product', ['id'=>$featured_product->id]) }}"><img class="img-fluid" src="{{ asset('/images/backend_images/products/small/'.$featured_product->image) }}" alt=""></a>
                     </figure>
                     <div class="content-wrapper">
                         <div class="feature-content">
-                            <h4><a href="{{ route('product', ['id'=>$item->id]) }}">{{ $item->product_name }}</a></h4>
-                            <p class="listing-tagline">{{ $item->product_code }}</p>
+                            <h4><a href="{{ route('product', ['id'=>$featured_product->id]) }}">{{ $featured_product->product_name }}</a></h4>
+                            <p class="listing-tagline">{{ $featured_product->product_code }}</p>
                             <div class="meta-tag">
                                 <div class="user-name">
-                                    <a href="{{ route('products', ['user_id'=>$item->user_id]) }}"><i class="lni-user"></i> {{ User::where(['id'=>$item->user_id])->first()->name }}</a>
+                                    <a href="{{ route('products', ['user_id'=>$featured_product->user_id]) }}"><i class="lni-user"></i> {{ User::where(['id'=>$featured_product->user_id])->first()->name }}</a>
                                 </div>
                                 <div class="listing-category">
                                     @php
                                         $category_ids = [];
-                                        $category_ids[] = $item->category_id;
+                                        $category_ids[] = $featured_product->category_id;
                                     @endphp
-                                    <a href="{{ route('products', ['category_id'=>$category_ids]) }}"><i class="{{ Category::where(['id'=>$item->category_id])->first()->icon }}"></i>{{ Category::where(['id'=>$item->category_id])->first()->name }}</a>
+                                    <a href="{{ route('products', ['category_id'=>$category_ids]) }}"><i class="{{ Category::where(['id'=>$featured_product->category_id])->first()->icon }}"></i>{{ Category::where(['id'=>$featured_product->category_id])->first()->name }}</a>
                                 </div>
                             </div>
                         </div>
                         <div class="listing-bottom clearfix">
-                            <i class="lni-map-marker"></i> {{ City::where(['id'=>$item->send_id])->first()->city }}
-                            <a href="{{ route('product', ['id'=>$item->id]) }}" class="float-right">Прегледай Детайлно</a>
+                            <i class="lni-map-marker"></i> {{ City::where(['id'=>$featured_product->send_id])->first()->city }}
+                            <a href="{{ route('product', ['id'=>$featured_product->id]) }}" class="float-right">Прегледай Детайлно</a>
                         </div>
                     </div>
                 </div>
@@ -116,46 +116,32 @@
             </div>
             <div class="col-md-12 wow fadeIn" data-wow-delay="0.5s">
                 <div id="new-products" class="owl-carousel owl-theme">
-                    @foreach ($featured_products as $featured_product)
+                    @foreach ($tops as $top)
                     <div class="item">
                         <div class="product-item">
                             <div class="carousel-thumb">
-                                <img class="img-fluid" src="{{ asset('/images/backend_images/products/small/'.$featured_product->image) }}" alt="">
+                                <img class="img-fluid" src="{{ asset('/images/backend_images/products/small/'.$top->image) }}" alt="">
                                 <div class="overlay">
                                     <div>
-                                        <a class="btn btn-common" href="ads-details.html">Виж детайлно</a>
+                                        <a class="btn btn-common" href="{{ route('product', ['id'=>$top->id]) }}">Виж детайлно</a>
                                     </div>
                                 </div>
                                 <div class="btn-product bg-sale">
-                                    <a href="#">Топ</a>
+                                    <a>Топ</a>
                                 </div>
-                                <span class="price">{{ $featured_product->price }}</span>
+                                <span class="price">{{ number_format($top->price, 2, '.', '') }}{{ Config::get('settings.currency') }}</span>
                             </div>
                             <div class="product-content-inner">
                                 <div class="product-content">
-                                    <h3 class="product-title"><a href="ads-details.html">{{ $featured_product->product_name }}</a></h3>
-                                    <span>{{ Category::where(['id'=>$featured_product->category_id])->first()->name }} / {{ Category::where(['id'=>$featured_product->category_id])->first()->name }}</span>
+                                    <h3 class="product-title"><a href="{{ route('product', ['id'=>$top->id]) }}">{{ $top->product_name }}</a></h3>
+                                    <span>{{ Category::where(['id'=>$top->category_id])->first()->name }} / {{ Category::where(['id'=>$top->category_id])->first()->name }}</span>
                                     <div class="icon">
-                                        <span><i class="lni-bookmark"></i></span>
-                                        <span><i class="lni-heart"></i></span>
+                                        <i class="lni-heart" title="Харесайте този продукт"></i> {{ $top->likes }}
                                     </div>
                                 </div>
                                 <div class="card-text clearfix">
-                                    <div class="float-left">
-                                        <span class="icon-wrap">
-                                <i class="lni-star-filled"></i>
-                                <i class="lni-star-filled"></i>
-                                <i class="lni-star-filled"></i>
-                                <i class="lni-star-filled"></i>
-                                <i class="lni-star-filled"></i>
-                                <i class="lni-star"></i>
-                              </span>
-                                        <span class="count-review">
-                                (12)
-                              </span>
-                                    </div>
                                     <div class="float-right">
-                                        <i class="lni-map-marker"></i> {{ City::where(['id'=>$featured_product->send_id])->first()->city }}
+                                        <i class="lni-map-marker"></i> {{ City::where(['id'=>$top->send_id])->first()->city }}
                                     </div>
                                 </div>
                             </div>
@@ -296,88 +282,11 @@
 </section>
 <!-- Services Section End -->
 
-<!-- Pricing section Start -->
-<section id="pricing-table" class="section-padding">
-    <div class="container">
-        <div class="row">
-            <div class="col-12 text-center">
-                <div class="heading">
-                    <h1 class="section-title">Ценови пакети</h1>
-                    <h4 class="sub-title">някакъв обяснителен текст. някакъв обяснителен текст. някакъв обяснителен текст.</h4>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6 col-xs-12">
-                <div class="table">
-                    <div class="icon">
-                        <i class="lni-gift"></i>
-                    </div>
-                    <div class="pricing-header">
-                        <p class="price-value">$29</p>
-                    </div>
-                    <div class="title">
-                        <h3>Basic</h3>
-                    </div>
-                    <ul class="description">
-                        <li>Free ad posting</li>
-                        <li>No Featured ads availability</li>
-                        <li>Access to limited features</li>
-                        <li>For 30 days</li>
-                        <li>100% Secure!</li>
-                    </ul>
-                    <button class="btn btn-common">Поръчай</button>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6 col-xs-12">
-                <div class="table" id="active-tb">
-                    <div class="icon">
-                        <i class="lni-leaf"></i>
-                    </div>
-                    <div class="pricing-header">
-                        <p class="price-value">$49</p>
-                    </div>
-                    <div class="title">
-                        <h3>Standard</h3>
-                    </div>
-                    <ul class="description">
-                        <li>Free ad posting</li>
-                        <li>10 Featured ads availability</li>
-                        <li>Access to unlimited features</li>
-                        <li>For 30 days</li>
-                        <li>100% Secure!</li>
-                    </ul>
-                    <button class="btn btn-common">Поръчай</button>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6 col-xs-12">
-                <div class="table">
-                    <div class="icon">
-                        <i class="lni-layers"></i>
-                    </div>
-                    <div class="pricing-header">
-                        <p class="price-value">$69</p>
-                    </div>
-                    <div class="title">
-                        <h3>Premium</h3>
-                    </div>
-                    <ul class="description">
-                        <li>Free ad posting</li>
-                        <li>100 Featured ads availability</li>
-                        <li>Access to unlimited features</li>
-                        <li>For 30 days</li>
-                        <li>100% Secure!</li>
-                    </ul>
-                    <button class="btn btn-common">Поръчай</button>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-<!-- Pricing Table Section End -->
-
 <!-- Testimonial Section Start -->
 <section class="testimonial section-padding">
     <div class="container">
         <div class="row">
+            <div class="col-12 text-center"><hr/></div>
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div id="testimonials" class="owl-carousel">
                     <div class="item">

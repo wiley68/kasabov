@@ -85,6 +85,8 @@ class ProductController extends Controller
             }
             $price = $request->input('price');
             $featured = $request->input('featured');
+            $likes = $request->input('likes');
+            $top = $request->input('top');
             // Create product column
             $product = new Product();
             $product->user_id = $user_id;
@@ -114,6 +116,8 @@ class ProductController extends Controller
             $product->quantity = $quantity;
             $product->price = $price;
             $product->featured = $featured;
+            $product->likes = $likes;
+            $product->top = $top;
             //upload image
             if ($request->hasFile('image')){
                 $image_temp = Input::file('image');
@@ -290,6 +294,8 @@ class ProductController extends Controller
             $product->price = $request->input('price');
             $product->image = $filename;
             $product->featured = $request->input('featured');
+            $product->likes = $request->input('likes');
+            $product->top = $request->input('top');
             $product->save();
 
             // Add tags to tags table
@@ -772,6 +778,17 @@ class ProductController extends Controller
         $products_by_user = Product::where(['user_id'=>$user_id])->take($products_by_user_count)->get();
 
         return $products_by_user;
+    }
+
+    public function likeProduct(Request $request){
+        $likes = 0;
+        if ($request->method('post') && $request->input('id') != null){
+            $product = Product::where(['id'=>$request->input('id')])->first();
+            $product->likes = $product->likes + 1;
+            $product->save();
+            $likes = $product->likes;
+        }
+        return response()->json(['likes'=>$likes]);
     }
 
 }

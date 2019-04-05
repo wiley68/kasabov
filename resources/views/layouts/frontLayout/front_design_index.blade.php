@@ -4,6 +4,7 @@
 <title>PartyBox</title>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="csrf-token" content="{{ csrf_token() }}" />
 <!-- index controller -->
 <link rel="stylesheet" href="{{ asset('css/frontend_css/bootstrap.min.css') }}" />
 <link href="{{ asset('fonts/frontend_fonts/css/line-icons.css') }}" rel="stylesheet" />

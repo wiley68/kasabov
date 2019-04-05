@@ -306,6 +306,25 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="widget-content nopadding">
+                            <div class="control-group">
+                                <label class="control-label">Топ продукт</label>
+                                <div class="controls">
+                                    <select name="top" id="top" style="width:314px;">
+                                        <option value=0>Не</option>
+                                        <option value=1>Да</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="widget-content nopadding">
+                            <div class="control-group">
+                                <label class="control-label">Харесвания</label>
+                                <div class="controls">
+                                    <input type="number" name="likes" id="likes">
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </form>

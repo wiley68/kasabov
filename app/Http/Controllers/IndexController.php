@@ -23,11 +23,11 @@ class IndexController extends Controller
             $categories_top_count = 12;
         }
         $categories_top = Category::where(['parent_id'=>0])->take($categories_top_count)->get();
-        $latest_count = Product::where(['featured'=>1])->count();
-        if ($latest_count >= 6){
-            $latest_count = 6;
+        $tops_count = Product::where(['top'=>1])->count();
+        if ($tops_count >= 6){
+            $tops_count = 6;
         }
-        $latest = Product::where(['featured'=>1])->get()->take($latest_count);
+        $tops = Product::where(['top'=>1])->get()->take($tops_count);
         $featured_products_count = Product::where(['featured'=>1])->count();
         if ($featured_products_count >= 6){
             $featured_products_count = 6;
@@ -38,7 +38,7 @@ class IndexController extends Controller
             'holidays'=>$holidays,
             'cities'=>$cities,
             'categories_top'=>$categories_top,
-            'latest'=>$latest,
+            'tops'=>$tops,
             'property'=>$property,
             'featured_products'=>$featured_products
         ]);

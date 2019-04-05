@@ -66,3 +66,4 @@ Route::get('/logout', 'AdminController@logout')->name('logout');
 Route::get('/', 'IndexController@index')->name('index');
 Route::match(['get', 'post'], '/products', 'ProductController@frontViewProducts')->name('products');
 Route::get('/product/{id}', 'ProductController@frontGetProduct')->name('product');
+Route::post('/like-product', 'ProductController@likeProduct')->name('like-product');

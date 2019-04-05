@@ -39,6 +39,7 @@ class CreateProductsTable extends Migration
             $table->float('price');
             $table->string('image');
             $table->integer('featured')->default(0);
+            $table->integer('likes')->default(0);
             $table->timestamps();
         });
     }
