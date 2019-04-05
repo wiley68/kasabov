@@ -493,6 +493,7 @@ class ProductController extends Controller
         $personalize = 0;
         $min_price = 0;
         $max_price = 0;
+        $user_id = 0;
 
         // Get holiday requests
         if (!empty(request('holiday_id'))){
@@ -679,6 +680,18 @@ class ProductController extends Controller
                 $products = $products->where('price', '<=', $max_price);
                 // save queries
                 $queries['max_price'] = request('max_price');
+            }
+        }
+
+        // Get user_id requests
+        if (!empty(request('user_id'))){
+            if (request('user_id') != 0){
+                // Get user_id request var
+                $user_id = request('user_id');
+                // filter products
+                $products = $products->where('user_id', $user_id);
+                // save queries
+                $queries['user_id'] = request('user_id');
             }
         }
 

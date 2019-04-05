@@ -71,28 +71,29 @@
                     <figure>
                         <div class="homes-tag featured">{{ Holiday::where(['id'=>$item->holiday_id])->first()->name }}</div>
                         <div class="homes-tag rent"><i class="lni-heart"></i> 202</div>
-                        <span class="price-save">{{ $item->price }}</span>
-                        <a href="#"><img class="img-fluid" src="{{ asset('/images/backend_images/products/small/'.$item->image) }}" alt=""></a>
+                        <span class="price-save">{{ number_format($item->price, 2, '.', '') }}{{ Config::get('settings.currency') }}</span>
+                        <a href="{{ route('product', ['id'=>$item->id]) }}"><img class="img-fluid" src="{{ asset('/images/backend_images/products/small/'.$item->image) }}" alt=""></a>
                     </figure>
                     <div class="content-wrapper">
                         <div class="feature-content">
-                            <h4><a href="ads-details.html">{{ $item->product_name }}</a></h4>
+                            <h4><a href="{{ route('product', ['id'=>$item->id]) }}">{{ $item->product_name }}</a></h4>
                             <p class="listing-tagline">{{ $item->product_code }}</p>
                             <div class="meta-tag">
-                                <div class="listing-review">
-                                    <span class="review-avg">4.5</span>
-                                </div>
                                 <div class="user-name">
-                                    <a href="#"><i class="lni-user"></i> {{ User::where(['id'=>$item->user_id])->first()->name }}</a>
+                                    <a href="{{ route('products', ['user_id'=>$item->user_id]) }}"><i class="lni-user"></i> {{ User::where(['id'=>$item->user_id])->first()->name }}</a>
                                 </div>
                                 <div class="listing-category">
-                                    <a href="#"><i class="{{ Category::where(['id'=>$item->category_id])->first()->icon }}"></i>{{ Category::where(['id'=>$item->category_id])->first()->name }}</a>
+                                    @php
+                                        $category_ids = [];
+                                        $category_ids[] = $item->category_id;
+                                    @endphp
+                                    <a href="{{ route('products', ['category_id'=>$category_ids]) }}"><i class="{{ Category::where(['id'=>$item->category_id])->first()->icon }}"></i>{{ Category::where(['id'=>$item->category_id])->first()->name }}</a>
                                 </div>
                             </div>
                         </div>
                         <div class="listing-bottom clearfix">
-                            <a href="#" class="float-left"><i class="lni-map-marker"></i> {{ City::where(['id'=>$item->send_id])->first()->city }}</a>
-                            <a href="ads-details.html" class="float-right">Прегледай Детайлно</a>
+                            <i class="lni-map-marker"></i> {{ City::where(['id'=>$item->send_id])->first()->city }}
+                            <a href="{{ route('product', ['id'=>$item->id]) }}" class="float-right">Прегледай Детайлно</a>
                         </div>
                     </div>
                 </div>
@@ -154,7 +155,7 @@
                               </span>
                                     </div>
                                     <div class="float-right">
-                                        <a class="address" href="#"><i class="lni-map-marker"></i> {{ City::where(['id'=>$featured_product->send_id])->first()->city }}</a>
+                                        <i class="lni-map-marker"></i> {{ City::where(['id'=>$featured_product->send_id])->first()->city }}
                                     </div>
                                 </div>
                             </div>

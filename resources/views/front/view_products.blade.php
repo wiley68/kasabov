@@ -94,6 +94,11 @@
                         }else{
                             $personalize = 0;
                         }
+                        if(request()->has('user_id')){
+                            $user_id = request('user_id');
+                        }else{
+                            $user_id = 0;
+                        }
                     @endphp
                     <input name="min_price" type="hidden" value="{{ $min_price }}">
                     <input name="max_price" type="hidden" value="{{ $max_price }}">
@@ -106,6 +111,7 @@
                     <input name="send_free" type="hidden" value="{{ $send_free }}">
                     <input name="object" type="hidden" value="{{ $object }}">
                     <input name="personalize" type="hidden" value="{{ $personalize }}">
+                    <input name="user_id" type="hidden" value="{{ $user_id }}">
                     <div class="Show-item">
                         <span>Подреждане на резултатите</span>
                         <select id="order_by" name="order_by" class="orderby">
