@@ -32,12 +32,27 @@
                             <a class="nav-link" href="{{ route('products') }}" aria-expanded="false">Всички празници ...</a>
                         </li>
                     </ul>
+                    @guest
                     <div class="header-top-right float-right">
-                        <a href="{{ route('users-login-register') }}" class="header-top-button"><i class="lni-lock"></i> Вход</a> |
-                        <a href="{{ route('users-login-register') }}" class="header-top-button"><i class="lni-pencil"></i> Регистрация</a>
-                    </div>&nbsp;
+                        <a href="{{ route('users-login-register') }}" class="header-top-button"><i class="lni-lock"></i> Вход | Регистрация</a>
+                    </div>
+                    @else
+                    <div class="header-top-right float-right">
+                        @if(Auth::user()->admin == 0)
+                        <a href="{{ route('home') }}" class="header-top-button"><i class="lni-user"></i> {{ Auth::user()->name }}</a> |
+                        @endif
+                        @if(Auth::user()->admin == 2)
+                        <a href="{{ route('home-firm') }}" class="header-top-button"><i class="lni-user"></i> {{ Auth::user()->name }}</a> |
+                        @endif
+                        <a href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();" class="header-top-button"><i class="lni-exit"></i> Изход</a>
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                            @csrf
+                        </form>
+                    </div>
+                    @endguest
+                    &nbsp;
                     <div class="post-btn">
-                        <a class="btn btn-common" href="#"><i class="lni-pencil-alt"></i> Публикувай</a>
+                        <a class="btn btn-common" href="{{ route('firms-login-register') }}"><i class="lni-pencil-alt"></i> За търговци</a>
                     </div>
                 </div>
             </div>
@@ -77,7 +92,9 @@
                             <i class="fas fa-chevron-right"></i>
                             <a href="{{ route('product', ['id'=>$product->id]) }}">{{ $product->product_name }}</a>
                             @elseif(Route::current()->getName() == 'users-login-register')
-                            <a href="{{ route('users-login-register') }}">Регистрация в програмата</a>
+                            <a href="{{ route('users-login-register') }}">Регистрация на клиент</a>
+                            @elseif(Route::current()->getName() == 'firms-login-register')
+                            <a href="{{ route('firms-login-register') }}">Регистрация на търговец</a>
                             @endif
                         </h5>
                     </div>

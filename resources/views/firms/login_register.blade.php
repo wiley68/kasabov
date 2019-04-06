@@ -19,7 +19,7 @@
                 @endif
                 <div class="login-form login-area">
                     <h3>Вече имам регистрация</h3>
-                    <form class="login-form" id="login_form" name="login_form" action="{{ route('user-login') }}" method="post">
+                    <form class="login-form" id="login_form" name="login_form" action="{{ route('firm-login') }}" method="post">
                     @csrf
                         <div class="form-group">
                             <div class="input-icon">
@@ -47,7 +47,7 @@
             <div class="col-lg-5 col-md-12 col-xs-12">
                 <div class="register-form login-area">
                     <h3>Създай регистрация</h3>
-                    <form class="login-form" id="register_form" name="register_form" action="{{ route('user-register') }}" method="post">
+                    <form class="login-form" id="register_form" name="register_form" action="{{ route('firm-register') }}" method="post">
                     @csrf
                         <div class="form-group">
                             <div class="input-icon">

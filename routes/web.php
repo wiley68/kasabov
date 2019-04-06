@@ -14,6 +14,7 @@
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home-firm', 'HomeController@index_firm')->name('home-firm');
 // Admin
 Route::match(['get', 'post'],'/admin', 'AdminController@login')->name('admin');
 Route::group(['middleware' => ['auth']], function () {
@@ -69,4 +70,12 @@ Route::get('/product/{id}', 'ProductController@frontGetProduct')->name('product'
 Route::post('/like-product', 'ProductController@likeProduct')->name('like-product');
 
 // Users routes
-Route::match(['get', 'post'], '/users-login-register', 'UsersController@registerUsers')->name('users-login-register');
+Route::get('/users-login-register', 'UsersController@loginRegisterUsers')->name('users-login-register');
+Route::post('/user-register', 'UsersController@registerUser')->name('user-register');
+Route::post('/user-login', 'UsersController@loginUser')->name('user-login');
+Route::match(['get', 'post'], '/check-email', 'UsersController@checkEmail');
+
+// Firms routes
+Route::get('/firms-login-register', 'UsersController@loginRegisterFirms')->name('firms-login-register');
+Route::post('/firm-register', 'UsersController@registerFirm')->name('firm-register');
+Route::post('/firm-login', 'UsersController@loginFirm')->name('firm-login');

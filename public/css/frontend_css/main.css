@@ -974,6 +974,10 @@ a.back-to-top:hover, a.back-to-top:focus {
   border: 0;
 }
 
+.error{
+    color: red;
+}
+
 .search-bar .form-group {
   margin: 0px;
   float: left;

@@ -34,12 +34,13 @@
 <script src="{{ asset('js/frontend_js/wow.js') }}"></script>
 <script src="{{ asset('js/frontend_js/owl.carousel.min.js') }}"></script>
 <script src="{{ asset('js/frontend_js/jquery.slicknav.js') }}"></script>
-<script src="{{ asset('js/frontend_js/main.js') }}"></script>
 <script src="{{ asset('js/frontend_js/form-validator.min.js') }}"></script>
 <script src="{{ asset('js/frontend_js/contact-form-script.min.js') }}"></script>
 <script src="{{ asset('js/frontend_js/summernote.js') }}"></script>
 <script src="{{ asset('js/frontend_js/front.js') }}"></script>
 <script src="{{ asset('js/backend_js/select2.min.js') }}"></script>
+<script src="{{ asset('js/frontend_js/jquery.validate.js') }}"></script>
+<script src="{{ asset('js/frontend_js/main.js') }}"></script>
 <script>
     $(document).ready(function() {
         $('select').select2();
