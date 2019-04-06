@@ -67,3 +67,6 @@ Route::get('/', 'IndexController@index')->name('index');
 Route::match(['get', 'post'], '/products', 'ProductController@frontViewProducts')->name('products');
 Route::get('/product/{id}', 'ProductController@frontGetProduct')->name('product');
 Route::post('/like-product', 'ProductController@likeProduct')->name('like-product');
+
+// Users routes
+Route::match(['get', 'post'], '/users-login-register', 'UsersController@registerUsers')->name('users-login-register');

@@ -33,8 +33,8 @@
                         </li>
                     </ul>
                     <div class="header-top-right float-right">
-                        <a href="#" class="header-top-button"><i class="lni-lock"></i> Вход</a> |
-                        <a href="#" class="header-top-button"><i class="lni-pencil"></i> Регистрация</a>
+                        <a href="{{ route('users-login-register') }}" class="header-top-button"><i class="lni-lock"></i> Вход</a> |
+                        <a href="{{ route('users-login-register') }}" class="header-top-button"><i class="lni-pencil"></i> Регистрация</a>
                     </div>&nbsp;
                     <div class="post-btn">
                         <a class="btn btn-common" href="#"><i class="lni-pencil-alt"></i> Публикувай</a>
@@ -76,6 +76,8 @@
                             <a href="{{ route('products') }}">Всички продукти</a>
                             <i class="fas fa-chevron-right"></i>
                             <a href="{{ route('product', ['id'=>$product->id]) }}">{{ $product->product_name }}</a>
+                            @elseif(Route::current()->getName() == 'users-login-register')
+                            <a href="{{ route('users-login-register') }}">Регистрация в програмата</a>
                             @endif
                         </h5>
                     </div>
