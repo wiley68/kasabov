@@ -40,14 +40,12 @@
                     <div class="header-top-right float-right">
                         @if(Auth::user()->admin == 0)
                         <a href="{{ route('home') }}" class="header-top-button"><i class="lni-user"></i> {{ Auth::user()->name }}</a> |
+                        <a href="{{ route('logout-front-user') }}" class="header-top-button"><i class="lni-exit"></i> Изход</a>
                         @endif
                         @if(Auth::user()->admin == 2)
                         <a href="{{ route('home-firm') }}" class="header-top-button"><i class="lni-user"></i> {{ Auth::user()->name }}</a> |
+                        <a href="{{ route('logout-front-firm') }}" class="header-top-button"><i class="lni-exit"></i> Изход</a>
                         @endif
-                        <a href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();" class="header-top-button"><i class="lni-exit"></i> Изход</a>
-                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                            @csrf
-                        </form>
                     </div>
                     @endguest
                     &nbsp;

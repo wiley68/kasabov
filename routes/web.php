@@ -13,8 +13,16 @@
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/home-firm', 'HomeController@index_firm')->name('home-firm');
+// Frontend
+Route::group(['middleware' => ['frontUserLogin']], function () {
+    Route::get('/home', 'HomeController@index')->name('home');
+});
+Route::group(['middleware' => ['frontFirmLogin']], function () {
+    Route::get('/home-firm', 'HomeController@index_firm')->name('home-firm');
+});
+Route::get('/logout-front-user', 'UsersController@logoutUser')->name('logout-front-user');
+Route::get('/logout-front-firm', 'UsersController@logoutFirm')->name('logout-front-firm');
+
 // Admin
 Route::match(['get', 'post'],'/admin', 'AdminController@login')->name('admin');
 Route::group(['middleware' => ['auth']], function () {

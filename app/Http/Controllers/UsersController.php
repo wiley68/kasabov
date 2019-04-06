@@ -7,6 +7,7 @@ use App\Holiday;
 use App\LandingPage;
 use App\User;
 use Auth;
+use Illuminate\Support\Facades\Session;
 
 class UsersController extends Controller
 {
@@ -47,6 +48,7 @@ class UsersController extends Controller
             $user->save();
             // Login new user
             if(Auth::attempt(['email' => $request->input('register_email'), 'password' => $request->input('register_password')])){
+                Session::put('frontUserLogin', $request->input('register_email'));
                 return redirect('/home');
             }
         }
@@ -63,6 +65,7 @@ class UsersController extends Controller
             $user->save();
             // Login new user
             if(Auth::attempt(['email' => $request->input('register_email'), 'password' => $request->input('register_password')])){
+                Session::put('frontFirmLogin', $request->input('register_email'));
                 return redirect('/home-firm');
             }
         }
@@ -73,6 +76,7 @@ class UsersController extends Controller
         if($request->isMethod('post')){
             // Login new user
             if(Auth::attempt(['email' => $request->input('login_email'), 'password' => $request->input('login_password'), 'admin' => 0])){
+                Session::put('frontUserLogin', $request->input('login_email'));
                 return redirect('/home');
             }else{
                 return redirect()->back()->with('flash_message_error', 'Грешни email или парола!');
@@ -85,6 +89,7 @@ class UsersController extends Controller
         if($request->isMethod('post')){
             // Login new user
             if(Auth::attempt(['email' => $request->input('login_email'), 'password' => $request->input('login_password'), 'admin' => 2])){
+                Session::put('frontFirmLogin', $request->input('login_email'));
                 return redirect('/home-firm');
             }else{
                 return redirect()->back()->with('flash_message_error', 'Грешни email или парола!');
@@ -101,4 +106,17 @@ class UsersController extends Controller
             return "true"; die;
         }
     }
+
+    public function logoutUser(){
+        Auth::logout();
+        Session::forget('frontUserLogin');
+        return redirect('/');
+    }
+
+    public function logoutFirm(){
+        Auth::logout();
+        Session::forget('frontFirmLogin');
+        return redirect('/');
+    }
+
 }
