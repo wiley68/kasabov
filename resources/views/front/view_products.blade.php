@@ -144,29 +144,30 @@
                                     <div class="featured-box">
                                         <figure>
                                             <div class="homes-tag featured">{{ Holiday::where(['id'=>$product->holiday_id])->first()->name }}</div>
-                                            <div class="homes-tag rent"><i class="lni-heart"></i> 202</div>
-                                            <span class="price-save">{{ $product->price }}</span>
-                                            <a href="#"><img class="img-fluid" src="{{ $image }}" alt=""></a>
+                                            <div class="homes-tag rent"><i class="lni-heart"></i> {{ $product->likes }}</div>
+                                            <span class="price-save">{{ number_format($product->price, 2, '.', '') }}{{ Config::get('settings.currency') }}</span>
+                                            <a href="{{ route('product', ['id'=>$product->product_code]) }}"><img class="img-fluid" src="{{ $image }}" alt=""></a>
                                         </figure>
                                         <div class="content-wrapper">
                                             <div class="feature-content">
-                                                <h4><a href="{{ route('product', ['id'=>$product->id]) }}">{{ $product->product_name }}</a></h4>
+                                                <h4><a href="{{ route('product', ['id'=>$product->product_code]) }}">{{ $product->product_name }}</a></h4>
                                                 <p class="listing-tagline">{{ $product->product_code }}</p>
                                                 <div class="meta-tag">
-                                                    <div class="listing-review">
-                                                        <span class="review-avg">4.5</span>
-                                                    </div>
                                                     <div class="user-name">
-                                                        <a href="#"><i class="lni-user"></i> {{ User::where(['id'=>$product->user_id])->first()->name }}</a>
+                                                        <a href="{{ route('products', ['user_id'=>$product->user_id]) }}"><i class="lni-user"></i> {{ User::where(['id'=>$product->user_id])->first()->name }}</a>
                                                     </div>
                                                     <div class="listing-category">
-                                                        <a href="#"><i class="{{ Category::where(['id'=>$product->category_id])->first()->icon }}"></i>{{ Category::where(['id'=>$product->category_id])->first()->name }} </a>
+                                                        @php
+                                                            $category_ids = [];
+                                                            $category_ids[] = $product->category_id;
+                                                        @endphp
+                                                        <a href="{{ route('products', ['category_id'=>$category_ids]) }}"><i class="{{ Category::where(['id'=>$product->category_id])->first()->icon }}"></i>{{ Category::where(['id'=>$product->category_id])->first()->name }} </a>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="listing-bottom clearfix">
-                                                <a href="#" class="float-left"><i class="lni-map-marker"></i> {{ City::where(['id'=>$product->send_id])->first()->city }}</a>
-                                                <a href="{{ route('product', ['id'=>$product->id]) }}" class="float-right">Прегледай Детайлно</a>
+                                                <i class="lni-map-marker"></i> {{ City::where(['id'=>$product->send_id])->first()->city }}
+                                                <a href="{{ route('product', ['id'=>$product->product_code]) }}" class="float-right">Прегледай Детайлно</a>
                                             </div>
                                         </div>
                                     </div>

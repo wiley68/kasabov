@@ -42,6 +42,7 @@
             <form enctype="multipart/form-data" class="form-horizontal" method="post" action="{{ route('admin.edit-product', ['id'=>$product->id]) }}"
                 name="edit_product" id="edit_product" novalidate="novalidate">
                 @csrf
+                <input type="hidden" id="product_id" value="{{ $product->id }}">
                 <div class="span5">
                     <div class="widget-box">
                         <div class="widget-title"> <span class="icon"> <i class="icon-info-sign"></i> </span>

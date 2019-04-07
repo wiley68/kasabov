@@ -72,11 +72,11 @@
                         <div class="homes-tag featured">{{ Holiday::where(['id'=>$featured_product->holiday_id])->first()->name }}</div>
                         <div class="homes-tag rent"><i class="lni-heart"></i> {{ $featured_product->likes }}</div>
                         <span class="price-save">{{ number_format($featured_product->price, 2, '.', '') }}{{ Config::get('settings.currency') }}</span>
-                        <a href="{{ route('product', ['id'=>$featured_product->id]) }}"><img class="img-fluid" src="{{ asset('/images/backend_images/products/small/'.$featured_product->image) }}" alt=""></a>
+                        <a href="{{ route('product', ['id'=>$featured_product->product_code]) }}"><img class="img-fluid" src="{{ asset('/images/backend_images/products/small/'.$featured_product->image) }}" alt=""></a>
                     </figure>
                     <div class="content-wrapper">
                         <div class="feature-content">
-                            <h4><a href="{{ route('product', ['id'=>$featured_product->id]) }}">{{ $featured_product->product_name }}</a></h4>
+                            <h4><a href="{{ route('product', ['id'=>$featured_product->product_code]) }}">{{ $featured_product->product_name }}</a></h4>
                             <p class="listing-tagline">{{ $featured_product->product_code }}</p>
                             <div class="meta-tag">
                                 <div class="user-name">
@@ -93,7 +93,7 @@
                         </div>
                         <div class="listing-bottom clearfix">
                             <i class="lni-map-marker"></i> {{ City::where(['id'=>$featured_product->send_id])->first()->city }}
-                            <a href="{{ route('product', ['id'=>$featured_product->id]) }}" class="float-right">Прегледай Детайлно</a>
+                            <a href="{{ route('product', ['id'=>$featured_product->product_code]) }}" class="float-right">Прегледай Детайлно</a>
                         </div>
                     </div>
                 </div>
@@ -123,7 +123,7 @@
                                 <img class="img-fluid" src="{{ asset('/images/backend_images/products/small/'.$top->image) }}" alt="">
                                 <div class="overlay">
                                     <div>
-                                        <a class="btn btn-common" href="{{ route('product', ['id'=>$top->id]) }}">Виж детайлно</a>
+                                        <a class="btn btn-common" href="{{ route('product', ['id'=>$top->product_code]) }}">Виж детайлно</a>
                                     </div>
                                 </div>
                                 <div class="btn-product bg-sale">
@@ -133,7 +133,7 @@
                             </div>
                             <div class="product-content-inner">
                                 <div class="product-content">
-                                    <h3 class="product-title"><a href="{{ route('product', ['id'=>$top->id]) }}">{{ $top->product_name }}</a></h3>
+                                    <h3 class="product-title"><a href="{{ route('product', ['id'=>$top->product_code]) }}">{{ $top->product_name }}</a></h3>
                                     <span>{{ Category::where(['id'=>$top->category_id])->first()->name }} / {{ Category::where(['id'=>$top->category_id])->first()->name }}</span>
                                     <div class="icon">
                                         <i class="lni-heart" title="Харесайте този продукт"></i> {{ $top->likes }}

@@ -46,6 +46,9 @@
                         <a href="{{ route('home-firm') }}" class="header-top-button"><i class="lni-user"></i> {{ Auth::user()->name }}</a> |
                         <a href="{{ route('logout-front-firm') }}" class="header-top-button"><i class="lni-exit"></i> Изход</a>
                         @endif
+                        @if(Auth::user()->admin == 1)
+                        <i class="lni-user"></i> {{ Auth::user()->name }}
+                        @endif
                     </div>
                     @endguest
                     &nbsp;
@@ -88,7 +91,7 @@
                             @elseif(Route::current()->getName() == 'product')
                             <a href="{{ route('products') }}">Всички продукти</a>
                             <i class="fas fa-chevron-right"></i>
-                            <a href="{{ route('product', ['id'=>$product->id]) }}">{{ $product->product_name }}</a>
+                            <a href="{{ route('product', ['id'=>$product->product_code]) }}">{{ $product->product_name }}</a>
                             @elseif(Route::current()->getName() == 'users-login-register')
                             <a href="{{ route('users-login-register') }}">Регистрация на клиент</a>
                             @elseif(Route::current()->getName() == 'firms-login-register')

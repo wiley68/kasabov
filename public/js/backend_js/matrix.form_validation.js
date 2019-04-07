@@ -1,10 +1,10 @@
 
 $(document).ready(function(){
-	
+
 	$('input[type=checkbox],input[type=radio],input[type=file]').uniform();
-	
+
 	$('select').select2();
-	
+
 	// Form Validation
     $("#basic_validate").validate({
 		rules:{
@@ -34,7 +34,7 @@ $(document).ready(function(){
 			$(element).parents('.control-group').addClass('success');
 		}
 	});
-	
+
 	$("#number_validate").validate({
 		rules:{
 			min:{
@@ -60,7 +60,7 @@ $(document).ready(function(){
 			$(element).parents('.control-group').addClass('success');
 		}
 	});
-	
+
 	$("#password_validate").validate({
 		rules:{
 			pwd:{
@@ -84,5 +84,33 @@ $(document).ready(function(){
 			$(element).parents('.control-group').removeClass('error');
 			$(element).parents('.control-group').addClass('success');
 		}
-	});
+    });
+
+    // Validate save product form
+    $("#edit_product , #add_product").validate({
+        rules: {
+            product_code: {
+                required: true,
+                maxlength: 191,
+                remote: "/admin/check-product?id=" + $('#product_id').val()
+            }
+        },
+        messages: {
+            product_code: {
+                required: "Моля въведете Код на продукта",
+                maxlength: "Максималната дължина на полето е 191 символа",
+                remote: "Вече има регистриран друг продукт с този код! Не можете да го използвате отново!"
+            }
+        },
+        errorClass: "help-inline",
+		errorElement: "span",
+		highlight:function(element, errorClass, validClass) {
+			$(element).parents('.control-group').addClass('error');
+		},
+		unhighlight: function(element, errorClass, validClass) {
+			$(element).parents('.control-group').removeClass('error');
+			$(element).parents('.control-group').addClass('success');
+		}
+    });
+
 });

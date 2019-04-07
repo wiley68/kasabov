@@ -19,6 +19,7 @@
             <form enctype="multipart/form-data" class="form-horizontal" method="post" action="{{ route('admin.add-product') }}" name="add_product"
                 id="add_product" novalidate="novalidate">
                 @csrf
+                <input type="hidden" id="product_id" value="0">
                 <div class="span5">
                     <div class="widget-box">
                         <div class="widget-title"> <span class="icon"> <i class="icon-info-sign"></i> </span>

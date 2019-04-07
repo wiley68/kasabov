@@ -45,6 +45,9 @@
                         <a href="{{ route('home-firm') }}" class="header-top-button"><i class="lni-user"></i> {{ Auth::user()->name }}</a> |
                         <a href="{{ route('logout-front-firm') }}" class="header-top-button"><i class="lni-exit"></i> Изход</a>
                         @endif
+                        @if(Auth::user()->admin == 1)
+                        <i class="lni-user"></i> {{ Auth::user()->name }}
+                        @endif
                     </div>
                     @endguest
                     &nbsp;

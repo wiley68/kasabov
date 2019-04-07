@@ -353,6 +353,16 @@ class ProductController extends Controller
             ]);
     }
 
+    public function checkProduct(Request $request){
+        // Check if product code exist
+        $product = Product::where(['product_code'=>$request->input('product_code')])->first();
+        if (empty($product) || $product->id == $request->input('id')){
+            return "true"; die;
+        }else{
+            return "false";
+        }
+    }
+
     public function deleteProduct(Request $request, $id=null){
         if (!empty($id)){
             $product = Product::where(['id'=>$id])->first();
@@ -747,7 +757,7 @@ class ProductController extends Controller
     }
 
     public function frontGetProduct(Request $request, $id=null){
-        $product = Product::where(['id'=>$id])->first();
+        $product = Product::where(['product_code'=>$id])->first();
         $holidays_count = Holiday::where(['parent_id'=>0])->count();
         if ($holidays_count >= 5){
             $holidays_count = 5;
