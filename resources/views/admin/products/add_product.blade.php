@@ -326,6 +326,14 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="widget-content nopadding">
+                            <div class="control-group">
+                                <label class="control-label">Показвания</label>
+                                <div class="controls">
+                                    <input type="number" name="views" id="views">
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </form>

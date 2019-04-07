@@ -87,6 +87,7 @@ class ProductController extends Controller
             $featured = $request->input('featured');
             $likes = $request->input('likes');
             $top = $request->input('top');
+            $views = $request->input('views');
             // Create product column
             $product = new Product();
             $product->user_id = $user_id;
@@ -118,6 +119,7 @@ class ProductController extends Controller
             $product->featured = $featured;
             $product->likes = $likes;
             $product->top = $top;
+            $product->views = $views;
             //upload image
             if ($request->hasFile('image')){
                 $image_temp = Input::file('image');
@@ -296,6 +298,7 @@ class ProductController extends Controller
             $product->featured = $request->input('featured');
             $product->likes = $request->input('likes');
             $product->top = $request->input('top');
+            $product->views = $request->input('views');
             $product->save();
 
             // Add tags to tags table
@@ -303,20 +306,20 @@ class ProductController extends Controller
             $tags_count = ProductsTags::where(['product_id'=>$product->id])->count();
             if ($tags_count > 0){
                 ProductsTags::where(['product_id'=>$product->id])->delete();
-                foreach ($request->tags as $tag) {
-                    if (Tag::where(['name'=>$tag])->get()->count() > 0){
-                        $tag_id = Tag::where(['name'=>$tag])->first()->id;
-                    }else{
-                        $new_tag = new Tag();
-                        $new_tag->name = $tag;
-                        $new_tag->save();
-                        $tag_id = $new_tag->id;
-                    }
-                    $products_tag = new ProductsTags();
-                    $products_tag->product_id = $product->id;
-                    $products_tag->tag_id = $tag_id;
-                    $products_tag->save();
+            }
+            foreach ($request->input('tags') as $tag) {
+                if (Tag::where(['name'=>$tag])->get()->count() > 0){
+                    $tag_id = Tag::where(['name'=>$tag])->first()->id;
+                }else{
+                    $new_tag = new Tag();
+                    $new_tag->name = $tag;
+                    $new_tag->save();
+                    $tag_id = $new_tag->id;
                 }
+                $products_tag = new ProductsTags();
+                $products_tag->product_id = $product->id;
+                $products_tag->tag_id = $tag_id;
+                $products_tag->save();
             }
             // Add city to cities table
             // Delete old cities
@@ -510,6 +513,19 @@ class ProductController extends Controller
         $min_price = 0;
         $max_price = 0;
         $user_id = 0;
+
+        // Get tag requests
+        if (!empty(request('tag'))){
+            // Get products_tags
+            $products_tags = ProductsTags::where(['tag_id'=>request('tag')])->get();
+            foreach ($products_tags as $product_tag) {
+                $products_id_in[] = $product_tag->product_id;
+            }
+            // filter products
+            $products = $products->whereIn('id', $products_id_in);
+            // save queries
+            $queries['tag'] = request('tag');
+        }
 
         // Get holiday requests
         if (!empty(request('holiday_id'))){

@@ -383,7 +383,15 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                        <div class="widget-content nopadding">
+                                <div class="control-group">
+                                    <label class="control-label">Преглеждания</label>
+                                    <div class="controls">
+                                        <input type="number" name="views" id="views" value="{{ $product->views }}">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                 </div>
             </form>
             <div id="imageModal" class="modal hide" aria-hidden="true" style="display: none;">

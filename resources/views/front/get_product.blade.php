@@ -30,7 +30,7 @@ if(!empty($product->image)){
                             <div class="product-img">
                                 <img class="img-fluid" src="{{ $image }}" alt="">
                             </div>
-                            <span class="price">{{ $product->price }}</span>
+                            <span class="price">{{ number_format($product->price, 2, '.', '') }}{{ Config::get('settings.currency') }}</span>
                         </div>
                         @foreach (ProductsImage::where(['product_id'=>$product->id])->get() as $item)
                         <div class="item">
@@ -46,9 +46,9 @@ if(!empty($product->image)){
                     <div class="ads-details-info">
                         <h2>{{ $product->product_name }}</h2>
                         <div class="details-meta">
-                            <span><a href="#"><i class="lni-alarm-clock"></i> {{ ProductController::getCreatedAtAttribute($product->created_at) }}</a></span>
-                            <span><a href="#"><i class="lni-map-marker"></i>  {{ City::where(['id'=>$product->send_id])->first()->city }}</a></span>
-                            <span><a href="#"><i class="lni-eye"></i> 299 View</a></span>
+                            <span title="Добавен на"><i class="lni-alarm-clock"></i> {{ ProductController::getCreatedAtAttribute($product->created_at) }}</span>
+                            <span title="Изпраща се от, населено място"><i class="lni-map-marker"></i>  {{ City::where(['id'=>$product->send_id])->first()->city }} - {{ City::where(['id'=>$product->send_id])->first()->oblast }}</span>
+                            <span title="Брой прегледа на обявата"><i class="lni-eye"></i> {{ $product->views }}</span>
                         </div>
                         <p class="mb-4">{!! $product->description !!}</p>
                         <hr />
@@ -57,11 +57,81 @@ if(!empty($product->image)){
                             <li><i class="lni-check-mark-circle"></i> Номер: {{ $product->id }}</li>
                             <li><i class="lni-check-mark-circle"></i> Код: {{ $product->product_code }}</li>
                             <li><i class="lni-check-mark-circle"></i> Наименование: {{ $product->product_name }}</li>
-                            <li><i class="lni-check-mark-circle"></i> Категория: <i class="{{ Category::where(['id'=>$product->category_id])->first()->icon }}"></i>&nbsp;{{ Category::where(['id'=>$product->category_id])->first()->name }}</li>
-                            <li><i class="lni-check-mark-circle"></i> Празник: {{ HolidayController::getHolidayById($product->holiday_id) }}</li>
-                            <li><i class="lni-check-mark-circle"></i> Цена: {{ $product->price }}</li>
-                            <li><i class="lni-check-mark-circle"></i> Основен цвят: {{ $product->first_color }}</li>
-                            <li><i class="lni-check-mark-circle"></i> Втори цвят: {{ $product->second_color }}</li>
+                            @php
+                                $category_ids = [];
+                                $category_ids[] = $product->category_id;
+                            @endphp
+                            <li><i class="lni-check-mark-circle"></i> Категория: <i class="{{ Category::where(['id'=>$product->category_id])->first()->icon }}"></i>&nbsp;<a href="{{ route('products', ['category_id'=>$category_ids]) }}" title="Покажи всички обяви от тази категория">{{ Category::where(['id'=>$product->category_id])->first()->name }}</a></li>
+                            @php
+                                $holiday_ids = [];
+                                $holiday_ids[] = $product->holiday_id;
+                            @endphp
+                            <li><i class="lni-check-mark-circle"></i> Празник: <a href="{{ route('products', ['holiday_id'=>$holiday_ids]) }}" title="Покажи всички обяви от този празник"> {{ HolidayController::getHolidayById($product->holiday_id) }}</a></li>
+                            <li><i class="lni-check-mark-circle"></i> Цена: {{ number_format($product->price, 2, '.', '') }}{{ Config::get('settings.currency') }}</li>
+                            @php
+                                switch ($product->first_color) {
+                                    case 'white':
+                                        $first_color = 'Бял';
+                                        break;
+                                    case 'gray':
+                                        $first_color = 'Сив';
+                                        break;
+                                    case 'black':
+                                        $first_color = 'Черен';
+                                        break;
+                                    case 'red':
+                                        $first_color = 'Червен';
+                                        break;
+                                    case 'yellow':
+                                        $first_color = 'Жълт';
+                                        break;
+                                    case 'green':
+                                        $first_color = 'Зелен';
+                                        break;
+                                    case 'blue':
+                                        $first_color = 'Син';
+                                        break;
+                                    case 'brown':
+                                        $first_color = 'Кафяв';
+                                        break;
+                                    case 'white':
+                                        $first_color = 'Бял';
+                                        break;
+                                }
+                            @endphp
+                            <li><i class="lni-check-mark-circle"></i> Основен цвят: <i class="fas fa-square" style="color:{{ $product->first_color }};"></i><a href="{{ route('products', ['first_color'=>$product->first_color]) }}" title="Покажи всички обяви в този основен цвят"> {{ $first_color }}</a></li>
+                            @php
+                                switch ($product->second_color) {
+                                    case 'white':
+                                        $second_color = 'Бял';
+                                        break;
+                                    case 'gray':
+                                        $second_color = 'Сив';
+                                        break;
+                                    case 'black':
+                                        $second_color = 'Черен';
+                                        break;
+                                    case 'red':
+                                        $second_color = 'Червен';
+                                        break;
+                                    case 'yellow':
+                                        $second_color = 'Жълт';
+                                        break;
+                                    case 'green':
+                                        $second_color = 'Зелен';
+                                        break;
+                                    case 'blue':
+                                        $second_color = 'Син';
+                                        break;
+                                    case 'brown':
+                                        $second_color = 'Кафяв';
+                                        break;
+                                    case 'white':
+                                        $second_color = 'Бял';
+                                        break;
+                                }
+                            @endphp
+                            <li><i class="lni-check-mark-circle"></i> Втори цвят: <i class="fas fa-square" style="color:{{ $product->second_color }};"></i><a href="{{ route('products', ['second_color'=>$product->second_color]) }}" title="Покажи всички обяви в този втори цвят"> {{ $second_color }}</a></li>
                             @php
                             switch ($product->age) {
                                 case 'child':
@@ -74,8 +144,10 @@ if(!empty($product->image)){
                                     $age_txt = 'Без значение';
                                     break;
                             }
+                            $holiday_ids = [];
+                            $holiday_ids[] = $product->holiday_id;
                             @endphp
-                            <li><i class="lni-check-mark-circle"></i> Възрастова група: {{ $age_txt }}</li>
+                        <li><i class="lni-check-mark-circle"></i> Възрастова група: <a href="{{ route('products', ['age'=>$product->age]) }}" title="Покажи всички обяви в тази възрастова група">{{ $age_txt }}</a></li>
                             @php
                             switch ($product->pol) {
                                 case 'woman':
@@ -89,7 +161,7 @@ if(!empty($product->image)){
                                     break;
                             }
                             @endphp
-                            <li><i class="lni-check-mark-circle"></i> Пол: {{ $pol_txt }}</li>
+                            <li><i class="lni-check-mark-circle"></i> Пол: <a href="{{ route('products', ['pol'=>$product->pol]) }}" title="Покажи всички обяви за този пол">{{ $pol_txt }}</a></li>
                             @php
                             switch ($product->condition) {
                                 case 'old':
@@ -100,11 +172,11 @@ if(!empty($product->image)){
                                     break;
                             }
                             @endphp
-                            <li><i class="lni-check-mark-circle"></i> Състояние: {{ $condition_txt }}</li>
-                            <li><i class="lni-check-mark-circle"></i> Изпраща се с: {{ SpeditorController::getSpeditorById($product->send_id) }}</li>
+                            <li><i class="lni-check-mark-circle"></i> Състояние: <a href="{{ route('products', ['condition'=>$product->condition]) }}" title="Покажи всички обяви с това състояние">{{ $condition_txt }}</a></li>
+                            <li><i class="lni-check-mark-circle"></i> Изпраща се с: <a href="{{ route('products', ['send_id'=>$product->send_id]) }}" title="Покажи всички обяви които се изпращат с този иапращач">{{ SpeditorController::getSpeditorById($product->send_id) }}</a></li>
                             <li><i class="lni-check-mark-circle"></i> Изпраща се от: {{ CityController::getCityById($product->send_from_id) }}&nbsp;, област: {{ CityController::getOblastById($product->send_from_id) }}</li>
-                            <li><i class="lni-check-mark-circle"></i> Цена за изпращане: {{ $product->price_send }}</li>
-                            <li><i class="lni-check-mark-circle"></i> Безплатна доставка: @if ($product->send_free === 1) Да @else Не @endif</li>
+                            <li><i class="lni-check-mark-circle"></i> Цена за изпращане: {{ number_format($product->price_send, 2, '.', '') }}{{ Config::get('settings.currency') }}</li>
+                            <li><i class="lni-check-mark-circle"></i> Безплатна доставка: @if ($product->send_free === 1) <a href="{{ route('products', ['send_free'=>1]) }}" title="Покажи всички обяви с безплатна доставка">Да</a> @else <a href="{{ route('products', ['send_free'=>0]) }}" title="Покажи всички обяви без безплатна доставка">Не</a> @endif</li>
                             <li><i class="lni-check-mark-circle"></i> Важи за: {{ CityController::getCityById($product->send_free_id) }}&nbsp;, област: {{ CityController::getOblastById($product->send_free_id) }}</li>
                             @php
                             switch ($product->available_for) {
@@ -123,14 +195,14 @@ if(!empty($product->image)){
                             }
                             @endphp
                             <li><i class="lni-check-mark-circle"></i> Доставя за: {{ $available_for_txt }}</li>
-                            <li><i class="lni-check-mark-circle"></i> Може да се вземе от обект: @if ($product->object == 1) Да @else Не @endif</li>
+                            <li><i class="lni-check-mark-circle"></i> Може да се вземе от обект: @if ($product->object == 1) <a href="{{ route('products', ['object'=>1]) }}" title="Покажи всички обяви които могат да се вземат от обект">Да</a> @else <a href="{{ route('products', ['object'=>0]) }}" title="Покажи всички обяви които не могат да се вземат от обект">Не</a> @endif</li>
                             <li><i class="lni-check-mark-circle"></i> Адрес на обекта: {{ $product->object_name }}</li>
-                            <li><i class="lni-check-mark-circle"></i> Възможност за персонализиране: @if ($product->personalize == 1) Да @else Не @endif</li>
+                            <li><i class="lni-check-mark-circle"></i> Възможност за персонализиране: @if ($product->personalize == 1) <a href="{{ route('products', ['personalize'=>1]) }}" title="Покажи всички обяви които могат да се персонализират">Да</a> @else <a href="{{ route('products', ['personalize'=>0]) }}" title="Покажи всички обяви които не могат да се персонализират">Не</a> @endif</li>
                         </ul>
                         <hr />
                         <p class="mb-4">
                         @foreach (ProductsTags::where(['product_id'=>$product->id])->get() as $product_tag)
-                            <button type="button" class="btn btn-outline-info">{{ Tag::where(['id'=>$product_tag->tag_id])->first()->name }}</button>
+                            <a href="{{ route('products', ['tag'=>$product_tag->tag_id]) }}" type="button" class="btn btn-outline-info">{{ Tag::where(['id'=>$product_tag->tag_id])->first()->name }}</a>
                         @endforeach
                         </p>
                     </div>
@@ -138,20 +210,18 @@ if(!empty($product->image)){
                         <div class="float-left">
                             <ul class="advertisement">
                                 <li>
-                                    <p><strong><i class="lni-folder"></i> Категория:</strong> <a href="#">{{ Category::where(['id'=>$product->category_id])->first()->name }}</a></p>
+                                    <p><strong><i class="lni-folder"></i> Категория:</strong> <a href="{{ route('products', ['category_id'=>$category_ids]) }}" title="Покажи всички обяви от тази категория">{{ Category::where(['id'=>$product->category_id])->first()->name }}</a></p>
                                 </li>
                                 <li>
-                                    <p><strong><i class="lni-archive"></i> Състояние:</strong> <a href="#">{{ $condition_txt }}</a></p>
+                                    <p><strong><i class="lni-archive"></i> Състояние:</strong> <a href="{{ route('products', ['condition'=>$product->condition]) }}" title="Покажи всички обяви с това състояние">{{ $condition_txt }}</a></p>
                                 </li>
                             </ul>
                         </div>
                         <div class="float-right">
                             <div class="share">
                                 <div class="social-link">
-                                    <a class="facebook" data-toggle="tooltip" data-placement="top" title="facebook" href="#"><i class="lni-facebook-filled"></i></a>
-                                    <a class="twitter" data-toggle="tooltip" data-placement="top" title="twitter" href="#"><i class="lni-twitter-filled"></i></a>
-                                    <a class="linkedin" data-toggle="tooltip" data-placement="top" title="linkedin" href="#"><i class="lni-linkedin-fill"></i></a>
-                                    <a class="google" data-toggle="tooltip" data-placement="top" title="google plus" href="#"><i class="lni-google-plus"></i></a>
+                                    <a class="facebook" data-toggle="tooltip" data-placement="top" title="facebook" href="{{ User::where(['id'=>$product->user_id])->first()->facebook }}"><i class="lni-facebook-filled"></i></a>
+                                    <a class="twitter" data-toggle="tooltip" data-placement="top" title="twitter" href="{{ User::where(['id'=>$product->user_id])->first()->twitter }}"><i class="lni-twitter-filled"></i></a>
                                 </div>
                             </div>
                         </div>
@@ -162,7 +232,7 @@ if(!empty($product->image)){
                 <!--Sidebar-->
                 <aside class="details-sidebar">
                     <div class="widget">
-                        <h4 class="widget-title">Продукт на:</h4>
+                        <h4 class="widget-title">Продукт на: {{ User::where(['id'=>$product->user_id])->first()->name }}</h4>
                         <div class="agent-inner">
                             <div class="mb-4">
                                 <object style="border:0; height: 230px; width: 100%;" data="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d34015.943594576835!2d-106.43242624069771!3d31.677719472407432!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x86e75d90e99d597b%3A0x6cd3eb9a9fcd23f1!2sCourtyard+by+Marriott+Ciudad+Juarez!5e0!3m2!1sen!2sbd!4v1533791187584"></object>
