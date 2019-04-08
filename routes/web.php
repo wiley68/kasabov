@@ -16,6 +16,8 @@ Auth::routes();
 // Frontend
 Route::group(['middleware' => ['frontUserLogin']], function () {
     Route::get('/home', 'HomeController@index')->name('home');
+    Route::get('/home-settings', 'HomeController@settings')->name('home-settings');
+    Route::get('/home-adds', 'HomeController@adds')->name('home-adds');
 });
 Route::group(['middleware' => ['frontFirmLogin']], function () {
     Route::get('/home-firm', 'HomeController@index_firm')->name('home-firm');
