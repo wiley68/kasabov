@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Holiday;
 use App\LandingPage;
+use App\City;
+use App\User;
+use Auth;
+use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
@@ -21,7 +25,37 @@ class HomeController extends Controller
         ]);
     }
 
-    public function settings()
+    public function settings(Request $request)
+    {
+        // Add holidays
+        $holidays = Holiday::where(['parent_id'=>0])->get();
+        // Add property
+        $property = LandingPage::first();
+        // Add cities
+        $cities = City::all();
+        $user = User::where(['id'=>Auth::user()->id])->first();
+
+        if($request->isMethod('post')){
+            if(!empty($request->input('user_name'))){
+                $user->name = $request->input('user_name');
+            }
+            if(!empty($request->input('user_phone'))){
+                $user->phone = $request->input('user_phone');
+            }
+            $user->address = $request->input('user_address');
+            $user->city_id = $request->input('city_id');
+            $user->save();
+        }
+
+        return view('users.settings')->with([
+            'holidays'=>$holidays,
+            'property'=>$property,
+            'cities'=>$cities,
+            'user'=>$user
+        ]);
+    }
+
+    public function adds()
     {
         // Add holidays
         $holidays = Holiday::where(['parent_id'=>0])->get();
@@ -35,7 +69,21 @@ class HomeController extends Controller
         ]);
     }
 
-    public function adds()
+    public function favorites()
+    {
+        // Add holidays
+        $holidays = Holiday::where(['parent_id'=>0])->get();
+
+        // Add property
+        $property = LandingPage::first();
+
+        return view('home')->with([
+            'holidays'=>$holidays,
+            'property'=>$property
+        ]);
+    }
+
+    public function privacy()
     {
         // Add holidays
         $holidays = Holiday::where(['parent_id'=>0])->get();
