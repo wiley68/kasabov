@@ -298,6 +298,19 @@
                         </div>
                         <div class="widget-content nopadding">
                             <div class="control-group">
+                                <label class="control-label">Статус</label>
+                                <div class="controls">
+                                    <select name="status" id="status" style="width:314px;">
+                                        <option value='active' selected>Активен</option>
+                                        <option value='notactive'>Неактивен</option>
+                                        <option value='sold'>Продаден</option>
+                                        <option value='expired'>Изтекъл</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="widget-content nopadding">
+                            <div class="control-group">
                                 <label class="control-label">Специален продукт</label>
                                 <div class="controls">
                                     <select name="featured" id="featured" style="width:314px;">

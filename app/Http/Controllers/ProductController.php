@@ -85,9 +85,18 @@ class ProductController extends Controller
             }
             $price = $request->input('price');
             $featured = $request->input('featured');
-            $likes = $request->input('likes');
+            if (empty($request->input('likes'))){
+                $likes = 0;
+            }else{
+                $likes = $request->input('likes');
+            }
             $top = $request->input('top');
-            $views = $request->input('views');
+            if (empty($request->input('views'))){
+                $views = 0;
+            }else{
+                $views = $request->input('views');
+            }
+            $status = $request->input('status');
             // Create product column
             $product = new Product();
             $product->user_id = $user_id;
@@ -120,6 +129,7 @@ class ProductController extends Controller
             $product->likes = $likes;
             $product->top = $top;
             $product->views = $views;
+            $product->status = $status;
             //upload image
             if ($request->hasFile('image')){
                 $image_temp = Input::file('image');
@@ -296,9 +306,18 @@ class ProductController extends Controller
             $product->price = $request->input('price');
             $product->image = $filename;
             $product->featured = $request->input('featured');
-            $product->likes = $request->input('likes');
+            if (empty($request->input('likes'))){
+                $product->likes = 0;
+            }else{
+                $product->likes = $request->input('likes');
+            }
             $product->top = $request->input('top');
-            $product->views = $request->input('views');
+            if (empty($request->input('views'))){
+                $product->views = 0;
+            }else{
+                $product->views = $request->input('views');
+            }
+            $product->status = $request->input('status');
             $product->save();
 
             // Add tags to tags table
@@ -307,19 +326,21 @@ class ProductController extends Controller
             if ($tags_count > 0){
                 ProductsTags::where(['product_id'=>$product->id])->delete();
             }
-            foreach ($request->input('tags') as $tag) {
-                if (Tag::where(['name'=>$tag])->get()->count() > 0){
-                    $tag_id = Tag::where(['name'=>$tag])->first()->id;
-                }else{
-                    $new_tag = new Tag();
-                    $new_tag->name = $tag;
-                    $new_tag->save();
-                    $tag_id = $new_tag->id;
+            if(!empty($request->input('tags'))){
+                foreach ($request->input('tags') as $tag) {
+                    if (Tag::where(['name'=>$tag])->get()->count() > 0){
+                        $tag_id = Tag::where(['name'=>$tag])->first()->id;
+                    }else{
+                        $new_tag = new Tag();
+                        $new_tag->name = $tag;
+                        $new_tag->save();
+                        $tag_id = $new_tag->id;
+                    }
+                    $products_tag = new ProductsTags();
+                    $products_tag->product_id = $product->id;
+                    $products_tag->tag_id = $tag_id;
+                    $products_tag->save();
                 }
-                $products_tag = new ProductsTags();
-                $products_tag->product_id = $product->id;
-                $products_tag->tag_id = $tag_id;
-                $products_tag->save();
             }
             // Add city to cities table
             // Delete old cities

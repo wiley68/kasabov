@@ -355,16 +355,29 @@
                         </div>
                         <div class="widget-content nopadding">
                             <div class="control-group">
-                                <label class="control-label">Специален продукт</label>
+                                <label class="control-label">Статус</label>
                                 <div class="controls">
-                                    <select name="featured" id="featured" style="width:314px;">
-                                        <option value=0 @if ($product->featured === 0) selected @endif>Не</option>
-                                        <option value=1 @if ($product->featured === 1) selected @endif>Да</option>
+                                    <select name="status" id="status" style="width:314px;">
+                                        <option value='active' @if ($product->status === 'active') selected @endif>Активен</option>
+                                        <option value='notactive' @if ($product->status === 'notactive') selected @endif>Неактивен</option>
+                                        <option value='sold' @if ($product->status === 'sold') selected @endif>Продаден</option>
+                                        <option value='expired' @if ($product->status === 'expired') selected @endif>Изтекъл</option>
                                     </select>
                                 </div>
                             </div>
                         </div>
                         <div class="widget-content nopadding">
+                                <div class="control-group">
+                                    <label class="control-label">Специален продукт</label>
+                                    <div class="controls">
+                                        <select name="featured" id="featured" style="width:314px;">
+                                            <option value=0 @if ($product->featured === 0) selected @endif>Не</option>
+                                            <option value=1 @if ($product->featured === 1) selected @endif>Да</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="widget-content nopadding">
                             <div class="control-group">
                                 <label class="control-label">Топ продукт</label>
                                 <div class="controls">
