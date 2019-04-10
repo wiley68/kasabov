@@ -12,8 +12,8 @@
         <div class="row">
             <div class="col-12 text-center">
                 <div class="heading">
-                    <h1 class="section-title">{{ $property->category_title }}</h1>
-                    <h4 class="sub-title"><a href="{{ route('products') }}">покажи всички продукти</a></h4>
+                    <h1 class="section-title">КАТЕГОРИИ</h1>
+                    <h4 class="sub-title"><a href="{{ route('products') }}">ПОКАЖИ ВСИЧКИ ОФЕРТИ</a></h4>
                 </div>
             </div>
             @php
@@ -34,7 +34,7 @@
                     $category_ids[] = $category_top->id;
                 @endphp
                 <a href="{{ route('products', ['category_id'=>$category_ids]) }}">
-                    <div class="category-icon-item lis-bg{{ $bg_count }}">
+                    <div class="category-icon-item lis-bg{{ $bg_count }}" style="height:150px;">
                         <div class="icon-box">
                             <div class="icon">
                                 <i class="{{ $category_top->icon }}"></i>
@@ -61,8 +61,7 @@
         <div class="row">
             <div class="col-12 text-center">
                 <div class="heading">
-                    <h1 class="section-title">{{ $property->best_title }}</h1>
-                    <h4 class="sub-title">{{ $property->best_subtitle }}</h4>
+                    <h1 class="section-title">НАЙ-ХАРЕСВАНИ ОФЕРТИ</h1>
                 </div>
             </div>
             @foreach ($featured_products as $featured_product)
@@ -110,8 +109,7 @@
         <div class="row">
             <div class="col-12 text-center">
                 <div class="heading">
-                    <h1 class="section-title">{{ $property->featured_title }}</h1>
-                    <h4 class="sub-title">{{ $property->featured_subtitle }}</h4>
+                    <h1 class="section-title">ТОП ОФЕРТИ</h1>
                 </div>
             </div>
             <div class="col-md-12 wow fadeIn" data-wow-delay="0.5s">
@@ -161,32 +159,32 @@
         <div class="row">
             <div class="col-12 text-center">
                 <div class="heading">
-                    <h1 class="section-title">{{ $property->works_title }}</h1>
-                    <h4 class="sub-title">{{ $property->works_subtitle }}</h4>
+                    <h1 class="section-title">КАК РАБОТИ <a href="{{ route('index') }}">PARTYBOX.BG</a></h1>
+                    <h4 class="sub-title">Достъп до хиляди парти оферти всеки ден</h4>
                 </div>
             </div>
             <div class="col-lg-4 col-md-4 col-xs-12">
                 <div class="works-item">
                     <div class="icon-box">
-                        <i class="lni-users"></i>
+                        <i class="far fa-user"></i>
                     </div>
-                    <p>{{ $property->create_account }}</p>
+                    <p>НАПРАВИ РЕГИСТРАЦИЯ В САЙТА</p>
                 </div>
             </div>
             <div class="col-lg-4 col-md-4 col-xs-12">
                 <div class="works-item">
                     <div class="icon-box">
-                        <i class="lni-bookmark-alt"></i>
+                        <i class="fas fa-search"></i>
                     </div>
-                    <p>{{ $property->post_add }}</p>
+                    <p>НАМЕРИ НАЙ-ДОБРИТЕ ПАРТИ ОФЕРТИ ЗА ТЕБ</p>
                 </div>
             </div>
             <div class="col-lg-4 col-md-4 col-xs-12">
                 <div class="works-item">
                     <div class="icon-box">
-                        <i class="lni-thumbs-up"></i>
+                        <i class="fas fa-shopping-cart"></i>
                     </div>
-                    <p>{{ $property->deal_done }}</p>
+                    <p>ПОРЪЧАЙ ЛЕСНО И БЪРЗО</p>
                 </div>
             </div>
             <hr class="works-line">
@@ -195,268 +193,4 @@
 </section>
 <!-- Works Section End -->
 
-<!-- Services Section Start -->
-<section class="services bg-light section-padding">
-    <div class="container">
-        <div class="row">
-            <div class="col-12 text-center">
-                <div class="heading">
-                    <h1 class="section-title">{{ $property->key_title }}</h1>
-                    <h4 class="sub-title">{{ $property->key_subtitle }}</h4>
-                </div>
-            </div>
-            <!-- feature 1 -->
-            <div class="col-md-6 col-lg-4 col-xs-12">
-                <div class="services-item wow fadeInRight" data-wow-delay="0.2s">
-                    <div class="icon">
-                        <i class="{{ $property->key_icon1 }}"></i>
-                    </div>
-                    <div class="services-content">
-                        <h3><a href="#">{{ $property->key_title1 }}</a></h3>
-                        <p>{{ $property->key_description1 }}</p>
-                    </div>
-                </div>
-            </div>
-            <!-- feature 2 -->
-            <div class="col-md-6 col-lg-4 col-xs-12">
-                <div class="services-item wow fadeInRight" data-wow-delay="0.2s">
-                    <div class="icon">
-                        <i class="{{ $property->key_icon2 }}"></i>
-                    </div>
-                    <div class="services-content">
-                        <h3><a href="#">{{ $property->key_title2 }}</a></h3>
-                        <p>{{ $property->key_description2 }}</p>
-                    </div>
-                </div>
-            </div>
-            <!-- feature 3 -->
-            <div class="col-md-6 col-lg-4 col-xs-12">
-                <div class="services-item wow fadeInRight" data-wow-delay="0.2s">
-                    <div class="icon">
-                        <i class="{{ $property->key_icon3 }}"></i>
-                    </div>
-                    <div class="services-content">
-                        <h3><a href="#">{{ $property->key_title3 }}</a></h3>
-                        <p>{{ $property->key_description3 }}</p>
-                    </div>
-                </div>
-            </div>
-            <!-- feature 4 -->
-            <div class="col-md-6 col-lg-4 col-xs-12">
-                <div class="services-item wow fadeInRight" data-wow-delay="0.2s">
-                    <div class="icon">
-                        <i class="{{ $property->key_icon4 }}"></i>
-                    </div>
-                    <div class="services-content">
-                        <h3><a href="#">{{ $property->key_title4 }}</a></h3>
-                        <p>{{ $property->key_description4 }}</p>
-                    </div>
-                </div>
-            </div>
-            <!-- feature 5 -->
-            <div class="col-md-6 col-lg-4 col-xs-12">
-                <div class="services-item wow fadeInRight" data-wow-delay="0.2s">
-                    <div class="icon">
-                        <i class="{{ $property->key_icon5 }}"></i>
-                    </div>
-                    <div class="services-content">
-                        <h3><a href="#">{{ $property->key_title5 }}</a></h3>
-                        <p>{{ $property->key_description5 }}</p>
-                    </div>
-                </div>
-            </div>
-            <!-- feature 6 -->
-            <div class="col-md-6 col-lg-4 col-xs-12">
-                <div class="services-item wow fadeInRight" data-wow-delay="0.2s">
-                    <div class="icon">
-                        <i class="{{ $property->key_icon6 }}"></i>
-                    </div>
-                    <div class="services-content">
-                        <h3><a href="#">{{ $property->key_title6 }}</a></h3>
-                        <p>{{ $property->key_description6 }}</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-<!-- Services Section End -->
-
-<!-- Testimonial Section Start -->
-<section class="testimonial section-padding">
-    <div class="container">
-        <div class="row">
-            <div class="col-12 text-center"><hr/></div>
-            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                <div id="testimonials" class="owl-carousel">
-                    <div class="item">
-                        <div class="img-thumb">
-                            <img src="assets/img/testimonial/img1.png" alt="">
-                        </div>
-                        <div class="testimonial-item">
-                            <div class="content">
-                                <p class="description">{{ $property->testimonials_description1 }}</p>
-                                <div class="info-text">
-                                    <h2><a href="#">{{ $property->testimonials_name1 }}</a></h2>
-                                    <h4><a href="#">{{ $property->testimonials_title1 }}</a></h4>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="item">
-                            <div class="img-thumb">
-                                <img src="assets/img/testimonial/img2.png" alt="">
-                            </div>
-                            <div class="testimonial-item">
-                                <div class="content">
-                                    <p class="description">{{ $property->testimonials_description2 }}</p>
-                                    <div class="info-text">
-                                        <h2><a href="#">{{ $property->testimonials_name2 }}</a></h2>
-                                        <h4><a href="#">{{ $property->testimonials_title2 }}</a></h4>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="item">
-                        <div class="item">
-                            <div class="img-thumb">
-                                <img src="assets/img/testimonial/img3.png" alt="">
-                            </div>
-                            <div class="testimonial-item">
-                                <div class="content">
-                                    <p class="description">{{ $property->testimonials_description3 }}</p>
-                                    <div class="info-text">
-                                        <h2><a href="#">{{ $property->testimonials_name3 }}</a></h2>
-                                        <h4><a href="#">{{ $property->testimonials_title3 }}</a></h4>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-<!-- Testimonial Section End -->
-
-<!-- Blog Section -->
-<section id="blog" class="section-padding">
-    <!-- Container Starts -->
-    <div class="container">
-        <div class="row">
-            <div class="col-12 text-center">
-                <div class="heading">
-                    <h1 class="section-title">Новини</h1>
-                    <h4 class="sub-title">някакъв обяснителен текст. някакъв обяснителен текст. някакъв обяснителен текст.</h4>
-                </div>
-            </div>
-            <div class="col-lg-4 col-md-6 col-xs-12 blog-item">
-                <!-- Blog Item Starts -->
-                <div class="blog-item-wrapper">
-                    <div class="blog-item-img">
-                        <a href="single-post.html">
-                    <img src="assets/img/blog/img-1.jpg" alt="">
-                  </a>
-                    </div>
-                    <div class="blog-item-text">
-                        <div class="meta-tags">
-                            <span class="user float-left"><a href="#"><i class="lni-user"></i> Posted By Admin</a></span>
-                            <span class="date float-right"><i class="lni-calendar"></i> 24 May, 2020</span>
-                        </div>
-                        <h3>
-                            <a href="single-post.html">Recently Launching Our Iphone X</a>
-                        </h3>
-                        <p>
-                            Reprehenderit nemo quod tempore doloribus ratione distinctio quis quidem vitae sunt reiciendis, molestias omnis soluta.
-                        </p>
-                        <a href="single-post.html" class="btn btn-common">Прочети още...</a>
-                    </div>
-                </div>
-                <!-- Blog Item Wrapper Ends-->
-            </div>
-
-            <div class="col-lg-4 col-md-6 col-xs-12 blog-item">
-                <!-- Blog Item Starts -->
-                <div class="blog-item-wrapper">
-                    <div class="blog-item-img">
-                        <a href="single-post.html">
-                    <img src="assets/img/blog/img-2.jpg" alt="">
-                  </a>
-                    </div>
-                    <div class="blog-item-text">
-                        <div class="meta-tags">
-                            <span class="user float-left"><a href="#"><i class="lni-user"></i> Posted By Admin</a></span>
-                            <span class="date float-right"><i class="lni-calendar"></i> 24 May, 2020</span>
-                        </div>
-                        <h3>
-                            <a href="single-post.html">How to get more ad views</a>
-                        </h3>
-                        <p>
-                            Reprehenderit nemo quod tempore doloribus ratione distinctio quis quidem vitae sunt reiciendis, molestias omnis soluta.
-                        </p>
-                        <a href="single-post.html" class="btn btn-common">Прочети още...</a>
-                    </div>
-                </div>
-                <!-- Blog Item Wrapper Ends-->
-            </div>
-
-            <div class="col-lg-4 col-md-6 col-xs-12 blog-item">
-                <!-- Blog Item Starts -->
-                <div class="blog-item-wrapper">
-                    <div class="blog-item-img">
-                        <a href="single-post.html">
-                    <img src="assets/img/blog/img-3.jpg" alt="">
-                  </a>
-                    </div>
-                    <div class="blog-item-text">
-                        <div class="meta-tags">
-                            <span class="user float-left"><a href="#"><i class="lni-user"></i> Posted By Admin</a></span>
-                            <span class="date float-right"><i class="lni-calendar"></i> 24 May, 2020</span>
-                        </div>
-                        <h3>
-                            <a href="single-post.html">Writing a better product description</a>
-                        </h3>
-                        <p>
-                            Reprehenderit nemo quod tempore doloribus ratione distinctio quis quidem vitae sunt reiciendis, molestias omnis soluta.
-                        </p>
-                        <a href="single-post.html" class="btn btn-common">Прочети още...</a>
-                    </div>
-                </div>
-                <!-- Blog Item Wrapper Ends-->
-            </div>
-        </div>
-    </div>
-</section>
-<!-- blog Section End -->
-
-<!-- Subscribe Section Start -->
-<section class="subscribes section-padding">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                <div class="subscribes-inner">
-                    <div class="icon">
-                        <i class="lni-pointer"></i>
-                    </div>
-                    <div class="sub-text">
-                        <h3>Запиши се за новини</h3>
-                        <p>ще можете да получавате актуална информация</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                <form>
-                    <div class="subscribe">
-                        <input class="form-control" name="EMAIL" placeholder="Въведете Вашия Email" required="" type="email">
-                        <button class="btn btn-common" type="submit">Абонирай се</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</section>
-<!-- Subscribe Section End -->
 @endsection
