@@ -96,7 +96,7 @@
                             <a href="{{ route('users-login-register') }}">Регистрация на клиент</a>
                             @elseif(Route::current()->getName() == 'firms-login-register')
                             <a href="{{ route('firms-login-register') }}">Регистрация на търговец</a>
-                            @elseif(Route::current()->getName() == 'home' || Route::current()->getName() == 'home-settings')
+                            @elseif(Route::current()->getName() == 'home' || Route::current()->getName() == 'home-settings' || Route::current()->getName() == 'home-favorites')
                             <a href="{{ route('home') }}">Панел управление</a>
                             @endif
                         </h5>

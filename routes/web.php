@@ -19,6 +19,7 @@ Route::group(['middleware' => ['frontUserLogin']], function () {
     Route::match(['get', 'post'], '/home-settings', 'HomeController@settings')->name('home-settings');
     Route::get('/home-adds', 'HomeController@adds')->name('home-adds');
     Route::get('/home-favorites', 'HomeController@favorites')->name('home-favorites');
+    Route::get('/favorite-delete/{product_id}/{user_id}', 'FavoriteController@deleteFavorite')->name('favorite-delete');
     Route::get('/home-privacy', 'HomeController@privacy')->name('home-privacy');
 });
 Route::group(['middleware' => ['frontFirmLogin']], function () {

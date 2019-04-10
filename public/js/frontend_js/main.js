@@ -263,4 +263,37 @@ JS INDEX
         }
     });
 
+    // Validate register user form
+    $("#home_settings").validate({
+        rules: {
+            user_name: {
+                required: true
+            },
+            user_phone: {
+                required: true
+            },
+            user_agrrement: {
+                required: true
+            }
+        },
+        messages: {
+            user_name: {
+                required: "Моля въведете Вашите имена"
+            },
+            user_phone: {
+                required: "Моля въведете Вашия телефон за връзка"
+            },
+            user_agrrement: {
+                required: "Необходимо е да се съгласите с Общите ни условия"
+            }
+        },
+        highlight: function (element, errorClass, validClass) {
+            $(element).addClass('error');
+        },
+        unhighlight: function (element, errorClass, validClass) {
+            $(element).removeClass('error');
+            $(element).addClass('success');
+        }
+    });
+
 })(jQuery);

@@ -8,6 +8,8 @@ use App\City;
 use App\User;
 use Auth;
 use Illuminate\Http\Request;
+use App\Favorite;
+use App\Product;
 
 class HomeController extends Controller
 {
@@ -73,13 +75,19 @@ class HomeController extends Controller
     {
         // Add holidays
         $holidays = Holiday::where(['parent_id'=>0])->get();
-
         // Add property
         $property = LandingPage::first();
-
-        return view('home')->with([
+        // Get Favorites
+        $favorites = Favorite::where(['user_id'=>Auth::user()->id])->get();
+        $favorites_ids = [];
+        foreach ($favorites as $favorite) {
+            $favorites_ids[] = $favorite->product_id;
+        }
+        $products = Product::whereIn('id', $favorites_ids)->get();
+        return view('users.favorites')->with([
             'holidays'=>$holidays,
-            'property'=>$property
+            'property'=>$property,
+            'products'=>$products
         ]);
     }
 

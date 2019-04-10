@@ -74,8 +74,8 @@
                                 <div class="dashboard-box">
                                     <h2 class="dashbord-title">Настройки за контакт</h2>
                                 </div>
-                                <form enctype="multipart/form-data" class="form-horizontal" method="post" action="{{ route('home-settings') }}" name="edit_product"
-                                    id="edit_product" novalidate="novalidate">
+                                <form enctype="multipart/form-data" class="form-horizontal" method="post" action="{{ route('home-settings') }}" name="home_settings"
+                                    id="home_settings" novalidate="novalidate">
                                     @csrf
                                     <div class="dashboard-wrapper">
                                         <div class="form-group mb-3">
@@ -108,7 +108,7 @@
                                         </div>
                                         <div class="tg-checkbox">
                                             <div class="custom-control custom-checkbox">
-                                                <input type="checkbox" class="custom-control-input" id="tg-agreetermsandrules">
+                                                <input type="checkbox" class="custom-control-input" id="tg-agreetermsandrules" name="user_agrrement">
                                                 <label class="custom-control-label" for="tg-agreetermsandrules">Съгласен съм с <a href="javascript:void(0);">Общите условия</a></label>
                                             </div>
                                         </div>
