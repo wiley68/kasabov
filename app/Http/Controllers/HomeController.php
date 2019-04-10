@@ -99,7 +99,7 @@ class HomeController extends Controller
         // Add property
         $property = LandingPage::first();
 
-        return view('home')->with([
+        return view('users.privacy')->with([
             'holidays'=>$holidays,
             'property'=>$property
         ]);
