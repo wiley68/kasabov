@@ -18,6 +18,8 @@ use App\Holiday;
 use App\LandingPage;
 use Carbon\Carbon;
 use App\ProductsCity;
+use App\Favorite;
+use Auth;
 
 class ProductController extends Controller
 {
@@ -836,6 +838,19 @@ class ProductController extends Controller
             $likes = $product->likes;
         }
         return response()->json(['likes'=>$likes]);
+    }
+
+    public function addFavoriteProduct(Request $request){
+        if ($request->method('post') && $request->input('product_id') != null){
+            $favorite_count = Favorite::where(['product_id'=>$request->input('product_id')])->where(['user_id'=>Auth::user()->id])->count();
+            if ($favorite_count == 0){
+                $favorite = new Favorite;
+                $favorite->user_id =  Auth::user()->id;
+                $favorite->product_id =  $request->input('product_id');
+                $favorite->save();
+            }
+        }
+        return response()->json(['add_favorite'=>'yes']);
     }
 
 }

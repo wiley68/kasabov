@@ -47,8 +47,13 @@ if(!empty($product->image)){
                         <h2>{{ $product->product_name }}</h2>
                         <div class="details-meta">
                             <span title="Добавен на"><i class="lni-alarm-clock"></i> {{ ProductController::getCreatedAtAttribute($product->created_at) }}</span>
-                            <span title="Изпраща се от, населено място"><i class="lni-map-marker"></i>  {{ City::where(['id'=>$product->send_id])->first()->city }} - {{ City::where(['id'=>$product->send_id])->first()->oblast }}</span>
+                            <span title="Изпраща се от, населено място"><i class="lni-map-marker"></i>  {{ City::where(['id'=>$product->send_from_id])->first()->city }} - {{ City::where(['id'=>$product->send_id])->first()->oblast }}</span>
                             <span title="Брой прегледа на обявата"><i class="lni-eye"></i> {{ $product->views }}</span>
+                            @auth
+                            <div class="float-right">
+                                <button id="btn_add_favorites" class="btn btn-common fullwidth mt-4">Добави към любими</button>
+                            </div>
+                            @endauth
                         </div>
                         <p class="mb-4">{!! $product->description !!}</p>
                         <hr />
@@ -283,4 +288,29 @@ if(!empty($product->image)){
     </div>
 </div>
 <!-- Ads Details End -->
+@endsection
+
+@section('scripts')
+    <script>
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        $("#btn_add_favorites").click(function(e){
+            e.preventDefault();
+            var product_id = '{{ $product->id }}';
+            $.ajax({
+                type:'POST',
+                url:'/add-favorite',
+                data:{product_id : product_id},
+                success:function(data){
+                    if(data.add_favorite == 'yes'){
+                        alert('Успешно добавихте продукта към любими.');
+                    }
+                }
+            });
+        });
+    </script>
 @endsection

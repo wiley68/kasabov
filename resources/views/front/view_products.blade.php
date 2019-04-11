@@ -166,7 +166,7 @@
                                                 </div>
                                             </div>
                                             <div class="listing-bottom clearfix">
-                                                <i class="lni-map-marker"></i> {{ City::where(['id'=>$product->send_id])->first()->city }}
+                                                <i class="lni-map-marker"></i> {{ City::where(['id'=>$product->send_from_id])->first()->city }}
                                                 <a href="{{ route('product', ['id'=>$product->product_code]) }}" class="float-right">Прегледай Детайлно</a>
                                             </div>
                                         </div>

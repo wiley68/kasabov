@@ -21,6 +21,7 @@ Route::group(['middleware' => ['frontUserLogin']], function () {
     Route::get('/home-favorites', 'HomeController@favorites')->name('home-favorites');
     Route::get('/favorite-delete/{product_id}/{user_id}', 'FavoriteController@deleteFavorite')->name('favorite-delete');
     Route::get('/home-privacy', 'HomeController@privacy')->name('home-privacy');
+    Route::post('/add-favorite', 'ProductController@addFavoriteProduct')->name('add-favorite');
 });
 Route::group(['middleware' => ['frontFirmLogin']], function () {
     Route::get('/home-firm', 'HomeController@index_firm')->name('home-firm');

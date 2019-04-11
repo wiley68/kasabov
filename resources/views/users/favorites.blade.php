@@ -97,7 +97,31 @@
                                                 $category_ids[] = $product->category_id;
                                             @endphp
                                             <td data-title="Категория"><span class="adcategories">{{ Category::where(['id'=>$product->category_id])->first()->name }}</span></td>
-                                            <td data-title="Състояние"><span class="adstatus adstatusactive">active</span></td>
+                                            @php
+                                                switch ($product->status) {
+                                                    case 'active':
+                                                        $status = 'adstatusactive';
+                                                        $status_txt = 'Акт.';
+                                                        break;
+                                                    case 'notactive':
+                                                        $status = 'adstatusinactive';
+                                                        $status_txt = 'Неакт.';
+                                                        break;
+                                                    case 'sold':
+                                                        $status = 'adstatussold';
+                                                        $status_txt = 'Прод.';
+                                                        break;
+                                                    case 'expired':
+                                                        $status = 'adstatusexpired';
+                                                        $status_txt = 'Проср.';
+                                                        break;
+                                                    default:
+                                                        $status = 'adstatusactive';
+                                                        $status_txt = 'Акт.';
+                                                        break;
+                                                }
+                                            @endphp
+                                            <td data-title="Състояние"><span class="adstatus {{ $status }}">{{ $status_txt }}</span></td>
                                             <td data-title="Цена"><h3>{{ number_format($product->price, 2, '.', '') }}{{ Config::get('settings.currency') }}</h3></td>
                                             <td data-title="Action">
                                                 <div class="btns-actions">
