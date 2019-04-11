@@ -9,7 +9,7 @@
                     <div class="sidebar-box">
                         <div class="user">
                             <figure>
-                                <a href="#"><img src="{{ asset('images/frontend_images/author/img1.jpg') }}" alt=""></a>
+                                <a href="#"><img src="{{ asset('/images/backend_images/users/'.$user->image) }}" alt=""></a>
                             </figure>
                             <div class="usercontent">
                                 <h3>Здравейте {{ Auth::user()->name }}!</h3>
@@ -67,8 +67,9 @@
                             <h2 class="dashbord-title">Лични настройки</h2>
                         </div>
                         <div class="dashboard-wrapper">
-                            <form class="row form-dashboard">
-                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
+                            <form class="row form-dashboard" enctype="multipart/form-data" class="form-horizontal" method="post" action="{{ route('home-privacy') }}" name="home_privacy"
+                                id="home_privacy" novalidate="novalidate">
+                                @csrf                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
                                     <div class="privacy-box privacysetting">
                                         <div class="dashboardboxtitle">
                                             <h2>Настройки</h2>
@@ -77,20 +78,20 @@
                                             <ul>
                                                 <li>
                                                     <div class="custom-control custom-checkbox">
-                                                        <input type="checkbox" class="custom-control-input" id="privacysettingstwo">
-                                                        <label class="custom-control-label" for="privacysettingstwo">Желая да получавам месечни известия</label>
+                                                        <input type="checkbox" class="custom-control-input" id="monthizvestia" name="monthizvestia" value=1 @if($user->monthizvestia > 0) checked @endif>
+                                                        <label class="custom-control-label" for="monthizvestia">Желая да получавам месечни известия</label>
                                                     </div>
                                                 </li>
                                                 <li>
                                                     <div class="custom-control custom-checkbox">
-                                                        <input type="checkbox" class="custom-control-input" id="privacysettingsthree">
-                                                        <label class="custom-control-label" for="privacysettingsthree">Желая да получавам известия за поръчани стоки и запитвания</label>
+                                                        <input type="checkbox" class="custom-control-input" id="porackiizvestia" name="porackiizvestia" value=1 @if($user->porackiizvestia > 0) checked @endif>
+                                                        <label class="custom-control-label" for="porackiizvestia">Желая да получавам известия за поръчани стоки и запитвания</label>
                                                     </div>
                                                 </li>
                                                 <li>
                                                     <div class="custom-control custom-checkbox">
-                                                        <input type="checkbox" class="custom-control-input" id="privacysettingsfour">
-                                                        <label class="custom-control-label" for="privacysettingsfour">Желая да получавам известия за нови продукти</label>
+                                                        <input type="checkbox" class="custom-control-input" id="newizvestia" name="newizvestia" value=1 @if($user->newizvestia > 0) checked @endif>
+                                                        <label class="custom-control-label" for="newizvestia">Желая да получавам известия за нови продукти</label>
                                                     </div>
                                                 </li>
                                             </ul>
@@ -98,6 +99,10 @@
                                         </div>
                                     </div>
                                 </div>
+                            </form>
+                            <form enctype="multipart/form-data" class="form-horizontal" method="post" action="{{ route('delete-user') }}" name="home_privacy_delete"
+                                id="home_privacy_delete" novalidate="novalidate">
+                                @csrf
                                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
                                     <div class="privacy-box deleteaccount">
                                         <div class="dashboardboxtitle">
@@ -106,17 +111,13 @@
                                         <div class="dashboardholder">
                                             <div class="form-group mb-3 tg-inputwithicon">
                                                 <div class="tg-select form-control">
-                                                    <select>
-                                      <option value="none">Избери причина</option>
-                                      <option value="none">Причина 1</option>
-                                      <option value="none">Причина 2</option>
-                                    </select>
+                                                    <select name="pricina">
+                                                        <option value="0">Избери причина</option>
+                                                        <option value="none">Не желая да ползвам вече сайта.</option>
+                                                    </select>
                                                 </div>
                                             </div>
-                                            <div class="form-group">
-                                                <textarea class="form-control" placeholder="Описание"></textarea>
-                                            </div>
-                                            <button class="btn btn-common" type="button">Изтрий профила ми</button>
+                                            <button class="btn btn-common" type="submit">Изтрий профила ми</button>
                                         </div>
                                     </div>
                                 </div>

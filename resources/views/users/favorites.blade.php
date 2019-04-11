@@ -10,7 +10,7 @@
                     <div class="sidebar-box">
                         <div class="user">
                             <figure>
-                                <a href="#"><img src="{{ asset('images/frontend_images/author/img1.jpg') }}" alt=""></a>
+                                <a href="#"><img src="{{ asset('/images/backend_images/users/'.$user->image) }}" alt=""></a>
                             </figure>
                             <div class="usercontent">
                                 <h3>Здравейте {{ Auth::user()->name }}!</h3>

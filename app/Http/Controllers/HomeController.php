@@ -20,13 +20,14 @@ class HomeController extends Controller
     {
         // Add holidays
         $holidays = Holiday::where(['parent_id'=>0])->get();
-
         // Add property
         $property = LandingPage::first();
-
+        // User
+        $user = User::where(['id'=>Auth::user()->id])->first();
         return view('home')->with([
             'holidays'=>$holidays,
-            'property'=>$property
+            'property'=>$property,
+            'user'=>$user
         ]);
     }
 
@@ -39,7 +40,6 @@ class HomeController extends Controller
         // Add cities
         $cities = City::all();
         $user = User::where(['id'=>Auth::user()->id])->first();
-
         if($request->isMethod('post')){
             //upload image
             if ($request->hasFile('image')){
@@ -89,13 +89,14 @@ class HomeController extends Controller
     {
         // Add holidays
         $holidays = Holiday::where(['parent_id'=>0])->get();
-
         // Add property
         $property = LandingPage::first();
-
-        return view('home')->with([
+        // User
+        $user = User::where(['id'=>Auth::user()->id])->first();
+        return view('users.adds')->with([
             'holidays'=>$holidays,
-            'property'=>$property
+            'property'=>$property,
+            'user'=>$user
         ]);
     }
 
@@ -112,25 +113,61 @@ class HomeController extends Controller
             $favorites_ids[] = $favorite->product_id;
         }
         $products = Product::whereIn('id', $favorites_ids)->get();
+        // User
+        $user = User::where(['id'=>Auth::user()->id])->first();
         return view('users.favorites')->with([
             'holidays'=>$holidays,
             'property'=>$property,
-            'products'=>$products
+            'products'=>$products,
+            'user'=>$user
         ]);
     }
 
-    public function privacy()
+    public function privacy(Request $request)
     {
         // Add holidays
         $holidays = Holiday::where(['parent_id'=>0])->get();
-
         // Add property
         $property = LandingPage::first();
-
+        // User
+        $user = User::where(['id'=>Auth::user()->id])->first();
+        if($request->isMethod('post')){
+            if($request->has('monthizvestia')){
+                $user->monthizvestia = 1;
+            }else{
+                $user->monthizvestia = 0;
+            }
+            if($request->has('porackiizvestia')){
+                $user->porackiizvestia = 1;
+            }else{
+                $user->porackiizvestia = 0;
+            }
+            if($request->has('newizvestia')){
+                $user->newizvestia = 1;
+            }else{
+                $user->newizvestia = 0;
+            }
+            $user->save();
+        }
         return view('users.privacy')->with([
             'holidays'=>$holidays,
-            'property'=>$property
+            'property'=>$property,
+            'user'=>$user
         ]);
+    }
+
+    public function privacyDelete(Request $request)
+    {
+        // User
+        $user = User::where(['id'=>Auth::user()->id])->first();
+        if($request->isMethod('post')){
+            if($request->input('pricina') != '0'){
+                $user->delete();
+                return redirect()->route('logout-front-user');
+            }else{
+                return redirect()->back();
+            }
+        }
     }
 
     public function index_firm()
