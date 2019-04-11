@@ -244,7 +244,7 @@ if(!empty($product->image)){
                             </div>
                             <div class="agent-title">
                                 <div class="agent-photo">
-                                    <a href="#"><img src="{{ asset('images/frontend_images/productinfo/agent.jpg') }}" alt=""></a>
+                                    <a href="#"><img src="{{ asset('/images/backend_images/users/'.User::where(['id'=>$product->user_id])->first()->image) }}" alt=""></a>
                                 </div>
                                 <div class="agent-details">
                                     <h3><a href="#">{{ User::where(['id'=>$product->user_id])->first()->name }}</a></h3>

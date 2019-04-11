@@ -9,7 +9,7 @@
                     <div class="sidebar-box">
                         <div class="user">
                             <figure>
-                                <a href="#"><img src="{{ asset('images/frontend_images/author/img1.jpg') }}" alt=""></a>
+                                <img src="{{ asset('/images/backend_images/users/'.$user->image) }}" alt="">
                             </figure>
                             <div class="usercontent">
                                 <h3>Здравейте {{ Auth::user()->name }}!</h3>
@@ -106,6 +106,18 @@
                                             </select>
                                             </div>
                                         </div>
+                                        <div class="control-group">
+                                            <label class="control-label">Снимка</label>
+                                            <div class="controls">
+                                                <input type="file" name="image" id="image">
+                                                <input type="hidden" name="current_image" id="current_image" value="{{ $user->image }}">
+                                                @if (!empty($user->image))
+                                                    <img style="width:50px;" src="{{ asset('/images/backend_images/users/'.$user->image) }}"> | <button onclick="window.location.href='{{ route('delete-user-image', ['id' => $user->id]) }}';" class="btn btn-danger">Изтрий снимката</a>
+                                                @endif
+                                            </div>
+                                        </div>
+                                        <div style="padding-bottom:10px;"></div>
+                                        <hr />
                                         <div class="tg-checkbox">
                                             <div class="custom-control custom-checkbox">
                                                 <input type="checkbox" class="custom-control-input" id="tg-agreetermsandrules" name="user_agrrement">
