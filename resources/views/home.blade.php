@@ -1,3 +1,5 @@
+<?php use App\Favorite; ?>
+<?php use App\Order; ?>
 @extends('layouts.frontLayout.front_design')
 @section('content')
 <!-- Start Content -->
@@ -9,7 +11,7 @@
                     <div class="sidebar-box">
                         <div class="user">
                             <figure>
-                                <a href="#"><img src="{{ asset('/images/backend_images/users/'.$user->image) }}" alt=""></a>
+                                <img src="{{ asset('/images/backend_images/users/'.$user->image) }}" alt="">
                             </figure>
                             <div class="usercontent">
                                 <h3>Здравейте {{ Auth::user()->name }}!</h3>
@@ -83,7 +85,7 @@
                                             <div class="icon"><i class="lni-heart"></i></div>
                                             <div class="contentbox">
                                                 <h2><a href="{{ route('home-favorites') }}">Любими</a></h2>
-                                                <h3>80 налични</h3>
+                                                <h3>{{ Favorite::where(['user_id'=>Auth::user()->id])->count() }} налични</h3>
                                             </div>
                                         </div>
                                     </div>
@@ -92,7 +94,7 @@
                                             <div class="icon"><i class="lni-layers"></i></div>
                                             <div class="contentbox">
                                                 <h2><a href="{{ route('home-adds') }}">Моите поръчки</a></h2>
-                                                <h3>2040 налични</h3>
+                                                <h3>{{ Order::where(['user_id'=>Auth::user()->id])->count() }} налични</h3>
                                             </div>
                                         </div>
                                     </div>

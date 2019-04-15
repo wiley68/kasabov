@@ -296,4 +296,27 @@ JS INDEX
         }
     });
 
+    // Validate register order form
+    $("#order_products").validate({
+        rules: {
+            user_email: {
+                required: true,
+                email: true
+            }
+        },
+        messages: {
+            user_email: {
+                required: "Моля въведете Вашия email адрес",
+                email: "Моля въвдете валиден e-mail адрес"
+            }
+        },
+        highlight: function (element, errorClass, validClass) {
+            $(element).addClass('error');
+        },
+        unhighlight: function (element, errorClass, validClass) {
+            $(element).removeClass('error');
+            $(element).addClass('success');
+        }
+    });
+
 })(jQuery);

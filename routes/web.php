@@ -24,6 +24,8 @@ Route::group(['middleware' => ['frontUserLogin']], function () {
     Route::post('/add-favorite', 'ProductController@addFavoriteProduct')->name('add-favorite');
     Route::get('/delete-user-image/{id}', 'HomeController@deleteUserImage')->name('delete-user-image');
     Route::post('/delete-user', 'HomeController@privacyDelete')->name('delete-user');
+    Route::post('/add-order', 'OrderController@addOrder')->name('add-order');
+    Route::get('/delete-order/{id}', 'OrderController@deleteOrder')->name('delete-order');
 });
 Route::group(['middleware' => ['frontFirmLogin']], function () {
     Route::get('/home-firm', 'HomeController@index_firm')->name('home-firm');

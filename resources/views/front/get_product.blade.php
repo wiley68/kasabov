@@ -37,7 +37,7 @@ if(!empty($product->image)){
                             <div class="product-img">
                                 <img class="img-fluid" src="{{ asset('/images/backend_images/products/large/'.$item->image) }}" alt="">
                             </div>
-                            <span class="price">{{ $product->price }}</span>
+                            <span class="price">{{ number_format($product->price, 2, '.', '') }}{{ Config::get('settings.currency') }}</span>
                         </div>
                         @endforeach
                     </div>
@@ -251,10 +251,26 @@ if(!empty($product->image)){
                                     <span><i class="lni-phone-handset"></i>(123) 123-456</span>
                                 </div>
                             </div>
-                            <input type="text" class="form-control" placeholder="Вашият Email">
-                            <input type="text" class="form-control" placeholder="Вашият телефон">
-                            <p>Интересувам се от Вашия продукт с код [{{ $product->product_code }}] и бих искал да получа повече детайли.</p>
-                            <button class="btn btn-common fullwidth mt-4">Изпрати съобщението</button>
+                            @guest
+                            <p>Моля направете си регистрация или влезте с профила си в сайта, ако желаете да направите заявка за този продукт към търговеца!</p>
+                            <a href="{{ route('users-login-register') }}" class="btn btn-common fullwidth mt-4">Вход | Регистрация</a>
+                            @else
+                            @if (Session::has('flash_message_success'))
+                                <div class="alert alert-success alert-block">
+                                    <button type="button" class="close" data-dismiss="alert">×</button>
+                                    <strong>{!! session('flash_message_success') !!}</strong>
+                                </div>
+                            @endif
+                            <form enctype="multipart/form-data" action="{{ route('add-order') }}" method="post" name="order_products" id="order_products" novalidate="novalidate">
+                                @csrf
+                                <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
+                                <input type="hidden" name="product_id" value="{{ $product->id }}">
+                                <input type="text" name="user_email" class="form-control" value="{{ User::where(['id'=>Auth::user()->id])->first()->email }}">
+                                <input type="text" name="user_phone" class="form-control" value="{{ User::where(['id'=>Auth::user()->id])->first()->phone }}">
+                                <textarea name="message" class="form-controll" style="width:100%;" rows="6">Интересувам се от Вашия продукт с код [{{ $product->product_code }}] и бих искал да получа повече детайли.</textarea>
+                                <button class="btn btn-common fullwidth mt-4" type="submit">Изпрати съобщението</button>
+                            </form>
+                            @endguest
                         </div>
                     </div>
                     <!-- Popular Posts widget -->

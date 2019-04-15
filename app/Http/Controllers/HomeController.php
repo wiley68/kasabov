@@ -13,6 +13,7 @@ use App\Product;
 use File;
 use Illuminate\Support\Facades\Input;
 use Intervention\Image\Facades\Image;
+use App\Order;
 
 class HomeController extends Controller
 {
@@ -93,10 +94,12 @@ class HomeController extends Controller
         $property = LandingPage::first();
         // User
         $user = User::where(['id'=>Auth::user()->id])->first();
+        $orders = Order::where(['user_id'=>$user->id])->get();
         return view('users.adds')->with([
             'holidays'=>$holidays,
             'property'=>$property,
-            'user'=>$user
+            'user'=>$user,
+            'orders'=>$orders
         ]);
     }
 
