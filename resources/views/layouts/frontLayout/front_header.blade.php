@@ -104,6 +104,10 @@
                                 Route::current()->getName() == 'home-privacy'
                             )
                             <a href="{{ route('home') }}">Панел управление</a>
+                            @elseif(
+                                Route::current()->getName() == 'home-firm'
+                            )
+                            <a href="{{ route('home-firm') }}">Панел управление</a>
                             @endif
                         </h5>
                     </div>

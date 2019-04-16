@@ -29,6 +29,7 @@ Route::group(['middleware' => ['frontUserLogin']], function () {
 });
 Route::group(['middleware' => ['frontFirmLogin']], function () {
     Route::get('/home-firm', 'HomeController@index_firm')->name('home-firm');
+    Route::match(['get', 'post'], '/home-firm-settings', 'HomeController@firmSettings')->name('home-firm-settings');
 });
 Route::get('/logout-front-user', 'UsersController@logoutUser')->name('logout-front-user');
 Route::get('/logout-front-firm', 'UsersController@logoutFirm')->name('logout-front-firm');
