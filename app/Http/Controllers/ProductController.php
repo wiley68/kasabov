@@ -824,7 +824,7 @@ class ProductController extends Controller
         if ($products_by_user_count >= 5){
             $products_by_user_count = 5;
         }
-        $products_by_user = Product::where(['user_id'=>$user_id])->take($products_by_user_count)->get();
+        $products_by_user = Product::where(['user_id'=>$user_id])->inRandomOrder()->take($products_by_user_count)->get();
 
         return $products_by_user;
     }

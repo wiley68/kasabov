@@ -240,7 +240,16 @@ if(!empty($product->image)){
                         <h4 class="widget-title">Продукт на: {{ User::where(['id'=>$product->user_id])->first()->name }}</h4>
                         <div class="agent-inner">
                             <div class="mb-4">
-                                <object style="border:0; height: 230px; width: 100%;" data="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d34015.943594576835!2d-106.43242624069771!3d31.677719472407432!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x86e75d90e99d597b%3A0x6cd3eb9a9fcd23f1!2sCourtyard+by+Marriott+Ciudad+Juarez!5e0!3m2!1sen!2sbd!4v1533791187584"></object>
+                                <div class="mapouter">
+                                    <div class="gmap_canvas">
+                                        @php
+                                            $citi_name = City::where(['id'=>User::where(['id'=>$product->user_id])->first()->city_id])->first()->city;
+                                            $city_address = User::where(['id'=>$product->user_id])->first()->address;
+                                        @endphp
+                                        <strong>Адрес</strong>: {{ $citi_name }} {{ $city_address }}
+                                        <iframe id="gmap_canvas" src="https://maps.google.com/maps?q={{ $citi_name }}%20{{ $city_address }}&t=&z=13&ie=UTF8&iwloc=&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>
+                                    </div>
+                                </div>
                             </div>
                             <div class="agent-title">
                                 <div class="agent-photo">
@@ -278,16 +287,23 @@ if(!empty($product->image)){
                         <h4 class="widget-title">Продукти от продавача</h4>
                         <ul class="posts-list">
                             @foreach (ProductController::frontGetProductByUser($product->user_id) as $item)
+                                @php
+                                if(!empty($item->image)){
+                                    $image = asset('/images/backend_images/products/small/'.$item->image);
+                                }else{
+                                    $image = asset('/images/backend_images/products/small/no-image-300.png');
+                                }
+                                @endphp
                                 <li>
                                     <div class="widget-thumb">
-                                        <a href="#"><img src="{{ asset('/images/backend_images/products/small/'.$item->image) }}" alt="" /></a>
+                                        <a href="{{ route('product', ['id'=>$item->product_code]) }}"><img src="{{ $image }}" alt="" /></a>
                                     </div>
                                     <div class="widget-content">
-                                        <h4><a href="#">{{ $item->product_name }}</a></h4>
+                                        <h4><a href="{{ route('product', ['id'=>$item->product_code]) }}">{{ $item->product_name }}</a></h4>
                                         <div class="meta-tag">
-                                            <span><a href="#"><i class="lni-map-marker"></i> {{ CityController::getCityById($item->send_from_id) }}</a></span>
+                                            <span><i class="lni-map-marker"></i> {{ CityController::getCityById($item->send_from_id) }}</span>
                                         </div>
-                                        <h4 class="price">{{ $item->price }}</h4>
+                                        <h4 class="price">{{ number_format($item->price, 2, '.', '') }}{{ Config::get('settings.currency') }}</h4>
                                     </div>
                                     <div class="clearfix"></div>
                                 </li>
