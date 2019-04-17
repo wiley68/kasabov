@@ -13,38 +13,43 @@
                             </figure>
                             <div class="usercontent">
                                 <h3>Здравейте {{ Auth::user()->name }}!</h3>
-                                <h4>Потребител</h4>
+                                <h4>Търговец</h4>
                             </div>
                         </div>
                         <nav class="navdashboard">
                             <ul>
                                 <li>
-                                    <a href="{{ route('home') }}">
+                                    <a href="{{ route('home-firm') }}">
                                         <i class="lni-dashboard"></i><span>Панел управление</span>
                                     </a>
                                 </li>
                                 <li>
-                                    <a class="active" href="{{ route('home-settings') }}">
+                                    <a class="active" href="{{ route('home-firm-settings') }}">
                                         <i class="lni-cog"></i><span>Настройки профил</span>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="{{ route('home-adds') }}">
-                                        <i class="lni-layers"></i><span>Моите потъчки</span>
+                                    <a href="{{ route('home-firm-adds') }}">
+                                        <i class="lni-layers"></i><span>Моите оферти</span>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="{{ route('home-favorites') }}">
-                                        <i class="lni-heart"></i><span>Любими</span>
+                                    <a href="{{ route('home-firm-orders') }}">
+                                        <i class="lni-heart"></i><span>Поръчки</span>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="{{ route('home-privacy') }}">
-                                        <i class="lni-star"></i><span>Лични настройки</span>
+                                    <a href="{{ route('home-firm-payments') }}">
+                                        <i class="lni-star"></i><span>Плащания</span>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="{{ route('logout-front-user') }}">
+                                    <a href="{{ route('home-firm-privacy') }}">
+                                        <i class="lni-star"></i><span>Лични</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ route('logout-front-firm') }}">
                                         <i class="lni-enter"></i><span>Изход</span>
                                     </a>
                                 </li>

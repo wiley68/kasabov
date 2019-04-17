@@ -243,7 +243,10 @@ if(!empty($product->image)){
                                 <div class="mapouter">
                                     <div class="gmap_canvas">
                                         @php
-                                            $citi_name = City::where(['id'=>User::where(['id'=>$product->user_id])->first()->city_id])->first()->city;
+                                            $citi_name = '';
+                                            if(User::where(['id'=>$product->user_id])->first()->city_id != 0){
+                                                $citi_name = City::where(['id'=>User::where(['id'=>$product->user_id])->first()->city_id])->first()->city;
+                                            }
                                             $city_address = User::where(['id'=>$product->user_id])->first()->address;
                                         @endphp
                                         <strong>Адрес</strong>: {{ $citi_name }} {{ $city_address }}

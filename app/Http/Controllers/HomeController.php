@@ -184,11 +184,21 @@ class HomeController extends Controller
         $property = LandingPage::first();
         // User
         $user = User::where(['id'=>Auth::user()->id])->first();
+        $products = Product::where(['user_id'=>Auth::user()->id])->get();
         return view('home_firm')->with([
             'holidays'=>$holidays,
             'property'=>$property,
-            'user'=>$user
+            'user'=>$user,
+            'products'=>$products
         ]);
+    }
+
+    public function deleteAdd(Request $request, $id=null){
+        if (!empty($id)){
+            $product = Product::where(['id'=>$id])->first();
+            $product->delete();
+            return redirect('/home-settings')->with('flash_message_success', 'Успешно изтрихте снимката!');
+        }
     }
 
     public function firmSettings(Request $request)
