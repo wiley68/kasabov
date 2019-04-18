@@ -31,12 +31,14 @@ Route::group(['middleware' => ['frontFirmLogin']], function () {
     Route::get('/home-firm', 'HomeController@index_firm')->name('home-firm');
     Route::match(['get', 'post'], '/home-firm-settings', 'HomeController@firmSettings')->name('home-firm-settings');
     Route::get('/home-firm-adds', 'HomeController@firmAdds')->name('home-firm-adds');
-    Route::post('/home-firm-add-delete/{id}', 'HomeController@deleteAdd')->name('home-firm-add-delete');
+    Route::get('/home-firm-add-delete/{id}', 'HomeController@deleteFirmAdd')->name('home-firm-add-delete');
     Route::get('/home-firm-orders', 'HomeController@firmOrders')->name('home-firm-orders');
     Route::get('/home-firm-payments', 'HomeController@firmPayments')->name('home-firm-payments');
     Route::match(['get', 'post'], '/home-firm-privacy', 'HomeController@firmPrivacy')->name('home-firm-privacy');
     Route::get('/delete-firm-order/{id}', 'OrderController@deleteFirmOrder')->name('delete-firm-order');
     Route::post('/delete-firm-user', 'HomeController@privacyFirmDelete')->name('delete-firm-user');
+    Route::match(['get', 'post'], '/home-firm-product-edit/{id}', 'HomeController@firmProductEdit')->name('home-firm-product-edit');
+    Route::get('/home-delete-product-image/{id}', 'HomeController@deleteProductImage')->name('home-delete-product-image');
 });
 Route::get('/logout-front-user', 'UsersController@logoutUser')->name('logout-front-user');
 Route::get('/logout-front-firm', 'UsersController@logoutFirm')->name('logout-front-firm');

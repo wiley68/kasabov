@@ -42,6 +42,7 @@
 <script src="{{ asset('js/backend_js/select2.min.js') }}"></script>
 <script src="{{ asset('js/frontend_js/jquery.validate.js') }}"></script>
 <script src="{{ asset('js/frontend_js/main.js') }}"></script>
+<script src="{{ asset('js/backend_js/sweetalert.min.js') }}"></script>
 <script>
     $(document).ready(function() {
         $('select').select2();

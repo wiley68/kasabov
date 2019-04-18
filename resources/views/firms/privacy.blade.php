@@ -40,7 +40,7 @@
                                 </li>
                                 <li>
                                     <a href="{{ route('home-firm-payments') }}">
-                                                <i class="lni-star"></i><span>Плащания</span>
+                                                <i class="lni-wallet"></i><span>Плащания</span>
                                             </a>
                                 </li>
                                 <li>
