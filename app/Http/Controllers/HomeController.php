@@ -259,6 +259,25 @@ class HomeController extends Controller
         ]);
     }
 
+    public function firmAdds()
+    {
+        // Add holidays
+        $holidays = Holiday::where(['parent_id'=>0])->get();
+        // Add property
+        $property = LandingPage::first();
+        // User
+        $user = User::where(['id'=>Auth::user()->id])->first();
+        $orders = Order::where(['user_id'=>$user->id])->get();
+        $products = Product::where(['user_id'=>Auth::user()->id])->get();
+        return view('firms.adds')->with([
+            'holidays'=>$holidays,
+            'property'=>$property,
+            'user'=>$user,
+            'orders'=>$orders,
+            'products'=>$products
+        ]);
+    }
+
     public function deleteUserImage(Request $request, $id=null){
         if (!empty($id)){
             $user_image = User::where(['id'=>$id])->first()->image;
