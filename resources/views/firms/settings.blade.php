@@ -40,7 +40,7 @@
                                 </li>
                                 <li>
                                     <a href="{{ route('home-firm-payments') }}">
-                                        <i class="lni-star"></i><span>Плащания</span>
+                                        <i class="lni-wallet"></i><span>Плащания</span>
                                     </a>
                                 </li>
                                 <li>
@@ -121,7 +121,7 @@
                                                 <input type="file" name="image" id="image">
                                                 <input type="hidden" name="current_image" id="current_image" value="{{ $user->image }}">
                                                 @if (!empty($user->image))
-                                                    <img style="width:50px;" src="{{ asset('/images/backend_images/users/'.$user->image) }}"> | <button onclick="window.location.href='{{ route('delete-user-image', ['id' => $user->id]) }}';" class="btn btn-danger">Изтрий снимката</a>
+                                                    <img style="width:50px;" src="{{ asset('/images/backend_images/users/'.$user->image) }}"> | <button onclick="window.location.href='{{ route('delete-user-image', ['id' => $user->id]) }}';" class="btn btn-danger">Изтрий снимката</button>
                                                 @endif
                                             </div>
                                         </div>

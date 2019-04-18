@@ -14,6 +14,8 @@ use File;
 use Illuminate\Support\Facades\Input;
 use Intervention\Image\Facades\Image;
 use App\Order;
+use App\Category;
+use App\Speditor;
 
 class HomeController extends Controller
 {
@@ -193,11 +195,11 @@ class HomeController extends Controller
         ]);
     }
 
-    public function deleteAdd(Request $request, $id=null){
+    public function deleteFirmAdd(Request $request, $id=null){
         if (!empty($id)){
             $product = Product::where(['id'=>$id])->first();
             $product->delete();
-            return redirect('/home-settings')->with('flash_message_success', 'Успешно изтрихте снимката!');
+            return redirect('/home-firm')->with('flash_message_success', 'Успешно изтрихте офертата!');
         }
     }
 
@@ -345,6 +347,21 @@ class HomeController extends Controller
         }
     }
 
+    public function firmPayments()
+    {
+        // Add holidays
+        $holidays = Holiday::where(['parent_id'=>0])->get();
+        // Add property
+        $property = LandingPage::first();
+        // User
+        $user = User::where(['id'=>Auth::user()->id])->first();
+        return view('firms.payments')->with([
+            'holidays'=>$holidays,
+            'property'=>$property,
+            'user'=>$user
+        ]);
+    }
+
     public function deleteUserImage(Request $request, $id=null){
         if (!empty($id)){
             $user_image = User::where(['id'=>$id])->first()->image;
@@ -353,6 +370,53 @@ class HomeController extends Controller
             }
             User::where(['id'=>$id])->update(['image'=>'']);
             return redirect('/home-settings')->with('flash_message_success', 'Успешно изтрихте снимката!');
+        }
+    }
+
+    public function firmProductEdit(Request $request, $id=null)
+    {
+        // Add holidays
+        $holidays = Holiday::where(['parent_id'=>0])->get();
+        // Add property
+        $property = LandingPage::first();
+        // User
+        $user = User::where(['id'=>Auth::user()->id])->first();
+        // Add Categories
+        $categories = Category::where(['parent_id'=>0])->get();
+        // Add Speditors
+        $speditors = Speditor::all();
+        if($id != null){
+            $product = Product::where(['id'=>$id])->first();
+            if($request->isMethod('post')){
+
+            }
+            return view('firms.product_edit')->with([
+                'holidays'=>$holidays,
+                'property'=>$property,
+                'user'=>$user,
+                'product'=>$product,
+                'speditors'=>$speditors,
+                'categories'=>$categories
+            ]);
+        }else{
+            return redirect('/home-firm');
+        }
+    }
+
+    public function deleteProductImage(Request $request, $id=null){
+        if (!empty($id)){
+            $product_image = Product::where(['id'=>$id])->first()->image;
+            if (File::exists('images/backend_images/products/small/'.$product_image)){
+                File::delete('images/backend_images/products/small/'.$product_image);
+            }
+            if (File::exists('images/backend_images/products/medium/'.$product_image)){
+                File::delete('images/backend_images/products/medium/'.$product_image);
+            }
+            if (File::exists('images/backend_images/products/large/'.$product_image)){
+                File::delete('images/backend_images/products/large/'.$product_image);
+            }
+            Product::where(['id'=>$id])->update(['image'=>'']);
+            return redirect('/home-firm-product-edit/'.$id)->with('flash_message_success', 'Успешно изтрихте снимката на продукта!');
         }
     }
 
