@@ -3,7 +3,7 @@
 <!-- Header Area wrapper Starts -->
 <header id="header-wrap">
     <!-- Navbar Start -->
-    <nav class="navbar navbar-expand-lg fixed-top scrolling-navbar">
+    <nav class="navbar navbar-expand-lg fixed-top scrolling-navbar" style="background: #333333;">
         <div class="container">
             <div class="theme-header clearfix">
                 <div class="collapse navbar-collapse" id="main-navbar">

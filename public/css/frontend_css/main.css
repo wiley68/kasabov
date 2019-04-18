@@ -913,20 +913,21 @@ a.back-to-top:hover, a.back-to-top:focus {
   color: #fff;
   overflow: hidden;
   position: relative;
+  margin-top: 76px;
 }
 
 #hero-area .overlay {
   content: '';
   position: absolute;
-  top: 0;
+  top: 76;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(54, 59, 77, 0.88);
+  background: rgba(233, 233, 200, 0.40);
 }
 
 #hero-area .contents {
-  padding: 180px 0 200px;
+  padding: 260px 0 100px;
 }
 
 #hero-area .contents .head-title {

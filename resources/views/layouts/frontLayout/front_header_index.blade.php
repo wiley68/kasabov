@@ -2,7 +2,7 @@
 <!-- Header Area wrapper Starts -->
 <header id="header-wrap">
     <!-- Navbar Start -->
-    <nav class="navbar navbar-expand-lg fixed-top scrolling-navbar">
+    <nav class="navbar navbar-expand-lg fixed-top scrolling-navbar" style="background: #333333;">
         <div class="container">
             <div class="theme-header clearfix">
                 <div class="collapse navbar-collapse" id="main-navbar">
@@ -68,8 +68,8 @@
             <div class="row justify-content-center">
                 <div class="col-md-12 col-lg-9 col-xs-12 text-center">
                     <div class="contents">
-                        <h1 class="head-title"><a href="{{ route('index') }}"><img src="{{ asset('images/backend_images/logo.png') }}" alt="Logo" /></a> <img src="{{ asset('images/backend_images/logo1.png') }}" alt="Logo" /></a> <img src="{{ asset('images/backend_images/logo2.png') }}" alt="Logo" /></a></h1>
-                        <h5>Всичко за твоето парти на едно място</h5>
+                        <h1 class="head-title"><a href="{{ route('index') }}"><img src="{{ asset('images/backend_images/logo.png') }}" alt="Logo" /></a></h1>
+                        <h5 style="color:#333333;">Всичко за твоето парти на едно място</h5>
                         <div class="search-bar">
                             <div class="search-inner">
                                 <form enctype="multipart/form-data" class="search-form" action="{{ route('products') }}" method="post" name="filter_products" id="filter_products" novalidate="novalidate">
