@@ -36,6 +36,7 @@ Route::group(['middleware' => ['frontFirmLogin']], function () {
     Route::get('/home-firm-payments', 'HomeController@firmPayments')->name('home-firm-payments');
     Route::match(['get', 'post'], '/home-firm-privacy', 'HomeController@firmPrivacy')->name('home-firm-privacy');
     Route::get('/delete-firm-order/{id}', 'OrderController@deleteFirmOrder')->name('delete-firm-order');
+    Route::post('/delete-firm-user', 'HomeController@privacyFirmDelete')->name('delete-firm-user');
 });
 Route::get('/logout-front-user', 'UsersController@logoutUser')->name('logout-front-user');
 Route::get('/logout-front-firm', 'UsersController@logoutFirm')->name('logout-front-firm');

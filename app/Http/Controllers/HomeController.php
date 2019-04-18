@@ -298,6 +298,53 @@ class HomeController extends Controller
         ]);
     }
 
+    public function firmPrivacy(Request $request)
+    {
+        // Add holidays
+        $holidays = Holiday::where(['parent_id'=>0])->get();
+        // Add property
+        $property = LandingPage::first();
+        // User
+        $user = User::where(['id'=>Auth::user()->id])->first();
+        if($request->isMethod('post')){
+            if($request->has('monthizvestia')){
+                $user->monthizvestia = 1;
+            }else{
+                $user->monthizvestia = 0;
+            }
+            if($request->has('porackiizvestia')){
+                $user->porackiizvestia = 1;
+            }else{
+                $user->porackiizvestia = 0;
+            }
+            if($request->has('newizvestia')){
+                $user->newizvestia = 1;
+            }else{
+                $user->newizvestia = 0;
+            }
+            $user->save();
+        }
+        return view('firms.privacy')->with([
+            'holidays'=>$holidays,
+            'property'=>$property,
+            'user'=>$user
+        ]);
+    }
+
+    public function privacyFirmDelete(Request $request)
+    {
+        // User
+        $user = User::where(['id'=>Auth::user()->id])->first();
+        if($request->isMethod('post')){
+            if($request->input('pricina') != '0'){
+                $user->delete();
+                return redirect()->route('logout-front-firm');
+            }else{
+                return redirect()->back();
+            }
+        }
+    }
+
     public function deleteUserImage(Request $request, $id=null){
         if (!empty($id)){
             $user_image = User::where(['id'=>$id])->first()->image;
