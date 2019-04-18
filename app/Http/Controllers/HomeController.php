@@ -267,14 +267,34 @@ class HomeController extends Controller
         $property = LandingPage::first();
         // User
         $user = User::where(['id'=>Auth::user()->id])->first();
-        $orders = Order::where(['user_id'=>$user->id])->get();
         $products = Product::where(['user_id'=>Auth::user()->id])->get();
         return view('firms.adds')->with([
             'holidays'=>$holidays,
             'property'=>$property,
             'user'=>$user,
-            'orders'=>$orders,
             'products'=>$products
+        ]);
+    }
+
+    public function firmOrders()
+    {
+        // Add holidays
+        $holidays = Holiday::where(['parent_id'=>0])->get();
+        // Add property
+        $property = LandingPage::first();
+        // User
+        $user = User::where(['id'=>Auth::user()->id])->first();
+        $products = Product::where(['user_id'=>Auth::user()->id])->get();
+        $products_ids = [];
+        foreach ($products as $product) {
+            $products_ids[] = $product->id;
+        }
+        $orders = Order::whereIn('product_id', $products_ids)->get();
+        return view('firms.orders')->with([
+            'holidays'=>$holidays,
+            'property'=>$property,
+            'user'=>$user,
+            'orders'=>$orders
         ]);
     }
 

@@ -31,12 +31,12 @@
                                             </a>
                                 </li>
                                 <li>
-                                    <a class="active" href="{{ route('home-firm-adds') }}">
+                                    <a href="{{ route('home-firm-adds') }}">
                                                 <i class="lni-layers"></i><span>Моите оферти</span>
                                             </a>
                                 </li>
                                 <li>
-                                    <a href="{{ route('home-firm-orders') }}">
+                                    <a class="active" href="{{ route('home-firm-orders') }}">
                                                 <i class="lni-envelope"></i><span>Поръчки</span>
                                             </a>
                                 </li>
@@ -66,92 +66,57 @@
                     </div>
                 </aside>
             </div>
-
             <div class="col-sm-12 col-md-8 col-lg-9">
                 <div class="page-content">
                     <div class="inner-box">
                         <div class="dashboard-box">
-                            <h2 class="dashbord-title">Моите оферти</h2>
+                            <h2 class="dashbord-title">Поръчки</h2>
                         </div>
                         <div class="dashboard-wrapper">
                             <table class="table table-responsive dashboardtable tablemyads">
                                 <thead>
                                     <tr>
                                         <th>Снимка</th>
-                                        <th>Оферта</th>
-                                        <th>Платен</th>
-                                        <th>Състояние</th>
+                                        <th>Продукт</th>
+                                        <th>Клиент</th>
                                         <th>Цена</th>
                                         <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($products as $product)
+                                    @foreach ($orders as $order)
                                         @php
+                                        $product = Product::where(['id'=>$order->product_id])->first();
                                         if(!empty($product->image)){
                                             $image = asset('/images/backend_images/products/small/'.$product->image);
                                         }else{
                                             $image = asset('/images/backend_images/products/small/no-image-300.png');
                                         }
                                         @endphp
-                                        <tr data-category="active">
-                                            <td class="Снимка"><img class="img-fluid" src="{{ $image }}" alt=""></td>
-                                            <td data-title="Оферта">
+                                        <tr>
+                                            <td class="photo"><img class="img-fluid" src="{{ $image }}" alt=""></td>
+                                            <td data-title="Продукт">
                                                 <h3>{{ $product->product_name }}</h3>
                                                 <span>КОД: {{ $product->product_code }}</span>
                                             </td>
-                                            @php
-                                            switch ($product->featured) {
-                                                case 1:
-                                                $featured = 'adstatusactive';
-                                                $featured_txt = 'Да';
-                                                break;
-                                                case 'featured': $featured = 'adstatusinactive';
-                                                $featured_txt = 'Не';
-                                                break;
-                                                default:
-                                                $featured = 'adstatusinactive';
-                                                $featured_txt = 'Не';
-                                                break;
-                                            }
-                                            @endphp
-                                            <td data-title="Платен"><span class="adstatus {{ $featured }}">{{ $featured_txt }}</span></td>
-                                            @php
-                                            switch ($product->status) {
-                                                case 'active':
-                                                $status = 'adstatusactive';
-                                                $status_txt = 'Акт.';
-                                                break;
-                                                case 'notactive':
-                                                $status = 'adstatusinactive';
-                                                $status_txt = 'Неакт.';
-                                                break;
-                                                case 'sold':
-                                                $status = 'adstatussold';
-                                                $status_txt = 'Прод.';
-                                                break;
-                                                case 'expired':
-                                                $status = 'adstatusexpired';
-                                                $status_txt = 'Проср.';
-                                                break;
-                                                default:
-                                                $status = 'adstatusactive';
-                                                $status_txt = 'Акт.';
-                                                break;
-                                            }
-                                            @endphp
-                                            <td data-title="Състояние"><span class="adstatus {{ $status }}">{{ $status_txt }}</span></td>
+                                            <td data-title="Клиент"><span class="adcategories"><a target="_blanc" title="Покажи профила на клиента" href="#">{{ User::where(['id'=>$order->user_id])->first()->name }}</a></span></td>
                                             <td data-title="Цена">
                                                 <h3>{{ number_format($product->price, 2, '.', '') }}{{ Config::get('settings.currency') }}</h3>
                                             </td>
-                                            <td data-title="Action">
+                                            <td>
                                                 <div class="btns-actions">
-                                                    <a class="btn-action btn-view" target="_blanc" href="{{ route('product', ['id'=>$product->product_code]) }}" title="Покажи офертата"><i class="lni-eye"></i></a>
-                                                    <a class="btn-action btn-edit" href="#" title="Редактирай офертата"><i class="lni-pencil"></i></a>
-                                                    <a class="btn-action btn-delete" href="#" title="Изтрий офертата"><i class="lni-trash"></i></a>
+                                                    <a class="btn-action btn-view" href="{{ route('product', ['id'=>$product->product_code]) }}" target="_blanc" title="Покажи продукта"><i class="lni-eye"></i></a>
+                                                    <a class="btn-action btn-delete" href="{{ route('delete-firm-order', ['id'=>$order->id]) }}" title="Изтрий тази поръчка"><i class="lni-trash"></i></a>
                                                 </div>
                                             </td>
-                                        </tr>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="5">
+                                            <p><strong>Съобщение</strong>: {{ $order->message }}</p>
+                                            <p><strong>Email</strong>: {{ $order->email }}</p>
+                                            <p><strong>Телефон</strong>: {{ $order->phone }}</p>
+                                        </td>
+                                    </tr>
                                     @endforeach
                                 </tbody>
                             </table>

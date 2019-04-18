@@ -60,4 +60,13 @@ class OrderController extends Controller
         return redirect('/home-adds');
     }
 
+    public function deleteFirmOrder(Request $request, $id=null){
+        if (!empty($id)){
+            $order = Order::where(['id'=>$id])->first();
+            // Delete order
+            $order->delete();
+        }
+        return redirect('/home-firm-orders');
+    }
+
 }

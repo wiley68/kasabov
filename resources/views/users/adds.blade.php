@@ -32,7 +32,7 @@
                                 </li>
                                 <li>
                                     <a class="active" href="{{ route('home-adds') }}">
-                                        <i class="lni-layers"></i><span>Моите потъчки</span>
+                                        <i class="lni-layers"></i><span>Моите поръчки</span>
                                     </a>
                                 </li>
                                 <li>
@@ -97,7 +97,7 @@
                                                 <h3>{{ $product->product_name }}</h3>
                                                 <span>КОД: {{ $product->product_code }}</span>
                                             </td>
-                                            <td data-title="Собственик"><span class="adcategories">{{ User::where(['id'=>$order->user_id])->first()->name }}</span></td>
+                                            <td data-title="Собственик"><span class="adcategories"><a href="#" target="_blanc" title="Покажи прифила на търговеца">{{ User::where(['id'=>$product->user_id])->first()->name }}</a></span></td>
                                             <td data-title="Цена">
                                                 <h3>{{ number_format($product->price, 2, '.', '') }}{{ Config::get('settings.currency') }}</h3>
                                             </td>

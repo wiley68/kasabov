@@ -35,7 +35,7 @@
                                 </li>
                                 <li>
                                     <a href="{{ route('home-firm-orders') }}">
-                                        <i class="lni-heart"></i><span>Поръчки</span>
+                                        <i class="lni-envelope"></i><span>Поръчки</span>
                                     </a>
                                 </li>
                                 <li>

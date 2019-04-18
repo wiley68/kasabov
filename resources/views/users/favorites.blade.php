@@ -31,7 +31,7 @@
                                 </li>
                                 <li>
                                     <a href="{{ route('home-adds') }}">
-                                        <i class="lni-layers"></i><span>Моите потъчки</span>
+                                        <i class="lni-layers"></i><span>Моите поръчки</span>
                                     </a>
                                 </li>
                                 <li>
