@@ -79,12 +79,12 @@
                                 <div class="dashboard-box">
                                     <h2 class="dashbord-title">Настройки за контакт</h2>
                                 </div>
-                                <form enctype="multipart/form-data" class="form-horizontal" method="post" action="{{ route('home-settings') }}" name="home_settings"
+                                <form enctype="multipart/form-data" class="form-horizontal" method="post" action="{{ route('home-firm-settings') }}" name="home_settings"
                                     id="home_settings" novalidate="novalidate">
                                     @csrf
                                     <div class="dashboard-wrapper">
                                         <div class="form-group mb-3">
-                                            <label class="control-label">Име*</label>
+                                            <label class="control-label">Наименование търговец*</label>
                                             <input class="form-control input-md" name="user_name" type="text" value="{{ $user->name }}">
                                         </div>
                                         <div class="form-group mb-3">
@@ -110,6 +110,10 @@
                                                 @endforeach
                                             </select>
                                             </div>
+                                        </div>
+                                        <div class="form-group mb-3">
+                                            <label class="control-label">Представяне (можете да въведете кратък текст с който да представите Вашата дейност пред потенциалните си купувачи.)</label>
+                                            <textarea class="form-control input-md" name="user_info">{{ $user->info }}</textarea>
                                         </div>
                                         <div class="control-group">
                                             <label class="control-label">Снимка</label>

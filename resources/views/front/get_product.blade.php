@@ -47,7 +47,7 @@ if(!empty($product->image)){
                         <h2>{{ $product->product_name }}</h2>
                         <div class="details-meta">
                             <span title="Добавен на"><i class="lni-alarm-clock"></i> {{ ProductController::getCreatedAtAttribute($product->created_at) }}</span>
-                            <span title="Изпраща се от, населено място"><i class="lni-map-marker"></i>  {{ City::where(['id'=>$product->send_from_id])->first()->city }} - {{ City::where(['id'=>$product->send_id])->first()->oblast }}</span>
+                            <span title="Изпраща се от, населено място"><i class="lni-map-marker"></i>  {{ City::where(['id'=>$product->send_from_id])->first()->city }} - {{ City::where(['id'=>$product->send_from_id])->first()->oblast }}</span>
                             <span title="Брой прегледа на обявата"><i class="lni-eye"></i> {{ $product->views }}</span>
                             @auth
                             <div class="float-right">
@@ -239,6 +239,10 @@ if(!empty($product->image)){
                     <div class="widget">
                         <h4 class="widget-title">Продукт на: {{ User::where(['id'=>$product->user_id])->first()->name }}</h4>
                         <div class="agent-inner">
+                            <div class="mb-4">
+                                <p>{{ User::where(['id'=>$product->user_id])->first()->info }}</p>
+                            </div>
+                            <hr />
                             <div class="mb-4">
                                 <div class="mapouter">
                                     <div class="gmap_canvas">

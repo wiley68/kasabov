@@ -245,6 +245,7 @@ class HomeController extends Controller
             if(empty($request->input('user_address'))){
                 $user->address = '';
             }
+            $user->info = $request->input('user_info');
             $user->city_id = $request->input('city_id');
             $user->image = $filename;
             $user->save();
