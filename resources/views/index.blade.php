@@ -65,13 +65,20 @@
                 </div>
             </div>
             @foreach ($featured_products as $featured_product)
+            @php
+                if(!empty($featured_product->image)){
+                    $featured_image = asset('/images/backend_images/products/medium/'.$featured_product->image);
+                }else{
+                    $featured_image = asset('/images/backend_images/products/medium/no-image-600.png');
+                }
+            @endphp
             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4">
                 <div class="featured-box">
                     <figure>
                         <div class="homes-tag featured">{{ Holiday::where(['id'=>$featured_product->holiday_id])->first()->name }}</div>
                         <div class="homes-tag rent"><i class="lni-heart"></i> {{ $featured_product->likes }}</div>
                         <span class="price-save">{{ number_format($featured_product->price, 2, '.', '') }}{{ Config::get('settings.currency') }}</span>
-                        <a href="{{ route('product', ['id'=>$featured_product->product_code]) }}"><img class="img-fluid" src="{{ asset('/images/backend_images/products/small/'.$featured_product->image) }}" alt=""></a>
+                        <a href="{{ route('product', ['id'=>$featured_product->product_code]) }}"><img class="img-fluid" src="{{ $featured_image }}" alt=""></a>
                     </figure>
                     <div class="content-wrapper">
                         <div class="feature-content">
@@ -115,10 +122,17 @@
             <div class="col-md-12 wow fadeIn" data-wow-delay="0.5s">
                 <div id="new-products" class="owl-carousel owl-theme">
                     @foreach ($tops as $top)
+                    @php
+                    if(!empty($top->image)){
+                        $top_image = asset('/images/backend_images/products/medium/'.$featured_product->image);
+                    }else{
+                        $top_image = asset('/images/backend_images/products/medium/no-image-600.png');
+                    }
+                    @endphp
                     <div class="item">
                         <div class="product-item">
                             <div class="carousel-thumb">
-                                <img class="img-fluid" src="{{ asset('/images/backend_images/products/small/'.$top->image) }}" alt="">
+                                <img class="img-fluid" src="{{ $top_image }}" alt="">
                                 <div class="overlay">
                                     <div>
                                         <a class="btn btn-common" href="{{ route('product', ['id'=>$top->product_code]) }}">Виж детайлно</a>

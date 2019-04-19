@@ -14,7 +14,7 @@
                                 <img src="{{ asset('/images/backend_images/users/'.$user->image) }}" alt="">
                             </figure>
                             <div class="usercontent">
-                                <h3>Здравейте {{ Auth::user()->name }}</h3>
+                                <h3>Здравейте {{ Auth::user()->name }}!</h3>
                                 <h4>Потребител</h4>
                             </div>
                         </div>
