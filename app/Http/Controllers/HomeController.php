@@ -385,6 +385,7 @@ class HomeController extends Controller
         $categories = Category::where(['parent_id'=>0])->get();
         // Add Speditors
         $speditors = Speditor::all();
+        $cities = City::all();
         if($id != null){
             $product = Product::where(['id'=>$id])->first();
             if($request->isMethod('post')){
@@ -396,6 +397,7 @@ class HomeController extends Controller
                 'user'=>$user,
                 'product'=>$product,
                 'speditors'=>$speditors,
+                'cities'=>$cities,
                 'categories'=>$categories
             ]);
         }else{

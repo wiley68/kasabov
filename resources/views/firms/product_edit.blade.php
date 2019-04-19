@@ -1,5 +1,6 @@
 <?php use App\Category; ?>
 <?php use App\Holiday; ?>
+<?php use App\City; ?>
 @extends('layouts.frontLayout.front_design')
 @section('content')
 <script type="text/javascript">
@@ -20,6 +21,7 @@
         });
         return false;
     };
+
 </script>
 <!-- Start Content -->
 <div id="content" class="section-padding">
@@ -98,8 +100,8 @@
                         <div class="dashboard-box">
                             <h2 class="dashbord-title">Оферта: {{ $product->product_name }}</h2>
                         </div>
-                        <form enctype="multipart/form-data" class="form-horizontal" method="post" action="{{ route('home-firm-product-edit', ['id'=>$product->id]) }}" name="home_firm_product_edit"
-                            id="home_firm_product_edit" novalidate="novalidate">
+                        <form enctype="multipart/form-data" class="form-horizontal" method="post" action="{{ route('home-firm-product-edit', ['id'=>$product->id]) }}"
+                            name="home_firm_product_edit" id="home_firm_product_edit" novalidate="novalidate">
                             @csrf
                             <div class="dashboard-wrapper">
                                 <div class="form-group mb-3" style="display:flex">
@@ -145,10 +147,9 @@
                                 <div class="form-group mb-3">
                                     <label class="control-label">Снимка</label>
                                     <input type="file" name="image" id="image">
-                                    <input type="hidden" name="current_image" id="current_image" value="{{ $product->image }}">
-                                    @if (!empty($product->image))
-                                        <a href="#imageModal" data-toggle="modal" title="Покажи снимката в голям размер."><img style="width:50px;" src="{{ asset('/images/backend_images/products/small/'.$product->image) }}"></a> | <button onclick="deleteProductImage('{{ route('home-delete-product-image', ['id' => $product->id]) }}');" class="btn btn-danger">Изтрий снимката</button>
-                                    @endif
+                                    <input type="hidden" name="current_image" id="current_image" value="{{ $product->image }}">                                    @if (!empty($product->image))
+                                    <a href="#imageModal" data-toggle="modal" title="Покажи снимката в голям размер."><img style="width:50px;" src="{{ asset('/images/backend_images/products/small/'.$product->image) }}"></a>                                    | <button onclick="deleteProductImage('{{ route('home-delete-product-image', ['id' => $product->id]) }}');"
+                                        class="btn btn-danger">Изтрий снимката</button> @endif
                                 </div>
                                 <div class="form-group mb-3" style="display:flex">
                                     <label style="width:200px;">Основен цвят</label>
@@ -208,6 +209,17 @@
                                         @endforeach
                                     </select>
                                 </div>
+                                <div class="form-group mb-3" style="display:flex; justify-content: space-between;">
+                                    <label style="width:200px;">Изпраща се от</label> @php if(!empty(City::where(['id'=>$product->send_from_id])->first())){
+                                    $send_from_id_name = City::where(['id'=>$product->send_from_id])->first()->city . '-'
+                                    . City::where(['id'=>$product->send_from_id])->first()->oblast; }else{ $send_from_id_name
+                                    = ''; }
+                                    @endphp
+                                    <input type="text" style="width:400px;" disabled name="send_from_id_txt" id="send_from_id_txt" value="{{ $send_from_id_name }}"
+                                    />
+                                    <input type="hidden" name="send_from_id" id="send_from_id" value="{{ $product->send_from_id }}" />
+                                    <a id="btn_send_from_id" href="#choose_city_form" data-toggle="modal" title="Избери населено място" class="btn btn-success btn-mini">Избери</a>
+                                </div>
                                 <hr />
                                 <button class="btn btn-common" type="submit">Запиши промените</button>
                             </div>
@@ -223,6 +235,33 @@
                                         <p><img src="{{ asset('/images/backend_images/products/large/'.$product->image) }}"></p>
                                     </div>
                                     <div class="modal-footer"><button type="button" class="btn btn-danger" data-dismiss="modal">Close</button></div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Choose city form -->
+                        <div id="choose_city_form" class="modal">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title">Избери населено място</h5>
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="container-fluid">
+                                            <div class="row-fluid">
+                                                <select name="send_id" id="send_id" style="width:100%;">
+                                                    <option value="0" selected>Избери доставчик</option>
+                                                    @foreach ($speditors as $speditor)
+                                                        <option value="{{ $speditor->id }}" @if ($speditor->id === $product->send_id) selected @endif>{{ $speditor->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button data-dismiss="modal" class="btn btn-primary" id="btn_select_city">Избери</button>
+                                        <a data-dismiss="modal" class="btn btn-warrning" href="#">Затвори</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>

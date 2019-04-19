@@ -14,7 +14,8 @@
 <link rel="stylesheet" href="{{ asset('css/frontend_css/main.css') }}" />
 <link rel="stylesheet" href="{{ asset('css/frontend_css/responsive.css') }}" />
 <link rel="stylesheet" href="{{ asset('css/frontend_css/front.css') }}" />
-<link rel="stylesheet" href="{{ asset('css/backend_css/select2.css') }}" />
+<link rel="stylesheet" href="{{ asset('lib/DataTables/datatables.min.css') }}" />
+<link rel="stylesheet" type="text/css" href="{{ asset('css/backend_css/select2.css') }}"/>
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 <!-- index controller -->
 </head>
