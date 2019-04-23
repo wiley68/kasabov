@@ -75,7 +75,14 @@
             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-4">
                 <div class="featured-box">
                     <figure>
-                        <div class="homes-tag featured">{{ Holiday::where(['id'=>$featured_product->holiday_id])->first()->name }}</div>
+                        @php
+                            if(!empty(Holiday::where(['id'=>$featured_product->holiday_id])->first())){
+                                $holiday_name = Holiday::where(['id'=>$featured_product->holiday_id])->first()->name;
+                            }else{
+                                $holiday_name = '';
+                            }
+                        @endphp
+                        <div class="homes-tag featured">{{ $holiday_name }}</div>
                         <div class="homes-tag rent"><i class="lni-heart"></i> {{ $featured_product->likes }}</div>
                         <span class="price-save">{{ number_format($featured_product->price, 2, '.', '') }}{{ Config::get('settings.currency') }}</span>
                         <a href="{{ route('product', ['id'=>$featured_product->product_code]) }}"><img class="img-fluid" src="{{ $featured_image }}" alt=""></a>
@@ -98,7 +105,14 @@
                             </div>
                         </div>
                         <div class="listing-bottom clearfix">
-                            <i class="lni-map-marker"></i> {{ City::where(['id'=>$featured_product->send_id])->first()->city }}
+                            @php
+                                if(!empty(City::where(['id'=>$featured_product->send_from_id])->first())){
+                                    $city_name = City::where(['id'=>$featured_product->send_from_id])->first()->city;
+                                }else{
+                                    $city_name = '';
+                                }
+                            @endphp
+                            <i class="lni-map-marker"></i> {{ $city_name }}
                             <a href="{{ route('product', ['id'=>$featured_product->product_code]) }}" class="float-right">Прегледай Детайлно</a>
                         </div>
                     </div>
@@ -153,7 +167,14 @@
                                 </div>
                                 <div class="card-text clearfix">
                                     <div class="float-right">
-                                        <i class="lni-map-marker"></i> {{ City::where(['id'=>$top->send_id])->first()->city }}
+                                        @php
+                                            if(!empty(City::where(['id'=>$top->send_from_id])->first())){
+                                                $city_name = City::where(['id'=>$top->send_from_id])->first()->city;
+                                            }else{
+                                                $city_name = '';
+                                            }
+                                        @endphp
+                                        <i class="lni-map-marker"></i> {{ $city_name }}
                                     </div>
                                 </div>
                             </div>

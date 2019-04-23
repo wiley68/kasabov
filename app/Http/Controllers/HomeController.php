@@ -2,80 +2,83 @@
 
 namespace App\Http\Controllers;
 
+use App\Category;
+use App\City;
+use App\Favorite;
 use App\Holiday;
 use App\LandingPage;
-use App\City;
+use App\Order;
+use App\Product;
+use App\Speditor;
 use App\User;
 use Auth;
-use Illuminate\Http\Request;
-use App\Favorite;
-use App\Product;
 use File;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use Intervention\Image\Facades\Image;
-use App\Order;
-use App\Category;
-use App\Speditor;
+use App\ProductsCity;
+use App\ProductsTags;
+use App\Tag;
 
 class HomeController extends Controller
 {
     public function index()
     {
         // Add holidays
-        $holidays = Holiday::where(['parent_id'=>0])->get();
+        $holidays = Holiday::where(['parent_id' => 0])->get();
         // Add property
         $property = LandingPage::first();
         // User
-        $user = User::where(['id'=>Auth::user()->id])->first();
+        $user = User::where(['id' => Auth::user()->id])->first();
         return view('home')->with([
-            'holidays'=>$holidays,
-            'property'=>$property,
-            'user'=>$user
+            'holidays' => $holidays,
+            'property' => $property,
+            'user' => $user,
         ]);
     }
 
     public function settings(Request $request)
     {
         // Add holidays
-        $holidays = Holiday::where(['parent_id'=>0])->get();
+        $holidays = Holiday::where(['parent_id' => 0])->get();
         // Add property
         $property = LandingPage::first();
         // Add cities
         $cities = City::all();
-        $user = User::where(['id'=>Auth::user()->id])->first();
-        if($request->isMethod('post')){
+        $user = User::where(['id' => Auth::user()->id])->first();
+        if ($request->isMethod('post')) {
             //upload image
-            if ($request->hasFile('image')){
+            if ($request->hasFile('image')) {
                 // Delete old image
                 $user_image = $user->image;
-                if (File::exists('images/backend_images/users/'.$user_image)){
-                    File::delete('images/backend_images/users/'.$user_image);
+                if (File::exists('images/backend_images/users/' . $user_image)) {
+                    File::delete('images/backend_images/users/' . $user_image);
                 }
                 $image_temp = Input::file('image');
-                if ($image_temp->isValid()){
+                if ($image_temp->isValid()) {
                     $extension = $image_temp->getClientOriginalExtension();
-                    $filename = $user->id.rand(111,99999).'.'.$extension;
-                    $image_path = 'images/backend_images/users/'.$filename;
+                    $filename = $user->id . rand(111, 99999) . '.' . $extension;
+                    $image_path = 'images/backend_images/users/' . $filename;
                     // Resize images
                     Image::make($image_temp)->resize(null, 75, function ($constraint) {
-                            $constraint->aspectRatio();
-                            $constraint->upsize();
-                        })->save($image_path);
+                        $constraint->aspectRatio();
+                        $constraint->upsize();
+                    })->save($image_path);
                 }
-            }else{
+            } else {
                 $filename = $request->input('current_image');
-                if (empty($request->input('current_image'))){
+                if (empty($request->input('current_image'))) {
                     $filename = '';
                 }
             }
-            if(!empty($request->input('user_name'))){
+            if (!empty($request->input('user_name'))) {
                 $user->name = $request->input('user_name');
             }
-            if(!empty($request->input('user_phone'))){
+            if (!empty($request->input('user_phone'))) {
                 $user->phone = $request->input('user_phone');
             }
             $user->address = $request->input('user_address');
-            if(empty($request->input('user_address'))){
+            if (empty($request->input('user_address'))) {
                 $user->address = '';
             }
             $user->city_id = $request->input('city_id');
@@ -84,95 +87,95 @@ class HomeController extends Controller
         }
 
         return view('users.settings')->with([
-            'holidays'=>$holidays,
-            'property'=>$property,
-            'cities'=>$cities,
-            'user'=>$user
+            'holidays' => $holidays,
+            'property' => $property,
+            'cities' => $cities,
+            'user' => $user,
         ]);
     }
 
     public function adds()
     {
         // Add holidays
-        $holidays = Holiday::where(['parent_id'=>0])->get();
+        $holidays = Holiday::where(['parent_id' => 0])->get();
         // Add property
         $property = LandingPage::first();
         // User
-        $user = User::where(['id'=>Auth::user()->id])->first();
-        $orders = Order::where(['user_id'=>$user->id])->get();
+        $user = User::where(['id' => Auth::user()->id])->first();
+        $orders = Order::where(['user_id' => $user->id])->get();
         return view('users.adds')->with([
-            'holidays'=>$holidays,
-            'property'=>$property,
-            'user'=>$user,
-            'orders'=>$orders
+            'holidays' => $holidays,
+            'property' => $property,
+            'user' => $user,
+            'orders' => $orders,
         ]);
     }
 
     public function favorites()
     {
         // Add holidays
-        $holidays = Holiday::where(['parent_id'=>0])->get();
+        $holidays = Holiday::where(['parent_id' => 0])->get();
         // Add property
         $property = LandingPage::first();
         // Get Favorites
-        $favorites = Favorite::where(['user_id'=>Auth::user()->id])->get();
+        $favorites = Favorite::where(['user_id' => Auth::user()->id])->get();
         $favorites_ids = [];
         foreach ($favorites as $favorite) {
             $favorites_ids[] = $favorite->product_id;
         }
         $products = Product::whereIn('id', $favorites_ids)->get();
         // User
-        $user = User::where(['id'=>Auth::user()->id])->first();
+        $user = User::where(['id' => Auth::user()->id])->first();
         return view('users.favorites')->with([
-            'holidays'=>$holidays,
-            'property'=>$property,
-            'products'=>$products,
-            'user'=>$user
+            'holidays' => $holidays,
+            'property' => $property,
+            'products' => $products,
+            'user' => $user,
         ]);
     }
 
     public function privacy(Request $request)
     {
         // Add holidays
-        $holidays = Holiday::where(['parent_id'=>0])->get();
+        $holidays = Holiday::where(['parent_id' => 0])->get();
         // Add property
         $property = LandingPage::first();
         // User
-        $user = User::where(['id'=>Auth::user()->id])->first();
-        if($request->isMethod('post')){
-            if($request->has('monthizvestia')){
+        $user = User::where(['id' => Auth::user()->id])->first();
+        if ($request->isMethod('post')) {
+            if ($request->has('monthizvestia')) {
                 $user->monthizvestia = 1;
-            }else{
+            } else {
                 $user->monthizvestia = 0;
             }
-            if($request->has('porackiizvestia')){
+            if ($request->has('porackiizvestia')) {
                 $user->porackiizvestia = 1;
-            }else{
+            } else {
                 $user->porackiizvestia = 0;
             }
-            if($request->has('newizvestia')){
+            if ($request->has('newizvestia')) {
                 $user->newizvestia = 1;
-            }else{
+            } else {
                 $user->newizvestia = 0;
             }
             $user->save();
         }
         return view('users.privacy')->with([
-            'holidays'=>$holidays,
-            'property'=>$property,
-            'user'=>$user
+            'holidays' => $holidays,
+            'property' => $property,
+            'user' => $user,
         ]);
     }
 
     public function privacyDelete(Request $request)
     {
         // User
-        $user = User::where(['id'=>Auth::user()->id])->first();
-        if($request->isMethod('post')){
-            if($request->input('pricina') != '0'){
+        $user = User::where(['id' => Auth::user()->id])->first();
+        if ($request->isMethod('post')) {
+            if ($request->input('pricina') != '0') {
                 $user->delete();
                 return redirect()->route('logout-front-user');
-            }else{
+            } else {
                 return redirect()->back();
             }
         }
@@ -181,23 +184,24 @@ class HomeController extends Controller
     public function index_firm()
     {
         // Add holidays
-        $holidays = Holiday::where(['parent_id'=>0])->get();
+        $holidays = Holiday::where(['parent_id' => 0])->get();
         // Add property
         $property = LandingPage::first();
         // User
-        $user = User::where(['id'=>Auth::user()->id])->first();
-        $products = Product::where(['user_id'=>Auth::user()->id])->get();
+        $user = User::where(['id' => Auth::user()->id])->first();
+        $products = Product::where(['user_id' => Auth::user()->id])->get();
         return view('home_firm')->with([
-            'holidays'=>$holidays,
-            'property'=>$property,
-            'user'=>$user,
-            'products'=>$products
+            'holidays' => $holidays,
+            'property' => $property,
+            'user' => $user,
+            'products' => $products,
         ]);
     }
 
-    public function deleteFirmAdd(Request $request, $id=null){
-        if (!empty($id)){
-            $product = Product::where(['id'=>$id])->first();
+    public function deleteFirmAdd(Request $request, $id = null)
+    {
+        if (!empty($id)) {
+            $product = Product::where(['id' => $id])->first();
             $product->delete();
             return redirect('/home-firm')->with('flash_message_success', 'Успешно изтрихте офертата!');
         }
@@ -206,45 +210,45 @@ class HomeController extends Controller
     public function firmSettings(Request $request)
     {
         // Add holidays
-        $holidays = Holiday::where(['parent_id'=>0])->get();
+        $holidays = Holiday::where(['parent_id' => 0])->get();
         // Add property
         $property = LandingPage::first();
         // Add cities
         $cities = City::all();
-        $user = User::where(['id'=>Auth::user()->id])->first();
-        if($request->isMethod('post')){
+        $user = User::where(['id' => Auth::user()->id])->first();
+        if ($request->isMethod('post')) {
             //upload image
-            if ($request->hasFile('image')){
+            if ($request->hasFile('image')) {
                 // Delete old image
                 $user_image = $user->image;
-                if (File::exists('images/backend_images/users/'.$user_image)){
-                    File::delete('images/backend_images/users/'.$user_image);
+                if (File::exists('images/backend_images/users/' . $user_image)) {
+                    File::delete('images/backend_images/users/' . $user_image);
                 }
                 $image_temp = Input::file('image');
-                if ($image_temp->isValid()){
+                if ($image_temp->isValid()) {
                     $extension = $image_temp->getClientOriginalExtension();
-                    $filename = $user->id.rand(111,99999).'.'.$extension;
-                    $image_path = 'images/backend_images/users/'.$filename;
+                    $filename = $user->id . rand(111, 99999) . '.' . $extension;
+                    $image_path = 'images/backend_images/users/' . $filename;
                     // Resize images
                     Image::make($image_temp)->resize(null, 75, function ($constraint) {
-                            $constraint->aspectRatio();
-                            $constraint->upsize();
-                        })->save($image_path);
+                        $constraint->aspectRatio();
+                        $constraint->upsize();
+                    })->save($image_path);
                 }
-            }else{
+            } else {
                 $filename = $request->input('current_image');
-                if (empty($request->input('current_image'))){
+                if (empty($request->input('current_image'))) {
                     $filename = '';
                 }
             }
-            if(!empty($request->input('user_name'))){
+            if (!empty($request->input('user_name'))) {
                 $user->name = $request->input('user_name');
             }
-            if(!empty($request->input('user_phone'))){
+            if (!empty($request->input('user_phone'))) {
                 $user->phone = $request->input('user_phone');
             }
             $user->address = $request->input('user_address');
-            if(empty($request->input('user_address'))){
+            if (empty($request->input('user_address'))) {
                 $user->address = '';
             }
             $user->info = $request->input('user_info');
@@ -254,94 +258,94 @@ class HomeController extends Controller
         }
 
         return view('firms.settings')->with([
-            'holidays'=>$holidays,
-            'property'=>$property,
-            'cities'=>$cities,
-            'user'=>$user
+            'holidays' => $holidays,
+            'property' => $property,
+            'cities' => $cities,
+            'user' => $user,
         ]);
     }
 
     public function firmAdds()
     {
         // Add holidays
-        $holidays = Holiday::where(['parent_id'=>0])->get();
+        $holidays = Holiday::where(['parent_id' => 0])->get();
         // Add property
         $property = LandingPage::first();
         // User
-        $user = User::where(['id'=>Auth::user()->id])->first();
-        $products = Product::where(['user_id'=>Auth::user()->id])->get();
+        $user = User::where(['id' => Auth::user()->id])->first();
+        $products = Product::where(['user_id' => Auth::user()->id])->get();
         return view('firms.adds')->with([
-            'holidays'=>$holidays,
-            'property'=>$property,
-            'user'=>$user,
-            'products'=>$products
+            'holidays' => $holidays,
+            'property' => $property,
+            'user' => $user,
+            'products' => $products,
         ]);
     }
 
     public function firmOrders()
     {
         // Add holidays
-        $holidays = Holiday::where(['parent_id'=>0])->get();
+        $holidays = Holiday::where(['parent_id' => 0])->get();
         // Add property
         $property = LandingPage::first();
         // User
-        $user = User::where(['id'=>Auth::user()->id])->first();
-        $products = Product::where(['user_id'=>Auth::user()->id])->get();
+        $user = User::where(['id' => Auth::user()->id])->first();
+        $products = Product::where(['user_id' => Auth::user()->id])->get();
         $products_ids = [];
         foreach ($products as $product) {
             $products_ids[] = $product->id;
         }
         $orders = Order::whereIn('product_id', $products_ids)->get();
         return view('firms.orders')->with([
-            'holidays'=>$holidays,
-            'property'=>$property,
-            'user'=>$user,
-            'orders'=>$orders
+            'holidays' => $holidays,
+            'property' => $property,
+            'user' => $user,
+            'orders' => $orders,
         ]);
     }
 
     public function firmPrivacy(Request $request)
     {
         // Add holidays
-        $holidays = Holiday::where(['parent_id'=>0])->get();
+        $holidays = Holiday::where(['parent_id' => 0])->get();
         // Add property
         $property = LandingPage::first();
         // User
-        $user = User::where(['id'=>Auth::user()->id])->first();
-        if($request->isMethod('post')){
-            if($request->has('monthizvestia')){
+        $user = User::where(['id' => Auth::user()->id])->first();
+        if ($request->isMethod('post')) {
+            if ($request->has('monthizvestia')) {
                 $user->monthizvestia = 1;
-            }else{
+            } else {
                 $user->monthizvestia = 0;
             }
-            if($request->has('porackiizvestia')){
+            if ($request->has('porackiizvestia')) {
                 $user->porackiizvestia = 1;
-            }else{
+            } else {
                 $user->porackiizvestia = 0;
             }
-            if($request->has('newizvestia')){
+            if ($request->has('newizvestia')) {
                 $user->newizvestia = 1;
-            }else{
+            } else {
                 $user->newizvestia = 0;
             }
             $user->save();
         }
         return view('firms.privacy')->with([
-            'holidays'=>$holidays,
-            'property'=>$property,
-            'user'=>$user
+            'holidays' => $holidays,
+            'property' => $property,
+            'user' => $user,
         ]);
     }
 
     public function privacyFirmDelete(Request $request)
     {
         // User
-        $user = User::where(['id'=>Auth::user()->id])->first();
-        if($request->isMethod('post')){
-            if($request->input('pricina') != '0'){
+        $user = User::where(['id' => Auth::user()->id])->first();
+        if ($request->isMethod('post')) {
+            if ($request->input('pricina') != '0') {
                 $user->delete();
                 return redirect()->route('logout-front-firm');
-            }else{
+            } else {
                 return redirect()->back();
             }
         }
@@ -350,74 +354,225 @@ class HomeController extends Controller
     public function firmPayments()
     {
         // Add holidays
-        $holidays = Holiday::where(['parent_id'=>0])->get();
+        $holidays = Holiday::where(['parent_id' => 0])->get();
         // Add property
         $property = LandingPage::first();
         // User
-        $user = User::where(['id'=>Auth::user()->id])->first();
+        $user = User::where(['id' => Auth::user()->id])->first();
         return view('firms.payments')->with([
-            'holidays'=>$holidays,
-            'property'=>$property,
-            'user'=>$user
+            'holidays' => $holidays,
+            'property' => $property,
+            'user' => $user,
         ]);
     }
 
-    public function deleteUserImage(Request $request, $id=null){
-        if (!empty($id)){
-            $user_image = User::where(['id'=>$id])->first()->image;
-            if (File::exists('images/backend_images/users/'.$user_image)){
-                File::delete('images/backend_images/users/'.$user_image);
+    public function deleteUserImage(Request $request, $id = null)
+    {
+        if (!empty($id)) {
+            $user_image = User::where(['id' => $id])->first()->image;
+            if (File::exists('images/backend_images/users/' . $user_image)) {
+                File::delete('images/backend_images/users/' . $user_image);
             }
-            User::where(['id'=>$id])->update(['image'=>'']);
+            User::where(['id' => $id])->update(['image' => '']);
             return redirect('/home-settings')->with('flash_message_success', 'Успешно изтрихте снимката!');
         }
     }
 
-    public function firmProductEdit(Request $request, $id=null)
+    public function firmProductEdit(Request $request, $id = null)
     {
         // Add holidays
-        $holidays = Holiday::where(['parent_id'=>0])->get();
+        $holidays = Holiday::where(['parent_id' => 0])->get();
         // Add property
         $property = LandingPage::first();
         // User
-        $user = User::where(['id'=>Auth::user()->id])->first();
+        $user = User::where(['id' => Auth::user()->id])->first();
         // Add Categories
-        $categories = Category::where(['parent_id'=>0])->get();
+        $categories = Category::where(['parent_id' => 0])->get();
         // Add Speditors
         $speditors = Speditor::all();
         $cities = City::all();
-        if($id != null){
-            $product = Product::where(['id'=>$id])->first();
-            if($request->isMethod('post')){
+        $oblasti = City::whereColumn('city', 'oblast')->get();
+        if ($id != null) {
+            $product = Product::where(['id' => $id])->first();
+            $tags = ProductsTags::where(['product_id'=>$product->id])->get();
+            if ($request->isMethod('post')) {
+                // Validate fields
+                if (empty($request->input('category_id')) || $request->input('category_id') == 0){
+                    return redirect('/home-firm-product-edit/'.$product->id)->with('flash_message_error', 'Трябва да изберете категория!');
+                }
+                //upload image
+                if ($request->hasFile('image')) {
+                    // Delete old image
+                    $product_image = $product->image;
+                    if (File::exists('images/backend_images/products/small/' . $product_image)) {
+                        File::delete('images/backend_images/products/small/' . $product_image);
+                    }
+                    if (File::exists('images/backend_images/products/medium/' . $product_image)) {
+                        File::delete('images/backend_images/products/medium/' . $product_image);
+                    }
+                    if (File::exists('images/backend_images/products/large/' . $product_image)) {
+                        File::delete('images/backend_images/products/large/' . $product_image);
+                    }
+                    $image_temp = Input::file('image');
+                    if ($image_temp->isValid()) {
+                        $extension = $image_temp->getClientOriginalExtension();
+                        $filename = rand(111, 99999) . '.' . $extension;
+                        $large_image_path = 'images/backend_images/products/large/' . $filename;
+                        $medium_image_path = 'images/backend_images/products/medium/' . $filename;
+                        $small_image_path = 'images/backend_images/products/small/' . $filename;
+                        // Resize images
+                        Image::make($image_temp)->resize(null, 1200, function ($constraint) {
+                            $constraint->aspectRatio();
+                            $constraint->upsize();
+                        })->save($large_image_path);
+                        Image::make($image_temp)->resize(null, 600, function ($constraint) {
+                            $constraint->aspectRatio();
+                            $constraint->upsize();
+                        })->save($medium_image_path);
+                        Image::make($image_temp)->resize(null, 300, function ($constraint) {
+                            $constraint->aspectRatio();
+                            $constraint->upsize();
+                        })->save($small_image_path);
+                    }
+                } else {
+                    $filename = $request->input('current_image');
+                    if (empty($request->input('current_image'))) {
+                        $filename = '';
+                    }
+                }
+                $product->category_id = $request->input('category_id');
+                $product->holiday_id = $request->input('holiday_id');
+                $product->product_name = $request->input('product_name');
+                $product->product_code = $request->input('product_code');
+                if (empty($request->input('quantity'))){
+                    $product->quantity = 0;
+                }else{
+                    $product->quantity = $request->input('quantity');
+                }
+                $product->price = $request->input('price');
+                $product->description = $request->input('description');
+                if (empty($product->description)){
+                    $product->description = '';
+                }
+                $product->image = $filename;
+                $product->first_color = $request->input('first_color');
+                $product->second_color = $request->input('second_color');
+                $product->age = $request->input('age');
+                $product->pol = $request->input('pol');
+                $product->condition = $request->input('condition');
+                $product->send_id = $request->input('send_id');
+                $product->send_from_id = $request->input('send_from_id');
+                if (empty($request->input('price_send'))){
+                    $product->price_send = 0.00;
+                }else{
+                    $product->price_send = $request->input('price_send');
+                }
+                $product->send_free = $request->input('send_free');
+                $product->send_free_id = $request->input('send_free_id');
+                $product->available_for = $request->input('available_for');
+                $available_cities = [];
+                switch ($product->available_for) {
+                    case 'country':
+                    $available_for_city = 0;
+                    break;
+                    case 'city':
+                    $available_for_city = $request->input('available_for_city');
+                    break;
+                    case 'cities':
+                    $available_for_city = 0;
+                    foreach ($request->input('available_for_cities') as $item) {
+                        $available_cities[] = $item;
+                    }
+                    break;
+                    case 'area':
+                    $available_for_city = $request->input('available_for_oblast');
+                    break;
+                    default:
+                    $available_for_city = 0;
+                    break;
+                }
+                $product->available_for_city = $available_for_city;
+                $product->object = $request->input('object');
+                if (empty($request->input('object_name'))){
+                    $product->object_name = '';
+                }else{
+                    $product->object_name = $request->input('object_name');
+                }
+                $product->personalize = $request->input('personalize');
+                $product->status = $request->input('status');
+                $product->save();
 
+                // Add tags to tags table
+                // Delete all tags
+                $tags_count = ProductsTags::where(['product_id'=>$product->id])->count();
+                if ($tags_count > 0){
+                    ProductsTags::where(['product_id'=>$product->id])->delete();
+                }
+                if(!empty($request->input('tags'))){
+                    foreach ($request->input('tags') as $tag) {
+                        if (Tag::where(['name'=>$tag])->get()->count() > 0){
+                            $tag_id = Tag::where(['name'=>$tag])->first()->id;
+                        }else{
+                         $new_tag = new Tag();
+                            $new_tag->name = $tag;
+                            $new_tag->save();
+                            $tag_id = $new_tag->id;
+                        }
+                        $products_tag = new ProductsTags();
+                        $products_tag->product_id = $product->id;
+                        $products_tag->tag_id = $tag_id;
+                        $products_tag->save();
+                    }
+                }
+
+                // Add city to cities table
+                // Delete old cities
+                $products_cities_count = ProductsCity::where(['product_id'=>$product->id])->count();
+                if ($products_cities_count > 0){
+                    ProductsCity::where(['product_id'=>$product->id])->delete();
+                }
+                // Add new cities
+                if(!empty($available_cities)){
+                    foreach ($available_cities as $available_city) {
+                        $new_city = new ProductsCity();
+                        $new_city->product_id = $product->id;
+                        $new_city->city_id = $available_city;
+                        $new_city->save();
+                    }
+                }
+
+                return redirect('/home-firm-product-edit/'.$product->id)->with('flash_message_success', 'Успешно редактирахте продукта!');
             }
             return view('firms.product_edit')->with([
-                'holidays'=>$holidays,
-                'property'=>$property,
-                'user'=>$user,
-                'product'=>$product,
-                'speditors'=>$speditors,
-                'cities'=>$cities,
-                'categories'=>$categories
+                'holidays' => $holidays,
+                'property' => $property,
+                'user' => $user,
+                'product' => $product,
+                'speditors' => $speditors,
+                'cities' => $cities,
+                'categories' => $categories,
+                'oblasti' => $oblasti,
+                'tags'=>$tags
             ]);
-        }else{
+        } else {
             return redirect('/home-firm');
         }
     }
 
-    public function deleteProductImage(Request $request, $id=null){
-        if (!empty($id)){
-            $product_image = Product::where(['id'=>$id])->first()->image;
-            if (File::exists('images/backend_images/products/small/'.$product_image)){
-                File::delete('images/backend_images/products/small/'.$product_image);
+    public function deleteProductImage(Request $request, $id = null)
+    {
+        if (!empty($id)) {
+            $product_image = Product::where(['id' => $id])->first()->image;
+            if (File::exists('images/backend_images/products/small/' . $product_image)) {
+                File::delete('images/backend_images/products/small/' . $product_image);
             }
-            if (File::exists('images/backend_images/products/medium/'.$product_image)){
-                File::delete('images/backend_images/products/medium/'.$product_image);
+            if (File::exists('images/backend_images/products/medium/' . $product_image)) {
+                File::delete('images/backend_images/products/medium/' . $product_image);
             }
-            if (File::exists('images/backend_images/products/large/'.$product_image)){
-                File::delete('images/backend_images/products/large/'.$product_image);
+            if (File::exists('images/backend_images/products/large/' . $product_image)) {
+                File::delete('images/backend_images/products/large/' . $product_image);
             }
-            Product::where(['id'=>$id])->update(['image'=>'']);
+            Product::where(['id' => $id])->update(['image' => '']);
             return redirect('/home-firm-product-edit/'.$id)->with('flash_message_success', 'Успешно изтрихте снимката на продукта!');
         }
     }

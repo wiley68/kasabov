@@ -102,6 +102,9 @@
                                             case 'adult':
                                                 $age_txt = 'За възрастни';
                                                 break;
+                                            case 'any':
+                                                $age_txt = 'Без значение';
+                                                break;
                                         }
                                         @endphp
                                         <p><strong>Възрастова група:</strong> {{ $age_txt }}</p>
@@ -112,6 +115,9 @@
                                                 break;
                                             case 'man':
                                                 $pol_txt = 'За мъже';
+                                                break;
+                                            case 'any':
+                                                $pol_txt = 'Без значение';
                                                 break;
                                         }
                                         @endphp

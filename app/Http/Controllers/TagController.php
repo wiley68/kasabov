@@ -50,14 +50,18 @@ class TagController extends Controller
     }
 
     public function deleteProductsTags(Request $request){
-        $tag = Tag::where(['name'=>$request->name])->first();
-        if (!empty($tag)){
-            ProductsTags::where([
-                'product_id'=>$request->product_id,
-                'tag_id'=>$tag->id
-            ])->delete();
+        if($request->isMethod('post')){
+            $tag = Tag::where(['name'=>$request->input('name')])->first();
+            if (!empty($tag)){
+                ProductsTags::where([
+                    'product_id'=>$request->input('product_id'),
+                    'tag_id'=>$tag->id
+                ])->delete();
+            }
+            return 'Yes';
+        }else{
+            return 'No';
         }
-        return 'Yes';
     }
 
 }

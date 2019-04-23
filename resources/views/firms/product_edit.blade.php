@@ -1,6 +1,8 @@
 <?php use App\Category; ?>
 <?php use App\Holiday; ?>
 <?php use App\City; ?>
+<?php use App\ProductsCity; ?>
+<?php use App\Tag; ?>
 @extends('layouts.frontLayout.front_design')
 @section('content')
 <script type="text/javascript">
@@ -97,12 +99,19 @@
                             <strong>{!! session('flash_message_success') !!}</strong>
                         </div>
                         @endif
+                        @if (Session::has('flash_message_error'))
+                        <div class="alert alert-danger alert-block">
+                            <button type="button" class="close" data-dismiss="alert">×</button>
+                            <strong>{!! session('flash_message_error') !!}</strong>
+                        </div>
+                        @endif
                         <div class="dashboard-box">
                             <h2 class="dashbord-title">Оферта: {{ $product->product_name }}</h2>
                         </div>
                         <form enctype="multipart/form-data" class="form-horizontal" method="post" action="{{ route('home-firm-product-edit', ['id'=>$product->id]) }}"
                             name="home_firm_product_edit" id="home_firm_product_edit" novalidate="novalidate">
                             @csrf
+                            <input type="hidden" id="product_id" value="{{ $product->id }}">
                             <div class="dashboard-wrapper">
                                 <div class="form-group mb-3" style="display:flex">
                                     <label style="color:red;width:200px;">Категория *</label>
@@ -144,12 +153,20 @@
                                     <label style="color:red;width:200px;">Цена *</label>
                                     <input name="price" style="width:100%;" type="number" value="{{ $product->price }}">
                                 </div>
+                                <div class="form-group mb-3" style="display:flex">
+                                    <label style="width:200px;">Описание на продукта</label>
+                                    <textarea name="description" id="description" style="width:100%;" class="span12" rows="5">{!! $product->description !!}</textarea>
+                                </div>
                                 <div class="form-group mb-3">
                                     <label class="control-label">Снимка</label>
                                     <input type="file" name="image" id="image">
-                                    <input type="hidden" name="current_image" id="current_image" value="{{ $product->image }}">                                    @if (!empty($product->image))
-                                    <a href="#imageModal" data-toggle="modal" title="Покажи снимката в голям размер."><img style="width:50px;" src="{{ asset('/images/backend_images/products/small/'.$product->image) }}"></a>                                    | <button onclick="deleteProductImage('{{ route('home-delete-product-image', ['id' => $product->id]) }}');"
-                                        class="btn btn-danger">Изтрий снимката</button> @endif
+                                    <input type="hidden" name="current_image" id="current_image" value="{{ $product->image }}">
+                                    @if (!empty($product->image))
+                                    <a href="#imageModal" data-toggle="modal" title="Покажи снимката в голям размер.">
+                                        <img style="width:50px;" src="{{ asset('/images/backend_images/products/small/'.$product->image) }}">
+                                    </a> |
+                                    <button onclick="deleteProductImage('{{ route('home-delete-product-image', ['id' => $product->id]) }}');" class="btn btn-danger">Изтрий снимката</button>
+                                    @endif
                                 </div>
                                 <div class="form-group mb-3" style="display:flex">
                                     <label style="width:200px;">Основен цвят</label>
@@ -209,16 +226,123 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                <div class="form-group mb-3" style="display:flex; justify-content: space-between;">
-                                    <label style="width:200px;">Изпраща се от</label> @php if(!empty(City::where(['id'=>$product->send_from_id])->first())){
-                                    $send_from_id_name = City::where(['id'=>$product->send_from_id])->first()->city . '-'
-                                    . City::where(['id'=>$product->send_from_id])->first()->oblast; }else{ $send_from_id_name
-                                    = ''; }
-                                    @endphp
-                                    <input type="text" style="width:400px;" disabled name="send_from_id_txt" id="send_from_id_txt" value="{{ $send_from_id_name }}"
-                                    />
-                                    <input type="hidden" name="send_from_id" id="send_from_id" value="{{ $product->send_from_id }}" />
-                                    <a id="btn_send_from_id" href="#choose_city_form" data-toggle="modal" title="Избери населено място" class="btn btn-success btn-mini">Избери</a>
+                                <div class="form-group mb-3" style="display:flex">
+                                    <label style="width:200px;">Изпраща се от</label>
+                                    <select name="send_from_id" id="send_from_id" style="width:100%;">
+                                        <option value="0" selected>Избери населено място</option>
+                                        @foreach ($cities as $city)
+                                            <option value="{{ $city->id }}" @if ($city->id === $product->send_from_id) selected @endif>{{ $city->city }} - {{ $city->oblast }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group mb-3" style="display:flex">
+                                    <label style="width:200px;">Цена на изпращане</label>
+                                    <input name="price_send" style="width:100%;" type="number" value="{{ $product->price_send }}">
+                                </div>
+                                <div class="form-group mb-3" style="display:flex">
+                                    <label style="width:200px;">Безплатна доставка</label>
+                                    <select name="send_free" id="send_free" style="width:100%;">
+                                        <option value=1 @if ($product->send_free === 1) selected @endif>Да</option>
+                                        <option value=0 @if ($product->send_free === 0) selected @endif>Не</option>
+                                    </select>
+                                </div>
+                                <div id="send_free_div" class="form-group mb-3" style="display:flex">
+                                    <label style="width:200px;">Важи за</label>
+                                    <select name="send_free_id" id="send_free_id" style="width:100%;">
+                                        <option value="0" selected>Избери населено място</option>
+                                        @foreach ($cities as $city)
+                                            <option value="{{ $city->id }}" @if ($city->id === $product->send_free_id) selected @endif>{{ $city->city }} - {{ $city->oblast }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group mb-3" style="display:flex">
+                                    <label style="width:200px;">Доставя за</label>
+                                    <select name="available_for" id="available_for" style="width:100%;">
+                                        <option value="country" @if ($product->available_for === 'country') selected @endif>Цялата страна</option>
+                                        <option value="city" @if ($product->available_for === 'city') selected @endif>Населено място</option>
+                                        <option value="cities" @if ($product->available_for === 'cities') selected @endif>Населени места</option>
+                                        <option value="area" @if ($product->available_for === 'area') selected @endif>Област</option>
+                                    </select>
+                                </div>
+                                <div id="available_for_city_div" class="form-group mb-3" style="display:flex">
+                                    <label style="width:200px;">Избери</label>
+                                    <select name="available_for_city" id="available_for_city" style="width:100%;">
+                                        <option value="0" selected>Избери населено място</option>
+                                        @foreach ($cities as $city)
+                                            <option value="{{ $city->id }}" @if ($city->id === $product->available_for_city) selected @endif>{{ $city->city }} - {{ $city->oblast }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div id="available_for_oblast_div" class="form-group mb-3" style="display:flex">
+                                    <label style="width:200px;">Избери</label>
+                                    <select name="available_for_oblast" id="available_for_oblast" style="width:100%;">
+                                        <option value="0" selected>Избери Област</option>
+                                        @foreach ($oblasti as $oblast)
+                                            <option value="{{ $oblast->id }}" @if ($oblast->id === $product->available_for_city) selected @endif>{{ $oblast->city }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div id="available_for_cities_div" class="form-group mb-3" style="display:flex">
+                                    <label style="width:200px;">Избери</label>
+                                    <select multiple name="available_for_cities[ ]" id="available_for_cities" style="width:100%;">
+                                        @foreach ($cities as $city)
+                                            @php
+                                                $city_arr = [];
+                                                foreach (ProductsCity::where(['product_id'=>$product->id])->get() as $product_city) {
+                                                    $city_arr[] = $product_city->city_id;
+                                                }
+                                            @endphp
+                                            <option value="{{ $city->id }}" @if (in_array($city->id, $city_arr)) selected @endif>{{ $city->city }}&nbsp;--&nbsp;{{ $city->oblast }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group mb-3" style="display:flex">
+                                    <label style="width:200px;">Може да се вземе от обект</label>
+                                    <select name="object" id="object" style="width:100%;">
+                                        <option value=0 @if ($product->object === 0) selected @endif>Не</option>
+                                        <option value=1 @if ($product->object === 1) selected @endif>Да</option>
+                                    </select>
+                                </div>
+                                <div class="form-group mb-3" style="display:flex">
+                                    <label style="width:200px;">Адрес на обекта</label>
+                                    <input name="object_name" type="text" style="width:100%;" value="{{ $product->object_name }}">
+                                </div>
+                                <div class="form-group mb-3" style="display:flex">
+                                    <label style="width:200px;">Възможност за персонализиране</label>
+                                    <select name="personalize" id="personalize" style="width:100%;">
+                                        <option value=0 @if ($product->personalize === 0) selected @endif>Не</option>
+                                        <option value=1 @if ($product->personalize === 1) selected @endif>Да</option>
+                                    </select>
+                                </div>
+                                <div class="form-group mb-3" style="display:flex">
+                                    <label style="width:200px;">Статус</label>
+                                    <select name="status" id="status" style="width:100%;">
+                                        <option value='active' @if ($product->status === 'active') selected @endif>Активен</option>
+                                        <option value='notactive' @if ($product->status === 'notactive') selected @endif>Неактивен</option>
+                                        <option value='sold' @if ($product->status === 'sold') selected @endif>Продаден</option>
+                                        <option value='expired' @if ($product->status === 'expired') selected @endif>Изтекъл</option>
+                                    </select>
+                                </div>
+                                <hr />
+                                <div class="form-group mb-3">
+                                    <p>Етикети</p>
+                                    <div style="width:100%;">
+                                        <input type="text" name="tag_add" id="tag_add">
+                                        <button id="btn_add_tag" class="btn btn-primary">Добави етикета</button>
+                                        <div style="padding-top: 10px;" id="div_tags">
+                                            @if (!empty($tags))
+                                                @foreach ($tags as $tag)
+                                                <div>
+                                                    <div class="badge badge-success" style="padding:5px;font-size:14px;">
+                                                        {{ Tag::where(['id'=>$tag->tag_id])->first()->name }}
+                                                    </div>
+                                                    <input type="hidden" name="tags[]" value="{{ Tag::where(['id'=>$tag->tag_id])->first()->name }}">
+                                                    <span onclick="removeTag(this);" style="color:red;cursor:pointer;">Изтрий</span>
+                                                </div>
+                                                @endforeach
+                                            @endif
+                                        </div>
+                                    </div>
                                 </div>
                                 <hr />
                                 <button class="btn btn-common" type="submit">Запиши промените</button>
@@ -228,40 +352,13 @@
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
-                                        <h4 class="modal-title">{{ $product->product_name }}</h4>
+                                        <h5 class="modal-title">{{ $product->product_name }}</h5>
                                         <button type="button" class="close" data-dismiss="modal">&times;</button>
                                     </div>
                                     <div class="modal-body">
-                                        <p><img src="{{ asset('/images/backend_images/products/large/'.$product->image) }}"></p>
+                                        <p><img src="{{ asset('/images/backend_images/products/medium/'.$product->image) }}"></p>
                                     </div>
                                     <div class="modal-footer"><button type="button" class="btn btn-danger" data-dismiss="modal">Close</button></div>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- Choose city form -->
-                        <div id="choose_city_form" class="modal">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title">Избери населено място</h5>
-                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <div class="container-fluid">
-                                            <div class="row-fluid">
-                                                <select name="send_id" id="send_id" style="width:100%;">
-                                                    <option value="0" selected>Избери доставчик</option>
-                                                    @foreach ($speditors as $speditor)
-                                                        <option value="{{ $speditor->id }}" @if ($speditor->id === $product->send_id) selected @endif>{{ $speditor->name }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button data-dismiss="modal" class="btn btn-primary" id="btn_select_city">Избери</button>
-                                        <a data-dismiss="modal" class="btn btn-warrning" href="#">Затвори</a>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -273,3 +370,115 @@
 </div>
 <!-- End Content -->
 @endsection
+
+@section('scripts')
+    <script>
+        // Hide send_free_div
+        function hideSendFree(){
+            switch (parseInt($('#send_free').val())) {
+                case 1:
+                    $('#send_free_div').show();
+                    break;
+                case 0:
+                    $('#send_free_div').hide();
+                    break;
+                default:
+                    $('#send_free_div').hide();
+                    break;
+            }
+        }
+        // Hide all chooses
+        function hideAll(){
+            switch ($('#available_for').val()) {
+                case 'country':
+                    $('#available_for_city_div').hide();
+                    $('#available_for_oblast_div').hide();
+                    $('#available_for_cities_div').hide();
+                    break;
+                case 'city':
+                    $('#available_for_oblast_div').hide();
+                    $('#available_for_cities_div').hide();
+                    $('#available_for_city_div').show();
+                    break;
+                case 'cities':
+                    $('#available_for_city_div').hide();
+                    $('#available_for_oblast_div').hide();
+                    $('#available_for_cities_div').show();
+                    break;
+                case 'area':
+                    $('#available_for_city_div').hide();
+                    $('#available_for_cities_div').hide();
+                    $('#available_for_oblast_div').show();
+                    break;
+                default:
+                    $('#available_for_city_div').hide();
+                    $('#available_for_oblast_div').hide();
+                    $('#available_for_cities_div').hide();
+                    break;
+            }
+        }
+        hideAll();
+        hideSendFree();
+        $('#available_for').change(function(){
+            switch ($(this).val()) {
+                case 'country':
+                    hideAll();
+                    break;
+                case 'city':
+                    hideAll();
+                    $('#available_for_city_div').show();
+                    break;
+                case 'cities':
+                    hideAll();
+                    $('#available_for_cities_div').show();
+                    break;
+                case 'area':
+                    hideAll();
+                    $('#available_for_oblast_div').show();
+                    break;
+                default:
+                    hideAll();
+                    break;
+            }
+        });
+        $('#send_free').change(function(){
+            hideSendFree();
+        });
+
+        // Add tags
+        function isNullOrWhitespace( input ) {
+            if (typeof input === 'undefined' || input == null) return true;
+            return input.replace(/\s/g, '').length < 1;
+        }
+        function removeTag(item){
+            // Remove tag from products_tags table by ajax
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                url: "{{ route('admin.delete-products-tags') }}",
+                method: 'post',
+                data: {
+                    name: $('div:first', item.parentElement).text(),
+                    product_id: '{{ $product->id }}'
+                },
+                success: function(result){
+                    if (result === 'Yes'){
+                        item.parentElement.remove();
+                    }
+                }
+            });
+        };
+        $('#btn_add_tag').click(function(e){
+            e.preventDefault();
+            const divTags = document.getElementById('div_tags');
+            const tagAdd = document.getElementById('tag_add');
+            if (!isNullOrWhitespace(tagAdd.value)){
+                divTags.innerHTML += '<div><div class="badge badge-success" style="padding:5px;font-size:14px;">'+tagAdd.value+'</div><input type="hidden" name="tags[]" value="'+tagAdd.value+'"> <span onclick="removeTag(this);" style="color:red;cursor:pointer;">Изтрий</span></div>';
+                tagAdd.value = '';
+            }
+        });
+    </script>
+@stop

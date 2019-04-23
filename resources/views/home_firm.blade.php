@@ -124,7 +124,6 @@
                                         <th>Платен</th>
                                         <th>Състояние</th>
                                         <th>Цена</th>
-                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -185,9 +184,11 @@
                                             @endphp
                                             <td data-title="Състояние"><span class="adstatus {{ $status }}">{{ $status_txt }}</span></td>
                                             <td data-title="Цена"><h3>{{ number_format($product->price, 2, '.', '') }}{{ Config::get('settings.currency') }}</h3></td>
-                                            <td data-title="Action">
+                                        </tr>
+                                        <tr>
+                                            <td data-title="Action" colspan="5">
                                                 <div class="btns-actions">
-                                                    <a class="btn-action btn-view" target="_blanc" href="{{ route('product', ['id'=>$product->product_code]) }}" title="Покажи офертата"><i class="lni-eye"></i></a>
+                                                    <a class="btn-action btn-view" target="_blank" href="{{ route('product', ['id'=>$product->product_code]) }}" title="Покажи офертата"><i class="lni-eye"></i></a>
                                                     <a class="btn-action btn-edit" href="{{ route('home-firm-product-edit', ['id'=>$product->id]) }}" title="Редактирай офертата"><i class="lni-pencil"></i></a>
                                                     <a class="btn-action btn-delete" href="{{ route('home-firm-add-delete', ['id'=>$product->id]) }}" title="Изтрий офертата"><i class="lni-trash"></i></a>
                                                 </div>

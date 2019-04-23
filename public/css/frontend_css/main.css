@@ -5636,3 +5636,13 @@ footer .menu li a:hover {
     background:none !important;
     height:230px;width:100%;
 }
+
+body .modal-dialog { /* Width */
+    max-width: 100%;
+    width: auto !important;
+    display: inline-block;
+}
+
+.modal {
+    text-align: center;
+}

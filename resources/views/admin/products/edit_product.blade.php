@@ -215,8 +215,8 @@
                                 <label class="control-label">Безплатна доставка</label>
                                 <div class="controls">
                                     <select name="send_free" id="send_free" style="width:314px;">
-                                        <option value=1 @if ($product->send_free === 1) selected @endif>Не</option>
-                                        <option value=0 @if ($product->send_free === 0) selected @endif>Да</option>
+                                        <option value=1 @if ($product->send_free === 1) selected @endif>Да</option>
+                                        <option value=0 @if ($product->send_free === 0) selected @endif>Не</option>
                                     </select>
                                 </div>
                             </div>

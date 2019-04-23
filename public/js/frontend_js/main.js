@@ -319,4 +319,43 @@ JS INDEX
         }
     });
 
+    // Validate register product form
+    $("#home_firm_product_edit").validate({
+        rules: {
+            product_name: {
+                required: true
+            },
+            product_code: {
+                required: true,
+                maxlength: 191,
+                remote: "/admin/check-product?id=" + $('#product_id').val()
+            },
+            price:{
+				required:true,
+				number:true
+			}
+        },
+        messages: {
+            product_name: {
+                required: "Моля въведете име на продукта!"
+            },
+            product_code: {
+                required: "Моля въведете код на продукта!",
+                maxlength: "Максималната дължина на полето е 191 символа",
+                remote: "Вече има регистриран друг продукт с този код! Не можете да го използвате отново!"
+            },
+            price: {
+                required: "Моля въведете цена на продукта!",
+                number: "Можете да въвеждате само числа!"
+            }
+        },
+        highlight: function (element, errorClass, validClass) {
+            $(element).addClass('error');
+        },
+        unhighlight: function (element, errorClass, validClass) {
+            $(element).removeClass('error');
+            $(element).addClass('success');
+        }
+    });
+
 })(jQuery);
