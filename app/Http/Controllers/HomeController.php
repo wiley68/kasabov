@@ -19,6 +19,7 @@ use Intervention\Image\Facades\Image;
 use App\ProductsCity;
 use App\ProductsTags;
 use App\Tag;
+use App\ProductsImage;
 
 class HomeController extends Controller
 {
@@ -575,6 +576,55 @@ class HomeController extends Controller
             Product::where(['id' => $id])->update(['image' => '']);
             return redirect('/home-firm-product-edit/'.$id)->with('flash_message_success', 'Успешно изтрихте снимката на продукта!');
         }
+    }
+
+    public function addImages(Request $request, $id=null){
+        $product = Product::with('images')->where(['id'=>$id])->first();
+        $user = User::where(['id' => Auth::user()->id])->first();
+        $holidays = Holiday::where(['parent_id' => 0])->get();
+        $property = LandingPage::first();
+
+        if ($request->isMethod('post')){
+            if ($request->hasFile('image')){
+                $files = $request->file('image');
+                //upload images
+                foreach ($files as $file) {
+                    if ($file->isValid()){
+                        $extension = $file->getClientOriginalExtension();
+                        $filename = rand(111,99999).'.'.$extension;
+                        $large_image_path = 'images/backend_images/products/large/'.$filename;
+                        $medium_image_path = 'images/backend_images/products/medium/'.$filename;
+                        $small_image_path = 'images/backend_images/products/small/'.$filename;
+                        // Resize images
+                        Image::make($file)->resize(null, 1200, function ($constraint) {
+                                $constraint->aspectRatio();
+                                $constraint->upsize();
+                            })->save($large_image_path);
+                        Image::make($file)->resize(null, 600, function ($constraint) {
+                                $constraint->aspectRatio();
+                                $constraint->upsize();
+                            })->save($medium_image_path);
+                        Image::make($file)->resize(null, 300, function ($constraint) {
+                                $constraint->aspectRatio();
+                                $constraint->upsize();
+                            })->save($small_image_path);
+                        // Store image in table
+                        $productsImage = new ProductsImage();
+                        $productsImage->product_id = $id;
+                        $productsImage->image = $filename;
+                        $productsImage->save();
+                    }
+                }
+                return redirect('/home-add-product-images/'.$id)->with('flash_message_success', 'Успешно добавихте снимките на продукта!');
+            }
+        }
+
+        return view('firms.add_images')->with([
+            'product'=>$product,
+            'user'=>$user,
+            'holidays' => $holidays,
+            'property' => $property
+            ]);
     }
 
 }

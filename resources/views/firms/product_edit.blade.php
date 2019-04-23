@@ -165,7 +165,7 @@
                                     <a href="#imageModal" data-toggle="modal" title="Покажи снимката в голям размер.">
                                         <img style="width:50px;" src="{{ asset('/images/backend_images/products/small/'.$product->image) }}">
                                     </a> |
-                                    <button onclick="deleteProductImage('{{ route('home-delete-product-image', ['id' => $product->id]) }}');" class="btn btn-danger">Изтрий снимката</button>
+                                    <button onclick="deleteProductImage('{{ route('home-delete-product-image', ['id' => $product->id]) }}'); return false;" class="btn btn-danger">Изтрий снимката</button>
                                     @endif
                                 </div>
                                 <div class="form-group mb-3" style="display:flex">

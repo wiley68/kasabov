@@ -3740,7 +3740,12 @@ Dashboard My Ads
   color: #fff;
 }
 
-.dashboardtable tbody tr:hover .btn-view {
+.dashboardtable tbody tr:hover .btn-picture {
+    background: #FF8C00;
+    color: #fff;
+  }
+
+  .dashboardtable tbody tr:hover .btn-view {
   background: #00cc67;
   color: #fff;
 }

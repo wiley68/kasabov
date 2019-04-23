@@ -39,6 +39,7 @@ Route::group(['middleware' => ['frontFirmLogin']], function () {
     Route::post('/delete-firm-user', 'HomeController@privacyFirmDelete')->name('delete-firm-user');
     Route::match(['get', 'post'], '/home-firm-product-edit/{id}', 'HomeController@firmProductEdit')->name('home-firm-product-edit');
     Route::get('/home-delete-product-image/{id}', 'HomeController@deleteProductImage')->name('home-delete-product-image');
+    Route::match(['get', 'post'], '/home-add-product-images/{id}', 'HomeController@addImages')->name('home-add-product-images');
 });
 Route::get('/logout-front-user', 'UsersController@logoutUser')->name('logout-front-user');
 Route::get('/logout-front-firm', 'UsersController@logoutFirm')->name('logout-front-firm');
