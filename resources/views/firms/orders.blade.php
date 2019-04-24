@@ -3,6 +3,26 @@
 @extends('layouts.frontLayout.front_design')
 @section('content')
 <!-- Start Content -->
+<script type="text/javascript">
+    function deleteProduct(url){
+        swal({
+            title: "Сигурни ли сте?",
+            text: "Ще бъде изтрит продукта. Операцията е невъзвратима!",
+            icon: "warning",
+            buttons: ["Отказ!", "Съгласен съм!"],
+            dangerMode: true,
+        })
+        .then((willDelete) => {
+            if (willDelete) {
+            window.location = url;
+        } else {
+            return false;
+        }
+        });
+        return false;
+    };
+
+</script>
 <div id="content" class="section-padding">
     <div class="container">
         <div class="row">
@@ -84,31 +104,28 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($orders as $order)
-                                        @php
-                                        $product = Product::where(['id'=>$order->product_id])->first();
-                                        if(!empty($product->image)){
-                                            $image = asset('/images/backend_images/products/small/'.$product->image);
-                                        }else{
-                                            $image = asset('/images/backend_images/products/small/no-image-300.png');
-                                        }
-                                        @endphp
-                                        <tr>
-                                            <td class="photo"><img class="img-fluid" src="{{ $image }}" alt=""></td>
-                                            <td data-title="Продукт">
-                                                <h3>{{ $product->product_name }}</h3>
-                                                <span>КОД: {{ $product->product_code }}</span>
-                                            </td>
-                                            <td data-title="Клиент"><span class="adcategories"><a target="_blanc" title="Покажи профила на клиента" href="#">{{ User::where(['id'=>$order->user_id])->first()->name }}</a></span></td>
-                                            <td data-title="Цена">
-                                                <h3>{{ number_format($product->price, 2, '.', '') }}{{ Config::get('settings.currency') }}</h3>
-                                            </td>
-                                            <td>
-                                                <div class="btns-actions">
-                                                    <a class="btn-action btn-view" href="{{ route('product', ['id'=>$product->product_code]) }}" target="_blanc" title="Покажи продукта"><i class="lni-eye"></i></a>
-                                                    <a class="btn-action btn-delete" href="{{ route('delete-firm-order', ['id'=>$order->id]) }}" title="Изтрий тази поръчка"><i class="lni-trash"></i></a>
-                                                </div>
-                                            </td>
+                                    @foreach ($orders as $order) @php $product = Product::where(['id'=>$order->product_id])->first(); if(!empty($product->image)){
+                                    $image = asset('/images/backend_images/products/small/'.$product->image); }else{ $image
+                                    = asset('/images/backend_images/products/small/no-image-300.png'); }
+@endphp
+                                    <tr>
+                                        <td class="photo"><a href="#imageModal{{ $product->id }}" data-toggle="modal" title="Покажи снимката в голям размер."><img class="img-fluid" src="{{ $image }}" alt=""></a></td>
+                                        <td data-title="Продукт">
+                                            <h3>{{ $product->product_name }}</h3>
+                                            <span>КОД: {{ $product->product_code }}</span>
+                                        </td>
+                                        <td data-title="Клиент"><span class="adcategories"><a target="_blanc" title="Покажи профила на клиента" href="#">{{ User::where(['id'=>$order->user_id])->first()->name }}</a></span></td>
+                                        <td data-title="Цена">
+                                            <h3>{{ number_format($product->price, 2, '.', '') }}{{ Config::get('settings.currency')
+                                                }}</h3>
+                                        </td>
+                                        <td>
+                                            <div class="btns-actions">
+                                                <a class="btn-action btn-view" href="{{ route('product', ['id'=>$product->product_code]) }}" target="_blanc" title="Покажи продукта"><i class="lni-eye"></i></a>
+                                                <a style="cursor:pointer;" class="btn-action btn-delete" onclick="deleteProduct('{{ route('delete-firm-order', ['id' => $order->id]) }}');"
+                                                    title="Изтрий тази поръчка"><i class="lni-trash"></i></a>
+                                            </div>
+                                        </td>
                                     </tr>
                                     <tr>
                                         <td colspan="5">
@@ -117,6 +134,20 @@
                                             <p><strong>Телефон</strong>: {{ $order->phone }}</p>
                                         </td>
                                     </tr>
+                                    <div id="imageModal{{ $product->id }}" class="modal">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">{{ $product->product_name }}</h5>
+                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p><img src="{{ asset('/images/backend_images/products/medium/'.$product->image) }}"></p>
+                                                </div>
+                                                <div class="modal-footer"><button type="button" class="btn btn-danger" data-dismiss="modal">Close</button></div>
+                                            </div>
+                                        </div>
+                                    </div>
                                     @endforeach
                                 </tbody>
                             </table>

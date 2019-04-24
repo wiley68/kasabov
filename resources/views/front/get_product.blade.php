@@ -246,7 +246,7 @@ if(!empty($product->image)){
                 <!--Sidebar-->
                 <aside class="details-sidebar">
                     <div class="widget">
-                        <h4 class="widget-title">Продукт на: {{ User::where(['id'=>$product->user_id])->first()->name }}</h4>
+                        <h4 class="widget-title">Продукт на: <a href="{{ route('products', ['user_id'=>$product->user_id]) }}" title="Покажи всички продукти на този търговец.">{{ User::where(['id'=>$product->user_id])->first()->name }}</a></h4>
                         <div class="agent-inner">
                             <div class="mb-4">
                                 <p>{{ User::where(['id'=>$product->user_id])->first()->info }}</p>
@@ -269,10 +269,10 @@ if(!empty($product->image)){
                             </div>
                             <div class="agent-title">
                                 <div class="agent-photo">
-                                    <a href="#"><img src="{{ asset('/images/backend_images/users/'.User::where(['id'=>$product->user_id])->first()->image) }}" alt=""></a>
+                                    <a href="{{ route('products', ['user_id'=>$product->user_id]) }}" title="Покажи всички продукти на този търговец."><img src="{{ asset('/images/backend_images/users/'.User::where(['id'=>$product->user_id])->first()->image) }}" alt=""></a>
                                 </div>
                                 <div class="agent-details">
-                                    <h3><a href="#">{{ User::where(['id'=>$product->user_id])->first()->name }}</a></h3>
+                                    <h3><a href="{{ route('products', ['user_id'=>$product->user_id]) }}" title="Покажи всички продукти на този търговец.">{{ User::where(['id'=>$product->user_id])->first()->name }}</a></h3>
                                     <span><i class="lni-phone-handset"></i>(123) 123-456</span>
                                 </div>
                             </div>

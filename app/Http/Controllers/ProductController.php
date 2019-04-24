@@ -750,6 +750,18 @@ class ProductController extends Controller
             }
         }
 
+        // Get personalize requests
+        if (!empty(request('personalize'))){
+            if (request('personalize') != 0){
+                // Get personalize request var
+                $personalize = request('personalize');
+                // filter products
+                $products = $products->where('personalize', $personalize);
+                // save queries
+                $queries['personalize'] = request('personalize');
+            }
+        }
+
         // Sorting products
         if (request()->has('order_by')){
             if (request('order_by') == 'product_name_asc'){
@@ -797,6 +809,10 @@ class ProductController extends Controller
 
     public function frontGetProduct(Request $request, $id=null){
         $product = Product::where(['product_code'=>$id])->first();
+        // Save viewed count
+        $count_viewed = intval($product->views) + 1;
+        $product->views = $count_viewed;
+        $product->save();
         $holidays_count = Holiday::where(['parent_id'=>0])->count();
         if ($holidays_count >= 5){
             $holidays_count = 5;
