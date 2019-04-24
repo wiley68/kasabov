@@ -143,7 +143,14 @@
                                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
                                     <div class="featured-box">
                                         <figure>
-                                            <div class="homes-tag featured">{{ Holiday::where(['id'=>$product->holiday_id])->first()->name }}</div>
+                                            @php
+                                                if(!empty(Holiday::where(['id'=>$product->holiday_id])->first())){
+                                                    $holiday_name = Holiday::where(['id'=>$product->holiday_id])->first()->name;
+                                                }else{
+                                                    $holiday_name = '';
+                                                }
+                                            @endphp
+                                            <div class="homes-tag featured">{{ $holiday_name }}</div>
                                             <div class="homes-tag rent"><i class="lni-heart"></i> {{ $product->likes }}</div>
                                             <span class="price-save">{{ number_format($product->price, 2, '.', '') }}{{ Config::get('settings.currency') }}</span>
                                             <a href="{{ route('product', ['id'=>$product->product_code]) }}"><img class="img-fluid" src="{{ $image }}" alt=""></a>
@@ -166,7 +173,14 @@
                                                 </div>
                                             </div>
                                             <div class="listing-bottom clearfix">
-                                                <i class="lni-map-marker"></i> {{ City::where(['id'=>$product->send_from_id])->first()->city }}
+                                                @php
+                                                    if(!empty(City::where(['id'=>$product->send_from_id])->first())){
+                                                        $city_name = City::where(['id'=>$product->send_from_id])->first()->city;
+                                                    }else{
+                                                        $city_name = '';
+                                                    }
+                                                @endphp
+                                                <i class="lni-map-marker"></i> {{ $city_name }}
                                                 <a href="{{ route('product', ['id'=>$product->product_code]) }}" class="float-right">Прегледай Детайлно</a>
                                             </div>
                                         </div>

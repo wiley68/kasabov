@@ -3,6 +3,26 @@
 @extends('layouts.frontLayout.front_design')
 @section('content')
 <!-- Start Content -->
+<script type="text/javascript">
+    function deleteProduct(url){
+        swal({
+            title: "Сигурни ли сте?",
+            text: "Ще бъде изтрит продукта. Операцията е невъзвратима!",
+            icon: "warning",
+            buttons: ["Отказ!", "Съгласен съм!"],
+            dangerMode: true,
+        })
+        .then((willDelete) => {
+            if (willDelete) {
+            window.location = url;
+        } else {
+            return false;
+        }
+        });
+        return false;
+    };
+
+</script>
 <div id="content" class="section-padding">
     <div class="container">
         <div class="row">
@@ -71,7 +91,8 @@
                 <div class="page-content">
                     <div class="inner-box">
                         <div class="dashboard-box">
-                            <h2 class="dashbord-title">Моите оферти</h2>
+                            <h2 class="dashbord-title">Моите оферти</h2>&nbsp;
+                            <a class="btn btn-common" href="{{ route('home-firm-product-new') }}" style="color:white;">Създай нова оферта</a>
                         </div>
                         <div class="dashboard-wrapper">
                             <table class="table table-responsive dashboardtable tablemyads">
@@ -150,7 +171,7 @@
                                                     <a class="btn-action btn-view" target="_blank" href="{{ route('product', ['id'=>$product->product_code]) }}" title="Покажи офертата"><i class="lni-eye"></i></a>
                                                     <a class="btn-action btn-edit" href="{{ route('home-firm-product-edit', ['id'=>$product->id]) }}" title="Редактирай офертата"><i class="lni-pencil"></i></a>
                                                     <a class="btn-action btn-picture" href="{{ route('home-add-product-images', ['id'=>$product->id]) }}" title="Снимки към офертата"><i class="lni-camera"></i></a>
-                                                    <a class="btn-action btn-delete" href="{{ route('home-firm-add-delete', ['id'=>$product->id]) }}" title="Изтрий офертата"><i class="lni-trash"></i></a>
+                                                    <a style="cursor:pointer;" class="btn-action btn-delete" onclick="deleteProduct('{{ route('home-firm-add-delete', ['id' => $product->id]) }}');" title="Изтрий офертата"><i class="lni-trash"></i></a>
                                                 </div>
                                             </td>
                                         </tr>

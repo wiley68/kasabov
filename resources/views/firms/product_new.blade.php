@@ -44,7 +44,7 @@
                         <nav class="navdashboard">
                             <ul>
                                 <li>
-                                    <a class="active" href="{{ route('home-firm') }}">
+                                    <a href="{{ route('home-firm') }}">
                                         <i class="lni-dashboard"></i><span>Панел управление</span>
                                     </a>
                                 </li>
@@ -54,7 +54,7 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="{{ route('home-firm-adds') }}">
+                                    <a class="active" href="{{ route('home-firm-adds') }}">
                                         <i class="lni-layers"></i><span>Моите оферти</span>
                                     </a>
                                 </li>
@@ -93,12 +93,6 @@
             <div class="col-sm-12 col-md-8 col-lg-9">
                 <div class="page-content">
                     <div class="inner-box">
-                        @if (Session::has('flash_message_success'))
-                        <div class="alert alert-success alert-block">
-                            <button type="button" class="close" data-dismiss="alert">×</button>
-                            <strong>{!! session('flash_message_success') !!}</strong>
-                        </div>
-                        @endif
                         @if (Session::has('flash_message_error'))
                         <div class="alert alert-danger alert-block">
                             <button type="button" class="close" data-dismiss="alert">×</button>
@@ -106,9 +100,9 @@
                         </div>
                         @endif
                         <div class="dashboard-box">
-                            <h2 class="dashbord-title">Оферта: {{ $product->product_name }}</h2>
+                            <h2 class="dashbord-title">Създаване на нова Оферта</h2>
                         </div>
-                        <form enctype="multipart/form-data" class="form-horizontal" method="post" action="{{ route('home-firm-product-edit', ['id'=>$product->id]) }}"
+                        <form enctype="multipart/form-data" class="form-horizontal" method="post" action="{{ route('home-firm-product-new', ['id'=>$product->id]) }}"
                             name="home_firm_product_edit" id="home_firm_product_edit" novalidate="novalidate">
                             @csrf
                             <input type="hidden" id="product_id" value="{{ $product->id }}">
@@ -329,24 +323,11 @@
                                     <div style="width:100%;">
                                         <input type="text" name="tag_add" id="tag_add">
                                         <button id="btn_add_tag" class="btn btn-primary">Добави етикета</button>
-                                        <div style="padding-top: 10px;" id="div_tags">
-                                            @if (!empty($tags))
-                                                @foreach ($tags as $tag)
-                                                <div>
-                                                    <div class="badge badge-success" style="padding:5px;font-size:14px;">
-                                                        {{ Tag::where(['id'=>$tag->tag_id])->first()->name }}
-                                                    </div>
-                                                    <input type="hidden" name="tags[]" value="{{ Tag::where(['id'=>$tag->tag_id])->first()->name }}">
-                                                    <span onclick="removeTag(this);" style="color:red;cursor:pointer;">Изтрий</span>
-                                                </div>
-                                                @endforeach
-                                            @endif
-                                        </div>
+                                        <div style="padding-top: 10px;" id="div_tags"></div>
                                     </div>
                                 </div>
                                 <hr />
                                 <button class="btn btn-common" type="submit">Запиши промените</button>
-                                <a href="{{ route('home-firm-adds') }}" class="btn btn-common" style="background-color: #28A745;color:white;">Моите оферти</a>
                             </div>
                         </form>
                         <div id="imageModal" class="modal">

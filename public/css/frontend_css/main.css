@@ -30,6 +30,18 @@ Domain Path:      /languages/
 /* ____Testimonial */
 /* Google Fonts */
 @import url("https://fonts.googleapis.com/css?family=Montserrat:500,700|Rubik");
+body {
+    opacity: 1;
+    transition: 1s opacity;
+}
+body.fade-out {
+    opacity: 0;
+    transition: none;
+}
+html {
+    background: url(../../images/frontend_images/back.jpg) no-repeat;
+}
+
 html {
   overflow-x: hidden;
 }

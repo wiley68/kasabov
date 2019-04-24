@@ -9,17 +9,17 @@ use App\Holiday;
 use App\LandingPage;
 use App\Order;
 use App\Product;
+use App\ProductsCity;
+use App\ProductsImage;
+use App\ProductsTags;
 use App\Speditor;
+use App\Tag;
 use App\User;
 use Auth;
 use File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Input;
 use Intervention\Image\Facades\Image;
-use App\ProductsCity;
-use App\ProductsTags;
-use App\Tag;
-use App\ProductsImage;
 
 class HomeController extends Controller
 {
@@ -395,11 +395,11 @@ class HomeController extends Controller
         $oblasti = City::whereColumn('city', 'oblast')->get();
         if ($id != null) {
             $product = Product::where(['id' => $id])->first();
-            $tags = ProductsTags::where(['product_id'=>$product->id])->get();
+            $tags = ProductsTags::where(['product_id' => $product->id])->get();
             if ($request->isMethod('post')) {
                 // Validate fields
-                if (empty($request->input('category_id')) || $request->input('category_id') == 0){
-                    return redirect('/home-firm-product-edit/'.$product->id)->with('flash_message_error', 'Трябва да изберете категория!');
+                if (empty($request->input('category_id')) || $request->input('category_id') == 0) {
+                    return redirect('/home-firm-product-edit/' . $product->id)->with('flash_message_error', 'Трябва да изберете категория!');
                 }
                 //upload image
                 if ($request->hasFile('image')) {
@@ -445,14 +445,14 @@ class HomeController extends Controller
                 $product->holiday_id = $request->input('holiday_id');
                 $product->product_name = $request->input('product_name');
                 $product->product_code = $request->input('product_code');
-                if (empty($request->input('quantity'))){
+                if (empty($request->input('quantity'))) {
                     $product->quantity = 0;
-                }else{
+                } else {
                     $product->quantity = $request->input('quantity');
                 }
                 $product->price = $request->input('price');
                 $product->description = $request->input('description');
-                if (empty($product->description)){
+                if (empty($product->description)) {
                     $product->description = '';
                 }
                 $product->image = $filename;
@@ -463,9 +463,9 @@ class HomeController extends Controller
                 $product->condition = $request->input('condition');
                 $product->send_id = $request->input('send_id');
                 $product->send_from_id = $request->input('send_from_id');
-                if (empty($request->input('price_send'))){
+                if (empty($request->input('price_send'))) {
                     $product->price_send = 0.00;
-                }else{
+                } else {
                     $product->price_send = $request->input('price_send');
                 }
                 $product->send_free = $request->input('send_free');
@@ -474,29 +474,29 @@ class HomeController extends Controller
                 $available_cities = [];
                 switch ($product->available_for) {
                     case 'country':
-                    $available_for_city = 0;
-                    break;
+                        $available_for_city = 0;
+                        break;
                     case 'city':
-                    $available_for_city = $request->input('available_for_city');
-                    break;
+                        $available_for_city = $request->input('available_for_city');
+                        break;
                     case 'cities':
-                    $available_for_city = 0;
-                    foreach ($request->input('available_for_cities') as $item) {
-                        $available_cities[] = $item;
-                    }
-                    break;
+                        $available_for_city = 0;
+                        foreach ($request->input('available_for_cities') as $item) {
+                            $available_cities[] = $item;
+                        }
+                        break;
                     case 'area':
-                    $available_for_city = $request->input('available_for_oblast');
-                    break;
+                        $available_for_city = $request->input('available_for_oblast');
+                        break;
                     default:
-                    $available_for_city = 0;
-                    break;
+                        $available_for_city = 0;
+                        break;
                 }
                 $product->available_for_city = $available_for_city;
                 $product->object = $request->input('object');
-                if (empty($request->input('object_name'))){
+                if (empty($request->input('object_name'))) {
                     $product->object_name = '';
-                }else{
+                } else {
                     $product->object_name = $request->input('object_name');
                 }
                 $product->personalize = $request->input('personalize');
@@ -505,16 +505,16 @@ class HomeController extends Controller
 
                 // Add tags to tags table
                 // Delete all tags
-                $tags_count = ProductsTags::where(['product_id'=>$product->id])->count();
-                if ($tags_count > 0){
-                    ProductsTags::where(['product_id'=>$product->id])->delete();
+                $tags_count = ProductsTags::where(['product_id' => $product->id])->count();
+                if ($tags_count > 0) {
+                    ProductsTags::where(['product_id' => $product->id])->delete();
                 }
-                if(!empty($request->input('tags'))){
+                if (!empty($request->input('tags'))) {
                     foreach ($request->input('tags') as $tag) {
-                        if (Tag::where(['name'=>$tag])->get()->count() > 0){
-                            $tag_id = Tag::where(['name'=>$tag])->first()->id;
-                        }else{
-                         $new_tag = new Tag();
+                        if (Tag::where(['name' => $tag])->get()->count() > 0) {
+                            $tag_id = Tag::where(['name' => $tag])->first()->id;
+                        } else {
+                            $new_tag = new Tag();
                             $new_tag->name = $tag;
                             $new_tag->save();
                             $tag_id = $new_tag->id;
@@ -528,12 +528,12 @@ class HomeController extends Controller
 
                 // Add city to cities table
                 // Delete old cities
-                $products_cities_count = ProductsCity::where(['product_id'=>$product->id])->count();
-                if ($products_cities_count > 0){
-                    ProductsCity::where(['product_id'=>$product->id])->delete();
+                $products_cities_count = ProductsCity::where(['product_id' => $product->id])->count();
+                if ($products_cities_count > 0) {
+                    ProductsCity::where(['product_id' => $product->id])->delete();
                 }
                 // Add new cities
-                if(!empty($available_cities)){
+                if (!empty($available_cities)) {
                     foreach ($available_cities as $available_city) {
                         $new_city = new ProductsCity();
                         $new_city->product_id = $product->id;
@@ -542,7 +542,7 @@ class HomeController extends Controller
                     }
                 }
 
-                return redirect('/home-firm-product-edit/'.$product->id)->with('flash_message_success', 'Успешно редактирахте продукта!');
+                return redirect('/home-firm-product-edit/' . $product->id)->with('flash_message_success', 'Успешно редактирахте продукта!');
             }
             return view('firms.product_edit')->with([
                 'holidays' => $holidays,
@@ -553,11 +553,167 @@ class HomeController extends Controller
                 'cities' => $cities,
                 'categories' => $categories,
                 'oblasti' => $oblasti,
-                'tags'=>$tags
+                'tags' => $tags,
             ]);
         } else {
             return redirect('/home-firm');
         }
+    }
+
+    public function firmProductNew(Request $request)
+    {
+        // Add holidays
+        $holidays = Holiday::where(['parent_id' => 0])->get();
+        // Add property
+        $property = LandingPage::first();
+        // User
+        $user = User::where(['id' => Auth::user()->id])->first();
+        // Add Categories
+        $categories = Category::where(['parent_id' => 0])->get();
+        // Add Speditors
+        $speditors = Speditor::all();
+        $cities = City::all();
+        $oblasti = City::whereColumn('city', 'oblast')->get();
+
+        $product = new Product();
+        if ($request->isMethod('post')) {
+            // Validate fields
+            if (empty($request->input('category_id')) || $request->input('category_id') == 0) {
+                return redirect('/home-firm-product-new/' . $product->id)->with('flash_message_error', 'Трябва да изберете категория!');
+            }
+            //upload image
+            if ($request->hasFile('image')) {
+                $image_temp = Input::file('image');
+                if ($image_temp->isValid()) {
+                    $extension = $image_temp->getClientOriginalExtension();
+                    $filename = rand(111, 99999) . '.' . $extension;
+                    $large_image_path = 'images/backend_images/products/large/' . $filename;
+                    $medium_image_path = 'images/backend_images/products/medium/' . $filename;
+                    $small_image_path = 'images/backend_images/products/small/' . $filename;
+                    // Resize images
+                    Image::make($image_temp)->resize(null, 1200, function ($constraint) {
+                        $constraint->aspectRatio();
+                        $constraint->upsize();
+                    })->save($large_image_path);
+                    Image::make($image_temp)->resize(null, 600, function ($constraint) {
+                        $constraint->aspectRatio();
+                        $constraint->upsize();
+                    })->save($medium_image_path);
+                    Image::make($image_temp)->resize(null, 300, function ($constraint) {
+                        $constraint->aspectRatio();
+                        $constraint->upsize();
+                    })->save($small_image_path);
+                }
+            } else {
+                $filename = $request->input('current_image');
+                if (empty($request->input('current_image'))) {
+                    $filename = '';
+                }
+            }
+            $product->user_id = Auth::user()->id;
+            $product->category_id = $request->input('category_id');
+            $product->holiday_id = $request->input('holiday_id');
+            $product->product_name = $request->input('product_name');
+            $product->product_code = $request->input('product_code');
+            if (empty($request->input('quantity'))) {
+                $product->quantity = 0;
+            } else {
+                $product->quantity = $request->input('quantity');
+            }
+            $product->price = $request->input('price');
+            $product->description = $request->input('description');
+            if (empty($product->description)) {
+                $product->description = '';
+            }
+            $product->image = $filename;
+            $product->first_color = $request->input('first_color');
+            $product->second_color = $request->input('second_color');
+            $product->age = $request->input('age');
+            $product->pol = $request->input('pol');
+            $product->condition = $request->input('condition');
+            $product->send_id = $request->input('send_id');
+            $product->send_from_id = $request->input('send_from_id');
+            if (empty($request->input('price_send'))) {
+                $product->price_send = 0.00;
+            } else {
+                $product->price_send = $request->input('price_send');
+            }
+            $product->send_free = $request->input('send_free');
+            $product->send_free_id = $request->input('send_free_id');
+            $product->available_for = $request->input('available_for');
+            $available_cities = [];
+            switch ($product->available_for) {
+                case 'country':
+                    $available_for_city = 0;
+                    break;
+                case 'city':
+                    $available_for_city = $request->input('available_for_city');
+                    break;
+                case 'cities':
+                    $available_for_city = 0;
+                    foreach ($request->input('available_for_cities') as $item) {
+                        $available_cities[] = $item;
+                    }
+                    break;
+                case 'area':
+                    $available_for_city = $request->input('available_for_oblast');
+                    break;
+                default:
+                    $available_for_city = 0;
+                    break;
+            }
+            $product->available_for_city = $available_for_city;
+            $product->object = $request->input('object');
+            if (empty($request->input('object_name'))) {
+                $product->object_name = '';
+            } else {
+                $product->object_name = $request->input('object_name');
+            }
+            $product->personalize = $request->input('personalize');
+            $product->status = $request->input('status');
+            $product->save();
+
+            // Add tags to tags table
+            if (!empty($request->input('tags'))) {
+                foreach ($request->input('tags') as $tag) {
+                    if (Tag::where(['name' => $tag])->get()->count() > 0) {
+                        $tag_id = Tag::where(['name' => $tag])->first()->id;
+                    } else {
+                        $new_tag = new Tag();
+                        $new_tag->name = $tag;
+                        $new_tag->save();
+                        $tag_id = $new_tag->id;
+                    }
+                    $products_tag = new ProductsTags();
+                    $products_tag->product_id = $product->id;
+                    $products_tag->tag_id = $tag_id;
+                    $products_tag->save();
+                }
+            }
+
+            // Add city to cities table
+            // Add new cities
+            if (!empty($available_cities)) {
+                foreach ($available_cities as $available_city) {
+                    $new_city = new ProductsCity();
+                    $new_city->product_id = $product->id;
+                    $new_city->city_id = $available_city;
+                    $new_city->save();
+                }
+            }
+
+            return redirect('/home-firm-product-edit/' . $product->id)->with('flash_message_success', 'Успешно добавихте продукта!');
+        }
+        return view('firms.product_new')->with([
+            'holidays' => $holidays,
+            'property' => $property,
+            'user' => $user,
+            'product' => $product,
+            'speditors' => $speditors,
+            'cities' => $cities,
+            'categories' => $categories,
+            'oblasti' => $oblasti
+        ]);
     }
 
     public function deleteProductImage(Request $request, $id = null)
@@ -574,40 +730,41 @@ class HomeController extends Controller
                 File::delete('images/backend_images/products/large/' . $product_image);
             }
             Product::where(['id' => $id])->update(['image' => '']);
-            return redirect('/home-firm-product-edit/'.$id)->with('flash_message_success', 'Успешно изтрихте снимката на продукта!');
+            return redirect('/home-firm-product-edit/' . $id)->with('flash_message_success', 'Успешно изтрихте снимката на продукта!');
         }
     }
 
-    public function addImages(Request $request, $id=null){
-        $product = Product::with('images')->where(['id'=>$id])->first();
+    public function addImages(Request $request, $id = null)
+    {
+        $product = Product::with('images')->where(['id' => $id])->first();
         $user = User::where(['id' => Auth::user()->id])->first();
         $holidays = Holiday::where(['parent_id' => 0])->get();
         $property = LandingPage::first();
 
-        if ($request->isMethod('post')){
-            if ($request->hasFile('image')){
+        if ($request->isMethod('post')) {
+            if ($request->hasFile('image')) {
                 $files = $request->file('image');
                 //upload images
                 foreach ($files as $file) {
-                    if ($file->isValid()){
+                    if ($file->isValid()) {
                         $extension = $file->getClientOriginalExtension();
-                        $filename = rand(111,99999).'.'.$extension;
-                        $large_image_path = 'images/backend_images/products/large/'.$filename;
-                        $medium_image_path = 'images/backend_images/products/medium/'.$filename;
-                        $small_image_path = 'images/backend_images/products/small/'.$filename;
+                        $filename = rand(111, 99999) . '.' . $extension;
+                        $large_image_path = 'images/backend_images/products/large/' . $filename;
+                        $medium_image_path = 'images/backend_images/products/medium/' . $filename;
+                        $small_image_path = 'images/backend_images/products/small/' . $filename;
                         // Resize images
                         Image::make($file)->resize(null, 1200, function ($constraint) {
-                                $constraint->aspectRatio();
-                                $constraint->upsize();
-                            })->save($large_image_path);
+                            $constraint->aspectRatio();
+                            $constraint->upsize();
+                        })->save($large_image_path);
                         Image::make($file)->resize(null, 600, function ($constraint) {
-                                $constraint->aspectRatio();
-                                $constraint->upsize();
-                            })->save($medium_image_path);
+                            $constraint->aspectRatio();
+                            $constraint->upsize();
+                        })->save($medium_image_path);
                         Image::make($file)->resize(null, 300, function ($constraint) {
-                                $constraint->aspectRatio();
-                                $constraint->upsize();
-                            })->save($small_image_path);
+                            $constraint->aspectRatio();
+                            $constraint->upsize();
+                        })->save($small_image_path);
                         // Store image in table
                         $productsImage = new ProductsImage();
                         $productsImage->product_id = $id;
@@ -615,16 +772,16 @@ class HomeController extends Controller
                         $productsImage->save();
                     }
                 }
-                return redirect('/home-add-product-images/'.$id)->with('flash_message_success', 'Успешно добавихте снимките на продукта!');
+                return redirect('/home-add-product-images/' . $id)->with('flash_message_success', 'Успешно добавихте снимките на продукта!');
             }
         }
 
         return view('firms.add_images')->with([
-            'product'=>$product,
-            'user'=>$user,
+            'product' => $product,
+            'user' => $user,
             'holidays' => $holidays,
-            'property' => $property
-            ]);
+            'property' => $property,
+        ]);
     }
 
 }

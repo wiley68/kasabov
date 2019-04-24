@@ -20,6 +20,9 @@
 <!-- index controller -->
 </head>
 <body>
+@if(Route::current()->getName() == 'home-firm-product-edit' || Route::current()->getName() == 'home-firm-product-new')
+<script>document.body.className += ' fade-out';</script>
+@endif
 
 @include('layouts.frontLayout.front_header')
 
@@ -47,6 +50,9 @@
 <script>
     $(document).ready(function() {
         $('select').select2();
+        @if(Route::current()->getName() == 'home-firm-product-edit' || Route::current()->getName() == 'home-firm-product-new')
+        $('body').removeClass('fade-out');
+        @endif
     });
 </script>
 <!-- index controller -->
