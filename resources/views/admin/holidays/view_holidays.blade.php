@@ -64,7 +64,7 @@
                             <tr class="gradeX">
                                 <td>{{ $item->id }}</td>
                                 <td>... {{ $item->name }}</td>
-                                <td>{{ HolidayController::getHolidayById($item->parent_id)->name }}</td>
+                                <td>{{ HolidayController::getHolidayById($item->parent_id) }}</td>
                                 <td>{{ $item->url }}</td>
                                 <td class="center"><a href="{{ route('admin.edit-holiday', ['id' => $item->id]) }}" class="btn btn-primary btn-mini">Редактирай</a> <button onclick="deleteHoliday('{{ route('admin.delete-holiday', ['id' => $item->id]) }}');" class="btn btn-danger btn-mini">Изтрий</a></td>
                             </tr>

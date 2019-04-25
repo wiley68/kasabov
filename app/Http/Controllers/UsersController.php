@@ -7,6 +7,7 @@ use App\Holiday;
 use App\LandingPage;
 use App\User;
 use Auth;
+use App\City;
 use Illuminate\Support\Facades\Session;
 
 class UsersController extends Controller
@@ -117,6 +118,25 @@ class UsersController extends Controller
         Auth::logout();
         Session::forget('frontFirmLogin');
         return redirect('/');
+    }
+
+    public function viewFirms(){
+        $firms = User::where(['admin'=>2])->get();
+        return view('admin.firms.view_firms')->with(['firms'=>$firms]);
+    }
+
+    public function editFirm(Request $request, $id=null){
+        $firm = User::where(['id'=>$id])->first();
+        if ($request->isMethod('post')){
+            $firm->name = $request->input('firm_name');
+            $firm->save();
+            return redirect('/admin/view-firms')->with('flash_message_success', 'Успешно редактирахте фирмата!');
+        }
+        $cities = City::all();
+        return view('admin.firms.edit_firm')->with([
+            'firm'=>$firm,
+            'cities'=>$cities
+            ]);
     }
 
 }

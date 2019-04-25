@@ -89,6 +89,11 @@ Route::group(['middleware' => ['auth']], function () {
     Route::match(['get', 'post'], '/admin/edit-city/{id}', 'CityController@editCity')->name('admin.edit-city');
     Route::get('/admin/delete-city/{id}', 'CityController@deleteCity')->name('admin.delete-city');
     Route::get('/admin/view-cities', 'CityController@viewCities')->name('admin.view-cities');
+    // Firm routes
+    Route::match(['get', 'post'], '/admin/add-firm', 'UsersController@addFirm')->name('admin.add-firm');
+    Route::match(['get', 'post'], '/admin/edit-firm/{id}', 'UsersController@editFirm')->name('admin.edit-firm');
+    Route::get('/admin/delete-firm/{id}', 'UsersController@deleteFirm')->name('admin.delete-firm');
+    Route::get('/admin/view-firms', 'UsersController@viewFirms')->name('admin.view-firms');
     // LandingPage routes
     Route::match(['get', 'post'], '/admin/edit-landing-page', 'IndexController@editLandingPage')->name('admin.edit-landing-page');
 });
