@@ -202,9 +202,46 @@ class HomeController extends Controller
     public function deleteFirmAdd(Request $request, $id = null)
     {
         if (!empty($id)) {
-            $product = Product::where(['id' => $id])->first();
-            $product->delete();
+            $this->deleteProduct($id);
             return redirect('/home-firm')->with('flash_message_success', 'Успешно изтрихте офертата!');
+        }
+    }
+
+    private function deleteProduct($id=null){
+        if($id != null){
+            // Delete orders
+            Order::where(['product_id'=>$id])->delete();
+            // Delete products_cities
+            ProductsCity::where(['product_id'=>$id])->delete();
+            // Delete products images
+            $product_image = Product::where(['id' => $id])->first()->image;
+            if (File::exists('images/backend_images/products/small/' . $product_image)) {
+                File::delete('images/backend_images/products/small/' . $product_image);
+            }
+            if (File::exists('images/backend_images/products/medium/' . $product_image)) {
+                File::delete('images/backend_images/products/medium/' . $product_image);
+            }
+            if (File::exists('images/backend_images/products/large/' . $product_image)) {
+                File::delete('images/backend_images/products/large/' . $product_image);
+            }
+            $product_images = ProductsImage::where(['product_id'=>$id])->get();
+            foreach ($product_images as $image) {
+                if (File::exists('images/backend_images/products/small/' . $image->image)) {
+                    File::delete('images/backend_images/products/small/' . $image->image);
+                }
+                if (File::exists('images/backend_images/products/medium/' . $image->image)) {
+                    File::delete('images/backend_images/products/medium/' . $image->image);
+                }
+                if (File::exists('images/backend_images/products/large/' . $image->image)) {
+                    File::delete('images/backend_images/products/large/' . $image->image);
+                }
+            }
+            ProductsImage::where(['product_id'=>$id])->delete();
+            // Delete products tag
+            ProductsTags::where(['product_id'=>$id])->delete();
+            // Delete favorites
+            Favorite::where(['product_id'=>$id])->delete();
+            Product::where(['id'=>$id])->delete();
         }
     }
 
@@ -344,6 +381,11 @@ class HomeController extends Controller
         $user = User::where(['id' => Auth::user()->id])->first();
         if ($request->isMethod('post')) {
             if ($request->input('pricina') != '0') {
+                // Delete products
+                $products = Product::where(['user_id'=>$user->id])->get();
+                foreach ($products as $product) {
+                    $this->deleteProduct($product->id);
+                }
                 $user->delete();
                 return redirect()->route('logout-front-firm');
             } else {
