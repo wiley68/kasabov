@@ -190,7 +190,7 @@
                                                     <div class="modal-body">
                                                         <p><img src="{{ asset('/images/backend_images/products/medium/'.$product->image) }}"></p>
                                                     </div>
-                                                    <div class="modal-footer"><button type="button" class="btn btn-danger" data-dismiss="modal">Close</button></div>
+                                                    <div class="modal-footer"><button type="button" class="btn btn-danger" data-dismiss="modal">Затвори</button></div>
                                                 </div>
                                             </div>
                                         </div>

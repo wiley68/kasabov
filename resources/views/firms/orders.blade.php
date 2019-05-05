@@ -114,7 +114,7 @@
                                             <h3>{{ $product->product_name }}</h3>
                                             <span>КОД: {{ $product->product_code }}</span>
                                         </td>
-                                        <td data-title="Клиент"><span class="adcategories"><a target="_blanc" title="Покажи профила на клиента" href="#">{{ User::where(['id'=>$order->user_id])->first()->name }}</a></span></td>
+                                        <td data-title="Клиент"><span class="adcategories">{{ User::where(['id'=>$order->user_id])->first()->name }}</span></td>
                                         <td data-title="Цена">
                                             <h3>{{ number_format($product->price, 2, '.', '') }}{{ Config::get('settings.currency')
                                                 }}</h3>
@@ -129,6 +129,7 @@
                                     </tr>
                                     <tr>
                                         <td colspan="5">
+                                            <p><strong>Дата на създаване</strong>: {{ date("d.m.Y H:i:s", strtotime($order->created_at)) }}</p>
                                             <p><strong>Съобщение</strong>: {{ $order->message }}</p>
                                             <p><strong>Email</strong>: {{ $order->email }}</p>
                                             <p><strong>Телефон</strong>: {{ $order->phone }}</p>
@@ -144,7 +145,7 @@
                                                 <div class="modal-body">
                                                     <p><img src="{{ asset('/images/backend_images/products/medium/'.$product->image) }}"></p>
                                                 </div>
-                                                <div class="modal-footer"><button type="button" class="btn btn-danger" data-dismiss="modal">Close</button></div>
+                                                <div class="modal-footer"><button type="button" class="btn btn-danger" data-dismiss="modal">Затвори</button></div>
                                             </div>
                                         </div>
                                     </div>

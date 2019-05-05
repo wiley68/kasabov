@@ -295,6 +295,7 @@ class HomeController extends Controller
             $user->city_id = $request->input('city_id');
             $user->image = $filename;
             $user->save();
+            return redirect('/home-firm-settings')->with('flash_message_success', 'Успешно записахте промените!');
         }
 
         return view('firms.settings')->with([
@@ -369,6 +370,7 @@ class HomeController extends Controller
                 $user->newizvestia = 0;
             }
             $user->save();
+            return redirect('/home-firm-privacy')->with('flash_message_success', 'Успешно записахте промените!');
         }
         return view('firms.privacy')->with([
             'holidays' => $holidays,
