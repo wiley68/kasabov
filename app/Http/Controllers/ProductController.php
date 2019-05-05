@@ -191,7 +191,7 @@ class ProductController extends Controller
             return redirect('/admin/view-products')->with('flash_message_success', 'Успешно създадохте нов продукт!');
         }
         $categories = Category::where(['parent_id'=>0])->get();
-        $users = User::where(['admin'=>0])->get();
+        $users = User::where('admin', '!=', 1)->get();
         $speditors = Speditor::all();
         $cities = City::all();
         $holidays = Holiday::where(['parent_id'=>0])->get();
@@ -363,7 +363,7 @@ class ProductController extends Controller
             return redirect('/admin/edit-product/'.$product->id)->with('flash_message_success', 'Успешно редактирахте продукта!');
         }
         $categories = Category::where(['parent_id'=>0])->get();
-        $users = User::where(['admin'=>0])->get();
+        $users = User::where('admin', '!=', 1)->get();
         $tags = ProductsTags::where(['product_id'=>$product->id])->get();
         $speditors = Speditor::all();
         $cities = City::all();

@@ -2,6 +2,26 @@
 @extends('layouts.frontLayout.front_design')
 @section('content')
 <!-- Start Content -->
+<script type="text/javascript">
+    function deleteFavorite(url){
+        swal({
+            title: "Сигурни ли сте?",
+            text: "Ще бъде изтрит продукта от любими. Операцията е невъзвратима!",
+            icon: "warning",
+            buttons: ["Отказ!", "Съгласен съм!"],
+            dangerMode: true,
+        })
+        .then((willDelete) => {
+            if (willDelete) {
+            window.location = url;
+        } else {
+            return false;
+        }
+        });
+        return false;
+    };
+
+</script>
 <div id="content" class="section-padding">
     <div class="container">
         <div class="row">
@@ -87,7 +107,14 @@
                                 <tbody>
                                     @foreach ($products as $product)
                                     <tr data-category="active">
-                                            <td class="photo"><img class="img-fluid" src="{{ asset('/images/backend_images/products/small/'.$product->image) }}" alt=""></td>
+                                        @php
+                                            if(!empty($product->image)){
+                                                $image = asset('/images/backend_images/products/small/'.$product->image); 
+                                            }else{ 
+                                                $image = asset('/images/backend_images/products/small/no-image-300.png'); 
+                                            }
+                                        @endphp
+                                            <td class="photo"><a href="#imageModal{{ $product->id }}" data-toggle="modal" title="Покажи снимката в голям размер."><img class="img-fluid" src="{{ $image }}" alt=""></a></td>
                                             <td data-title="Продукт">
                                                 <h3>{{ $product->product_name }}</h3>
                                                 <span>КОД: {{ $product->product_code }}</span>
@@ -125,11 +152,25 @@
                                             <td data-title="Цена"><h3>{{ number_format($product->price, 2, '.', '') }}{{ Config::get('settings.currency') }}</h3></td>
                                             <td data-title="Action">
                                                 <div class="btns-actions">
-                                                    <a class="btn-action btn-view" href="{{ route('product', ['id'=>$product->product_code]) }}" title="Покажи продукта"><i class="lni-eye"></i></a>
-                                                    <a class="btn-action btn-delete" href="{{ route('favorite-delete', ['product_id'=>$product->id, 'user_id'=>Auth::user()->id]) }}" title="Изтрий този продукт от Любими"><i class="lni-trash"></i></a>
+                                                    <a class="btn-action btn-view" target="_blank" href="{{ route('product', ['id'=>$product->product_code]) }}" title="Покажи продукта"><i class="lni-eye"></i></a>
+                                                    <a style="cursor:pointer;" class="btn-action btn-delete" onclick="deleteFavorite('{{ route('favorite-delete', ['product_id'=>$product->id, 'user_id'=>Auth::user()->id]) }}');" title="Изтрий този продукт от Любими"><i class="lni-trash"></i></a>
                                                 </div>
                                             </td>
                                         </tr>
+                                        <div id="imageModal{{ $product->id }}" class="modal">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title">{{ $product->product_name }}</h5>
+                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <p><img src="{{ asset('/images/backend_images/products/medium/'.$product->image) }}"></p>
+                                                    </div>
+                                                    <div class="modal-footer"><button type="button" class="btn btn-danger" data-dismiss="modal">Затвори</button></div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     @endforeach
                                 </tbody>
                             </table>

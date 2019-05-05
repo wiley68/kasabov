@@ -63,6 +63,12 @@
             <div class="col-sm-12 col-md-8 col-lg-9">
                 <div class="page-content">
                     <div class="inner-box">
+                        @if (Session::has('flash_message_success'))
+                        <div class="alert alert-success alert-block">
+                            <button type="button" class="close" data-dismiss="alert">×</button>
+                            <strong>{!! session('flash_message_success') !!}</strong>
+                        </div>
+                        @endif
                         <div class="dashboard-box">
                             <h2 class="dashbord-title">Лични настройки</h2>
                         </div>
