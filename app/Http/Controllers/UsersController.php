@@ -9,6 +9,7 @@ use App\User;
 use Auth;
 use App\City;
 use Illuminate\Support\Facades\Session;
+use File;
 
 class UsersController extends Controller
 {
@@ -129,14 +130,27 @@ class UsersController extends Controller
         $firm = User::where(['id'=>$id])->first();
         if ($request->isMethod('post')){
             $firm->name = $request->input('firm_name');
+            $firm->email = $request->input('firm_email');
+            $firm->phone = $request->input('firm_phone');
             $firm->save();
-            return redirect('/admin/view-firms')->with('flash_message_success', 'Успешно редактирахте фирмата!');
+            return redirect('/admin/edit-firm/'.$id)->with('flash_message_success', 'Успешно редактирахте фирмата!');
         }
         $cities = City::all();
         return view('admin.firms.edit_firm')->with([
             'firm'=>$firm,
             'cities'=>$cities
             ]);
+    }
+
+    public function deleteFirmImage(Request $request, $id=null){
+        if (!empty($id)){
+            $firm_image = User::where(['id'=>$id])->first()->image;
+            if (File::exists('images/backend_images/users/'.$firm_image)){
+                File::delete('images/backend_images/users/'.$firm_image);
+            }
+            User::where(['id'=>$id])->update(['image'=>'']);
+            return redirect('/admin/edit-firm/'.$id)->with('flash_message_success', 'Успешно изтрихте снимката на продукта!');
+        }
     }
 
 }

@@ -111,6 +111,55 @@ $(document).ready(function(){
 			$(element).parents('.control-group').removeClass('error');
 			$(element).parents('.control-group').addClass('success');
 		}
+	});
+	
+	// Validate save firm form
+    $("#edit_firm , #add_firm").validate({
+        rules: {
+            firm_name: {
+                required: true,
+                maxlength: 191
+			},
+			firm_email: {
+                required: true,
+                email: true
+			},
+			firm_phone: {
+                required: true,
+                maxlength: 191
+			},
+			firm_address: {
+                required: true,
+                maxlength: 191
+			}
+        },
+        messages: {
+            firm_name: {
+                required: "Моля въведете Име на фирмата",
+                maxlength: "Максималната дължина на полето е 191 символа"
+			},
+			firm_email: {
+                required: "Моля въведете E-Mail на фирмата",
+                email: "Невалиден email формат"
+			},
+			firm_phone: {
+                required: "Моля въведете телефон на фирмата",
+                maxlength: "Максималната дължина на полето е 191 символа"
+			},
+			firm_address: {
+                required: "Моля въведете адрес на фирмата",
+                maxlength: "Максималната дължина на полето е 191 символа"
+			}
+        },
+        errorClass: "help-inline",
+		errorElement: "span",
+		highlight:function(element, errorClass, validClass) {
+			$(element).parents('.control-group').addClass('error');
+		},
+		unhighlight: function(element, errorClass, validClass) {
+			$(element).parents('.control-group').removeClass('error');
+			$(element).parents('.control-group').addClass('success');
+		}
     });
 
 });

@@ -94,6 +94,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::match(['get', 'post'], '/admin/edit-firm/{id}', 'UsersController@editFirm')->name('admin.edit-firm');
     Route::get('/admin/delete-firm/{id}', 'UsersController@deleteFirm')->name('admin.delete-firm');
     Route::get('/admin/view-firms', 'UsersController@viewFirms')->name('admin.view-firms');
+    Route::get('/admin/delete-firm-image/{id}', 'UsersController@deleteFirmImage')->name('admin.delete-firm-image');
     // LandingPage routes
     Route::match(['get', 'post'], '/admin/edit-landing-page', 'IndexController@editLandingPage')->name('admin.edit-landing-page');
 });
