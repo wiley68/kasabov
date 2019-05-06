@@ -10,6 +10,8 @@ use Auth;
 use App\City;
 use Illuminate\Support\Facades\Session;
 use File;
+use Illuminate\Support\Facades\Input;
+use Intervention\Image\Facades\Image;
 
 class UsersController extends Controller
 {
@@ -132,11 +134,65 @@ class UsersController extends Controller
             $firm->name = $request->input('firm_name');
             $firm->email = $request->input('firm_email');
             $firm->phone = $request->input('firm_phone');
+            $firm->city_id = $request->input('firm_city');
+            $firm->address = $request->input('firm_address');
+            $firm->info = $request->input('info');
+            //upload image
+            if ($request->hasFile('image')) {
+                // Delete old image
+                $firm_image = $firm->image;
+                if (File::exists('images/backend_images/users/' . $firm_image)) {
+                    File::delete('images/backend_images/users/' . $firm_image);
+                }
+                $image_temp = Input::file('image');
+                if ($image_temp->isValid()) {
+                    $extension = $image_temp->getClientOriginalExtension();
+                    $filename = $firm->id . rand(111, 99999) . '.' . $extension;
+                    $image_path = 'images/backend_images/users/' . $filename;
+                    // Resize images
+                    Image::make($image_temp)->resize(null, 75, function ($constraint) {
+                        $constraint->aspectRatio();
+                        $constraint->upsize();
+                    })->save($image_path);
+                }
+            } else {
+                $filename = $request->input('current_image');
+                if (empty($request->input('current_image'))) {
+                    $filename = '';
+                }
+            }
+            $firm->image = $filename;
+            $firm->monthizvestia = $request->input('monthizvestia');
+            $firm->porackiizvestia = $request->input('porackiizvestia');
+            $firm->newizvestia = $request->input('newizvestia');
             $firm->save();
             return redirect('/admin/edit-firm/'.$id)->with('flash_message_success', 'Успешно редактирахте фирмата!');
         }
         $cities = City::all();
         return view('admin.firms.edit_firm')->with([
+            'firm'=>$firm,
+            'cities'=>$cities
+            ]);
+    }
+
+    public function addFirm(Request $request){
+        $firm = new User();
+        if ($request->isMethod('post')){
+            $firm->name = $request->input('firm_name');
+            $firm->email = $request->input('firm_email');
+            $firm->phone = $request->input('firm_phone');
+            $firm->city_id = $request->input('firm_city');
+            $firm->address = $request->input('firm_address');
+            $firm->info = $request->input('info');
+            $firm->image = '';
+            $firm->monthizvestia = $request->input('monthizvestia');
+            $firm->porackiizvestia = $request->input('porackiizvestia');
+            $firm->newizvestia = $request->input('newizvestia');
+            $firm->save();
+            return redirect('/admin/edit-firm/'.$firm->id)->with('flash_message_success', 'Успешно създадохте търговеца!');
+        }
+        $cities = City::all();
+        return view('admin.firms.add_firm')->with([
             'firm'=>$firm,
             'cities'=>$cities
             ]);
@@ -150,6 +206,47 @@ class UsersController extends Controller
             }
             User::where(['id'=>$id])->update(['image'=>'']);
             return redirect('/admin/edit-firm/'.$id)->with('flash_message_success', 'Успешно изтрихте снимката на продукта!');
+        }
+    }
+
+    public function deleteFirm(Request $request, $id=null){
+        if (!empty($id)){
+            // Delete favorites
+            Favorite::where(['user_id'=>$id])->delete();
+            // Delete orders
+            Order::where(['user_id'=>$id])->delete();
+            // Delete products_cities
+            ProductsCity::where(['product_id'=>$id])->delete();
+            // Delete products_images
+            $product_image = Product::where(['id' => $id])->first()->image;
+            if (File::exists('images/backend_images/products/small/' . $product_image)) {
+                File::delete('images/backend_images/products/small/' . $product_image);
+            }
+            if (File::exists('images/backend_images/products/medium/' . $product_image)) {
+                File::delete('images/backend_images/products/medium/' . $product_image);
+            }
+            if (File::exists('images/backend_images/products/large/' . $product_image)) {
+                File::delete('images/backend_images/products/large/' . $product_image);
+            }
+            $product_images = ProductsImage::where(['product_id'=>$id])->get();
+            foreach ($product_images as $image) {
+                if (File::exists('images/backend_images/products/small/' . $image->image)) {
+                    File::delete('images/backend_images/products/small/' . $image->image);
+                }
+                if (File::exists('images/backend_images/products/medium/' . $image->image)) {
+                    File::delete('images/backend_images/products/medium/' . $image->image);
+                }
+                if (File::exists('images/backend_images/products/large/' . $image->image)) {
+                    File::delete('images/backend_images/products/large/' . $image->image);
+                }
+            }
+            ProductsImage::where(['product_id'=>$id])->delete();
+            // Delete products_tags
+            ProductsTags::where(['product_id'=>$id])->delete();
+            // Delete products
+            Product::where(['user_id'=>$id])->delete();
+
+            return redirect('/admin/view-firms')->with('flash_message_success', 'Успешно изтрихте търговеца!');
         }
     }
 

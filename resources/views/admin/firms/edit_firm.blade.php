@@ -123,6 +123,7 @@
                             </div>
                             <div class="form-actions">
                                 <input type="submit" value="Редактирай търговеца" class="btn btn-success">
+                                <a href="{{ route('admin.view-firms') }}" class="btn btn-primary">Обратно в търговци</a>
                             </div>
                         </form>
                         <div id="imageModal" class="modal hide" aria-hidden="true" style="display: none;">
@@ -133,7 +134,9 @@
                             <div class="modal-body">
                                 <p><img src="{{ asset('/images/backend_images/users/'.$firm->image) }}"></p>
                             </div>
-                            <div class="modal-footer"><a data-dismiss="modal" class="btn btn-inverse" href="#">Затвори</a> </div>
+                            <div class="modal-footer">
+                                <a data-dismiss="modal" class="btn btn-inverse" href="#">Затвори</a> 
+                            </div>
                         </div>
                     </div>
                 </div>

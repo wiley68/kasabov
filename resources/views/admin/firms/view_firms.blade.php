@@ -59,8 +59,16 @@
                             <td>{{ $firm->name }}</td>
                             <td>{{ $firm->email }}</td>
                             <td>{{ $firm->phone }}</td>
-                            <td>{{ City::where(['id'=>$firm->city_id])->first()->city }}, {{ $firm->address }}</td>
-                            <td class="center"><a href="{{ route('admin.edit-firm', ['id' => $firm->id]) }}" class="btn btn-primary btn-mini">Редактирай</a> <button onclick="deleteFirm('{{ route('admin.delete-firm', ['id' => $firm->id]) }}');" class="btn btn-danger btn-mini">Изтрий</a></td>
+                            @php
+                                if(!empty(City::where(['id'=>$firm->city_id])->first())){
+                                  $city_name = City::where(['id'=>$firm->city_id])->first()->city;
+                                }else{
+                                  $city_name = '';
+                                }
+                            @endphp
+                            <td>{{ $city_name }}, {{ $firm->address }}</td>
+                            <td class="center">
+                              <a href="{{ route('admin.edit-firm', ['id' => $firm->id]) }}" class="btn btn-primary btn-mini">Редактирай</a> <button onclick="deleteFirm('{{ route('admin.delete-firm', ['id' => $firm->id]) }}');" class="btn btn-danger btn-mini">Изтрий</a></td>
                         </tr>
                     @endforeach
                 </tbody>

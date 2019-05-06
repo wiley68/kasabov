@@ -46,7 +46,7 @@
       </li>
       <li class="submenu"> <a href="#"><i class="icon icon-th-list"></i> <span>Търговци</span></a>
         <ul>
-          <li><a href="{{ route('admin.add-speditor') }}">Добави търговец</a></li>
+          <li><a href="{{ route('admin.add-firm') }}">Добави търговец</a></li>
           <li><a href="{{ route('admin.view-firms') }}">Всички търговци</a></li>
         </ul>
       </li>
