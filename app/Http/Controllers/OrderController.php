@@ -9,6 +9,7 @@ use App\Holiday;
 use App\LandingPage;
 use App\User;
 use Mail;
+use Config;
 
 class OrderController extends Controller
 {
@@ -44,16 +45,32 @@ class OrderController extends Controller
             $holidays = Holiday::where(['parent_id'=>0])->take($holidays_count)->get();
             $property = LandingPage::first();
             // Send mail to targovec and user
-            $data = array(
-                'order_id' => $order->id
-            );
+            // Klient
+            $user_name = User::where(['id'=>$user_id])->first()->name;
+            $user_email = $order->email;
             // Targovec
             $targovec_name = User::where(['id'=>$product->user_id])->first()->name;
             $targovec_email = User::where(['id'=>$product->user_id])->first()->email;
+            $data = array(
+                'order_id' => $order->id,
+                'targovec_name' => $targovec_name,
+                'product_name' => $product->product_name,
+                'order_message' => $order->message,
+                'user_name' => $user_name,
+                'order_email' => $order->email,
+                'order_phone' => $order->phone,
+                'order_created_at' => date("d.m.Y H:i:s", strtotime($order->created_at))
+            );
+
             Mail::send('mail', $data, function ($message) use ($targovec_email, $targovec_name){
                 $message->to($targovec_email, $targovec_name)->subject('Изпратена заявка към купувач от PartyBox');
-                $message->from('ilko.iv@gmail.com', 'PartyBox');
+                $message->from(Config::get('settings.mail'), 'PartyBox');
             });
+            Mail::send('mail_user', $data, function ($message) use ($user_email, $user_name){
+                $message->to($user_email, $user_name)->subject('Изпратена заявка от клиент на PartyBox');
+                $message->from(Config::get('settings.mail'), 'PartyBox');
+            });
+
             return redirect('/product/'.$product->product_code)->with([
                 'product'=>$product,
                 'holidays'=>$holidays,
