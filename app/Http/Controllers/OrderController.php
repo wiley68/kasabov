@@ -8,6 +8,7 @@ use App\Product;
 use App\Holiday;
 use App\LandingPage;
 use App\User;
+use Mail;
 
 class OrderController extends Controller
 {
@@ -42,6 +43,17 @@ class OrderController extends Controller
             }
             $holidays = Holiday::where(['parent_id'=>0])->take($holidays_count)->get();
             $property = LandingPage::first();
+            // Send mail to targovec and user
+            $data = array(
+                'order_id' => $order->id
+            );
+            // Targovec
+            $targovec_name = User::where(['id'=>$product->user_id])->first()->name;
+            $targovec_email = User::where(['id'=>$product->user_id])->first()->email;
+            Mail::send('mail', $data, function ($message) use ($targovec_email, $targovec_name){
+                $message->to($targovec_email, $targovec_name)->subject('Изпратена заявка към купувач от PartyBox');
+                $message->from('ilko.iv@gmail.com', 'PartyBox');
+            });
             return redirect('/product/'.$product->product_code)->with([
                 'product'=>$product,
                 'holidays'=>$holidays,
