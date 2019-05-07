@@ -52,7 +52,7 @@
                             <div class="control-group">
                                 <label class="control-label">E-Mail</label>
                                 <div class="controls">
-                                    <input type="email" name="firm_email" id="firm_email" value="{{ $firm->email }}">
+                                    <input type="email" readonly name="register_email" id="register_email" value="{{ $firm->email }}">
                                 </div>
                             </div>
                             <div class="control-group">
@@ -122,7 +122,7 @@
                                 </div>
                             </div>
                             <div class="form-actions">
-                                <input type="submit" value="Редактирай търговеца" class="btn btn-success">
+                                <input type="submit" value="Запиши промените" class="btn btn-success">
                                 <a href="{{ route('admin.view-firms') }}" class="btn btn-primary">Обратно в търговци</a>
                             </div>
                         </form>
@@ -135,7 +135,7 @@
                                 <p><img src="{{ asset('/images/backend_images/users/'.$firm->image) }}"></p>
                             </div>
                             <div class="modal-footer">
-                                <a data-dismiss="modal" class="btn btn-inverse" href="#">Затвори</a> 
+                                <a data-dismiss="modal" class="btn btn-inverse" href="#">Затвори</a>
                             </div>
                         </div>
                     </div>

@@ -12,6 +12,12 @@ use Illuminate\Support\Facades\Session;
 use File;
 use Illuminate\Support\Facades\Input;
 use Intervention\Image\Facades\Image;
+use App\Favorite;
+use App\Order;
+use App\ProductsCity;
+use App\ProductsImage;
+use App\ProductsTags;
+use App\Product;
 
 class UsersController extends Controller
 {
@@ -132,7 +138,7 @@ class UsersController extends Controller
         $firm = User::where(['id'=>$id])->first();
         if ($request->isMethod('post')){
             $firm->name = $request->input('firm_name');
-            $firm->email = $request->input('firm_email');
+            $firm->email = $request->input('register_email');
             $firm->phone = $request->input('firm_phone');
             $firm->city_id = $request->input('firm_city');
             $firm->address = $request->input('firm_address');
@@ -179,7 +185,7 @@ class UsersController extends Controller
         $firm = new User();
         if ($request->isMethod('post')){
             $firm->name = $request->input('firm_name');
-            $firm->email = $request->input('firm_email');
+            $firm->email = $request->input('register_email');
             $firm->phone = $request->input('firm_phone');
             $firm->city_id = $request->input('firm_city');
             $firm->address = $request->input('firm_address');
@@ -188,6 +194,8 @@ class UsersController extends Controller
             $firm->monthizvestia = $request->input('monthizvestia');
             $firm->porackiizvestia = $request->input('porackiizvestia');
             $firm->newizvestia = $request->input('newizvestia');
+            $firm->password = bcrypt($request->input('password'));
+            $firm->admin = 2;
             $firm->save();
             return redirect('/admin/edit-firm/'.$firm->id)->with('flash_message_success', 'Успешно създадохте търговеца!');
         }
@@ -215,36 +223,46 @@ class UsersController extends Controller
             Favorite::where(['user_id'=>$id])->delete();
             // Delete orders
             Order::where(['user_id'=>$id])->delete();
-            // Delete products_cities
-            ProductsCity::where(['product_id'=>$id])->delete();
-            // Delete products_images
-            $product_image = Product::where(['id' => $id])->first()->image;
-            if (File::exists('images/backend_images/products/small/' . $product_image)) {
-                File::delete('images/backend_images/products/small/' . $product_image);
-            }
-            if (File::exists('images/backend_images/products/medium/' . $product_image)) {
-                File::delete('images/backend_images/products/medium/' . $product_image);
-            }
-            if (File::exists('images/backend_images/products/large/' . $product_image)) {
-                File::delete('images/backend_images/products/large/' . $product_image);
-            }
-            $product_images = ProductsImage::where(['product_id'=>$id])->get();
-            foreach ($product_images as $image) {
-                if (File::exists('images/backend_images/products/small/' . $image->image)) {
-                    File::delete('images/backend_images/products/small/' . $image->image);
+            $products = Product::where(['user_id'=>$id])->get();
+            foreach ($products as $product) {
+                // Delete products_images
+                $product_image = Product::where(['id' => $id])->first()->image;
+                if (File::exists('images/backend_images/products/small/' . $product_image)) {
+                    File::delete('images/backend_images/products/small/' . $product_image);
                 }
-                if (File::exists('images/backend_images/products/medium/' . $image->image)) {
-                    File::delete('images/backend_images/products/medium/' . $image->image);
+                if (File::exists('images/backend_images/products/medium/' . $product_image)) {
+                    File::delete('images/backend_images/products/medium/' . $product_image);
                 }
-                if (File::exists('images/backend_images/products/large/' . $image->image)) {
-                    File::delete('images/backend_images/products/large/' . $image->image);
+                if (File::exists('images/backend_images/products/large/' . $product_image)) {
+                    File::delete('images/backend_images/products/large/' . $product_image);
                 }
+                $product_images = ProductsImage::where(['product_id'=>$id])->get();
+                foreach ($product_images as $image) {
+                    if (File::exists('images/backend_images/products/small/' . $image->image)) {
+                        File::delete('images/backend_images/products/small/' . $image->image);
+                    }
+                    if (File::exists('images/backend_images/products/medium/' . $image->image)) {
+                        File::delete('images/backend_images/products/medium/' . $image->image);
+                    }
+                    if (File::exists('images/backend_images/products/large/' . $image->image)) {
+                        File::delete('images/backend_images/products/large/' . $image->image);
+                    }
+                }
+                ProductsImage::where(['product_id'=>$product->id])->delete();
+                // Delete products_cities
+                ProductsCity::whereIn('product_id', $product->id)->delete();
+                // Delete products_tags
+                ProductsTags::where(['product_id'=>$product->id])->delete();
+                // Delete products
+                Product::where(['id'=>$product->id])->delete();
             }
-            ProductsImage::where(['product_id'=>$id])->delete();
-            // Delete products_tags
-            ProductsTags::where(['product_id'=>$id])->delete();
-            // Delete products
-            Product::where(['user_id'=>$id])->delete();
+            // Delete user image
+            $user_image = User::where(['id' => $id])->first()->image;
+            if (File::exists('images/backend_images/users/' . $user_image)) {
+                File::delete('images/backend_images/users/' . $user_image);
+            }
+
+            User::where(['id'=>$id])->delete();
 
             return redirect('/admin/view-firms')->with('flash_message_success', 'Успешно изтрихте търговеца!');
         }

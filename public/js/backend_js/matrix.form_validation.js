@@ -112,17 +112,13 @@ $(document).ready(function(){
 			$(element).parents('.control-group').addClass('success');
 		}
 	});
-	
+
 	// Validate save firm form
-    $("#edit_firm , #add_firm").validate({
+    $("#edit_firm").validate({
         rules: {
             firm_name: {
                 required: true,
                 maxlength: 191
-			},
-			firm_email: {
-                required: true,
-                email: true
 			},
 			firm_phone: {
                 required: true,
@@ -138,10 +134,6 @@ $(document).ready(function(){
                 required: "Моля въведете Име на фирмата",
                 maxlength: "Максималната дължина на полето е 191 символа"
 			},
-			firm_email: {
-                required: "Моля въведете E-Mail на фирмата",
-                email: "Невалиден email формат"
-			},
 			firm_phone: {
                 required: "Моля въведете телефон на фирмата",
                 maxlength: "Максималната дължина на полето е 191 символа"
@@ -150,6 +142,79 @@ $(document).ready(function(){
                 required: "Моля въведете адрес на фирмата",
                 maxlength: "Максималната дължина на полето е 191 символа"
 			}
+        },
+        errorClass: "help-inline",
+		errorElement: "span",
+		highlight:function(element, errorClass, validClass) {
+			$(element).parents('.control-group').addClass('error');
+		},
+		unhighlight: function(element, errorClass, validClass) {
+			$(element).parents('.control-group').removeClass('error');
+			$(element).parents('.control-group').addClass('success');
+		}
+    });
+
+	// Validate save add firm form
+    $("#add_firm").validate({
+        rules: {
+            firm_name: {
+                required: true,
+                maxlength: 191
+			},
+			register_email: {
+                required: true,
+                email: true,
+                remote: "/check-email"
+			},
+			firm_phone: {
+                required: true,
+                maxlength: 191
+			},
+			firm_address: {
+                required: true,
+                maxlength: 191
+            },
+            password:{
+				required: true,
+				minlength: 6,
+				maxlength: 20
+			},
+			password_again:{
+				required: true,
+				minlength: 6,
+				maxlength: 20,
+				equalTo: "#password"
+			}
+        },
+        messages: {
+            firm_name: {
+                required: "Моля въведете Име на фирмата",
+                maxlength: "Максималната дължина на полето е 191 символа"
+			},
+			register_email: {
+                required: "Моля въведете E-Mail на фирмата",
+                email: "Невалиден email формат",
+                remote: "Вече има регистриран потребител с този e-mail адрес!"
+			},
+			firm_phone: {
+                required: "Моля въведете телефон на фирмата",
+                maxlength: "Максималната дължина на полето е 191 символа"
+			},
+			firm_address: {
+                required: "Моля въведете адрес на фирмата",
+                maxlength: "Максималната дължина на полето е 191 символа"
+            },
+            password: {
+                required: "Моля въведете вашата парола",
+                minlength: "Вашата парола трябва да бъде най-малко 6 символа",
+                maxlength: "Вашата парола трябва да бъде най-много 20 символа"
+            },
+            password_again: {
+                required: "Моля въведете вашата парола",
+                minlength: "Вашата парола трябва да бъде най-малко 6 символа",
+                maxlength: "Вашата парола трябва да бъде най-много 20 символа",
+                equalTo: "Въведената от Вас парола не съответства на първата въведена"
+            }
         },
         errorClass: "help-inline",
 		errorElement: "span",

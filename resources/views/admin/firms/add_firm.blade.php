@@ -22,10 +22,10 @@
 
 </script>
     <div id="content-header">
-        <div id="breadcrumb"> 
-            <a href="{{ route('admin.dashboard') }}" title="Административен панел" class="tip-bottom"><i class="icon-home"></i> Панел</a>            
-            <a href="{{ route('admin.view-firms') }}">Търговци</a> 
-            <a href="{{ route('admin.add-firm') }}">Добави търговец</a>            
+        <div id="breadcrumb">
+            <a href="{{ route('admin.dashboard') }}" title="Административен панел" class="tip-bottom"><i class="icon-home"></i> Панел</a>
+            <a href="{{ route('admin.view-firms') }}">Търговци</a>
+            <a href="{{ route('admin.add-firm') }}">Добави търговец</a>
         </div>
         <h1>Добавяне на търговец</h1>
         @if (Session::has('flash_message_success'))
@@ -44,7 +44,7 @@
                         <h5>Добавяне на търговец</h5>
                     </div>
                     <div class="widget-content nopadding">
-                        <form enctype="multipart/form-data" class="form-horizontal" method="post" action="{{ route('admin.add-firm') }}" name="edit_firm" id="edit_firm"
+                        <form enctype="multipart/form-data" class="form-horizontal" method="post" action="{{ route('admin.add-firm') }}" name="add_firm" id="add_firm"
                             novalidate="novalidate">
                             @csrf
                             <div class="control-group">
@@ -54,9 +54,21 @@
                                 </div>
                             </div>
                             <div class="control-group">
+                                <label class="control-label">Парола</label>
+                                <div class="controls">
+                                    <input type="password" id="password" name="password">
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <label class="control-label">Повтори Паролата</label>
+                                <div class="controls">
+                                    <input type="password" id="password_again" name="password_again">
+                                </div>
+                            </div>
+                            <div class="control-group">
                                 <label class="control-label">E-Mail</label>
                                 <div class="controls">
-                                    <input type="email" name="firm_email" id="firm_email">
+                                    <input type="email" name="register_email" id="register_email">
                                 </div>
                             </div>
                             <div class="control-group">
@@ -116,7 +128,7 @@
                                 </div>
                             </div>
                             <div class="form-actions">
-                                <input type="submit" value="Редактирай търговеца" class="btn btn-success">
+                                <input type="submit" value="Създай търговеца" class="btn btn-success">
                                 <a href="{{ route('admin.view-firms') }}" class="btn btn-primary">Обратно в търговци</a>
                             </div>
                         </form>
