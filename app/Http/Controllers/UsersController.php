@@ -213,11 +213,148 @@ class UsersController extends Controller
                 File::delete('images/backend_images/users/'.$firm_image);
             }
             User::where(['id'=>$id])->update(['image'=>'']);
-            return redirect('/admin/edit-firm/'.$id)->with('flash_message_success', 'Успешно изтрихте снимката на продукта!');
+            return redirect('/admin/edit-firm/'.$id)->with('flash_message_success', 'Успешно изтрихте снимката на търговеца!');
         }
     }
 
     public function deleteFirm(Request $request, $id=null){
+        if (!empty($id)){
+            // Delete favorites
+            Favorite::where(['user_id'=>$id])->delete();
+            $products = Product::where(['user_id'=>$id])->get();
+            foreach ($products as $product) {
+                // Delete products_images
+                $product_image = Product::where(['id' => $id])->first()->image;
+                if (File::exists('images/backend_images/products/small/' . $product_image)) {
+                    File::delete('images/backend_images/products/small/' . $product_image);
+                }
+                if (File::exists('images/backend_images/products/medium/' . $product_image)) {
+                    File::delete('images/backend_images/products/medium/' . $product_image);
+                }
+                if (File::exists('images/backend_images/products/large/' . $product_image)) {
+                    File::delete('images/backend_images/products/large/' . $product_image);
+                }
+                $product_images = ProductsImage::where(['product_id'=>$id])->get();
+                foreach ($product_images as $image) {
+                    if (File::exists('images/backend_images/products/small/' . $image->image)) {
+                        File::delete('images/backend_images/products/small/' . $image->image);
+                    }
+                    if (File::exists('images/backend_images/products/medium/' . $image->image)) {
+                        File::delete('images/backend_images/products/medium/' . $image->image);
+                    }
+                    if (File::exists('images/backend_images/products/large/' . $image->image)) {
+                        File::delete('images/backend_images/products/large/' . $image->image);
+                    }
+                }
+                ProductsImage::where(['product_id'=>$product->id])->delete();
+                // Delete products_cities
+                ProductsCity::where(['product_id'=>$product->id])->delete();
+                // Delete products_tags
+                ProductsTags::where(['product_id'=>$product->id])->delete();
+                // Delete products
+                Product::where(['id'=>$product->id])->delete();
+            }
+            // Delete user image
+            $user_image = User::where(['id' => $id])->first()->image;
+            if (File::exists('images/backend_images/users/' . $user_image)) {
+                File::delete('images/backend_images/users/' . $user_image);
+            }
+
+            User::where(['id'=>$id])->delete();
+
+            return redirect('/admin/view-firms')->with('flash_message_success', 'Успешно изтрихте търговеца!');
+        }
+    }
+
+    public function viewUsers(){
+        $users = User::where(['admin'=>0])->get();
+        return view('admin.users.view_users')->with(['users'=>$users]);
+    }
+
+    public function editUser(Request $request, $id=null){
+        $user = User::where(['id'=>$id])->first();
+        if ($request->isMethod('post')){
+            $user->name = $request->input('user_name');
+            $user->email = $request->input('register_email');
+            $user->phone = $request->input('user_phone');
+            $user->city_id = $request->input('user_city');
+            $user->address = $request->input('user_address');
+            $user->info = $request->input('info');
+            //upload image
+            if ($request->hasFile('image')) {
+                // Delete old image
+                $user_image = $user->image;
+                if (File::exists('images/backend_images/users/' . $user_image)) {
+                    File::delete('images/backend_images/users/' . $user_image);
+                }
+                $image_temp = Input::file('image');
+                if ($image_temp->isValid()) {
+                    $extension = $image_temp->getClientOriginalExtension();
+                    $filename = $user->id . rand(111, 99999) . '.' . $extension;
+                    $image_path = 'images/backend_images/users/' . $filename;
+                    // Resize images
+                    Image::make($image_temp)->resize(null, 75, function ($constraint) {
+                        $constraint->aspectRatio();
+                        $constraint->upsize();
+                    })->save($image_path);
+                }
+            } else {
+                $filename = $request->input('current_image');
+                if (empty($request->input('current_image'))) {
+                    $filename = '';
+                }
+            }
+            $user->image = $filename;
+            $user->monthizvestia = $request->input('monthizvestia');
+            $user->porackiizvestia = $request->input('porackiizvestia');
+            $user->newizvestia = $request->input('newizvestia');
+            $user->save();
+            return redirect('/admin/edit-user/'.$id)->with('flash_message_success', 'Успешно редактирахте клиента!');
+        }
+        $cities = City::all();
+        return view('admin.users.edit_user')->with([
+            'user'=>$user,
+            'cities'=>$cities
+            ]);
+    }
+
+    public function addUser(Request $request){
+        $user = new User();
+        if ($request->isMethod('post')){
+            $user->name = $request->input('user_name');
+            $user->email = $request->input('register_email');
+            $user->phone = $request->input('user_phone');
+            $user->city_id = $request->input('user_city');
+            $user->address = $request->input('user_address');
+            $user->info = $request->input('info');
+            $user->image = '';
+            $user->monthizvestia = $request->input('monthizvestia');
+            $user->porackiizvestia = $request->input('porackiizvestia');
+            $user->newizvestia = $request->input('newizvestia');
+            $user->password = bcrypt($request->input('password'));
+            $user->admin = 0;
+            $user->save();
+            return redirect('/admin/edit-user/'.$user->id)->with('flash_message_success', 'Успешно създадохте клиента!');
+        }
+        $cities = City::all();
+        return view('admin.users.add_user')->with([
+            'user'=>$user,
+            'cities'=>$cities
+            ]);
+    }
+
+    public function deleteUserImage(Request $request, $id=null){
+        if (!empty($id)){
+            $user_image = User::where(['id'=>$id])->first()->image;
+            if (File::exists('images/backend_images/users/'.$user_image)){
+                File::delete('images/backend_images/users/'.$user_image);
+            }
+            User::where(['id'=>$id])->update(['image'=>'']);
+            return redirect('/admin/edit-user/'.$id)->with('flash_message_success', 'Успешно изтрихте снимката на клиента!');
+        }
+    }
+
+    public function deleteUser(Request $request, $id=null){
         if (!empty($id)){
             // Delete favorites
             Favorite::where(['user_id'=>$id])->delete();
@@ -250,7 +387,7 @@ class UsersController extends Controller
                 }
                 ProductsImage::where(['product_id'=>$product->id])->delete();
                 // Delete products_cities
-                ProductsCity::whereIn('product_id', $product->id)->delete();
+                ProductsCity::where(['product_id'=>$product->id])->delete();
                 // Delete products_tags
                 ProductsTags::where(['product_id'=>$product->id])->delete();
                 // Delete products
@@ -264,7 +401,7 @@ class UsersController extends Controller
 
             User::where(['id'=>$id])->delete();
 
-            return redirect('/admin/view-firms')->with('flash_message_success', 'Успешно изтрихте търговеца!');
+            return redirect('/admin/view-users')->with('flash_message_success', 'Успешно изтрихте клиента!');
         }
     }
 

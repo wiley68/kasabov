@@ -50,6 +50,12 @@
           <li><a href="{{ route('admin.view-firms') }}">Всички търговци</a></li>
         </ul>
       </li>
+      <li class="submenu"> <a href="#"><i class="icon icon-th-list"></i> <span>Клиенти</span></a>
+        <ul>
+          <li><a href="{{ route('admin.add-user') }}">Добави клиент</a></li>
+          <li><a href="{{ route('admin.view-users') }}">Всички клиенти</a></li>
+        </ul>
+      </li>
       <li class="submenu"> <a href="#"><i class="icon icon-th-list"></i> <span>Настройки</span> </a>
         <ul>
           <li><a href="{{ route('admin.edit-landing-page') }}">Начална страница</a></li>
