@@ -101,6 +101,10 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('/admin/delete-user/{id}', 'UsersController@deleteUser')->name('admin.delete-user');
     Route::get('/admin/view-users', 'UsersController@viewUsers')->name('admin.view-users');
     Route::get('/admin/delete-user-image/{id}', 'UsersController@deleteUserImage')->name('admin.delete-user-image');
+    // Orders routes
+    Route::match(['get', 'post'], '/admin/edit-order/{id}', 'OrderController@editOrder')->name('admin.edit-order');
+    Route::get('/admin/delete-order/{id}', 'OrderController@deleteAdminOrder')->name('admin.delete-order');
+    Route::get('/admin/view-orders', 'OrderController@viewOrders')->name('admin.view-orders');
     // LandingPage routes
     Route::match(['get', 'post'], '/admin/edit-landing-page', 'IndexController@editLandingPage')->name('admin.edit-landing-page');
 });

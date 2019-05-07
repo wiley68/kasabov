@@ -4,6 +4,7 @@
 <?php use App\Product; ?>
 <?php use App\Speditor; ?>
 <?php use App\City; ?>
+<?php use App\Order; ?>
 <!--sidebar-menu-->
 <div id="sidebar"><a href="{{ route('admin.dashboard') }}" class="visible-phone"><i class="icon icon-home"></i> Панел Управление</a>
     <ul>
@@ -56,6 +57,7 @@
           <li><a href="{{ route('admin.view-users') }}">Всички клиенти</a></li>
         </ul>
       </li>
+      <li><a href="{{ route('admin.view-orders') }}"><i class="icon icon-th-list"></i> <span>Заявки</span> <span class="label label-important">{{ Order::count() }}</span></a></li>
       <li class="submenu"> <a href="#"><i class="icon icon-th-list"></i> <span>Настройки</span> </a>
         <ul>
           <li><a href="{{ route('admin.edit-landing-page') }}">Начална страница</a></li>

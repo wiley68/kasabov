@@ -69,4 +69,44 @@ class OrderController extends Controller
         return redirect('/home-firm-orders');
     }
 
+    public function viewOrders(){
+        $orders = Order::all();
+        return view('admin.orders.view_orders')->with(['orders'=>$orders]);
+    }
+
+    public function editOrder(Request $request, $id=null){
+        $order = Order::where(['id'=>$id])->first();
+        if ($request->isMethod('post')){
+            if(!empty($request->input('email'))){
+                $order->email = $request->input('email');
+            }else{
+                $order->email = '';
+            }
+            if(!empty($request->input('phone'))){
+                $order->phone = $request->input('phone');
+            }else{
+                $order->phone = '';
+            }
+            if(!empty($request->input('message'))){
+                $order->message = $request->input('message');
+            }else{
+                $order->message = '';
+            }
+            $order->save();
+            return redirect('/admin/edit-order/'.$id)->with('flash_message_success', 'Успешно редактирахте заявката!');
+        }
+        return view('admin.orders.edit_order')->with([
+            'order'=>$order
+            ]);
+    }
+
+    public function deleteAdminOrder(Request $request, $id=null){
+        if (!empty($id)){
+            $order = Order::where(['id'=>$id])->first();
+            // Delete order
+            $order->delete();
+        }
+        return redirect('/admin/view-orders');
+    }
+
 }

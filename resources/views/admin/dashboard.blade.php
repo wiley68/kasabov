@@ -4,6 +4,8 @@
 <?php use App\Tag; ?>
 <?php use App\Speditor; ?>
 <?php use App\City; ?>
+<?php use App\Order; ?>
+<?php use App\User; ?>
 @extends('layouts.adminLayout.admin_design')
 @section('content')
 <!--main-container-part-->
@@ -33,30 +35,24 @@
         <div class="row-fluid">
             <div class="widget-box">
                 <div class="widget-title bg_ly" data-toggle="collapse" href="#collapseG2"><span class="icon"><i class="icon-chevron-down"></i></span>
-                    <h5>Последни поръчки</h5>
+                    <h5>Последни заявки</h5>
                 </div>
                 <div class="widget-content nopadding collapse in" id="collapseG2">
                     <ul class="recent-posts">
+                        @php
+                            $orders = Order::all()->take(3);
+                        @endphp
+                        @foreach ($orders as $order)
                         <li>
                             <div class="user-thumb"> <img width="40" height="40" alt="User" src="{{ asset('images/backend_images/demo/av1.jpg') }}">                                </div>
-                            <div class="article-post"> <span class="user-info"> By: john Deo / Date: 2 Aug 2012 / Time:09:27 AM </span>
-                                <p><a href="#">This is a much longer one that will go on for a few lines.It has multiple paragraphs and is full of waffle to pad out the comment.</a>                                    </p>
+                            <div class="article-post"> <span class="user-info"> От: {{ User::where(['id'=>$order->user_id])->first()->name }} / Дата: {{ date("d.m.Y H:i:s", strtotime($order->created_at)) }} </span>
+                                <p>{!! $order->message !!}</p>
                             </div>
                         </li>
+                        @endforeach
                         <li>
-                            <div class="user-thumb"> <img width="40" height="40" alt="User" src="{{ asset('images/backend_images/demo/av2.jpg') }}">                                </div>
-                            <div class="article-post"> <span class="user-info"> By: john Deo / Date: 2 Aug 2012 / Time:09:27 AM </span>
-                                <p><a href="#">This is a much longer one that will go on for a few lines.It has multiple paragraphs and is full of waffle to pad out the comment.</a>                                    </p>
-                            </div>
+                            <a href="{{ route('admin.view-orders') }}" class="btn btn-warning btn-mini">Виж всички</a>
                         </li>
-                        <li>
-                            <div class="user-thumb"> <img width="40" height="40" alt="User" src="{{ asset('images/backend_images/demo/av4.jpg') }}">                                </div>
-                            <div class="article-post"> <span class="user-info"> By: john Deo / Date: 2 Aug 2012 / Time:09:27 AM </span>
-                                <p><a href="#">This is a much longer one that will go on for a few lines.Itaffle to pad out the comment.</a>                                    </p>
-                            </div>
-                            <li>
-                                <button class="btn btn-warning btn-mini">View All</button>
-                            </li>
                     </ul>
                 </div>
             </div>
