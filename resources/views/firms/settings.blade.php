@@ -1,6 +1,26 @@
 @extends('layouts.frontLayout.front_design')
 @section('content')
 <!-- Start Content -->
+<script type="text/javascript">
+    function deleteImage(url){
+        swal({
+            title: "Сигурни ли сте?",
+            text: "Ще бъде изтрита снимката. Операцията е невъзвратима!",
+            icon: "warning",
+            buttons: ["Отказ!", "Съгласен съм!"],
+            dangerMode: true,
+        })
+        .then((willDelete) => {
+            if (willDelete) {
+            window.location = url;
+        } else {
+            return false;
+        }
+        });
+        return false;
+    };
+
+</script>
 <div id="content" class="section-padding">
     <div class="container">
         <div class="row">
@@ -121,7 +141,7 @@
                                                 <input type="file" name="image" id="image">
                                                 <input type="hidden" name="current_image" id="current_image" value="{{ $user->image }}">
                                                 @if (!empty($user->image))
-                                                    <img style="width:50px;" src="{{ asset('/images/backend_images/users/'.$user->image) }}"> | <button onclick="window.location.href='{{ route('delete-user-image', ['id' => $user->id]) }}';" class="btn btn-danger">Изтрий снимката</button>
+                                                    <img style="width:50px;" src="{{ asset('/images/backend_images/users/'.$user->image) }}"> | <a style="cursor:pointer;color:white;" onclick="deleteImage('{{ route('delete-user-image', ['id' => $user->id]) }}');" class="btn btn-danger">Изтрий снимката</a>
                                                 @endif
                                             </div>
                                         </div>
