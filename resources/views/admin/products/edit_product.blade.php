@@ -35,6 +35,12 @@
             <strong>{!! session('flash_message_success') !!}</strong>
         </div>
         @endif
+        @if (Session::has('flash_message_error'))
+        <div class="alert alert-error alert-block">
+            <button type="button" class="close" data-dismiss="alert">×</button>
+            <strong>{!! session('flash_message_error') !!}</strong>
+        </div>
+        @endif
     </div>
     <div class="container-fluid">
         <hr>
@@ -367,6 +373,14 @@
                             </div>
                         </div>
                         <div class="widget-content nopadding">
+                            <div class="control-group">
+                                <label class="control-label">Активиран на</label>
+                                <div class="controls">
+                                    <input type="text" disabled name="active_at" id="active_at" value="{{ date('d.m.Y', strtotime(date($product->active_at))) }}"> <button id="btn_activate" class="btn btn-primary">Активирай отново</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="widget-content nopadding">
                                 <div class="control-group">
                                     <label class="control-label">Специален продукт</label>
                                     <div class="controls">
@@ -607,6 +621,12 @@
                 }
             }
             city_btn_click = 0;
+        });
+        $('#btn_activate').click(function(e){
+            var currentdate = new Date();
+            var currdate = currentdate.getDate() + "." + (currentdate.getMonth()+1) + "." + currentdate.getFullYear();
+            $("#active_at").val(currdate);
+            $("#status").val('active');
         });
     </script>
 @stop

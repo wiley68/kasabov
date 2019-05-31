@@ -138,7 +138,7 @@
                     @foreach ($tops as $top)
                     @php
                     if(!empty($top->image)){
-                        $top_image = asset('/images/backend_images/products/medium/'.$featured_product->image);
+                        $top_image = asset('/images/backend_images/products/medium/'.$top->image);
                     }else{
                         $top_image = asset('/images/backend_images/products/medium/no-image-600.png');
                     }

@@ -52,6 +52,7 @@
                     <th>Собственик</th>
                     <th>Цена</th>
                     <th>Снимка</th>
+                    <th>Състояние</th>
                     <th>Управление</th>
                   </tr>
                 </thead>
@@ -69,6 +70,23 @@
                                 <a href="#imageModal{{ $product->id }}" data-toggle="modal" title="Покажи снимката в голям размер."><img src="{{ asset('/images/backend_images/products/small/'.$product->image) }}" style="width:50px;"></a>
                                 @endif
                             </td>
+                            @php
+                            switch ($product->status) {
+                                case 'active':
+                                    $status = 'Активен';
+                                    break;
+                                case 'notactive':
+                                    $status = 'Неактивен';
+                                    break;
+                                case 'sold':
+                                    $status = 'Продаден';
+                                    break;
+                                case 'expired':
+                                    $status = 'Изтекъл';
+                                    break;
+                                }
+                            @endphp
+                            <td>{{ $status }}</td>
                             <td class="center">
                                 <a href="#modalPregled{{ $product->id }}" data-toggle="modal" class="btn btn-success btn-mini">Преглед</a>
                                 <a href="{{ route('admin.edit-product', ['id' => $product->id]) }}" class="btn btn-primary btn-mini">Редактирай</a>

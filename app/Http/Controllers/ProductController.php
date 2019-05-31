@@ -131,7 +131,20 @@ class ProductController extends Controller
             $product->likes = $likes;
             $product->top = $top;
             $product->views = $views;
-            $product->status = $status;
+            // check statuses
+            $new_status = $request->input('status');
+            if ($new_status == 'active'){
+                // test for available items
+                $products_count = Product::where(['user_id'=>$product->user_id, 'status'=>'active'])->count();
+                if ($products_count >= 10){
+                    return redirect('/admin/add-product/'.$product->id)->with('flash_message_error', 'Вече имате 10 броя активни реклами! Моля ако желаете да увеличите бройката им, закупете си допълнителен пакет.');
+                }else{
+                    $product->status = $request->input('status');
+                    $product->active_at = date('Y-m-d H:i:s');
+                }
+            }else{
+                $product->status = $request->input('status');
+            }
             //upload image
             if ($request->hasFile('image')){
                 $image_temp = Input::file('image');
@@ -277,8 +290,10 @@ class ProductController extends Controller
                     break;
                 case 'cities':
                     $available_for_city = 0;
-                    foreach ($request->input('available_for_cities') as $item) {
-                        $available_cities[] = $item;
+                    if(!empty($request->input('available_for_cities'))){
+                        foreach ($request->input('available_for_cities') as $item) {
+                            $available_cities[] = $item;
+                        }
                     }
                     break;
                 case 'area':
@@ -319,7 +334,24 @@ class ProductController extends Controller
             }else{
                 $product->views = $request->input('views');
             }
-            $product->status = $request->input('status');
+            // check statuses
+            $old_status = $product->status;
+            $new_status = $request->input('status');
+            if ($new_status == 'active'){
+                if ($old_status != 'active'){
+                    // test for available items
+                    $products_count = Product::where(['user_id'=>$product->user_id, 'status'=>'active'])->count();
+                    if ($products_count >= 10){
+                        return redirect('/admin/edit-product/'.$product->id)->with('flash_message_error', 'Вече имате 10 броя активни реклами! Моля ако желаете да увеличите бройката им, закупете си допълнителен пакет.');
+                    }else{
+                        $product->status = $request->input('status');
+                        $product->active_at = date('Y-m-d H:i:s');
+                    }
+                }
+            }else{
+                $product->status = $request->input('status');
+            }
+
             $product->save();
 
             // Add tags to tags table
@@ -517,7 +549,8 @@ class ProductController extends Controller
 
     public function frontViewProducts(){
         // Filter products result
-        $products = new Product;
+        $products = Product::where(['status'=>'active']);
+        $products = $products->where('active_at', '>=', date("Y-m-d", strtotime("-1 months")));
         $paginate = 8;
         $queries = [];
         // Get max price
@@ -836,11 +869,11 @@ class ProductController extends Controller
     }
 
     public static function frontGetProductByUser($user_id){
-        $products_by_user_count = Product::where(['user_id'=>$user_id])->count();
+        $products_by_user_count = Product::where(['user_id'=>$user_id, 'status'=>'active'])->where('active_at', '>=', date("Y-m-d", strtotime("-1 months")))->count();
         if ($products_by_user_count >= 5){
             $products_by_user_count = 5;
         }
-        $products_by_user = Product::where(['user_id'=>$user_id])->inRandomOrder()->take($products_by_user_count)->get();
+        $products_by_user = Product::where(['user_id'=>$user_id, 'status'=>'active'])->where('active_at', '>=', date("Y-m-d", strtotime("-1 months")))->inRandomOrder()->take($products_by_user_count)->get();
 
         return $products_by_user;
     }

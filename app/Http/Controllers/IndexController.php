@@ -23,16 +23,16 @@ class IndexController extends Controller
             $categories_top_count = 12;
         }
         $categories_top = Category::where(['parent_id'=>0])->take($categories_top_count)->get();
-        $tops_count = Product::where(['top'=>1])->count();
+        $tops_count = Product::where(['top'=>1, 'status'=>'active'])->where('active_at', '>=', date("Y-m-d", strtotime("-1 months")))->count();
         if ($tops_count >= 6){
             $tops_count = 6;
         }
-        $tops = Product::where(['top'=>1])->get()->take($tops_count);
-        $featured_products_count = Product::where(['featured'=>1])->count();
+        $tops = Product::where(['top'=>1, 'status'=>'active'])->where('active_at', '>=', date("Y-m-d", strtotime("-1 months")))->get()->take($tops_count);
+        $featured_products_count = Product::where(['featured'=>1, 'status'=>'active'])->where('active_at', '>=', date("Y-m-d", strtotime("-1 months")))->count();
         if ($featured_products_count >= 6){
             $featured_products_count = 6;
         }
-        $featured_products = Product::where(['featured'=>1])->get()->take($featured_products_count);
+        $featured_products = Product::where(['featured'=>1, 'status'=>'active'])->where('active_at', '>=', date("Y-m-d", strtotime("-1 months")))->get()->take($featured_products_count);
         $property = LandingPage::first();
         return view('index')->with([
             'holidays'=>$holidays,
