@@ -156,6 +156,10 @@
                         </div>
                     </div>
                 </div>
+                <hr />
+                <!-- Start Pagination -->
+                {{ $orders->links() }}
+                <!-- End Pagination -->
             </div>
         </div>
     </div>

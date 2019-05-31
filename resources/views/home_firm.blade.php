@@ -127,8 +127,12 @@
                                             <div class="icon"><i class="lni-support"></i></div>
                                             <div class="contentbox">
                                                 <h2><a href="{{ route('home-firm-orders') }}">Поръчки</a></h2>
-                                                @php $products_ids = []; $products = Product::where(['user_id'=>Auth::user()->id])->get(); foreach ($products as $product)
-                                                { $products_ids[] = $product->id; }
+                                                @php
+                                                $products_ids = [];
+                                                $products_loc = Product::where(['user_id'=>Auth::user()->id])->get();
+                                                foreach ($products_loc as $product){
+                                                    $products_ids[] = $product->id;
+                                                }
                                                 @endphp
                                                 <h3>{{ Order::whereIn('product_id', $products_ids)->count() }} бр.</h3>
                                             </div>
@@ -141,14 +145,19 @@
                                     <tr>
                                         <th>Снимка</th>
                                         <th>Оферта</th>
-                                        <th>Платен</th>
+                                        <th>Реклама</th>
                                         <th>Състояние</th>
                                         <th>Цена</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach ($products as $product) @php if(!empty($product->image)){ $image = asset('/images/backend_images/products/small/'.$product->image);
-                                    }else{ $image = asset('/images/backend_images/products/small/no-image-300.png'); }
+                                    @foreach ($products as $product)
+                                    @php
+                                    if(!empty($product->image)){
+                                        $image = asset('/images/backend_images/products/small/'.$product->image);
+                                    }else{
+                                        $image = asset('/images/backend_images/products/small/no-image-300.png');
+                                    }
                                     @endphp
                                     <tr data-category="active">
                                         <td class="Снимка"><a href="#imageModal{{ $product->id }}" data-toggle="modal" title="Покажи снимката в голям размер."><img class="img-fluid" src="{{ $image }}" alt=""></a></td>
@@ -156,16 +165,46 @@
                                             <h3>{{ $product->product_name }}</h3>
                                             <span>КОД: {{ $product->product_code }}</span>
                                         </td>
-                                        @php switch ($product->featured) { case 1: $featured = 'adstatusactive'; $featured_txt = 'Да'; break; case 'featured': $featured
-                                        = 'adstatusinactive'; $featured_txt = 'Не'; break; default: $featured = 'adstatusinactive';
-                                        $featured_txt = 'Не'; break; }
+                                        @php
+                                        switch ($product->featured) {
+                                            case 1:
+                                                $featured = 'adstatusactive';
+                                                $featured_txt = 'Да';
+                                            break;
+                                            case 'featured':
+                                                $featured = 'adstatusinactive';
+                                                $featured_txt = 'Не';
+                                            break;
+                                            default:
+                                                $featured = 'adstatusinactive';
+                                                $featured_txt = 'Не';
+                                            break;
+                                        }
                                         @endphp
-                                        <td data-title="Платен"><span class="adstatus {{ $featured }}">{{ $featured_txt }}</span></td>
-                                        @php switch ($product->status) { case 'active': $status = 'adstatusactive'; $status_txt = 'Акт.'; break; case 'notactive':
-                                        $status = 'adstatusinactive'; $status_txt = 'Неакт.'; break; case 'sold': $status
-                                        = 'adstatussold'; $status_txt = 'Прод.'; break; case 'expired': $status = 'adstatusexpired';
-                                        $status_txt = 'Проср.'; break; default: $status = 'adstatusactive'; $status_txt =
-                                        'Акт.'; break; }
+                                        <td data-title="Реклама"><span class="adstatus {{ $featured }}">{{ $featured_txt }}</span></td>
+                                        @php
+                                        switch ($product->status) {
+                                            case 'active':
+                                                $status = 'adstatusactive';
+                                                $status_txt = 'Акт.';
+                                            break;
+                                            case 'notactive':
+                                                $status = 'adstatusinactive';
+                                                $status_txt = 'Неакт.';
+                                            break;
+                                            case 'sold':
+                                                $status = 'adstatussold';
+                                                $status_txt = 'Прод.';
+                                            break;
+                                            case 'expired':
+                                                $status = 'adstatusexpired';
+                                                $status_txt = 'Изтекла';
+                                            break;
+                                            default:
+                                                $status = 'adstatusactive';
+                                                $status_txt = 'Акт.';
+                                            break;
+                                        }
                                         @endphp
                                         <td data-title="Състояние"><span class="adstatus {{ $status }}">{{ $status_txt }}</span></td>
                                         <td data-title="Цена">
@@ -201,6 +240,10 @@
                                     @endforeach
                                 </tbody>
                             </table>
+                            <hr />
+                            <!-- Start Pagination -->
+                            {{ $products->links() }}
+                            <!-- End Pagination -->
                         </div>
                     </div>
                 </div>

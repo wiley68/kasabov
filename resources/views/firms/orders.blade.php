@@ -152,6 +152,10 @@
                                     @endforeach
                                 </tbody>
                             </table>
+                            <hr />
+                            <!-- Start Pagination -->
+                            {{ $orders->links() }}
+                            <!-- End Pagination -->
                         </div>
                     </div>
                 </div>

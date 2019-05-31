@@ -197,6 +197,10 @@
                                     @endforeach
                                 </tbody>
                             </table>
+                            <hr />
+                            <!-- Start Pagination -->
+                            {{ $products->links() }}
+                            <!-- End Pagination -->
                         </div>
                     </div>
                 </div>

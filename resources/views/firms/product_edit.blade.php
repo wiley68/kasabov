@@ -323,6 +323,11 @@
                                         <option value='expired' @if ($product->status === 'expired') selected @endif>Изтекъл</option>
                                     </select>
                                 </div>
+                                <div class="form-group mb-3" style="display:flex">
+                                    <label style="width:200px;">Активиран на</label>
+                                    <input type="text" disabled name="active_at" id="active_at" value="{{ date('d.m.Y', strtotime(date($product->active_at))) }}">&nbsp;
+                                    <button id="btn_activate" class="btn btn-primary">Активирай отново</button>
+                                </div>
                                 <hr />
                                 <div class="form-group mb-3">
                                     <p>Етикети</p>
@@ -480,6 +485,12 @@
                 divTags.innerHTML += '<div><div class="badge badge-success" style="padding:5px;font-size:14px;">'+tagAdd.value+'</div><input type="hidden" name="tags[]" value="'+tagAdd.value+'"> <span onclick="removeTag(this);" style="color:red;cursor:pointer;">Изтрий</span></div>';
                 tagAdd.value = '';
             }
+        });
+        $('#btn_activate').click(function(e){
+            var currentdate = new Date();
+            var currdate = currentdate.getDate() + "." + (currentdate.getMonth()+1) + "." + currentdate.getFullYear();
+            $("#active_at").val(currdate);
+            $("#status").val('active');
         });
     </script>
 @stop

@@ -104,12 +104,15 @@ class HomeController extends Controller
         $property = LandingPage::first();
         // User
         $user = User::where(['id' => Auth::user()->id])->first();
-        $orders = Order::where(['user_id' => $user->id])->get();
+        $orders = Order::where(['user_id' => $user->id]);
+        $paginate = 5;
+        $orders = $orders->paginate($paginate);
         return view('users.adds')->with([
             'holidays' => $holidays,
             'property' => $property,
             'user' => $user,
             'orders' => $orders,
+            'paginate'=>$paginate
         ]);
     }
 
@@ -192,12 +195,16 @@ class HomeController extends Controller
         $property = LandingPage::first();
         // User
         $user = User::where(['id' => Auth::user()->id])->first();
-        $products = Product::where(['user_id' => Auth::user()->id])->get();
+        Product::where(['user_id' => Auth::user()->id, 'status'=>'active'])->where('active_at', '<=', date("Y-m-d", strtotime("-1 months")))->update(array('status' => 'expired'));
+        $products = Product::where(['user_id' => Auth::user()->id]);
+        $paginate = 5;
+        $products = $products->paginate($paginate);
         return view('home_firm')->with([
             'holidays' => $holidays,
             'property' => $property,
             'user' => $user,
             'products' => $products,
+            'paginate'=>$paginate
         ]);
     }
 
@@ -314,12 +321,16 @@ class HomeController extends Controller
         $property = LandingPage::first();
         // User
         $user = User::where(['id' => Auth::user()->id])->first();
-        $products = Product::where(['user_id' => Auth::user()->id])->get();
+        Product::where(['user_id' => Auth::user()->id, 'status'=>'active'])->where('active_at', '<=', date("Y-m-d", strtotime("-1 months")))->update(array('status' => 'expired'));
+        $products = Product::where(['user_id' => Auth::user()->id]);
+        $paginate = 5;
+        $products = $products->paginate($paginate);
         return view('firms.adds')->with([
             'holidays' => $holidays,
             'property' => $property,
             'user' => $user,
             'products' => $products,
+            'paginate'=>$paginate
         ]);
     }
 
@@ -336,12 +347,15 @@ class HomeController extends Controller
         foreach ($products as $product) {
             $products_ids[] = $product->id;
         }
-        $orders = Order::whereIn('product_id', $products_ids)->get();
+        $orders = Order::whereIn('product_id', $products_ids);
+        $paginate = 5;
+        $orders = $orders->paginate($paginate);
         return view('firms.orders')->with([
             'holidays' => $holidays,
             'property' => $property,
             'user' => $user,
             'orders' => $orders,
+            'paginate'=>$paginate
         ]);
     }
 
@@ -546,7 +560,23 @@ class HomeController extends Controller
                     $product->object_name = $request->input('object_name');
                 }
                 $product->personalize = $request->input('personalize');
-                $product->status = $request->input('status');
+                // check statuses
+                $old_status = $product->status;
+                $new_status = $request->input('status');
+                if ($new_status == 'active'){
+                    if ($old_status != 'active'){
+                        // test for available items
+                        $products_count = Product::where(['user_id'=>$product->user_id, 'status'=>'active'])->count();
+                        if ($products_count >= 10){
+                            return redirect('/firms/product_edit/'.$product->id)->with('flash_message_error', 'Вече имате 10 броя активни реклами! Моля ако желаете да увеличите бройката им, закупете си допълнителен пакет.');
+                        }else{
+                            $product->status = $request->input('status');
+                            $product->active_at = date('Y-m-d H:i:s');
+                        }
+                    }
+                }else{
+                    $product->status = $request->input('status');
+                }
                 $product->save();
 
                 // Add tags to tags table
