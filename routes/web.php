@@ -103,6 +103,9 @@ Route::group(
         Route::get('/admin/view-firms', 'UsersController@viewFirms')->name('admin.view-firms');
         Route::get('/admin/delete-firm-image/{id}', 'UsersController@deleteFirmImage')->name('admin.delete-firm-image');
         Route::get('/admin/view-payments', 'PaymentsController@viewPayments')->name('admin.view-payments');
+        Route::match(['get', 'post'], '/admin/add-payment', 'PaymentsController@addPayment')->name('admin.add-payment');
+        Route::match(['get', 'post'], '/admin/edit-payment/{id}', 'PaymentsController@editPayment')->name('admin.edit-payment');
+        Route::get('/admin/delete-payment/{id}', 'PaymentsController@deletePayment')->name('admin.delete-payment');
         // User routes
         Route::match(['get', 'post'], '/admin/add-user', 'UsersController@addUser')->name('admin.add-user');
         Route::match(['get', 'post'], '/admin/edit-user/{id}', 'UsersController@editUser')->name('admin.edit-user');

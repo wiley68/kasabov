@@ -49,6 +49,7 @@
         <ul>
           <li><a href="{{ route('admin.add-firm') }}">Добави търговец</a></li>
           <li><a href="{{ route('admin.view-firms') }}">Всички търговци</a></li>
+          <li><a href="{{ route('admin.view-payments') }}">Всички плащания</a></li>
         </ul>
       </li>
       <li class="submenu"> <a href="#"><i class="icon icon-th-list"></i> <span>Клиенти</span></a>
