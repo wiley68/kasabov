@@ -47,8 +47,10 @@
                   <tr>
                     <th>Плащане №</th>
                     <th>Търговец</th>
+                    <th>Активирано на</th>
                     <th>Състояние</th>
                     <th>Тип плащане</th>
+                    <th>Относно</th>
                     <th>Управление</th>
                   </tr>
                 </thead>
@@ -57,6 +59,7 @@
                         <tr class="gradeX">
                             <td>{{ $payment->id }}</td>
                             <td>{{ User::where(['id'=>$payment->user_id])->first()->name }}</td>
+                            <td>{{ date('d.m.Y', strtotime(date($payment->active_at))) }}</td>
                             @php
                                 switch ($payment->status) {
                                     case 'active':
@@ -88,6 +91,23 @@
                                 }
                             @endphp
                             <td>{{ $payment_type }}</td>
+                            @php
+                                switch ($payment->forthe) {
+                                    case 'standart':
+                                        $payment_forthe = "Стандартно";
+                                        break;
+                                    case 'reklama1':
+                                        $payment_forthe = "Пакет 1 промо продукт";
+                                        break;
+                                    case 'reklama3':
+                                        $payment_forthe = "Пакет 3 промо продукта";
+                                        break;
+                                    default:
+                                        $payment_forthe = "Стандартно";
+                                        break;
+                                }
+                            @endphp
+                            <td>{{ $payment_forthe }}</td>
                             <td class="center">
                               <a href="{{ route('admin.edit-payment', ['id' => $payment->id]) }}" class="btn btn-primary btn-mini">Редактирай</a> <button onclick="deletePayment('{{ route('admin.delete-payment', ['id' => $payment->id]) }}');" class="btn btn-danger btn-mini">Изтрий</a></td>
                         </tr>

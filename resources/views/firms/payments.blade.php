@@ -3,6 +3,26 @@
 @extends('layouts.frontLayout.front_design')
 @section('content')
 <!-- Start Content -->
+<script type="text/javascript">
+    function deletePayment(url){
+        swal({
+            title: "Сигурни ли сте?",
+            text: "Ще бъде изтрито плащането. Операцията е невъзвратима!",
+            icon: "warning",
+            buttons: ["Отказ!", "Съгласен съм!"],
+            dangerMode: true,
+        })
+        .then((willDelete) => {
+            if (willDelete) {
+            window.location = url;
+        } else {
+            return false;
+        }
+        });
+        return false;
+    };
+
+</script>
 <div id="content" class="section-padding">
     <div class="container">
         <div class="row">
@@ -71,10 +91,92 @@
                 <div class="page-content">
                     <div class="inner-box">
                         <div class="dashboard-box">
-                            <h2 class="dashbord-title">Плащания</h2>
+                            <h2 class="dashbord-title">Моите плащания</h2>&nbsp;
+                            <a class="btn btn-common" href="{{ route('home-firm-payment-new') }}" style="color:white;">Създай ново плащане</a>
                         </div>
                         <div class="dashboard-wrapper">
-
+                            <table class="table table-responsive dashboardtable tablemyads">
+                                <thead>
+                                    <tr>
+                                        <th>Плащане №</th>
+                                        <th>Активирано на</th>
+                                        <th>Състояние</th>
+                                        <th>Тип плащане</th>
+                                        <th>Относно</th>
+                                        <th>Управление</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach ($payments as $payment)
+                                        <tr data-category="active">
+                                            <td data-title="Плащане №">{{ $payment->id }}</td>
+                                            <td data-title="Активирано на">{{ date('d.m.Y', strtotime(date($payment->active_at))) }}</td>
+                                            @php
+                                            switch ($payment->status) {
+                                                case 'active':
+                                                    $payment_status = "Активно";
+                                                    break;
+                                                case 'pending':
+                                                    $payment_status = "Изчаква плащане";
+                                                    break;
+                                                case 'expired':
+                                                    $payment_status = "Изтекло";
+                                                    break;
+                                                default:
+                                                    $payment_status = "Изчаква плащане";
+                                                    break;
+                                            }
+                                            @endphp
+                                            <td data-title="Състояние">{{ $payment_status }}</td>
+                                            @php
+                                            switch ($payment->payment) {
+                                                case 'bank':
+                                                    $payment_type = "Банка";
+                                                    break;
+                                                case 'sms':
+                                                    $payment_type = "SMS";
+                                                    break;
+                                                default:
+                                                    $payment_type = "Банка";
+                                                    break;
+                                            }
+                                            @endphp
+                                            <td data-title="Тип плащане">{{ $payment_type }}</td>
+                                            @php
+                                            switch ($payment->forthe) {
+                                                case 'standart':
+                                                    $payment_forthe = "Стандартно";
+                                                    $payment_sum = "10.00";
+                                                    break;
+                                                case 'reklama1':
+                                                    $payment_forthe = "Пакет 1 промо продукт";
+                                                    $payment_sum = "20.00";
+                                                    break;
+                                                case 'reklama3':
+                                                    $payment_forthe = "Пакет 3 промо продукта";
+                                                    $payment_sum = "30.00";
+                                                    break;
+                                                default:
+                                                    $payment_forthe = "Стандартно";
+                                                    $payment_sum = "10.00";
+                                                    break;
+                                            }
+                                            @endphp
+                                            <td data-title="Относно">{{ $payment_forthe }}</td>
+                                            <td data-title="Управление">
+                                                <div class="btns-actions">
+                                                    <a class="btn-action btn-view" target="_blank" href="" title="Покажи данни за плащането"><i class="lni-eye"></i></a>
+                                                    <a style="cursor:pointer;" class="btn-action btn-delete" onclick="deletePayment('');" title="Изтрий плащането"><i class="lni-trash"></i></a>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                            <hr />
+                            <!-- Start Pagination -->
+                            {{ $payments->links() }}
+                            <!-- End Pagination -->
                         </div>
                     </div>
                 </div>
