@@ -38,7 +38,8 @@ Route::group(
         Route::get('/home-firm-add-delete/{id}', 'HomeController@deleteFirmAdd')->name('home-firm-add-delete');
         Route::get('/home-firm-orders', 'HomeController@firmOrders')->name('home-firm-orders');
         Route::get('/home-firm-payments', 'PaymentsController@firmPayments')->name('home-firm-payments');
-        Route::match(['get', 'post'], '/home-firm-payment-new', 'PaymentsController@firmPaymentNew')->name('home-firm-payment-new');
+        Route::match(['get', 'post'], '/home-firm-payment-new', 'PaymentsController@addFirmPayment')->name('home-firm-payment-new');
+        Route::get('/delete-firm-payment/{id}', 'PaymentsController@deleteFrontPayment')->name('delete-firm-payment');
         Route::match(['get', 'post'], '/home-firm-privacy', 'HomeController@firmPrivacy')->name('home-firm-privacy');
         Route::get('/delete-firm-order/{id}', 'OrderController@deleteFirmOrder')->name('delete-firm-order');
         Route::post('/delete-firm-user', 'HomeController@privacyFirmDelete')->name('delete-firm-user');

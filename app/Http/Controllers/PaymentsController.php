@@ -25,6 +25,13 @@ class PaymentsController extends Controller
         }
     }
 
+    public function deleteFrontPayment(Request $request, $id=null){
+        if (!empty($id)){
+            Payment::where(['id'=>$id])->delete();
+            return redirect('/home-firm-payments')->with('flash_message_success', 'Успешно изтрихте плащането!');
+        }
+    }
+
     public function editPayment(Request $request, $id=null){
         $payment = Payment::where(['id'=>$id])->first();
         if ($request->isMethod('post')){
@@ -67,6 +74,27 @@ class PaymentsController extends Controller
         }
         return view('admin.firms.add_payment')->with([
             'users'=>$users
+            ]);
+    }
+
+    public function addFirmPayment(Request $request){
+        $payment = new Payment();
+        $user = User::where(['id'=>Auth::user()->id])->first();
+        if ($request->isMethod('post')){
+            if ($request->input('payment_user') != 0){
+                $payment->user_id = $request->input('payment_user');
+                $payment->status = $request->input('payment_status');
+                $payment->active_at = date('Y-m-d H:i:s');
+                $payment->payment = $request->input('payment_type');
+                $payment->forthe = $request->input('payment_forthe');
+                $payment->save();
+                return redirect('/admin/edit-payment/'.$payment->id)->with('flash_message_success', 'Успешно съаздадохте плащането!');
+            }else{
+                return redirect('/admin/add-payment')->with('flash_message_error', 'Трябва да изберете Търговец!');
+            }
+        }
+        return view('admin.firms.add_payment')->with([
+            'user'=>$user
             ]);
     }
 

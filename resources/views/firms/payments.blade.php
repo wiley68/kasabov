@@ -88,6 +88,12 @@
             </div>
 
             <div class="col-sm-12 col-md-8 col-lg-9">
+                @if (Session::has('flash_message_success'))
+                <div class="alert alert-success alert-block">
+                    <button type="button" class="close" data-dismiss="alert">×</button>
+                    <strong>{!! session('flash_message_success') !!}</strong>
+                </div>
+                @endif
                 <div class="page-content">
                     <div class="inner-box">
                         <div class="dashboard-box">
@@ -169,7 +175,7 @@
                                             <td data-title="Управление">
                                                 <div class="btns-actions">
                                                     <a class="btn-action btn-view" target="_blank" href="" title="Покажи данни за плащането"><i class="lni-eye"></i></a>
-                                                    <a style="cursor:pointer;" class="btn-action btn-delete" onclick="deletePayment('');" title="Изтрий плащането"><i class="lni-trash"></i></a>
+                                                    <a style="cursor:pointer;" class="btn-action btn-delete" onclick="deletePayment('{{ route('delete-firm-payment', ['id' => $payment->id]) }}');" title="Изтрий плащането"><i class="lni-trash"></i></a>
                                                 </div>
                                             </td>
                                         </tr>
