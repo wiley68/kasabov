@@ -27,15 +27,33 @@
                                     </div>
                                 </div>
                                 <div class="control-group">
+                                    <label class="control-label">Време стандартен пакет (дни)</label>
+                                    <div class="controls">
+                                        <input type="number" step="1" name="paket_standart_time" id="paket_standart_time" value="{{ $property->paket_standart_time }}">
+                                    </div>
+                                </div>
+                                <div class="control-group">
                                     <label class="control-label">Цена за рекламен пакет 1 (лв.)</label>
                                     <div class="controls">
                                         <input type="number" step="0.01" name="paket_reklama_1" id="paket_reklama_1" value="{{ $property->paket_reklama_1 }}">
                                     </div>
                                 </div>
                                 <div class="control-group">
+                                    <label class="control-label">Време рекламен пакет 1 (дни)</label>
+                                    <div class="controls">
+                                        <input type="number" step="1" name="paket_reklama_1_time" id="paket_reklama_1_time" value="{{ $property->paket_reklama_1_time }}">
+                                    </div>
+                                </div>
+                                <div class="control-group">
                                     <label class="control-label">Цена за рекламен пакет 2 (лв.)</label>
                                     <div class="controls">
                                         <input type="number" step="0.01" name="paket_reklama_2" id="paket_reklama_2" value="{{ $property->paket_reklama_2 }}">
+                                    </div>
+                                </div>
+                                <div class="control-group">
+                                    <label class="control-label">Време рекламен пакет 2 (дни)</label>
+                                    <div class="controls">
+                                        <input type="number" step="1" name="paket_reklama_2_time" id="paket_reklama_2_time" value="{{ $property->paket_reklama_2_time }}">
                                     </div>
                                 </div>
                             </div>
