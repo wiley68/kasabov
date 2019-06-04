@@ -341,4 +341,30 @@ $(document).ready(function(){
 		}
     });
 
+    $("#edit_price_page").validate({
+		rules:{
+			paket_standart:{
+				required: true,
+				number:true
+			},
+			paket_reklama_1:{
+				required:true,
+				number:true
+			},
+			paket_reklama_2:{
+				required:true,
+				number:true
+			}
+		},
+		errorClass: "help-inline",
+		errorElement: "span",
+		highlight:function(element, errorClass, validClass) {
+			$(element).parents('.control-group').addClass('error');
+		},
+		unhighlight: function(element, errorClass, validClass) {
+			$(element).parents('.control-group').removeClass('error');
+			$(element).parents('.control-group').addClass('success');
+		}
+	});
+
 });

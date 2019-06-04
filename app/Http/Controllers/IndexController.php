@@ -61,4 +61,17 @@ class IndexController extends Controller
         ]);
     }
 
+    public function editPricePage(Request $request){
+        $property = LandingPage::first();
+        if ($request->isMethod('post')){
+            $property->paket_standart = $request->input('paket_standart');
+            $property->paket_reklama_1 = $request->input('paket_reklama_1');
+            $property->paket_reklama_2 = $request->input('paket_reklama_2');
+            $property->save();
+        }
+        return view('admin.properties.edit_price_page')->with([
+            'property'=>$property
+        ]);
+    }
+
 }

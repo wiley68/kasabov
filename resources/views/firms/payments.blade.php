@@ -136,6 +136,9 @@
                                                 case 'sms':
                                                     $payment_type = "SMS";
                                                     break;
+                                                case 'kurier':
+                                                    $payment_type = "Наложен платеж";
+                                                    break;
                                                 default:
                                                     $payment_type = "Банка";
                                                     break;

@@ -119,6 +119,7 @@ Route::group(
         Route::get('/admin/view-orders', 'OrderController@viewOrders')->name('admin.view-orders');
         // LandingPage routes
         Route::match(['get', 'post'], '/admin/edit-landing-page', 'IndexController@editLandingPage')->name('admin.edit-landing-page');
+        Route::match(['get', 'post'], '/admin/edit-price-page', 'IndexController@editPricePage')->name('admin.edit-price-page');
     }
 );
 Route::get('/logout', 'AdminController@logout')->name('logout');

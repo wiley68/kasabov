@@ -62,6 +62,7 @@
       <li class="submenu"> <a href="#"><i class="icon icon-th-list"></i> <span>Настройки</span> </a>
         <ul>
           <li><a href="{{ route('admin.edit-landing-page') }}">Начална страница</a></li>
+          <li><a href="{{ route('admin.edit-price-page') }}">Цени пакети</a></li>
         </ul>
       </li>
       <li class="content"> <span>Monthly Bandwidth Transfer</span>

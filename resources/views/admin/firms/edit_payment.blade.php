@@ -59,6 +59,7 @@
                                     <select name="payment_type" id="payment_type" style="width:314px;">
                                         <option value="bank" @if ($payment->payment === "bank") selected @endif>Банка</option>
                                         <option value="sms" @if ($payment->payment === "sms") selected @endif>SMS</option>
+                                        <option value="kurier" @if ($payment->payment === "kurier") selected @endif>Наложен платеж</option>
                                     </select>
                                 </div>
                             </div>
