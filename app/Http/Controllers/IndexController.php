@@ -77,4 +77,21 @@ class IndexController extends Controller
         ]);
     }
 
+    public function editPaymentPackages(Request $request){
+        $property = LandingPage::first();
+        if ($request->isMethod('post')){
+            $property->firm_name = $request->input('firm_name');
+            $property->mol = $request->input('mol');
+            $property->address = $request->input('address');
+            $property->phone = $request->input('phone');
+            $property->bank_name = $request->input('bank_name');
+            $property->iban = $request->input('iban');
+            $property->bic = $request->input('bic');
+            $property->save();
+        }
+        return view('admin.properties.edit_payment_packages')->with([
+            'property'=>$property
+        ]);
+    }
+
 }

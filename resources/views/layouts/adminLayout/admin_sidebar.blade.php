@@ -63,6 +63,7 @@
         <ul>
           <li><a href="{{ route('admin.edit-landing-page') }}">Начална страница</a></li>
           <li><a href="{{ route('admin.edit-price-page') }}">Цени пакети</a></li>
+          <li><a href="{{ route('admin.edit-payment-packages') }}">Платежни методи</a></li>
         </ul>
       </li>
       <li class="content"> <span>Monthly Bandwidth Transfer</span>
