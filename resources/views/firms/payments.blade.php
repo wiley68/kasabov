@@ -174,7 +174,7 @@
                                             <td data-title="Относно">{{ $payment_forthe }}</td>
                                             <td data-title="Управление">
                                                 <div class="btns-actions">
-                                                    <a class="btn-action btn-view" target="_blank" href="" title="Покажи данни за плащането"><i class="lni-eye"></i></a>
+                                                    <a class="btn-action btn-view" target="_blank" href="" title="Покажи подробни данни за плащането"><i class="lni-eye"></i></a>
                                                     <a style="cursor:pointer;" class="btn-action btn-delete" onclick="deletePayment('{{ route('delete-firm-payment', ['id' => $payment->id]) }}');" title="Изтрий плащането"><i class="lni-trash"></i></a>
                                                 </div>
                                             </td>

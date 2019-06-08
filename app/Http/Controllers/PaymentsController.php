@@ -78,23 +78,27 @@ class PaymentsController extends Controller
     }
 
     public function addFirmPayment(Request $request){
+        $holidays = Holiday::where(['parent_id' => 0])->get();
+        $property = LandingPage::first();
         $payment = new Payment();
         $user = User::where(['id'=>Auth::user()->id])->first();
         if ($request->isMethod('post')){
             if ($request->input('payment_user') != 0){
                 $payment->user_id = $request->input('payment_user');
-                $payment->status = $request->input('payment_status');
+                $payment->status = 'pending';
                 $payment->active_at = date('Y-m-d H:i:s');
                 $payment->payment = $request->input('payment_type');
                 $payment->forthe = $request->input('payment_forthe');
                 $payment->save();
-                return redirect('/admin/edit-payment/'.$payment->id)->with('flash_message_success', 'Успешно съаздадохте плащането!');
+                return redirect('/home-firm-payments')->with('flash_message_success', 'Успешно съаздадохте плащането!');
             }else{
-                return redirect('/admin/add-payment')->with('flash_message_error', 'Трябва да изберете Търговец!');
+                return redirect('/home-firm-payment-new')->with('flash_message_error', 'Трябва да изберете Търговец!');
             }
         }
-        return view('admin.firms.add_payment')->with([
-            'user'=>$user
+        return view('firms.add_payment')->with([
+            'user'=>$user,
+            'holidays' => $holidays,
+            'property' => $property
             ]);
     }
 
