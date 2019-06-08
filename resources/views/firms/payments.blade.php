@@ -154,31 +154,64 @@
                                             @php
                                             switch ($payment->forthe) {
                                                 case 'standart':
-                                                    $payment_forthe = "Стандартно";
-                                                    $payment_sum = "10.00";
+                                                    $payment_forthe = "Стандартно (цена: $property->paket_standart лв. 20 продукта , действа $property->paket_standart_time дни)";
+                                                    $payment_price = $property->paket_standart;
+                                                    $payment_qt = 20;
+                                                    $payment_long = $property->paket_standart_time;
                                                     break;
                                                 case 'reklama1':
-                                                    $payment_forthe = "Пакет 1 промо продукт";
-                                                    $payment_sum = "20.00";
+                                                    $payment_forthe = "Пакет 1 промо продукт (цена: $property->paket_reklama_1 лв. действа $property->paket_reklama_1_time дни)";
+                                                    $payment_price = $property->paket_reklama_1;
+                                                    $payment_qt = 1;
+                                                    $payment_long = $property->paket_reklama_1_time;
                                                     break;
                                                 case 'reklama3':
-                                                    $payment_forthe = "Пакет 3 промо продукта";
-                                                    $payment_sum = "30.00";
+                                                    $payment_forthe = "Пакет 3 промо продукта (цена: $property->paket_reklama_2 лв. действа $property->paket_reklama_2_time дни)";
+                                                    $payment_price = $property->paket_reklama_2;
+                                                    $payment_qt = 3;
+                                                    $payment_long = $property->paket_reklama_2_time;
                                                     break;
                                                 default:
-                                                    $payment_forthe = "Стандартно";
-                                                    $payment_sum = "10.00";
+                                                    $payment_forthe = "Стандартно (цена: $property->paket_standart лв. 20 продукта , действа $property->paket_standart_time дни)";
+                                                    $payment_price = $property->paket_standart;
+                                                    $payment_qt = 20;
+                                                    $payment_long = $property->paket_standart_time;
                                                     break;
                                             }
                                             @endphp
                                             <td data-title="Относно">{{ $payment_forthe }}</td>
                                             <td data-title="Управление">
                                                 <div class="btns-actions">
-                                                    <a class="btn-action btn-view" target="_blank" href="" title="Покажи подробни данни за плащането"><i class="lni-eye"></i></a>
+                                                    <a class="btn-action btn-view" href="#infoModal{{ $payment->id }}" data-toggle="modal" title="Покажи подробни данни за плащането"><i class="lni-eye"></i></a>
                                                     <a style="cursor:pointer;" class="btn-action btn-delete" onclick="deletePayment('{{ route('delete-firm-payment', ['id' => $payment->id]) }}');" title="Изтрий плащането"><i class="lni-trash"></i></a>
                                                 </div>
                                             </td>
                                         </tr>
+                                        <div id="infoModal{{ $payment->id }}" class="modal">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title">{{ $payment_forthe }}</h5>
+                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                    </div>
+                                                    <div class="modal-body" style="text-align:left;">
+                                                    <p>Плащане №: {{ $payment->id }}</p>
+                                                    <p>Създадено на: {{ date('d.m.Y', strtotime(date($payment->created_at))) }}</p>
+                                                    @if ($payment->status == 'pending')
+                                                    <p>Активирано на: {{ $payment_status }}</p>
+                                                    @else
+                                                    <p>Активирано на: {{ date('d.m.Y', strtotime(date($payment->active_at))) }}</p>                                                        
+                                                    @endif
+                                                    <p>Цена: {{ $payment_price }} лв.</p>
+                                                    <p>Брой продукти: {{ $payment_qt }}</p>
+                                                    <p>Време на действие: {{ $payment_long }} дни</p>
+                                                    <p>Състояние: {{ $payment_status }}</p>
+                                                    <p>Тип на плащане: {{ $payment_type }}</p>
+                                                    </div>
+                                                    <div class="modal-footer"><button type="button" class="btn btn-danger" data-dismiss="modal">Затвори</button></div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     @endforeach
                                 </tbody>
                             </table>
