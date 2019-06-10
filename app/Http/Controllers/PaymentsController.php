@@ -7,6 +7,8 @@ use App\User;
 use Auth;
 use App\Holiday;
 use App\LandingPage;
+use Mail;
+use Config;
 
 class PaymentsController extends Controller
 {
@@ -98,6 +100,15 @@ class PaymentsController extends Controller
                     $txt .= '<p>Телефон: ' . $property->phone . '</p>';
                     $txt .= '<p>След получаване на средствата, пакетът който сте избрали ще бъде активиран за определения от Вас период.</p>';
                     $txt .= '<p>Ще бъдете уведомени за това. След което ще можете да публикувате своите продукти.</p>';
+                    $data = array(
+                        'txt' => $txt
+                    );
+                    $targovec_email = User::where(['id'=>Auth::user()->id])->first()->email;
+                    $targovec_name = User::where(['id'=>Auth::user()->id])->first()->name;
+                    Mail::send('mail_payment', $data, function ($message) use ($targovec_email, $targovec_name){
+                        $message->to($targovec_email, $targovec_name)->subject('Направена поръчка на пакет от PartyBox');
+                        $message->from(Config::get('settings.mail'), 'PartyBox');
+                    });
                     return redirect('/home-firm-payments')->with('flash_message_success', $txt);
                 }else{
                     if ($payment->payment == 'bank'){
@@ -109,8 +120,26 @@ class PaymentsController extends Controller
                         $txt .= '<p>BIC: ' . $property->bic . '</p>';
                         $txt .= '<p>След получаване на средствата, пакетът който сте избрали ще бъде активиран за определения от Вас период.</p>';
                         $txt .= '<p>Ще бъдете уведомени за това. След което ще можете да публикувате своите продукти.</p>';
+                        $data = array(
+                            'txt' => $txt
+                        );
+                        $targovec_email = User::where(['id'=>Auth::user()->id])->first()->email;
+                        $targovec_name = User::where(['id'=>Auth::user()->id])->first()->name;
+                        Mail::send('mail_payment', $data, function ($message) use ($targovec_email, $targovec_name){
+                            $message->to($targovec_email, $targovec_name)->subject('Направена поръчка на пакет от PartyBox');
+                            $message->from(Config::get('settings.mail'), 'PartyBox');
+                        });
                         return redirect('/home-firm-payments')->with('flash_message_success', $txt);
                     }else{
+                        $data = array(
+                            'txt' => 'Направена поръчка на пакет от PartyBox'
+                        );
+                        $targovec_email = User::where(['id'=>Auth::user()->id])->first()->email;
+                        $targovec_name = User::where(['id'=>Auth::user()->id])->first()->name;
+                        Mail::send('mail_payment', $data, function ($message) use ($targovec_email, $targovec_name){
+                            $message->to($targovec_email, $targovec_name)->subject('Направена поръчка на пакет от PartyBox');
+                            $message->from(Config::get('settings.mail'), 'PartyBox');
+                        });
                         return redirect('/home-firm-payments')->with('flash_message_success', 'Вашето плащане е получено. Можете да публикувате Вашите продукти според това какъв пакет сте закупили.');
                     }
                 }            

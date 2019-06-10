@@ -110,7 +110,8 @@
                                 Route::current()->getName() == 'home-firm-adds' ||
                                 Route::current()->getName() == 'home-firm-orders' ||
                                 Route::current()->getName() == 'home-firm-privacy' ||
-                                Route::current()->getName() == 'home-firm-product-edit'
+                                Route::current()->getName() == 'home-firm-product-edit' || 
+                                Route::current()->getName() == 'home-firm-payments'
                             )
                             <a href="{{ route('home-firm') }}">Панел управление</a>
                             @endif
