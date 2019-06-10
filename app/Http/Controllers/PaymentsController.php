@@ -90,7 +90,30 @@ class PaymentsController extends Controller
                 $payment->payment = $request->input('payment_type');
                 $payment->forthe = $request->input('payment_forthe');
                 $payment->save();
-                return redirect('/home-firm-payments')->with('flash_message_success', 'Успешно съаздадохте плащането!');
+                if ($payment->payment == 'kurier'){
+                    $txt = '<p>Моля изберете си удобен за Вас куриер и използвайте следните данни за да изпратите посочената по-горе сума от Вашата заявка:</p>';
+                    $txt .= '<p>Получател фирма: ' . $property->firm_name . '</p>';
+                    $txt .= '<p>Получател: ' . $property->mol . '</p>';
+                    $txt .= '<p>Адрес: ' . $property->address . '</p>';
+                    $txt .= '<p>Телефон: ' . $property->phone . '</p>';
+                    $txt .= '<p>След получаване на средствата, пакетът който сте избрали ще бъде активиран за определения от Вас период.</p>';
+                    $txt .= '<p>Ще бъдете уведомени за това. След което ще можете да публикувате своите продукти.</p>';
+                    return redirect('/home-firm-payments')->with('flash_message_success', $txt);
+                }else{
+                    if ($payment->payment == 'bank'){
+                        $txt = '<p>Моля използвайте посочените по-долу данни за да платите чрез банков превод сумата от Вашата заявка:</p>';
+                        $txt .= '<p>Получател фирма: ' . $property->firm_name . '</p>';
+                        $txt .= '<p>Получател: ' . $property->mol . '</p>';
+                        $txt .= '<p>Банка: ' . $property->bank_name . '</p>';
+                        $txt .= '<p>IBAN: ' . $property->iban . '</p>';
+                        $txt .= '<p>BIC: ' . $property->bic . '</p>';
+                        $txt .= '<p>След получаване на средствата, пакетът който сте избрали ще бъде активиран за определения от Вас период.</p>';
+                        $txt .= '<p>Ще бъдете уведомени за това. След което ще можете да публикувате своите продукти.</p>';
+                        return redirect('/home-firm-payments')->with('flash_message_success', $txt);
+                    }else{
+                        return redirect('/home-firm-payments')->with('flash_message_success', 'Вашето плащане е получено. Можете да публикувате Вашите продукти според това какъв пакет сте закупили.');
+                    }
+                }            
             }else{
                 return redirect('/home-firm-payment-new')->with('flash_message_error', 'Трябва да изберете Търговец!');
             }
@@ -109,7 +132,7 @@ class PaymentsController extends Controller
         Payment::where(['status'=>'active', 'forthe'=>'reklama1'])->where('active_at', '<=', date("Y-m-d", strtotime("-5 days")))->update(array('status' => 'expired'));
         Payment::where(['status'=>'active', 'forthe'=>'reklama3'])->where('active_at', '<=', date("Y-m-d", strtotime("-10 days")))->update(array('status' => 'expired'));
         $user = User::where(['id' => Auth::user()->id])->first();
-        $payments = Payment::where(['user_id' => $user->id]);
+        $payments = Payment::where(['user_id' => $user->id])->orderBy('id', 'desc');
         $paginate = 5;
         $payments = $payments->paginate($paginate);
         return view('firms.payments')->with([
