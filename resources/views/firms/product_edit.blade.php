@@ -54,7 +54,7 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="{{ route('home-firm-adds') }}">
+                                    <a href="{{ route('home-firm-adds', ['payed' => 'No']) }}">
                                         <i class="lni-layers"></i><span>Моите оферти</span>
                                     </a>
                                 </li>
@@ -351,7 +351,7 @@
                                 </div>
                                 <hr />
                                 <button class="btn btn-common" type="submit">Запиши промените</button>
-                                <a href="{{ route('home-firm-adds') }}" class="btn btn-common" style="background-color: #28A745;color:white;">Моите оферти</a>
+                                <a href="{{ route('home-firm-adds', ['payed' => 'No']) }}" class="btn btn-common" style="background-color: #28A745;color:white;">Моите оферти</a>
                             </div>
                         </form>
                         <div id="imageModal" class="modal">

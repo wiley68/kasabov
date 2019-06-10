@@ -313,7 +313,7 @@ class HomeController extends Controller
         ]);
     }
 
-    public function firmAdds()
+    public function firmAdds($payed='No')
     {
         // Add holidays
         $holidays = Holiday::where(['parent_id' => 0])->get();
@@ -322,7 +322,14 @@ class HomeController extends Controller
         // User
         $user = User::where(['id' => Auth::user()->id])->first();
         Product::where(['user_id' => Auth::user()->id, 'status'=>'active'])->where('active_at', '<=', date("Y-m-d", strtotime("-1 months")))->update(array('status' => 'expired'));
-        $products = Product::where(['user_id' => Auth::user()->id]);
+        if ($payed == 'Yes'){
+            $products = Product::where([
+                'user_id' => Auth::user()->id,
+                'featured' => 1
+            ]);
+        }else{
+            $products = Product::where(['user_id' => Auth::user()->id]);
+        }
         $paginate = 5;
         $products = $products->paginate($paginate);
         return view('firms.adds')->with([

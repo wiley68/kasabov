@@ -51,7 +51,7 @@
                                             </a>
                                 </li>
                                 <li>
-                                    <a class="active" href="{{ route('home-firm-adds') }}">
+                                    <a class="active" href="{{ route('home-firm-adds', ['payed' => 'No']) }}">
                                                 <i class="lni-layers"></i><span>Моите оферти</span>
                                             </a>
                                 </li>

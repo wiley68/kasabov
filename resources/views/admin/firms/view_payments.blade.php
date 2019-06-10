@@ -97,16 +97,20 @@
                             @php
                                 switch ($payment->forthe) {
                                     case 'standart':
-                                        $payment_forthe = "Стандартно";
+                                        $payment_forthe = "Стандартно (цена: $property->paket_standart лв. 20 продукта ,
+                                        действа $property->paket_standart_time дни)";
                                         break;
                                     case 'reklama1':
-                                        $payment_forthe = "Пакет 1 промо продукт";
+                                        $payment_forthe = "Пакет 1 промо продукт (цена: $property->paket_reklama_1 лв.
+                                        действа $property->paket_reklama_1_time дни)";
                                         break;
                                     case 'reklama3':
-                                        $payment_forthe = "Пакет 3 промо продукта";
+                                        $payment_forthe = "Пакет 3 промо продукта (цена: $property->paket_reklama_2 лв.
+                                        действа $property->paket_reklama_2_time дни)";
                                         break;
                                     default:
-                                        $payment_forthe = "Стандартно";
+                                        $payment_forthe = "Стандартно (цена: $property->paket_standart лв. 20 продукта ,
+                                        действа $property->paket_standart_time дни)";
                                         break;
                                 }
                             @endphp

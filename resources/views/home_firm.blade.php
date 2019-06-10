@@ -52,7 +52,7 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="{{ route('home-firm-adds') }}">
+                                    <a href="{{ route('home-firm-adds', ['payed' => 'No']) }}">
                                         <i class="lni-layers"></i><span>Моите оферти</span>
                                     </a>
                                 </li>
@@ -107,7 +107,7 @@
                                         <div class="dashboardbox">
                                             <div class="icon"><i class="lni-write"></i></div>
                                             <div class="contentbox">
-                                                <h2><a href="{{ route('home-firm-adds') }}">Общо оферти</a></h2>
+                                                <h2><a href="{{ route('home-firm-adds', ['payed' => 'No']) }}">Общо оферти</a></h2>
                                                 <h3>{{ Product::where(['user_id'=>Auth::user()->id])->count() }} бр.</h3>
                                             </div>
                                         </div>
@@ -116,7 +116,7 @@
                                         <div class="dashboardbox">
                                             <div class="icon"><i class="lni-add-files"></i></div>
                                             <div class="contentbox">
-                                                <h2><a href="{{ route('home-firm-payments') }}">Платени оферти</a></h2>
+                                                <h2><a href="{{ route('home-firm-adds', ['payed' => 'Yes']) }}">Платени оферти</a></h2>
                                                 <h3>{{ Product::where(['user_id'=>Auth::user()->id, 'featured'=>1])->count()
                                                     }} бр.</h3>
                                             </div>

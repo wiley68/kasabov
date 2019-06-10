@@ -34,7 +34,7 @@ Route::group(
     function () {
         Route::get('/home-firm', 'HomeController@index_firm')->name('home-firm');
         Route::match(['get', 'post'], '/home-firm-settings', 'HomeController@firmSettings')->name('home-firm-settings');
-        Route::get('/home-firm-adds', 'HomeController@firmAdds')->name('home-firm-adds');
+        Route::get('/home-firm-adds/{payed}', 'HomeController@firmAdds')->name('home-firm-adds');
         Route::get('/home-firm-add-delete/{id}', 'HomeController@deleteFirmAdd')->name('home-firm-add-delete');
         Route::get('/home-firm-orders', 'HomeController@firmOrders')->name('home-firm-orders');
         Route::get('/home-firm-payments', 'PaymentsController@firmPayments')->name('home-firm-payments');

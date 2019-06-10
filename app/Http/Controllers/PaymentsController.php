@@ -17,7 +17,11 @@ class PaymentsController extends Controller
         Payment::where(['status'=>'active', 'forthe'=>'reklama1'])->where('active_at', '<=', date("Y-m-d", strtotime("-5 days")))->update(array('status' => 'expired'));
         Payment::where(['status'=>'active', 'forthe'=>'reklama3'])->where('active_at', '<=', date("Y-m-d", strtotime("-10 days")))->update(array('status' => 'expired'));
         $payments = Payment::all();
-        return view('admin.firms.view_payments')->with(['payments'=>$payments]);
+        $property = LandingPage::first();
+        return view('admin.firms.view_payments')->with([
+            'payments'=>$payments,
+            'property' => $property
+            ]);
     }
 
     public function deletePayment(Request $request, $id=null){

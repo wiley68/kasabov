@@ -49,7 +49,7 @@
                                         </a>
                                 </li>
                                 <li>
-                                    <a href="{{ route('home-firm-adds') }}">
+                                    <a href="{{ route('home-firm-adds', ['payed' => 'No']) }}">
                                             <i class="lni-layers"></i><span>Моите оферти</span>
                                         </a>
                                 </li>
@@ -119,7 +119,7 @@
                                 <div style="padding-bottom:10px;"></div>
                                 <div class="form-actions">
                                     <input type="submit" value="Добави избраните снимки" class="btn btn-common">
-                                    <a href="{{ route('home-firm-adds') }}" class="btn btn-common" style="background-color: #28A745;color:white;">Обратно в моите оферти</a>
+                                    <a href="{{ route('home-firm-adds', ['payed' => 'No']) }}" class="btn btn-common" style="background-color: #28A745;color:white;">Обратно в моите оферти</a>
                                 </div>
                             </form>
                             <hr />
