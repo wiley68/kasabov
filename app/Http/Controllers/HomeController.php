@@ -592,6 +592,27 @@ class HomeController extends Controller
                     $product->status = $request->input('status');
                 }
 
+                // check featured
+                $old_featured = $product->featured;
+                $new_featured = $request->input('featured');
+                if ($new_featured == 1){
+                    if ($old_featured != 1){
+                        // test for available featured
+                        $products_count_f = Product::where(['user_id'=>$product->user_id, 'featured'=>1])->count();
+                        // check active payments
+                        $active_payments_1 = Payment::where(['user_id'=>$product->user_id, 'status'=>'active', 'forthe'=>'reklama1'])->where('active_at', '>=', date("Y-m-d", strtotime("-5 days")))->count();
+                        $active_payments_2 = Payment::where(['user_id'=>$product->user_id, 'status'=>'active', 'forthe'=>'reklama3'])->where('active_at', '>=', date("Y-m-d", strtotime("-10 days")))->count();
+                        $active_products_f = intval($active_payments_1) * 1 + intval($active_payments_2) * 3;
+                        if ($products_count_f >= $active_products_f){
+                            return redirect('/home-firm-product-edit/'.$product->id)->with('flash_message_error', 'Вече имате ' . $active_products_f . ' броя промоционални реклами! Моля ако желаете да увеличите бройката им, закупете си допълнителен пакет.');
+                        }else{
+                         $product->featured = $request->input('featured');
+                        }
+                    }
+                }else{
+                    $product->featured = $request->input('featured');
+                }
+
                 $product->save();
 
                 // Add tags to tags table
@@ -778,6 +799,24 @@ class HomeController extends Controller
                 }
             }else{
                 $product->status = $request->input('status');
+            }
+
+            // check featured
+            $new_featured = $request->input('featured');
+            if ($new_featured == 1){
+                // test for available featured
+                $products_count_f = Product::where(['user_id'=>Auth::user()->id, 'featured'=>1])->count();
+                // check active payments
+                $active_payments_1 = Payment::where(['user_id'=>Auth::user()->id, 'status'=>'active', 'forthe'=>'reklama1'])->where('active_at', '>=', date("Y-m-d", strtotime("-5 days")))->count();
+                $active_payments_2 = Payment::where(['user_id'=>Auth::user()->id, 'status'=>'active', 'forthe'=>'reklama3'])->where('active_at', '>=', date("Y-m-d", strtotime("-10 days")))->count();
+                $active_products_f = intval($active_payments_1) * 1 + intval($active_payments_2) * 3;
+                if ($products_count_f >= $active_products_f){
+                    return redirect('/home-firm-product-new')->with('flash_message_error', 'Вече имате ' . $active_products_f . ' броя промоционални реклами! Моля ако желаете да увеличите бройката им, закупете си допълнителен пакет.');
+                }else{
+                    $product->featured = $request->input('featured');
+                }
+            }else{
+                $product->featured = $request->input('featured');
             }
 
             $product->save();

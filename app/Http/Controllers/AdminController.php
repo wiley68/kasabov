@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Foundation\Auth\User;
 use App\Product;
+use App\Payment;
 
 class AdminController extends Controller
 {
@@ -22,7 +23,23 @@ class AdminController extends Controller
     }
 
     public function dashboard(){
+        // check statuses
         Product::where(['status'=>'active'])->where('active_at', '<=', date("Y-m-d", strtotime("-1 months")))->update(array('status' => 'expired'));
+        // check features
+        $users = User::where(['admin'=>2])->get();
+        foreach ($users as $user) {
+            $products_featured = Product::where(['user_id'=>$user->id, 'featured'=>1])->get();
+            $active_payments_1 = Payment::where(['user_id'=>$user->id, 'status'=>'active', 'forthe'=>'reklama1'])->where('active_at', '>=', date("Y-m-d", strtotime("-5 days")))->count();
+            $active_payments_2 = Payment::where(['user_id'=>$user->id, 'status'=>'active', 'forthe'=>'reklama3'])->where('active_at', '>=', date("Y-m-d", strtotime("-10 days")))->count();
+            $active_products_f = intval($active_payments_1) * 1 + intval($active_payments_2) * 3;
+            if (sizeof($products_featured) > $active_products_f){
+                for ($i=0; $i < sizeof($products_featured); $i++) { 
+                    if ($i >= $active_products_f){
+                        Product::where(['id'=>$products_featured[$i]->id])->update(array('featured' => 0));
+                    }
+                }
+            }
+        }
         return view('admin.dashboard');
     }
 

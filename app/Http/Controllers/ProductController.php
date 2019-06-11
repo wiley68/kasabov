@@ -87,7 +87,6 @@ class ProductController extends Controller
                 $quantity = $request->input('quantity');
             }
             $price = $request->input('price');
-            $featured = $request->input('featured');
             if (empty($request->input('likes'))){
                 $likes = 0;
             }else{
@@ -99,7 +98,6 @@ class ProductController extends Controller
             }else{
                 $views = $request->input('views');
             }
-            $status = $request->input('status');
             // Create product column
             $product = new Product();
             $product->user_id = $user_id;
@@ -128,24 +126,46 @@ class ProductController extends Controller
             }
             $product->quantity = $quantity;
             $product->price = $price;
-            $product->featured = $featured;
+
+            // check featured
+            $new_featured = $request->input('featured');
+            if ($new_featured == 1){
+                // test for available featured
+                $products_count_f = Product::where(['user_id'=>$user_id, 'featured'=>1])->count();
+                // check active payments
+                $active_payments_1 = Payment::where(['user_id'=>$user_id, 'status'=>'active', 'forthe'=>'reklama1'])->where('active_at', '>=', date("Y-m-d", strtotime("-5 days")))->count();
+                $active_payments_2 = Payment::where(['user_id'=>$user_id, 'status'=>'active', 'forthe'=>'reklama3'])->where('active_at', '>=', date("Y-m-d", strtotime("-10 days")))->count();
+                $active_products_f = intval($active_payments_1) * 1 + intval($active_payments_2) * 3;
+                if ($products_count_f >= $active_products_f){
+                    return redirect('/admin/add-product')->with('flash_message_error', 'Вече имате ' . $active_products_f . ' броя промоционални реклами! Моля ако желаете да увеличите бройката им, закупете си допълнителен пакет.');
+                }else{
+                    $product->featured = $request->input('featured');
+                }
+            }else{
+                $product->featured = $request->input('featured');
+            }
+
             $product->likes = $likes;
             $product->top = $top;
             $product->views = $views;
+
             // check statuses
             $new_status = $request->input('status');
             if ($new_status == 'active'){
                 // test for available items
-                $products_count = Product::where(['user_id'=>$product->user_id, 'status'=>'active'])->count();
-                if ($products_count >= 10){
-                    return redirect('/admin/add-product/'.$product->id)->with('flash_message_error', 'Вече имате 10 броя активни реклами! Моля ако желаете да увеличите бройката им, закупете си допълнителен пакет.');
+                $products_count = Product::where(['user_id'=>$user_id, 'status'=>'active'])->count();
+                // check active payments
+                $active_payments = Payment::where(['user_id'=>$user_id, 'status'=>'active', 'forthe'=>'standart'])->where('active_at', '>=', date("Y-m-d", strtotime("-2 months")))->count();
+                $active_products = intval($active_payments) * 20 + 10;
+                if ($products_count >= $active_products){
+                    return redirect('/admin/add-product')->with('flash_message_error', 'Вече имате ' . $active_products . ' броя активни реклами! Моля ако желаете да увеличите бройката им, закупете си допълнителен пакет.');
                 }else{
                     $product->status = $request->input('status');
-                    $product->active_at = date('Y-m-d H:i:s');
                 }
             }else{
                 $product->status = $request->input('status');
             }
+
             //upload image
             if ($request->hasFile('image')){
                 $image_temp = Input::file('image');
@@ -174,6 +194,7 @@ class ProductController extends Controller
             }else{
                 $product->image = '';
             }
+            $product->active_at = date('Y-m-d H:i:s');
             $product->save();
             // Add city to cities table
             if(!empty($available_cities)){
@@ -323,7 +344,28 @@ class ProductController extends Controller
             }
             $product->price = $request->input('price');
             $product->image = $filename;
-            $product->featured = $request->input('featured');
+
+            // check featured
+            $old_featured = $product->featured;
+            $new_featured = $request->input('featured');
+            if ($new_featured == 1){
+                if ($old_featured != 1){
+                    // test for available featured
+                    $products_count_f = Product::where(['user_id'=>$request->input('user_id'), 'featured'=>1])->count();
+                    // check active payments
+                    $active_payments_1 = Payment::where(['user_id'=>$request->input('user_id'), 'status'=>'active', 'forthe'=>'reklama1'])->where('active_at', '>=', date("Y-m-d", strtotime("-5 days")))->count();
+                    $active_payments_2 = Payment::where(['user_id'=>$request->input('user_id'), 'status'=>'active', 'forthe'=>'reklama3'])->where('active_at', '>=', date("Y-m-d", strtotime("-10 days")))->count();
+                    $active_products_f = intval($active_payments_1) * 1 + intval($active_payments_2) * 3;
+                    if ($products_count_f >= $active_products_f){
+                        return redirect('/admin/edit-product/'.$product->id)->with('flash_message_error', 'Вече имате ' . $active_products_f . ' броя промоционални реклами! Моля ако желаете да увеличите бройката им, закупете си допълнителен пакет.');
+                    }else{
+                        $product->featured = $request->input('featured');
+                    }
+                }
+            }else{
+                $product->featured = $request->input('featured');
+            }
+            
             if (empty($request->input('likes'))){
                 $product->likes = 0;
             }else{
@@ -345,7 +387,7 @@ class ProductController extends Controller
                     // check active payments
                     $active_payments = Payment::where(['user_id'=>$product->user_id, 'status'=>'active', 'forthe'=>'standart'])->where('active_at', '>=', date("Y-m-d", strtotime("-2 months")))->count();
                     $active_products = intval($active_payments) * 20 + 10;
-                    if ($products_count > $active_products){
+                    if ($products_count >= $active_products){
                         return redirect('/admin/edit-product/'.$product->id)->with('flash_message_error', 'Вече имате ' . $active_products . ' броя активни реклами! Моля ако желаете да увеличите бройката им, закупете си допълнителен пакет.');
                     }else{
                         $product->status = $request->input('status');

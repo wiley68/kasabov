@@ -317,6 +317,13 @@
                                         <option value='expired' @if ($product->status === 'expired') selected @endif>Изтекъл</option>
                                     </select>
                                 </div>
+                                <div class="form-group mb-3" style="display:flex">
+                                    <label style="width:200px;">Промоционален</label>
+                                    <select name="featured" id="featured" style="width:100%;">
+                                        <option value=0 @if ($product->featured === 0) selected @endif>Не</option>
+                                        <option value=1 @if ($product->featured === 1) selected @endif>Да</option>
+                                    </select>
+                                </div>
                                 <hr />
                                 <div class="form-group mb-3">
                                     <p>Етикети</p>
