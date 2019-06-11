@@ -46,6 +46,9 @@
                     <span class="pull-left"><a href="#" class="flip-link btn btn-info" id="to-recover">Забравена парола?</a></span>
                     <span class="pull-right"><input type="submit" value="Вход" class="btn btn-success" /></span>
                 </div>
+                <div class="form-actions">
+                    <a href="/">PartyBox.bg</a>
+                </div>
             </form>
             <form id="recoverform" action="#" class="form-vertical">
 				<p class="normal_text">Въведете вашия e-mail адрес и ние ще Ви изпратим инструкции как да си възстановитв паролата.</p>

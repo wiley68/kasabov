@@ -15,6 +15,7 @@ use App\ProductsTags;
 use App\Speditor;
 use App\Tag;
 use App\User;
+use App\Payment;
 use Auth;
 use File;
 use Illuminate\Http\Request;
@@ -548,8 +549,10 @@ class HomeController extends Controller
                         break;
                     case 'cities':
                         $available_for_city = 0;
-                        foreach ($request->input('available_for_cities') as $item) {
-                            $available_cities[] = $item;
+                        if (!empty($request->input('available_for_cities'))){
+                            foreach ($request->input('available_for_cities') as $item) {
+                                $available_cities[] = $item;
+                            }    
                         }
                         break;
                     case 'area':
@@ -567,6 +570,7 @@ class HomeController extends Controller
                     $product->object_name = $request->input('object_name');
                 }
                 $product->personalize = $request->input('personalize');
+
                 // check statuses
                 $old_status = $product->status;
                 $new_status = $request->input('status');
@@ -574,8 +578,11 @@ class HomeController extends Controller
                     if ($old_status != 'active'){
                         // test for available items
                         $products_count = Product::where(['user_id'=>$product->user_id, 'status'=>'active'])->count();
-                        if ($products_count >= 10){
-                            return redirect('/firms/product_edit/'.$product->id)->with('flash_message_error', 'Вече имате 10 броя активни реклами! Моля ако желаете да увеличите бройката им, закупете си допълнителен пакет.');
+                        // check active payments
+                        $active_payments = Payment::where(['user_id'=>$product->user_id, 'status'=>'active', 'forthe'=>'standart'])->where('active_at', '>=', date("Y-m-d", strtotime("-2 months")))->count();
+                        $active_products = intval($active_payments) * 20 + 10;
+                        if ($products_count > $active_products){
+                            return redirect('/home-firm-product-edit/'.$product->id)->with('flash_message_error', 'Вече имате ' . $active_products . ' броя активни реклами! Моля ако желаете да увеличите бройката им, закупете си допълнителен пакет.');
                         }else{
                             $product->status = $request->input('status');
                             $product->active_at = date('Y-m-d H:i:s');
@@ -584,6 +591,7 @@ class HomeController extends Controller
                 }else{
                     $product->status = $request->input('status');
                 }
+
                 $product->save();
 
                 // Add tags to tags table
@@ -753,7 +761,25 @@ class HomeController extends Controller
                 $product->object_name = $request->input('object_name');
             }
             $product->personalize = $request->input('personalize');
-            $product->status = $request->input('status');
+
+            // check statuses
+            $new_status = $request->input('status');
+            if ($new_status == 'active'){
+                // test for available items
+                $products_count = Product::where(['user_id'=>Auth::user()->id, 'status'=>'active'])->count();
+                // check active payments
+                $active_payments = Payment::where(['user_id'=>Auth::user()->id, 'status'=>'active', 'forthe'=>'standart'])->where('active_at', '>=', date("Y-m-d", strtotime("-2 months")))->count();
+                $active_products = intval($active_payments) * 20 + 10;
+                if ($products_count > $active_products){
+                    return redirect('/home-firm-product-new')->with('flash_message_error', 'Вече имате ' . $active_products . ' броя активни реклами! Моля ако желаете да увеличите бройката им, закупете си допълнителен пакет.');
+                }else{
+                    $product->status = $request->input('status');
+                    $product->active_at = date('Y-m-d H:i:s');
+                }
+            }else{
+                $product->status = $request->input('status');
+            }
+
             $product->save();
 
             // Add tags to tags table

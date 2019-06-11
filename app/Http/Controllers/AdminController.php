@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Foundation\Auth\User;
+use App\Product;
 
 class AdminController extends Controller
 {
@@ -21,6 +22,7 @@ class AdminController extends Controller
     }
 
     public function dashboard(){
+        Product::where(['status'=>'active'])->where('active_at', '<=', date("Y-m-d", strtotime("-1 months")))->update(array('status' => 'expired'));
         return view('admin.dashboard');
     }
 
