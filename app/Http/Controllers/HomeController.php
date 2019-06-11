@@ -200,12 +200,24 @@ class HomeController extends Controller
         $products = Product::where(['user_id' => Auth::user()->id]);
         $paginate = 5;
         $products = $products->paginate($paginate);
+        $active_payments = Payment::where(['user_id'=>Auth::user()->id, 'status'=>'active', 'forthe'=>'standart'])->where('active_at', '>=', date("Y-m-d", strtotime("-2 months")))->count();
+        $active_products = Product::where(['user_id'=>Auth::user()->id, 'status'=>'active'])->where('active_at', '>=', date("Y-m-d", strtotime("-1 months")))->count();
+        $active_payments_r1 = Payment::where(['user_id'=>Auth::user()->id, 'status'=>'active', 'forthe'=>'reklama1'])->where('active_at', '>=', date("Y-m-d", strtotime("-5 days")))->count();
+        $active_payments_r3 = Payment::where(['user_id'=>Auth::user()->id, 'status'=>'active', 'forthe'=>'reklama3'])->where('active_at', '>=', date("Y-m-d", strtotime("-10 days")))->count();
+        $featured_products = Product::where(['user_id'=>Auth::user()->id, 'status'=>'active', 'featured'=>1])->where('active_at', '>=', date("Y-m-d", strtotime("-1 months")))->count();
         return view('home_firm')->with([
             'holidays' => $holidays,
             'property' => $property,
             'user' => $user,
             'products' => $products,
-            'paginate'=>$paginate
+            'paginate'=>$paginate,
+            'active_payments'=> intval($active_payments) * 20 + 10,
+            'active_products'=>intval($active_products),
+            'products_ostatak'=>intval($active_payments) * 20 + 10 - intval($active_products),
+            'active_reklama'=>intval($active_payments_r1) * 1 + intval($active_payments_r3) * 3,
+            'featured_products'=>intval($featured_products),
+            'featured_ostatak'=>intval($active_payments_r1) * 1 + intval($active_payments_r3) * 3 - intval($featured_products),
+            'active_payments_all'=>intval($active_payments) + intval($active_payments_r1) + intval($active_payments_r3)
         ]);
     }
 

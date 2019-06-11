@@ -116,7 +116,7 @@
                                         <div class="dashboardbox">
                                             <div class="icon"><i class="lni-add-files"></i></div>
                                             <div class="contentbox">
-                                                <h2><a href="{{ route('home-firm-adds', ['payed' => 'Yes']) }}">Платени оферти</a></h2>
+                                                <h2><a href="{{ route('home-firm-adds', ['payed' => 'Yes']) }}">Промоции</a></h2>
                                                 <h3>{{ Product::where(['user_id'=>Auth::user()->id, 'featured'=>1])->count()
                                                     }} бр.</h3>
                                             </div>
@@ -137,6 +137,21 @@
                                                 <h3>{{ Order::whereIn('product_id', $products_ids)->count() }} бр.</h3>
                                             </div>
                                         </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="dashboard-sections">
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                        <p>Общо достъпни за публикуване Оферти от Безплатни и Платени пакети: <strong style="color:brown;">{{ $active_payments }} бр.</strong></p>
+                                        <p>От тях използвани до момента Оферти: <strong style="color:brown;">{{ $active_products }} бр.</strong></p>
+                                        <p>Оставащи свободни за използване Оферти: <strong style="color:brown;">{{ $products_ostatak }} бр.</strong></p>
+                                        <hr />
+                                        <p>Общо достъпни за активиране Промоции от Платени пакети: <strong style="color:brown;">{{ $active_reklama }} бр.</strong></p>
+                                        <p>От тях използвани до момента Промоции: <strong style="color:brown;">{{ $featured_products }} бр.</strong></p>
+                                        <p>Оставащи свободни за използване Промоции: <strong style="color:brown;">{{ $featured_ostatak }} бр.</strong></p>
+                                        <hr />
+                                        <p>Направени плащания, активни в момента: <strong style="color:brown;">{{ $active_payments_all }} бр.</strong></p>
                                     </div>
                                 </div>
                             </div>
