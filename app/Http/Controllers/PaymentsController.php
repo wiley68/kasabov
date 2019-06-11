@@ -96,60 +96,121 @@ class PaymentsController extends Controller
                 $payment->payment = $request->input('payment_type');
                 $payment->forthe = $request->input('payment_forthe');
                 $payment->save();
+                switch ($request->input('payment_forthe')) {
+                    case 'standart':
+                        $payment_type = 'Стандартно (цена: ' . $property->paket_standart . 'лв. 20 продукта , действа ' . $property->paket_standart_time . ' дни)';
+                        break;
+                    case 'reklama1':
+                        $payment_type = 'Пакет 1 промо продукт (цена: ' . $property->paket_reklama_1 . ' лв. действа ' . $property->paket_reklama_1_time . ' дни)';
+                        break;
+                    case 'reklama3':
+                        $payment_type = 'Пакет 3 промо продукта (цена: ' . $property->paket_reklama_2 . ' лв. действа ' . $property->paket_reklama_2_time . '}} дни)';
+                        break;                    
+                    default:
+                        $payment_type = 'Стандартно (цена: ' . $property->paket_standart . 'лв. 20 продукта , действа ' . $property->paket_standart_time . ' дни)';
+                        break;                    
+                }
                 if ($payment->payment == 'kurier'){
-                    $txt = '<p>Моля изберете си удобен за Вас куриер и използвайте следните данни за да изпратите посочената по-горе сума от Вашата заявка:</p>';
-                    $txt .= '<p>Получател фирма: ' . $property->firm_name . '</p>';
-                    $txt .= '<p>Получател: ' . $property->mol . '</p>';
-                    $txt .= '<p>Адрес: ' . $property->address . '</p>';
-                    $txt .= '<p>Телефон: ' . $property->phone . '</p>';
-                    $txt .= '<p>След получаване на средствата, пакетът който сте избрали ще бъде активиран за определения от Вас период.</p>';
-                    $txt .= '<p>Ще бъдете уведомени за това. След което ще можете да публикувате своите продукти.</p>';
                     $targovec_email = User::where(['id'=>Auth::user()->id])->first()->email;
                     $targovec_name = User::where(['id'=>Auth::user()->id])->first()->name;
+                    $admin_email = Config::get('settings.mail');
+                    $admin_name = $property->firm_name;
+
+                    $txt_targovetc = '<p>' . $payment_type . '</p>';
+                    $txt_targovetc .= '<p>Моля изберете си удобен за Вас куриер и използвайте следните данни за да изпратите посочената по-горе сума от Вашата заявка:</p>';
+                    $txt_targovetc .= '<p>Получател фирма: ' . $property->firm_name . '</p>';
+                    $txt_targovetc .= '<p>Получател: ' . $property->mol . '</p>';
+                    $txt_targovetc .= '<p>Адрес: ' . $property->address . '</p>';
+                    $txt_targovetc .= '<p>Телефон: ' . $property->phone . '</p>';
+                    $txt_targovetc .= '<p>След получаване на средствата, пакетът който сте избрали ще бъде активиран за определения от Вас период.</p>';
+                    $txt_targovetc .= '<p>Ще бъдете уведомени за това. След което ще можете да публикувате своите продукти.</p>';
+
+                    $txt_admin = '<p>Получено е следното плащане по заявка за плащане с куриер:</p>';
+                    $txt_admin .= '<p>' . $payment_type . '</p>';
+                    $txt_admin .= '<p>Търговец: ' . $targovec_name . '</p>';
+                    $txt_admin .= '<p>E-Mail: ' . $targovec_email . '</p>';
+
                     $data = array(
-                        'txt' => $txt,
+                        'txt_targovetc' => $txt_targovetc,
+                        'txt_admin' => $txt_admin,
                         'targovec_email' => $targovec_email,
-                        'targovec_name' => $targovec_name
+                        'targovec_name' => $targovec_name,
+                        'admin_name' => $admin_name
                     );
-                    Mail::send('mail_payment', $data, function ($message) use ($targovec_email, $targovec_name){
+                    // send to targovetc
+                    Mail::send('mail_payment_targovetc', $data, function ($message) use ($targovec_email, $targovec_name){
                         $message->to($targovec_email, $targovec_name)->subject('Направена поръчка на пакет от PartyBox');
                         $message->from(Config::get('settings.mail'), 'PartyBox');
                     });
-                    return redirect('/home-firm-payments')->with('flash_message_success', $txt);
+                    // send to admin
+                    Mail::send('mail_payment_admin', $data, function ($message) use ($admin_email, $admin_name){
+                        $message->to($admin_email, $admin_name)->subject('Направена поръчка на пакет от PartyBox');
+                        $message->from($admin_email, 'PartyBox');
+                    });
+                    return redirect('/home-firm-payments')->with('flash_message_success', $txt_targovetc);
                 }else{
                     if ($payment->payment == 'bank'){
-                        $txt = '<p>Моля използвайте посочените по-долу данни за да платите чрез банков превод сумата от Вашата заявка:</p>';
-                        $txt .= '<p>Получател фирма: ' . $property->firm_name . '</p>';
-                        $txt .= '<p>Получател: ' . $property->mol . '</p>';
-                        $txt .= '<p>Банка: ' . $property->bank_name . '</p>';
-                        $txt .= '<p>IBAN: ' . $property->iban . '</p>';
-                        $txt .= '<p>BIC: ' . $property->bic . '</p>';
-                        $txt .= '<p>След получаване на средствата, пакетът който сте избрали ще бъде активиран за определения от Вас период.</p>';
-                        $txt .= '<p>Ще бъдете уведомени за това. След което ще можете да публикувате своите продукти.</p>';
                         $targovec_email = User::where(['id'=>Auth::user()->id])->first()->email;
                         $targovec_name = User::where(['id'=>Auth::user()->id])->first()->name;
+                        $admin_email = Config::get('settings.mail');
+                        $admin_name = $property->firm_name;
+
+                        $txt_targovetc = '<p>' . $payment_type . '</p>';
+                        $txt_targovetc .= '<p>Моля използвайте посочените по-долу данни за да платите чрез банков превод сумата от Вашата заявка:</p>';
+                        $txt_targovetc .= '<p>Получател фирма: ' . $property->firm_name . '</p>';
+                        $txt_targovetc .= '<p>Получател: ' . $property->mol . '</p>';
+                        $txt_targovetc .= '<p>Банка: ' . $property->bank_name . '</p>';
+                        $txt_targovetc .= '<p>IBAN: ' . $property->iban . '</p>';
+                        $txt_targovetc .= '<p>BIC: ' . $property->bic . '</p>';
+                        $txt_targovetc .= '<p>След получаване на средствата, пакетът който сте избрали ще бъде активиран за определения от Вас период.</p>';
+                        $txt_targovetc .= '<p>Ще бъдете уведомени за това. След което ще можете да публикувате своите продукти.</p>';
+    
+                        $txt_admin = '<p>Получено е следното плащане по заявка за плащане по Банка:</p>';
+                        $txt_admin .= '<p>' . $payment_type . '</p>';
+                        $txt_admin .= '<p>Търговец: ' . $targovec_name . '</p>';
+                        $txt_admin .= '<p>E-Mail: ' . $targovec_email . '</p>';
+    
                         $data = array(
-                            'txt' => $txt,
+                            'txt_targovetc' => $txt_targovetc,
+                            'txt_admin' => $txt_admin,
                             'targovec_email' => $targovec_email,
-                            'targovec_name' => $targovec_name
+                            'targovec_name' => $targovec_name,
+                            'admin_name' => $admin_name
                         );
-                        Mail::send('mail_payment', $data, function ($message) use ($targovec_email, $targovec_name){
+                        // send to targovetc
+                        Mail::send('mail_payment_targovetc', $data, function ($message) use ($targovec_email, $targovec_name){
                             $message->to($targovec_email, $targovec_name)->subject('Направена поръчка на пакет от PartyBox');
                             $message->from(Config::get('settings.mail'), 'PartyBox');
                         });
-                        return redirect('/home-firm-payments')->with('flash_message_success', $txt);
+                        // send to admin
+                        Mail::send('mail_payment_admin', $data, function ($message) use ($admin_email, $admin_name){
+                            $message->to($admin_email, $admin_name)->subject('Направена поръчка на пакет от PartyBox');
+                            $message->from($admin_email, 'PartyBox');
+                        });
+                        return redirect('/home-firm-payments')->with('flash_message_success', $txt_targovetc);
                     }else{
                         $targovec_email = User::where(['id'=>Auth::user()->id])->first()->email;
                         $targovec_name = User::where(['id'=>Auth::user()->id])->first()->name;
+                        $admin_email = Config::get('settings.mail');
+                        $admin_name = $property->firm_name;
+                        
                         $data = array(
-                            'txt' => 'Направена поръчка на пакет от PartyBox',
+                            'txt_targovetc' => 'Направена поръчка на пакет от PartyBox платена с SMS',
+                            'txt_admin' => 'Направена поръчка на пакет от PartyBox платена с SMS',
                             'targovec_email' => $targovec_email,
-                            'targovec_name' => $targovec_name
+                            'targovec_name' => $targovec_name,
+                            'admin_name' => $admin_name
                         );
-                        Mail::send('mail_payment', $data, function ($message) use ($targovec_email, $targovec_name){
+                        // send to targovetc
+                        Mail::send('mail_payment_targovetc', $data, function ($message) use ($targovec_email, $targovec_name){
                             $message->to($targovec_email, $targovec_name)->subject('Направена поръчка на пакет от PartyBox');
                             $message->from(Config::get('settings.mail'), 'PartyBox');
                         });
+                        // send to admin
+                        Mail::send('mail_payment_admin', $data, function ($message) use ($admin_email, $admin_name){
+                            $message->to($admin_email, $admin_name)->subject('Направена поръчка на пакет от PartyBox');
+                            $message->from($admin_email, 'PartyBox');
+                        });                        
                         return redirect('/home-firm-payments')->with('flash_message_success', 'Вашето плащане е получено. Можете да публикувате Вашите продукти според това какъв пакет сте закупили.');
                     }
                 }            
