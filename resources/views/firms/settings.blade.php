@@ -104,6 +104,10 @@
                                     @csrf
                                     <div class="dashboard-wrapper">
                                         <div class="form-group mb-3">
+                                            <label class="control-label">Потребител търговец</label>
+                                            <input class="form-control input-md" disabled name="user_email" type="text" value="{{ $user->email }}">
+                                        </div>
+                                        <div class="form-group mb-3">
                                             <label class="control-label">Наименование търговец*</label>
                                             <input class="form-control input-md" name="user_name" type="text" value="{{ $user->name }}">
                                         </div>

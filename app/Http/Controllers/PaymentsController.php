@@ -202,15 +202,15 @@ class PaymentsController extends Controller
                             'admin_name' => $admin_name
                         );
                         // send to targovetc
-                        Mail::send('mail_payment_targovetc', $data, function ($message) use ($targovec_email, $targovec_name){
-                            $message->to($targovec_email, $targovec_name)->subject('Направена поръчка на пакет от PartyBox');
-                            $message->from(Config::get('settings.mail'), 'PartyBox');
-                        });
+                        //Mail::send('mail_payment_targovetc', $data, function ($message) use ($targovec_email, $targovec_name){
+                        //    $message->to($targovec_email, $targovec_name)->subject('Направена поръчка на пакет от PartyBox');
+                        //    $message->from(Config::get('settings.mail'), 'PartyBox');
+                        //});
                         // send to admin
-                        Mail::send('mail_payment_admin', $data, function ($message) use ($admin_email, $admin_name){
-                            $message->to($admin_email, $admin_name)->subject('Направена поръчка на пакет от PartyBox');
-                            $message->from($admin_email, 'PartyBox');
-                        });                        
+                        //Mail::send('mail_payment_admin', $data, function ($message) use ($admin_email, $admin_name){
+                        //    $message->to($admin_email, $admin_name)->subject('Направена поръчка на пакет от PartyBox');
+                        //    $message->from($admin_email, 'PartyBox');
+                        //});                        
                         return redirect('/home-firm-payments')->with('flash_message_success', 'Вашето плащане е получено. Можете да публикувате Вашите продукти според това какъв пакет сте закупили.');
                     }
                 }            
