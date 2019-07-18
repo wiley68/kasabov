@@ -94,4 +94,70 @@ class IndexController extends Controller
         ]);
     }
 
+    public function sms(){
+        $holidays_count = Holiday::where(['parent_id'=>0])->count();
+        if ($holidays_count >= 5){
+            $holidays_count = 5;
+        }
+        $holidays = Holiday::where(['parent_id'=>0])->take($holidays_count)->get();
+        $cities = City::whereColumn('city', 'oblast')->get();
+        $categories_top_count = Category::where(['parent_id'=>0])->count();
+        if ($categories_top_count >= 12){
+            $categories_top_count = 12;
+        }
+        $categories_top = Category::where(['parent_id'=>0])->take($categories_top_count)->get();
+        $property = LandingPage::first();
+
+        return view('sms')->with([
+            'holidays'=>$holidays,
+            'cities'=>$cities,
+            'categories_top'=>$categories_top,
+            'property'=>$property
+        ]);
+    }
+
+    public function sms1(){
+        $holidays_count = Holiday::where(['parent_id'=>0])->count();
+        if ($holidays_count >= 5){
+            $holidays_count = 5;
+        }
+        $holidays = Holiday::where(['parent_id'=>0])->take($holidays_count)->get();
+        $cities = City::whereColumn('city', 'oblast')->get();
+        $categories_top_count = Category::where(['parent_id'=>0])->count();
+        if ($categories_top_count >= 12){
+            $categories_top_count = 12;
+        }
+        $categories_top = Category::where(['parent_id'=>0])->take($categories_top_count)->get();
+        $property = LandingPage::first();
+
+        return view('sms1')->with([
+            'holidays'=>$holidays,
+            'cities'=>$cities,
+            'categories_top'=>$categories_top,
+            'property'=>$property
+        ]);
+    }
+
+    public function sms2(){
+        $holidays_count = Holiday::where(['parent_id'=>0])->count();
+        if ($holidays_count >= 5){
+            $holidays_count = 5;
+        }
+        $holidays = Holiday::where(['parent_id'=>0])->take($holidays_count)->get();
+        $cities = City::whereColumn('city', 'oblast')->get();
+        $categories_top_count = Category::where(['parent_id'=>0])->count();
+        if ($categories_top_count >= 12){
+            $categories_top_count = 12;
+        }
+        $categories_top = Category::where(['parent_id'=>0])->take($categories_top_count)->get();
+        $property = LandingPage::first();
+
+        return view('sms2')->with([
+            'holidays'=>$holidays,
+            'cities'=>$cities,
+            'categories_top'=>$categories_top,
+            'property'=>$property
+        ]);
+    }
+
 }

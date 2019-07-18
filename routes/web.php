@@ -131,6 +131,9 @@ Route::get('/', 'IndexController@index')->name('index');
 Route::match(['get', 'post'], '/products', 'ProductController@frontViewProducts')->name('products');
 Route::get('/product/{id}', 'ProductController@frontGetProduct')->name('product');
 Route::post('/like-product', 'ProductController@likeProduct')->name('like-product');
+Route::get('/sms', 'IndexController@sms')->name('sms');
+Route::get('/sms1', 'IndexController@sms1')->name('sms1');
+Route::get('/sms2', 'IndexController@sms2')->name('sms2');
 
 // Users routes
 Route::get('/users-login-register', 'UsersController@loginRegisterUsers')->name('users-login-register');

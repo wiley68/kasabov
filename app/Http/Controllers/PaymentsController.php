@@ -95,6 +95,10 @@ class PaymentsController extends Controller
                 $payment->active_at = date('Y-m-d H:i:s');
                 $payment->payment = $request->input('payment_type');
                 $payment->forthe = $request->input('payment_forthe');
+                $inputcode = '';
+                if (!empty($request->input('inputcode'))){
+                    $inputcode = $request->input('inputcode');
+                }
                 $payment->save();
                 switch ($request->input('payment_forthe')) {
                     case 'standart':
@@ -193,25 +197,53 @@ class PaymentsController extends Controller
                         $targovec_name = User::where(['id'=>Auth::user()->id])->first()->name;
                         $admin_email = Config::get('settings.mail');
                         $admin_name = $property->firm_name;
+
+                        $servID = '';
+                        if ($payment->forthe == 'standart'){
+                            $servID = '30324';
+                        }
+                        if ($payment->forthe == 'reklama1'){
+                            $servID = '30325';
+                        }
+                        if ($payment->forthe == 'reklama3'){
+                            $servID = '30326';
+                        }
+                        $servID = 16;
+                        if($this->mobio_checkcode($servID, $inputcode, 1) == 1) {
+                            $txt_targovetc = '<p>' . $payment_type . '</p>';
+                            $txt_targovetc .= '<p>Направена поръчка на пакет от PartyBox платена с SMS</p>';
+                            $txt_targovetc .= '<p>Получател фирма: ' . $property->firm_name . '</p>';
+                            $txt_targovetc .= '<p>Получател: ' . $property->mol . '</p>';
+                            $txt_targovetc .= '<p>Плащането е успешно. Можете да публикувате своите продукти.</p>';
+
+                            $txt_admin = '<p>Получено е следното плащане по заявка за плащане с SMS:</p>';
+                            $txt_admin .= '<p>' . $payment_type . '</p>';
+                            $txt_admin .= '<p>Търговец: ' . $targovec_name . '</p>';
+                            $txt_admin .= '<p>E-Mail: ' . $targovec_email . '</p>';
+
+                            $data = array(
+                                'txt_targovetc' => $txt_targovetc,
+                                'txt_admin' => $txt_admin,
+                                'targovec_email' => $targovec_email,
+                                'targovec_name' => $targovec_name,
+                                'admin_name' => $admin_name
+                            );
+                            // send to targovetc
+                            //Mail::send('mail_payment_targovetc', $data, function ($message) use ($targovec_email, $targovec_name){
+                            //    $message->to($targovec_email, $targovec_name)->subject('Направена поръчка на пакет от PartyBox');
+                            //    $message->from(Config::get('settings.mail'), 'PartyBox');
+                            //});
+                            // send to admin
+                            //Mail::send('mail_payment_admin', $data, function ($message) use ($admin_email, $admin_name){
+                            //    $message->to($admin_email, $admin_name)->subject('Направена поръчка на пакет от PartyBox');
+                            //    $message->from($admin_email, 'PartyBox');
+                            //});                        
+                            return redirect('/home-firm-payments')->with('flash_message_success', 'Вашето плащане е получено. Можете да публикувате Вашите продукти според това какъв пакет сте закупили.');
+                        }else{
+                            $payment->delete();
+                            return redirect('/home-firm-payments')->with('flash_message_error', 'Вашето плащане не е успешно. Възможно е да не сте въвели правилно получения код. Можете да направите нова поръчка като въведе отново получения код. Имате право на това до 24 часа от получаването на кода.');
+                        }
                         
-                        $data = array(
-                            'txt_targovetc' => 'Направена поръчка на пакет от PartyBox платена с SMS',
-                            'txt_admin' => 'Направена поръчка на пакет от PartyBox платена с SMS',
-                            'targovec_email' => $targovec_email,
-                            'targovec_name' => $targovec_name,
-                            'admin_name' => $admin_name
-                        );
-                        // send to targovetc
-                        //Mail::send('mail_payment_targovetc', $data, function ($message) use ($targovec_email, $targovec_name){
-                        //    $message->to($targovec_email, $targovec_name)->subject('Направена поръчка на пакет от PartyBox');
-                        //    $message->from(Config::get('settings.mail'), 'PartyBox');
-                        //});
-                        // send to admin
-                        //Mail::send('mail_payment_admin', $data, function ($message) use ($admin_email, $admin_name){
-                        //    $message->to($admin_email, $admin_name)->subject('Направена поръчка на пакет от PartyBox');
-                        //    $message->from($admin_email, 'PartyBox');
-                        //});                        
-                        return redirect('/home-firm-payments')->with('flash_message_success', 'Вашето плащане е получено. Можете да публикувате Вашите продукти според това какъв пакет сте закупили.');
                     }
                 }            
             }else{
@@ -225,6 +257,24 @@ class PaymentsController extends Controller
             ]);
     }
 
+    public function mobio_checkcode($servID, $code, $debug=0) {
+        $res_lines = file("http://www.mobio.bg/code/checkcode.php?servID=$servID&code=$code");
+        $ret = 0;
+        if($res_lines) {
+            if(strstr($res_lines[0], "PAYBG=OK")) {
+                $ret = 1;
+            }else{
+                if($debug)
+                    echo $res_lines[0];
+            }
+        }else{
+            if($debug)
+                echo "Unable to connect to mobio.bg server.\n";
+            $ret = 0;
+        }
+        return $ret;
+    }
+    
     public function firmPayments(){
         $holidays = Holiday::where(['parent_id' => 0])->get();
         $property = LandingPage::first();

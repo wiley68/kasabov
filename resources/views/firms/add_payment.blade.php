@@ -98,6 +98,18 @@
                                         <option value="reklama3">Пакет 3 промо продукта (цена: {{ $property->paket_reklama_2 }} лв. действа {{ $property->paket_reklama_2_time }} дни)</option>
                                     </select>
                                 </div>
+                                <div style="display:none;padding:10px;" id="sms_payment">
+                                    <h5>Услуга: <span id="smscodeusluga" style="color:red;"></span></h5>
+                                    <p>За да извършите плащането моля изпратете SMS със съдържание <span id="smscode" style="color:red;"></span> на номер <span id="smsnumber" style="color:red;"></span>.</p> 
+                                    <p>Ще получите отговор със следното съдържание: "Vashiat kod za dostap e <span id="smscode" style="color:red;">CODE</span>".</p>
+                                    <p>Моля въведете получения код <span id="smscode" style="color:red;">CODE</span> в полето по-долу.</p> 
+                                    <hr />
+                                    <input name="inputcode" id="inputcode" type="text">
+                                    <hr />
+                                    <p>След въвеждане на получения код <span id="smscode" style="color:red;">CODE</span> натиснете бутона "Направи плащането". При успешно валидиране на попълнения от Вас код <span id="smscode" style="color:red;">CODE</span> ще получите съобщение за успешно плащане. Веднага ще бъдат активирани съответните услуги които сте закупили. Ще можете да направите своите обяви според закупения от Вас пакет.</p>
+                                    <br />
+                                    <p><span id="smscode" style="color:red;">Важно: </span>Ако по някаква причина, примерно грешно въведен код, не бъде одобрено Вашето плащане, можете да въведете правилния код <span id="smscode" style="color:red;">CODE</span> повторно. Това повторно въвеждане можете да правите в продължение на <span id="smscode" style="color:red;">24</span> часа от изпращането на този SMS и съответно получаването на кода <span id="smscode" style="color:red;">CODE</span>.</p>
+                                </div>
                                 <button class="btn btn-common" type="submit">Направи плащането</button>
                             </div>
                         </form>
@@ -108,4 +120,40 @@
     </div>
 </div>
 <!-- End Content -->
+@endsection
+
+@section('scripts')
+<script type="text/javascript">
+    function changeSms(){
+        if ($("#payment_type").val() == "sms"){
+            if ($("#payment_forthe").val() == "standart"){
+                $("#smscode").html("partyboxs");
+                $("#smscodeusluga").html("partyboxs");
+                $("#smsnumber").html("1092");
+            }
+            if ($("#payment_forthe").val() == "reklama1"){
+                $("#smscode").html("partyboxedin");
+                $("#smscodeusluga").html("partyboxedin");
+                $("#smsnumber").html("1092");
+            }
+            if ($("#payment_forthe").val() == "reklama3"){
+                $("#smscode").html("partyboxtri");
+                $("#smscodeusluga").html("partyboxtri");
+                $("#smsnumber").html("1096");
+            }
+            $("#sms_payment").show();
+        }else{
+            $("#sms_payment").hide();
+        }
+    }
+    $( document ).ready(function() {
+        changeSms();
+    });
+    $("#payment_type").change(function(){
+        changeSms();
+    });
+    $("#payment_forthe").change(function(){
+        changeSms();
+    });
+</script>    
 @endsection
