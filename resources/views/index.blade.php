@@ -16,9 +16,6 @@
                     <h4 class="sub-title"><a href="{{ route('products') }}">ПОКАЖИ ВСИЧКИ ОФЕРТИ</a></h4>
                 </div>
             </div>
-            @php
-                $bg_count = 1;
-            @endphp
             @foreach ($categories_top as $category_top)
             @php
             $categories_parent = Category::where(['parent_id'=>$category_top->id])->get();
@@ -29,26 +26,47 @@
             $products = Product::whereIn('category_id', $categories_in);
             $products = $products->where(['status'=>'active']);
             $products = $products->where('active_at', '>=', date("Y-m-d", strtotime("-1 months")));
+            $category_ids = [];
+            $category_ids[] = $category_top->id;
             @endphp
-            <div class="col-lg-2 col-md-3 col-xs-12">
-                @php
-                    $category_ids = [];
-                    $category_ids[] = $category_top->id;
-                @endphp
-                <a href="{{ route('products', ['category_id'=>$category_ids]) }}">
-                    <div class="category-icon-item lis-bg{{ $bg_count }}" style="height:150px;">
-                        <div class="icon-box">
-                            <div class="icon">
-                                <i class="{{ $category_top->icon }}"></i>
-                            </div>
-                            <h4>{{ $category_top->name }}</h4>
-                            <p class="categories-listing">{{ $products->count() }} продукта</p>
-                        </div>
+            <div class="col-lg-3 col-md-6 col-xs-12">
+                <div class="category-box border-1 wow fadeInUpQuick" data-wow-delay="0.3s">
+                    <div class="icon">
+                        <a href="{{ route('products', ['category_id'=>$category_ids]) }}"><i class="{{ $category_top->icon }}"></i></a>
                     </div>
-                </a>
-            </div>
+                    <div class="category-header">  
+                        <a href="{{ route('products', ['category_id'=>$category_ids]) }}"><h4>{{ $category_top->name }}&nbsp;({{ $products->count() }})</h4></a>
+                    </div>
+                    <div class="category-content">
+                    <ul>
+                        @php
+                            $count_cat = 0;
+                        @endphp
+                        @foreach ($categories_parent as $cat_parent)
+                        @if ($count_cat < 6)
+                        @php
+                            $productsin = Product::where(['category_id' => $cat_parent->id]);
+                            $productsin = $productsin->where(['status'=>'active']);
+                            $productsin = $productsin->where('active_at', '>=', date("Y-m-d", strtotime("-1 months")));
+                            $category_idsin = [];
+                            $category_idsin[] = $cat_parent->id;
+                        @endphp
+                        <li>
+                            <span class="category-counter">{{ $productsin->count() }}</span>
+                        </li>
+                        <li>
+                            <a href="{{ route('products', ['category_id'=>$category_idsin]) }}">{{ $cat_parent->name }}</a>
+                        </li>                                                                    
+                        @endif
+                        @php
+                            $count_cat++;
+                        @endphp
+                        @endforeach
+                    </ul>
+                  </div>
+                </div>
+              </div>
             @php
-                $bg_count++;
                 $categories_in = null;
             @endphp
             @endforeach
