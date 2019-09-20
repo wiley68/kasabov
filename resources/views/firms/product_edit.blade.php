@@ -158,7 +158,7 @@
                                     <textarea name="description" id="description" style="width:100%;" class="span12" rows="5">{!! $product->description !!}</textarea>
                                 </div>
                                 <div class="form-group mb-3">
-                                    <label class="control-label">Снимка</label>
+                                    <label class="control-label">Заглавна снимка</label>
                                     <input type="file" name="image" id="image">
                                     <input type="hidden" name="current_image" id="current_image" value="{{ $product->image }}">
                                     @if (!empty($product->image))

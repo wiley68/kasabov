@@ -117,7 +117,7 @@
                                 </div>
                             </div>
                             <div class="control-group">
-                                <label class="control-label">Снимка</label>
+                                <label class="control-label">Заглавна снимка</label>
                                 <div class="controls">
                                     <input type="file" name="image" id="image">
                                     <input type="hidden" name="current_image" id="current_image" value="{{ $product->image }}">
