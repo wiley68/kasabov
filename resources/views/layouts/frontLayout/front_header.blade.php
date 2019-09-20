@@ -70,32 +70,32 @@
                 <div class="col-md-12 col-lg-9 col-xs-12 text-center">
                     <div class="contents-ctg">
                         <h5>
-                            <a href="{{ route('index') }}">В началото</a>
-                            <i class="fas fa-chevron-right"></i>
+                            <a href="{{ route('index') }}" style="color:dimgray;">В началото</a>
+                            <i class="fas fa-chevron-right" style="color:dimgray;"></i>
                             @if(Route::current()->getName() == 'products')
                                 @if(request('filter') == 'yes')
-                                    <a href="{{ route('products') }}">Всички продукти</a>
-                                    <i class="fas fa-chevron-right"></i>
+                                    <a href="{{ route('products') }}" style="color:dimgray;">Всички продукти</a>
+                                    <i class="fas fa-chevron-right" style="color:dimgray;"></i>
                                     @if(!empty(request('holiday_id')))
                                         <a href="{{ route('products', ['filter'=>'yes', 'holiday_id'=>request('holiday_id')]) }}">{{ Holiday::where(['id'=>request('holiday_id')])->first()->name }}</a>
                                         @if(!empty(request('category_id')))
-                                            <i class="fas fa-chevron-right"></i>
+                                            <i class="fas fa-chevron-right" style="color:dimgray;"></i>
                                         @endif
                                     @endif
                                     @if(!empty(request('category_id')))
                                         <a href="{{ route('products', ['filter'=>'yes', 'category_id'=>request('category_id')]) }}">{{ Category::where(['id'=>request('category_id')])->first()->name }}</a>
                                     @endif
                                 @else
-                                    <a href="{{ route('products') }}">Всички продукти</a>
+                                    <a href="{{ route('products') }}" style="color:dimgray;">Всички продукти</a>
                                 @endif
                             @elseif(Route::current()->getName() == 'product')
-                            <a href="{{ route('products') }}">Всички продукти</a>
-                            <i class="fas fa-chevron-right"></i>
-                            <a href="{{ route('product', ['id'=>$product->product_code]) }}">{{ $product->product_name }}</a>
+                            <a href="{{ route('products') }}" style="color:dimgray;">Всички продукти</a>
+                            <i class="fas fa-chevron-right" style="color:dimgray;"></i>
+                            <a href="{{ route('product', ['id'=>$product->product_code]) }}" style="color:dimgray;">{{ $product->product_name }}</a>
                             @elseif(Route::current()->getName() == 'users-login-register')
-                            <a href="{{ route('users-login-register') }}">Регистрация на клиент</a>
+                            <a href="{{ route('users-login-register') }}" style="color:dimgray;">Регистрация на клиент</a>
                             @elseif(Route::current()->getName() == 'firms-login-register')
-                            <a href="{{ route('firms-login-register') }}">Регистрация на търговец</a>
+                            <a href="{{ route('firms-login-register') }}" style="color:dimgray;">Регистрация на търговец</a>
                             @elseif(
                                 Route::current()->getName() == 'home' ||
                                 Route::current()->getName() == 'home-settings' ||
@@ -103,7 +103,7 @@
                                 Route::current()->getName() == 'home-adds' ||
                                 Route::current()->getName() == 'home-privacy'
                             )
-                            <a href="{{ route('home') }}">Панел управление</a>
+                            <a href="{{ route('home') }}" style="color:dimgray;">Панел управление</a>
                             @elseif(
                                 Route::current()->getName() == 'home-firm' ||
                                 Route::current()->getName() == 'home-firm-settings' ||
@@ -113,7 +113,7 @@
                                 Route::current()->getName() == 'home-firm-product-edit' || 
                                 Route::current()->getName() == 'home-firm-payments'
                             )
-                            <a href="{{ route('home-firm') }}">Панел управление</a>
+                            <a href="{{ route('home-firm') }}" style="color:dimgray;">Панел управление</a>
                             @endif
                         </h5>
                     </div>
