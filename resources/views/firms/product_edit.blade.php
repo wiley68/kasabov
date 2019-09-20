@@ -118,9 +118,9 @@
                                     <select name="category_id" id="category_id" style="width:100%;">
                                         <option value="0" @if($product->category_id == 0) selected @endif>Избери категория</option>
                                         @foreach ($categories as $category)
-                                        <option value="{{ $category->id }}" @if ($category->id === $product->category_id) selected @endif>{{ $category->name }}</option>
+                                        <option value="{{ $category->id }}" @if ($category->id == $product->category_id) selected @endif>{{ $category->name }}</option>
                                             @foreach (Category::where(['parent_id'=>$category->id])->get() as $item)
-                                            <option value="{{ $item->id }}" @if ($item->id === $product->category_id) selected @endif>&nbsp;--&nbsp;{{ $item->name }}</option>
+                                            <option value="{{ $item->id }}" @if ($item->id == $product->category_id) selected @endif>&nbsp;--&nbsp;{{ $item->name }}</option>
                                             @endforeach
                                         @endforeach
                                     </select>
@@ -128,11 +128,11 @@
                                 <div class="form-group mb-3" style="display:flex">
                                     <label style="width:200px;">Празник</label>
                                     <select name="holiday_id" id="holiday_id" style="width:100%;">
-                                        <option value="0" @if (0 === $product->holiday_id) selected @endif selected>Избери празник</option>
+                                        <option value="0" @if (0 == $product->holiday_id) selected @endif selected>Избери празник</option>
                                         @foreach ($holidays as $holiday)
-                                        <option value="{{ $holiday->id }}" @if ($holiday->id === $product->holiday_id) selected @endif>{{ $holiday->name }}</option>
+                                        <option value="{{ $holiday->id }}" @if ($holiday->id == $product->holiday_id) selected @endif>{{ $holiday->name }}</option>
                                             @foreach (Holiday::where(['parent_id'=>$holiday->id])->get() as $item)
-                                            <option value="{{ $item->id }}" @if ($item->id === $product->holiday_id) selected @endif>&nbsp;--&nbsp;{{ $item->name }}</option>
+                                            <option value="{{ $item->id }}" @if ($item->id == $product->holiday_id) selected @endif>&nbsp;--&nbsp;{{ $item->name }}</option>
                                             @endforeach
                                         @endforeach
                                     </select>
