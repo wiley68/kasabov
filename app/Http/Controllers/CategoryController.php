@@ -51,8 +51,11 @@ class CategoryController extends Controller
     }
 
     public function viewCategory(){
-        $categories = Category::where(['parent_id'=>0])->get();
-        return view('admin.categories.view_categories')->with(['categories'=>$categories]);
+        $categories = Category::where(['parent_id' => 0])->get();
+        
+        return view('admin.categories.view_categories')->with([
+            'categories'=>$categories
+        ]);
     }
 
     public static function getCategoryById($id=null){

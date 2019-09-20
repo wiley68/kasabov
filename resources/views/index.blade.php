@@ -26,7 +26,9 @@
             foreach ($categories_parent as $category_parent) {
                 $categories_in[] = $category_parent->id;
             }
-            $products_count = Product::whereIn('category_id', $categories_in)->count();
+            $products = Product::whereIn('category_id', $categories_in);
+            $products = $products->where(['status'=>'active']);
+            $products = $products->where('active_at', '>=', date("Y-m-d", strtotime("-1 months")));
             @endphp
             <div class="col-lg-2 col-md-3 col-xs-12">
                 @php
@@ -40,7 +42,7 @@
                                 <i class="{{ $category_top->icon }}"></i>
                             </div>
                             <h4>{{ $category_top->name }}</h4>
-                            <p class="categories-listing">{{ $products_count }} продукта</p>
+                            <p class="categories-listing">{{ $products->count() }} продукта</p>
                         </div>
                     </div>
                 </a>
