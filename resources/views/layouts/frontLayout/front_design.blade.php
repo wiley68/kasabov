@@ -12,6 +12,7 @@
 <link rel="stylesheet" href="{{ asset('css/frontend_css/animate.css') }}" />
 <link rel="stylesheet" href="{{ asset('css/frontend_css/owl.carousel.css') }}" />
 <link rel="stylesheet" href="{{ asset('css/frontend_css/main.css') }}" />
+<link rel="stylesheet" href="{{ asset('css/frontend_css/colors/yellow.css') }}" />
 <link rel="stylesheet" href="{{ asset('css/frontend_css/responsive.css') }}" />
 <link rel="stylesheet" href="{{ asset('css/frontend_css/front.css') }}" />
 <link rel="stylesheet" href="{{ asset('lib/DataTables/datatables.min.css') }}" />
