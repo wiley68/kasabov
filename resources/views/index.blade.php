@@ -34,7 +34,7 @@
                     <div class="icon">
                         <a href="{{ route('products', ['category_id'=>$category_ids]) }}"><i class="{{ $category_top->icon }}"></i></a>
                     </div>
-                    <div class="category-header">  
+                    <div class="category-header" style="height:80px;">  
                         <a href="{{ route('products', ['category_id'=>$category_ids]) }}"><h4>{{ $category_top->name }}&nbsp;({{ $products->count() }})</h4></a>
                     </div>
                     <div class="category-content">
@@ -43,7 +43,6 @@
                             $count_cat = 0;
                         @endphp
                         @foreach ($categories_parent as $cat_parent)
-                        @if ($count_cat < 6)
                         @php
                             $productsin = Product::where(['category_id' => $cat_parent->id]);
                             $productsin = $productsin->where(['status'=>'active']);
@@ -51,17 +50,32 @@
                             $category_idsin = [];
                             $category_idsin[] = $cat_parent->id;
                         @endphp
+                        @if ($count_cat < 6)
                         <li>
                             <span class="category-counter">{{ $productsin->count() }}</span>
                         </li>
                         <li>
                             <a href="{{ route('products', ['category_id'=>$category_idsin]) }}">{{ $cat_parent->name }}</a>
-                        </li>                                                                    
+                        </li>  
+                        @else 
+                        @if ($count_cat == 6)
+                        <li style="border-top:1px solid #EEEEEE;">
+                            <a href="#" onclick="changeOther(event, {{ $cat_parent->id }});">Покажи всички&nbsp;&raquo;</a>
+                        </li>                            
+                        <div  style="display:none;" id="div_{{ $cat_parent->id }}">
+                        @endif
+                        <li>
+                            <span class="category-counter">{{ $productsin->count() }}</span>
+                        </li>
+                        <li>
+                            <a href="{{ route('products', ['category_id'=>$category_idsin]) }}">{{ $cat_parent->name }}</a>
+                        </li>
                         @endif
                         @php
                             $count_cat++;
                         @endphp
                         @endforeach
+                        </div>  
                     </ul>
                   </div>
                 </div>
@@ -248,4 +262,13 @@
 </section>
 <!-- Works Section End -->
 
+@endsection
+
+@section('scripts')
+    <script>
+    function changeOther(event, id){
+        event.preventDefault();
+        $("#div_"+id).toggle();
+    }
+    </script>
 @endsection

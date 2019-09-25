@@ -62,7 +62,11 @@
                             <td>{{ $product->id }}</td>
                             <td>{{ $product->product_code }}</td>
                             <td>{{ $product->product_name }}</td>
-                            <td>{{ CategoryController::getCategoryById($product->category_id)->name }}</td>
+                            @if (CategoryController::getCategoryById($product->category_id) != null)
+                            <td>{{ CategoryController::getCategoryById($product->category_id)->name }}</td>                                
+                            @else
+                            <td></td>                                
+                            @endif
                             <td>{{ User::where(['id'=>$product->user_id])->first()->name }}</td>
                             <td>{{ $product->price }}</td>
                             <td>
@@ -106,7 +110,11 @@
                                         <p><strong>Код:</strong> {{ $product->product_code }}</p>
                                         <p><strong>Наименование:</strong> {{ $product->product_name }}</p>
                                         <p><strong>Собственик:</strong> {{ User::where(['id'=>$product->user_id])->first()->name }}</p>
-                                        <p><strong>Категория:</strong> {{ CategoryController::getCategoryById($product->category_id)->name }}</p>
+                                        @if (CategoryController::getCategoryById($product->category_id) != null)
+                                        <p><strong>Категория:</strong> {{ CategoryController::getCategoryById($product->category_id)->name }}</p>                                            
+                                        @else
+                                        <p><strong>Категория:</strong></p>                                            
+                                        @endif
                                         <p><strong>Празник:</strong> {{ HolidayController::getHolidayById($product->holiday_id) }}</p>
                                         <p><strong>Количество:</strong> {{ $product->quantity }}</p>
                                         <p><strong>Цена:</strong> {{ $product->price }}</p>
