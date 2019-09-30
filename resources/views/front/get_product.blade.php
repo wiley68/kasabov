@@ -111,6 +111,20 @@ if(!empty($product->image)){
                                     case 'white':
                                         $first_color = 'Бял';
                                         break;
+                                    case 'pink':
+                                        $first_color = 'Розов';
+                                        break;
+                                    case 'orange':
+                                        $first_color = 'Оранжев';
+                                        break;
+                                    case 'purple':
+                                        $first_color = 'Лилав';
+                                        break;
+                                    case 'many':
+                                        $first_color = 'Многоцветен';
+                                        break;
+                                    default:
+                                        $first_color = 'Многоцветен';
                                 }
                             @endphp
                             <li><i class="lni-check-mark-circle"></i> Основен цвят: <i class="fas fa-square" style="color:{{ $product->first_color }};"></i><a href="{{ route('products', ['first_color'=>$product->first_color]) }}" title="Покажи всички обяви в този основен цвят"> {{ $first_color }}</a></li>
@@ -143,6 +157,20 @@ if(!empty($product->image)){
                                     case 'white':
                                         $second_color = 'Бял';
                                         break;
+                                    case 'pink':
+                                        $second_color = 'Розов';
+                                        break;
+                                    case 'orange':
+                                        $second_color = 'Оранжев';
+                                        break;
+                                    case 'purple':
+                                        $second_color = 'Лилав';
+                                        break;
+                                    case 'many':
+                                        $second_color = 'Многоцветен';
+                                        break;
+                                    default:
+                                        $second_color = 'Многоцветен';
                                 }
                             @endphp
                             <li><i class="lni-check-mark-circle"></i> Втори цвят: <i class="fas fa-square" style="color:{{ $product->second_color }};"></i><a href="{{ route('products', ['second_color'=>$product->second_color]) }}" title="Покажи всички обяви в този втори цвят"> {{ $second_color }}</a></li>

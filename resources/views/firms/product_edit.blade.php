@@ -179,6 +179,10 @@
                                         <option value="green" @if($product->first_color == 'green') selected @endif>Зелен</option>
                                         <option value="blue" @if($product->first_color == 'blue') selected @endif>Син</option>
                                         <option value="brown" @if($product->first_color == 'brown') selected @endif>Кафяв</option>
+                                        <option value="pink" @if($product->first_color == 'pink') selected @endif>Розов</option>
+                                        <option value="orange" @if($product->first_color == 'orange') selected @endif>Оранжев</option>
+                                        <option value="purple" @if($product->first_color == 'purple') selected @endif>Лилав</option>
+                                        <option value="many" @if($product->first_color == 'many') selected @endif>Многоцветен</option>
                                     </select>
                                 </div>
                                 <div class="form-group mb-3" style="display:flex">
@@ -192,6 +196,10 @@
                                         <option value="green" @if($product->second_color == 'green') selected @endif>Зелен</option>
                                         <option value="blue" @if($product->second_color == 'blue') selected @endif>Син</option>
                                         <option value="brown" @if($product->second_color == 'brown') selected @endif>Кафяв</option>
+                                        <option value="pink" @if($product->second_color == 'pink') selected @endif>Розов</option>
+                                        <option value="orange" @if($product->second_color == 'orange') selected @endif>Оранжев</option>
+                                        <option value="purple" @if($product->second_color == 'purple') selected @endif>Лилав</option>
+                                        <option value="many" @if($product->second_color == 'many') selected @endif>Многоцветен</option>
                                     </select>
                                 </div>
                                 <div class="form-group mb-3" style="display:flex">

@@ -775,8 +775,10 @@ class HomeController extends Controller
                     break;
                 case 'cities':
                     $available_for_city = 0;
-                    foreach ($request->input('available_for_cities') as $item) {
-                        $available_cities[] = $item;
+                    if ($request->input('available_for_cities') != null){
+                        foreach ($request->input('available_for_cities') as $item) {
+                            $available_cities[] = $item;
+                        }    
                     }
                     break;
                 case 'area':

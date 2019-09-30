@@ -107,6 +107,10 @@
                                         <option value="green">Зелен</option>
                                         <option value="blue">Син</option>
                                         <option value="brown">Кафяв</option>
+                                        <option value="pink">Розов</option>
+                                        <option value="orange">Оранжев</option>
+                                        <option value="purple">Лилав</option>
+                                        <option value="many">Многоцветен</option>
                                     </select>
                                 </div>
                             </div>
@@ -122,6 +126,10 @@
                                         <option value="green">Зелен</option>
                                         <option value="blue">Син</option>
                                         <option value="brown">Кафяв</option>
+                                        <option value="pink">Розов</option>
+                                        <option value="orange">Оранжев</option>
+                                        <option value="purple">Лилав</option>
+                                        <option value="many">Многоцветен</option>
                                     </select>
                                 </div>
                             </div>
