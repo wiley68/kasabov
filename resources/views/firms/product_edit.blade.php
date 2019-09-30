@@ -255,7 +255,7 @@
                                     </select>
                                 </div>
                                 <div id="send_free_div" class="form-group mb-3" style="display:flex">
-                                    <label style="width:200px;">Важи за</label>
+                                    <label style="width:200px;">Офертата важи за</label>
                                     <select name="send_free_id" id="send_free_id" style="width:100%;">
                                         <option value="0" selected>Избери населено място</option>
                                         @foreach ($cities as $city)
