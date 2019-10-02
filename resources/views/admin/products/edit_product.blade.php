@@ -3,6 +3,7 @@
 <?php use App\Tag; ?>
 <?php use App\City; ?>
 <?php use App\ProductsCity; ?>
+<?php use App\ProductsCitySend; ?>
 @extends('layouts.adminLayout.admin_design')
 @section('content')
 <script type="text/javascript">
@@ -235,7 +236,18 @@
                                 </div>
                             </div>
                             <div class="control-group">
-                                <label class="control-label">Важи за</label>
+                                <label class="control-label">Офертата важи за:</label>
+                                <div class="controls">
+                                    <select name="send_free_available_for" id="send_free_available_for" style="width:314px;">
+                                        <option value="country" @if ($product->send_free_available_for === 'country') selected @endif>Цялата страна</option>
+                                        <option value="city" @if ($product->send_free_available_for === 'city') selected @endif>Населено място</option>
+                                        <option value="cities" @if ($product->send_free_available_for === 'cities') selected @endif>Населени места</option>
+                                        <option value="area" @if ($product->send_free_available_for === 'area') selected @endif>Област</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div id="send_free_available_for_send_free_id_div" class="control-group">
+                                <label class="control-label">Избери</label>
                                 <div class="controls">
                                     @php
                                         if(!empty(City::where(['id'=>$product->send_free_id])->first())){
@@ -247,6 +259,35 @@
                                     <input type="text" name="send_free_id_txt" id="send_free_id_txt" value="{{ $city_name }}" />
                                     <input type="hidden" name="send_free_id" id="send_free_id" value="{{ $product->send_free_id }}" />
                                     <a id="btn_send_free_id" href="#choose_city_form" data-toggle="modal" title="Избери населено място" class="btn btn-success btn-mini">Избери</a>
+                                </div>
+                            </div>
+                            <div id="send_free_available_for_oblast_div" class="control-group">
+                                <label class="control-label">Избери</label>
+                                <div class="controls">
+                                    <select name="send_free_oblast" id="send_free_oblast" style="width:314px;">
+                                        <option value="0" selected>Избери област</option>
+                                        @foreach ($cities as $city)
+                                            @if($city->city === $city->oblast)
+                                            <option value="{{ $city->id }}" @if ($product->send_free_id === $city->id) selected @endif>{{ $city->city }}</option>
+                                            @endif
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div id="send_free_available_for_cities_div" class="control-group">
+                                <label class="control-label">Избери</label>
+                                <div class="controls">
+                                    <select multiple name="send_free_available_for_cities[ ]" id="send_free_available_for_cities" style="width:314px;">
+                                        @foreach ($cities as $city)
+                                            @php
+                                                $send_free_city_arr = [];
+                                                foreach (ProductsCitySend::where(['product_id'=>$product->id])->get() as $product_city) {
+                                                    $send_free_city_arr[] = $product_city->city_id;
+                                                }
+                                            @endphp
+                                            <option value="{{ $city->id }}" @if (in_array($city->id, $send_free_city_arr)) selected @endif>{{ $city->city }}&nbsp;--&nbsp;{{ $city->oblast }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
                             <div class="control-group">
@@ -495,6 +536,59 @@
 	    });
 
         // Hide all city chooses
+        function hideAllsend_free(){
+            switch ($('#send_free_available_for').val()) {
+                case 'country':
+                    $('#send_free_available_for_send_free_id_div').hide();
+                    $('#send_free_available_for_oblast_div').hide();  
+                    $('#send_free_available_for_cities_div').hide();            
+                    break;
+                case 'city':
+                    $('#send_free_available_for_send_free_id_div').show();
+                    $('#send_free_available_for_oblast_div').hide();
+                    $('#send_free_available_for_cities_div').hide();
+                    break;
+                case 'cities':
+                    $('#send_free_available_for_send_free_id_div').hide();
+                    $('#send_free_available_for_oblast_div').hide();
+                    $('#send_free_available_for_cities_div').show();
+                    break;
+                case 'area':
+                    $('#send_free_available_for_send_free_id_div').hide();
+                    $('#send_free_available_for_oblast_div').show();
+                    $('#send_free_available_for_cities_div').hide();
+                    break;
+                default:
+                    $('#send_free_available_for_send_free_id_div').hide();
+                    $('#send_free_available_for_oblast_div').hide();
+                    $('#send_free_available_for_cities_div').hide();
+                    break;
+            }
+        }
+        hideAllsend_free();
+        $('#send_free_available_for').change(function(){
+            switch ($(this).val()) {
+                case 'country':
+                    hideAllsend_free();
+                    break;
+                case 'city':
+                    hideAllsend_free();
+                    $('#send_free_available_for_send_free_id_div').show();
+                    break;
+                case 'cities':
+                    hideAllsend_free();
+                    $('#send_free_available_for_cities_div').show();
+                    break;
+                case 'area':
+                    hideAllsend_free();
+                    $('#send_free_available_for_oblast_div').show();
+                    break;
+                default:
+                    hideAllsend_free();
+                    break;
+            }
+        });
+
         function hideAll(){
             switch ($('#available_for').val()) {
                 case 'country':
@@ -547,7 +641,6 @@
                     break;
             }
         });
-
         // Add tags
         function isNullOrWhitespace( input ) {
             if (typeof input === 'undefined' || input == null) return true;

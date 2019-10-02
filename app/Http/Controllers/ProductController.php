@@ -21,6 +21,7 @@ use App\ProductsCity;
 use App\Favorite;
 use Auth;
 use App\Payment;
+use App\ProductsCitySend;
 
 class ProductController extends Controller
 {
@@ -49,8 +50,33 @@ class ProductController extends Controller
             }else{
                 $price_send = $request->input('price_send');
             }
+
             $send_free = $request->input('send_free');
-            $send_free_id = $request->input('send_free_id');
+            $send_free_available_for = $request->input('send_free_available_for');
+            $send_free_available_cities = [];
+            switch ($send_free_available_for) {
+                case 'country':
+                    $send_free_id = 0;
+                    break;
+                case 'city':
+                    $send_free_id = $request->input('send_free_id');
+                    break;
+                case 'cities':
+                    $send_free_id = 0;
+                    if(!empty($request->input('send_free_available_for_cities'))){
+                        foreach ($request->input('send_free_available_for_cities') as $item) {
+                            $send_free_available_cities[] = $item;
+                        }
+                    }
+                    break;
+                case 'area':
+                    $send_free_id = $request->input('send_free_oblast');
+                    break;
+                default:
+                    $send_free_id = 0;
+                    break;
+            }
+
             $available_for = $request->input('available_for');
             $available_cities = [];
             switch ($available_for) {
@@ -115,6 +141,7 @@ class ProductController extends Controller
             $product->price_send = $price_send;
             $product->send_free = $send_free;
             $product->send_free_id = $send_free_id;
+            $product->send_free_available_for = $send_free_available_for;
             $product->available_for = $available_for;
             $product->available_for_city = $available_for_city;
             $product->object = $object;
@@ -200,6 +227,14 @@ class ProductController extends Controller
             if(!empty($available_cities)){
                 foreach ($available_cities as $available_city) {
                     $new_city = new ProductsCity();
+                    $new_city->product_id = $product->id;
+                    $new_city->city_id = $available_city;
+                    $new_city->save();
+                }
+            }
+            if(!empty($send_free_available_cities)){
+                foreach ($send_free_available_cities as $available_city) {
+                    $new_city = new ProductsCitySend();
                     $new_city->product_id = $product->id;
                     $new_city->city_id = $available_city;
                     $new_city->save();
@@ -299,8 +334,34 @@ class ProductController extends Controller
             }else{
                 $product->price_send = $request->input('price_send');
             }
+
             $product->send_free = $request->input('send_free');
-            $product->send_free_id = $request->input('send_free_id');
+            $product->send_free_available_for = $request->input('send_free_available_for');
+            $send_free_available_cities = [];
+            switch ($product->send_free_available_for) {
+                case 'country':
+                    $send_free_id = 0;
+                    break;
+                case 'city':
+                    $send_free_id = $request->input('send_free_id');
+                    break;
+                case 'cities':
+                    $send_free_id = 0;
+                    if(!empty($request->input('send_free_available_for_cities'))){
+                        foreach ($request->input('send_free_available_for_cities') as $item) {
+                            $send_free_available_cities[] = $item;
+                        }
+                    }
+                    break;
+                case 'area':
+                    $send_free_id = $request->input('send_free_oblast');
+                    break;
+                default:
+                    $send_free_id = 0;
+                    break;
+            }
+            $product->send_free_id = $send_free_id;
+
             $product->available_for = $request->input('available_for');
             $available_cities = [];
             switch ($product->available_for) {
@@ -326,6 +387,8 @@ class ProductController extends Controller
                     break;
             }
             $product->available_for_city = $available_for_city;
+
+
             $product->object = $request->input('object');
             if (empty($request->input('object_name'))){
                 $product->object_name = '';
@@ -437,6 +500,20 @@ class ProductController extends Controller
                     $new_city->save();
                 }
             }
+            // Delete old cities send
+            $products_cities_send_count = ProductsCitySend::where(['product_id'=>$product->id])->count();
+            if ($products_cities_send_count > 0){
+                ProductsCitySend::where(['product_id'=>$product->id])->delete();
+            }
+            // Add new cities send
+            if(!empty($send_free_available_cities)){
+                foreach ($send_free_available_cities as $available_city) {
+                    $new_city = new ProductsCitySend();
+                    $new_city->product_id = $product->id;
+                    $new_city->city_id = $available_city;
+                    $new_city->save();
+                }
+            }
 
             return redirect('/admin/edit-product/'.$product->id)->with('flash_message_success', 'Успешно редактирахте продукта!');
         }
@@ -498,6 +575,10 @@ class ProductController extends Controller
             // Delete products_cities
             $productsCities = ProductsCity::where(['product_id'=>$id])->get();
             foreach ($productsCities as $product_city) {
+                $product_city->delete();
+            }
+            $productsCitiesSend = ProductsCitySend::where(['product_id'=>$id])->get();
+            foreach ($productsCitiesSend as $product_city) {
                 $product_city->delete();
             }
             // Delete product
