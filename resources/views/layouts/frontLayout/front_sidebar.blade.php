@@ -61,6 +61,10 @@
                         <option value="green" @if(request()->has('first_color') AND request('first_color') == 'green') selected @endif>Зелен</option>
                         <option value="blue" @if(request()->has('first_color') AND request('first_color') == 'blue') selected @endif>Син</option>
                         <option value="brown" @if(request()->has('first_color') AND request('first_color') == 'brown') selected @endif>Кафяв</option>
+                        <option value="pink" @if(request()->has('first_color') AND request('first_color') == 'pink') selected @endif>Розов</option>
+                        <option value="orange" @if(request()->has('first_color') AND request('first_color') == 'orange') selected @endif>Оранжев</option>
+                        <option value="purple" @if(request()->has('first_color') AND request('first_color') == 'purple') selected @endif>Лилав</option>
+                        <option value="many" @if(request()->has('first_color') AND request('first_color') == 'many') selected @endif>Многоцветен</option>
                     </select>
                     <div style="padding-bottom:10px;"></div>
                     <select style="width:100%;" name="second_color">
@@ -73,6 +77,10 @@
                         <option value="green" @if(request()->has('second_color') AND request('second_color') == 'green') selected @endif>Зелен</option>
                         <option value="blue" @if(request()->has('second_color') AND request('second_color') == 'blue') selected @endif>Син</option>
                         <option value="brown" @if(request()->has('second_color') AND request('second_color') == 'brown') selected @endif>Кафяв</option>
+                        <option value="pink" @if(request()->has('second_color') AND request('second_color') == 'pink') selected @endif>Розов</option>
+                        <option value="orange" @if(request()->has('second_color') AND request('second_color') == 'orange') selected @endif>Оранжев</option>
+                        <option value="purple" @if(request()->has('second_color') AND request('second_color') == 'purple') selected @endif>Лилав</option>
+                        <option value="many" @if(request()->has('second_color') AND request('second_color') == 'many') selected @endif>Многоцветен</option>
                     </select>
                     <div style="padding-bottom:10px;"></div>
                     <select style="width:100%;" name="age">

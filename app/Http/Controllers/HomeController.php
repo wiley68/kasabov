@@ -16,6 +16,7 @@ use App\Speditor;
 use App\Tag;
 use App\User;
 use App\Payment;
+use App\ProductsCitySend;
 use Auth;
 use File;
 use Illuminate\Http\Request;
@@ -262,6 +263,15 @@ class HomeController extends Controller
             // Delete products tag
             ProductsTags::where(['product_id'=>$id])->delete();
             // Delete favorites
+            // Delete products_cities
+            $productsCities = ProductsCity::where(['product_id'=>$id])->get();
+            foreach ($productsCities as $product_city) {
+                $product_city->delete();
+            }
+            $productsCitiesSend = ProductsCitySend::where(['product_id'=>$id])->get();
+            foreach ($productsCitiesSend as $product_city) {
+                $product_city->delete();
+            }
             Favorite::where(['product_id'=>$id])->delete();
             Product::where(['id'=>$id])->delete();
         }
@@ -548,8 +558,34 @@ class HomeController extends Controller
                 } else {
                     $product->price_send = $request->input('price_send');
                 }
+
                 $product->send_free = $request->input('send_free');
-                $product->send_free_id = $request->input('send_free_id');
+                $product->send_free_available_for = $request->input('send_free_available_for');
+                $send_free_available_cities = [];
+                switch ($product->send_free_available_for) {
+                    case 'country':
+                        $send_free_id = 0;
+                        break;
+                    case 'city':
+                        $send_free_id = $request->input('send_free_id');
+                        break;
+                    case 'cities':
+                        $send_free_id = 0;
+                        if(!empty($request->input('send_free_available_for_cities'))){
+                            foreach ($request->input('send_free_available_for_cities') as $item) {
+                                $send_free_available_cities[] = $item;
+                            }
+                        }
+                        break;
+                    case 'area':
+                        $send_free_id = $request->input('send_free_oblast');
+                        break;
+                    default:
+                        $send_free_id = 0;
+                        break;
+                }
+                $product->send_free_id = $send_free_id;
+
                 $product->available_for = $request->input('available_for');
                 $available_cities = [];
                 switch ($product->available_for) {
@@ -665,6 +701,20 @@ class HomeController extends Controller
                         $new_city->save();
                     }
                 }
+                // Delete old cities send
+                $products_cities_send_count = ProductsCitySend::where(['product_id'=>$product->id])->count();
+                if ($products_cities_send_count > 0){
+                 ProductsCitySend::where(['product_id'=>$product->id])->delete();
+                }
+                // Add new cities send
+                if(!empty($send_free_available_cities)){
+                    foreach ($send_free_available_cities as $available_city) {
+                        $new_city = new ProductsCitySend();
+                        $new_city->product_id = $product->id;
+                        $new_city->city_id = $available_city;
+                        $new_city->save();
+                    }
+                }
 
                 return redirect('/home-firm-product-edit/' . $product->id)->with('flash_message_success', 'Успешно редактирахте продукта!');
             }
@@ -762,8 +812,36 @@ class HomeController extends Controller
             } else {
                 $product->price_send = $request->input('price_send');
             }
-            $product->send_free = $request->input('send_free');
-            $product->send_free_id = $request->input('send_free_id');
+            
+            $send_free = $request->input('send_free');
+            $send_free_available_for = $request->input('send_free_available_for');
+            $send_free_available_cities = [];
+            switch ($send_free_available_for) {
+                case 'country':
+                    $send_free_id = 0;
+                    break;
+                case 'city':
+                    $send_free_id = $request->input('send_free_id');
+                    break;
+                case 'cities':
+                    $send_free_id = 0;
+                    if(!empty($request->input('send_free_available_for_cities'))){
+                        foreach ($request->input('send_free_available_for_cities') as $item) {
+                            $send_free_available_cities[] = $item;
+                        }
+                    }
+                    break;
+                case 'area':
+                    $send_free_id = $request->input('send_free_oblast');
+                    break;
+                default:
+                    $send_free_id = 0;
+                    break;
+            }
+            $product->send_free = $send_free;
+            $product->send_free_id = $send_free_id;
+            $product->send_free_available_for = $send_free_available_for;
+
             $product->available_for = $request->input('available_for');
             $available_cities = [];
             switch ($product->available_for) {
@@ -775,8 +853,10 @@ class HomeController extends Controller
                     break;
                 case 'cities':
                     $available_for_city = 0;
-                    foreach ($request->input('available_for_cities') as $item) {
-                        $available_cities[] = $item;
+                    if ($request->input('available_for_cities') != null){
+                        foreach ($request->input('available_for_cities') as $item) {
+                            $available_cities[] = $item;
+                        }    
                     }
                     break;
                 case 'area':
@@ -856,6 +936,14 @@ class HomeController extends Controller
             if (!empty($available_cities)) {
                 foreach ($available_cities as $available_city) {
                     $new_city = new ProductsCity();
+                    $new_city->product_id = $product->id;
+                    $new_city->city_id = $available_city;
+                    $new_city->save();
+                }
+            }
+            if(!empty($send_free_available_cities)){
+                foreach ($send_free_available_cities as $available_city) {
+                    $new_city = new ProductsCitySend();
                     $new_city->product_id = $product->id;
                     $new_city->city_id = $available_city;
                     $new_city->save();
