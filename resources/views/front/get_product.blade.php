@@ -64,7 +64,7 @@ if(!empty($product->image)){
                             </div>
                             @endauth
                         </div>
-                        <p class="mb-4">{!! $product->description !!}</p>
+                        <p class="mb-4">{!! nl2br(e($product->description)) !!}</p>
                         <hr />
                         <h4 class="title-small mb-3">Параметри:</h4>
                         <ul class="list-specification">
