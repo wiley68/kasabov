@@ -8,6 +8,8 @@
 <?php use App\Http\Controllers\CityController; ?>
 <?php use App\ProductsTags; ?>
 <?php use App\Tag; ?>
+<?php use App\ProductsCitySend; ?>
+<?php use App\ProductsCity; ?>
 
 @extends('layouts.frontLayout.front_design')
 @section('content')
@@ -68,8 +70,6 @@ if(!empty($product->image)){
                         <hr />
                         <h4 class="title-small mb-3">Параметри:</h4>
                         <ul class="list-specification">
-                            <li><i class="lni-check-mark-circle"></i> Номер: {{ $product->id }}</li>
-                            <li><i class="lni-check-mark-circle"></i> Код: {{ $product->product_code }}</li>
                             <li><i class="lni-check-mark-circle"></i> Наименование: {{ $product->product_name }}</li>
                             @php
                                 $category_ids = [];
@@ -219,24 +219,62 @@ if(!empty($product->image)){
                             <li><i class="lni-check-mark-circle"></i> Изпраща се от: {{ CityController::getCityById($product->send_from_id) }}&nbsp;, област: {{ CityController::getOblastById($product->send_from_id) }}</li>
                             <li><i class="lni-check-mark-circle"></i> Цена за изпращане: {{ number_format($product->price_send, 2, '.', '') }}{{ Config::get('settings.currency') }}</li>
                             <li><i class="lni-check-mark-circle"></i> Безплатна доставка: @if ($product->send_free === 1) <a href="{{ route('products', ['send_free'=>1]) }}" title="Покажи всички обяви с безплатна доставка">Да</a> @else <a href="{{ route('products', ['send_free'=>0]) }}" title="Покажи всички обяви без безплатна доставка">Не</a> @endif</li>
-                            <li><i class="lni-check-mark-circle"></i> Важи за: {{ CityController::getCityById($product->send_free_id) }}&nbsp;, област: {{ CityController::getOblastById($product->send_free_id) }}</li>
                             @php
-                            switch ($product->available_for) {
-                                case 'city':
-                                    $available_for_txt = 'Населено място';
-                                    break;
-                                case 'cities':
-                                    $available_for_txt = 'Населени места';
-                                    break;
-                                case 'area':
-                                    $available_for_txt = 'Област';
-                                    break;
-                                case 'country':
-                                    $available_for_txt = 'Цялата страна';
-                                    break;
-                            }
+                                switch ($product->send_free_available_for) {
+                                    case 'country':
+                                        $vaziza = "Цялата страна";
+                                        $vazicity = "";
+                                        break;
+                                    case 'area':
+                                        $vaziza = "Област: ";
+                                        $vazicity = CityController::getOblastById($product->send_free_id);
+                                        break;
+                                    case 'cities':
+                                        $vaziza = "Населени места: ";
+                                        $vazicity = "";
+                                        foreach (ProductsCitySend::where(['product_id' => $product->id])->get() as $city_send) {
+                                            $vazicity .= CityController::getCityById($city_send->city_id) . " - " . CityController::getOblastById($city_send->city_id) . ", ";
+                                        }
+                                        break;
+                                    case 'city':
+                                        $vaziza = "Населено място: ";
+                                        $vazicity = CityController::getCityById($product->send_free_id) . " - " . CityController::getOblastById($product->send_free_id);
+                                        break;                    
+                                    default:
+                                        $vaziza = "Цялата страна";
+                                        $vazicity = "";
+                                        break;
+                                }
                             @endphp
-                            <li><i class="lni-check-mark-circle"></i> Доставя за: {{ $available_for_txt }}</li>
+                            <li><i class="lni-check-mark-circle"></i> Важи за: {{ $vaziza }}{{ $vazicity }}</li>
+                            @php
+                                switch ($product->available_for) {
+                                    case 'country':
+                                        $avavailable_for_txtailable = "Цялата страна";
+                                        $availablecity = "";
+                                        break;
+                                    case 'area':
+                                        $available_for_txt = "Област: ";
+                                        $availablecity = CityController::getOblastById($product->available_for_city);
+                                        break;
+                                    case 'cities':
+                                        $available_for_txt = "Населени места: ";
+                                        $availablecity = "";
+                                        foreach (ProductsCity::where(['product_id' => $product->id])->get() as $city_send) {
+                                            $availablecity .= CityController::getCityById($city_send->city_id) . " - " . CityController::getOblastById($city_send->city_id) . ", ";
+                                        }
+                                        break;
+                                    case 'city':
+                                        $available_for_txt = "Населено място: ";
+                                        $availablecity = CityController::getCityById($product->available_for_city) . " - " . CityController::getOblastById($product->available_for_city);
+                                        break;                    
+                                    default:
+                                        $available_for_txt = "Цялата страна";
+                                        $availablecity = "";
+                                        break;
+                                }
+                            @endphp
+                            <li><i class="lni-check-mark-circle"></i> Доставя за: {{ $available_for_txt }}{{ $availablecity }}</li>
                             <li><i class="lni-check-mark-circle"></i> Може да се вземе от обект: @if ($product->object == 1) <a href="{{ route('products', ['object'=>1]) }}" title="Покажи всички обяви които могат да се вземат от обект">Да</a> @else <a href="{{ route('products', ['object'=>0]) }}" title="Покажи всички обяви които не могат да се вземат от обект">Не</a> @endif</li>
                             <li><i class="lni-check-mark-circle"></i> Адрес на обекта: {{ $product->object_name }}</li>
                             <li><i class="lni-check-mark-circle"></i> Възможност за персонализиране: @if ($product->personalize == 1) <a href="{{ route('products', ['personalize'=>1]) }}" title="Покажи всички обяви които могат да се персонализират">Да</a> @else <a href="{{ route('products', ['personalize'=>0]) }}" title="Покажи всички обяви които не могат да се персонализират">Не</a> @endif</li>
