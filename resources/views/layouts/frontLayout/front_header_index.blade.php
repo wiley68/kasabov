@@ -62,7 +62,7 @@
     <!-- Navbar End -->
 
     <!-- Hero Area Start -->
-    <div id="hero-area">
+    <div id="hero-area-index">
         <div class="overlay"></div>
         <div class="container">
             <div class="row justify-content-center">

@@ -920,7 +920,8 @@ a.back-to-top:hover, a.back-to-top:focus {
 3. Hero Area
 ========================================================================== */
 #hero-area {
-  background: url(../../images/frontend_images/hero-area.jpg) no-repeat;
+  background: url(../../images/frontend_images/hero-area-pages.jpg) no-repeat;
+  background-position: center bottom;
   background-size: cover;
   color: #fff;
   overflow: hidden;
@@ -928,7 +929,16 @@ a.back-to-top:hover, a.back-to-top:focus {
   margin-top: 76px;
 }
 
-#hero-area .overlay {
+#hero-area-index {
+    background: url(../../images/frontend_images/hero-area.jpg) no-repeat;
+    background-size: cover;
+    color: #fff;
+    overflow: hidden;
+    position: relative;
+    margin-top: 76px;
+  }
+  
+  #hero-area .overlay {
   content: '';
   position: absolute;
   top: 76;
