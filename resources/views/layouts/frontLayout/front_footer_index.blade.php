@@ -11,33 +11,26 @@
                     <p>{{ $property->footer_text }}</p>
                   </div>
                   <ul class="mt-3 footer-social">
-                    <li><a class="facebook" href="#"><i class="lni-facebook-filled"></i></a></li>
-                    <li><a class="twitter" href="#"><i class="lni-twitter-filled"></i></a></li>
-                    <li><a class="linkedin" href="#"><i class="lni-linkedin-fill"></i></a></li>
-                    <li><a class="google-plus" href="#"><i class="lni-google-plus"></i></a></li>
+                    <li><a class="facebook" href="https://www.facebook.com/partybox.bg" target="_blank"><i class="lni-facebook-filled"></i></a></li>
                   </ul>
                 </div>
               </div>
               <div class="col-lg-4 col-md-4 col-xs-6 col-mb-12">
                 <div class="widget">
-                  <h3 class="block-title">Quick Link</h3>
+                  <h3 class="block-title">МЕНЮ</h3>
                   <ul class="menu">
-                    <li><a href="#">- About Us</a></li>
-                    <li><a href="#">- Blog</a></li>
-                    <li><a href="#">- Events</a></li>
-                    <li><a href="#">- Shop</a></li>
-                    <li><a href="#">- FAQ's</a></li>
-                    <li><a href="#">- About Us</a></li>
-                    <li><a href="#">- Blog</a></li>
-                    <li><a href="#">- Events</a></li>
-                    <li><a href="#">- Shop</a></li>
-                    <li><a href="#">- FAQ's</a></li>
+                    <li><a href="#">ОБЩИ УСЛОВИЯ</a></li>
+                    <li><a href="#">ПОМОЩ</a></li>
+                    <li><a href="#">ПОЛИТИКА ЗА ЛИЧНИ ДАННИ</a></li>
+                    <li><a href="#">ПОЛИТИКА ЗА БИСКВИТКИ</a></li>
+                    <li><a href="#">PARTYBOX.BG БЛОГ</a></li>
+                    <li><a href="#">ВСИЧКИ ОФЕРТИ</a></li>
                   </ul>
                 </div>
               </div>
               <div class="col-lg-4 col-md-4 col-xs-6 col-mb-12">
                 <div class="widget">
-                  <h3 class="block-title">За контакт</h3>
+                  <h3 class="block-title">СВЪРЖИ СЕ С НАС</h3>
                   <ul class="contact-footer">
                     <li>
                       <strong><i class="lni-phone"></i></strong><span>{{ $property->footer_phone1 }} <br> {{ $property->footer_phone2 }}</span>
