@@ -24,7 +24,7 @@
                     <li><a href="#">ПОЛИТИКА ЗА ЛИЧНИ ДАННИ</a></li>
                     <li><a href="#">ПОЛИТИКА ЗА БИСКВИТКИ</a></li>
                     <li><a href="#">PARTYBOX.BG БЛОГ</a></li>
-                    <li><a href="#">ВСИЧКИ ОФЕРТИ</a></li>
+                    <li><a href="{{ route('products') }}">ВСИЧКИ ОФЕРТИ</a></li>
                   </ul>
                 </div>
               </div>
