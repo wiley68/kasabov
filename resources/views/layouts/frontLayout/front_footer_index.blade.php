@@ -55,7 +55,7 @@
             <div class="row">
               <div class="col-md-12">
                 <div class="site-info text-center">
-                  <p>{!! $property->footer_rites !!}</a></p>
+                  <p>{!! $property->footer_rites !!}</p>
                 </div>
               </div>
             </div>
