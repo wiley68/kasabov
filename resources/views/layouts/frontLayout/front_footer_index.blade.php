@@ -41,13 +41,13 @@
                   <h3 class="block-title">СВЪРЖИ СЕ С НАС</h3>
                   <ul class="contact-footer">
                     <li>
-                      <strong><i class="lni-phone"></i></strong><span>{{ $property->footer_phone1 }} <br> {{ $property->footer_phone2 }}</span>
-                    </li>
-                    <li>
-                      <strong><i class="lni-envelope"></i></strong><span>{{ $property->footer_mail1 }} <br> {{ $property->footer_mail2 }}</span>
-                    </li>
-                    <li>
-                      <strong><i class="lni-map-marker"></i></strong><span><a href="#">{{ $property->footer_address }}</a></span>
+                      <form enctype="multipart/form-data" action="{{ route('contact') }}" method="post" name="contact" id="contact" novalidate="novalidate">
+                        @csrf
+                        <input style="width:100%;margin-bottom:10px;" type="text" name="contact_name" placeholder="Име">
+                        <input style="width:100%;margin-bottom:10px;" type="text" name="contact_email" placeholder="E-Mail">
+                        <textarea style="width:100%;height:120px;" name="contact_message" placeholder="Съобщение"></textarea>
+                        <button class="btn btn-common fullwidth mt-4" type="submit">Изпрати</button>
+                      </form>
                     </li>
                   </ul>
                 </div>

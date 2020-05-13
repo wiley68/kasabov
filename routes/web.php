@@ -135,6 +135,7 @@ Route::get('/sms', 'IndexController@sms')->name('sms');
 Route::get('/sms1', 'IndexController@sms1')->name('sms1');
 Route::get('/sms2', 'IndexController@sms2')->name('sms2');
 Route::post('/abonament', 'IndexController@abonament')->name('abonament');
+Route::post('/contact', 'IndexController@contact')->name('contact');
 
 // Users routes
 Route::get('/users-login-register', 'UsersController@loginRegisterUsers')->name('users-login-register');

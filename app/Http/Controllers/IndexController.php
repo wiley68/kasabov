@@ -212,4 +212,58 @@ class IndexController extends Controller
         }
     }
 
+    public function contact(Request $request){
+        if ($request->isMethod('post')){
+            $contact_name = $request->input('contact_name');
+            $contact_email = $request->input('contact_email');
+            $contact_message = $request->input('contact_message');
+
+            $admin_name = env("APP_NAME", "PartyBox");
+            $admin_email = env("MAIL_USERNAME", "kasabov.sot@gmail.com");
+            $data = array(
+                'contact_name' => $contact_name,
+                'contact_email' => $contact_email,
+                'contact_message' => $contact_message
+            );
+
+            Mail::send('mail_contact', $data, function ($message) use ($admin_email, $admin_name){
+                $message->to($admin_email, $admin_name)->subject('Изпратена съобщение от клиент');
+                $message->from(Config::get('settings.mail'), 'PartyBox');
+            });
+
+            $holidays_count = Holiday::where(['parent_id'=>0])->count();
+            if ($holidays_count >= 5){
+                $holidays_count = 5;
+            }
+            $holidays = Holiday::where(['parent_id'=>0])->take($holidays_count)->get();
+            $cities = City::whereColumn('city', 'oblast')->get();
+            $categories_top_count = Category::where(['parent_id'=>0])->count();
+            if ($categories_top_count >= 12){
+                $categories_top_count = 12;
+            }
+            $categories_top = Category::where(['parent_id'=>0])->take($categories_top_count)->get();
+            $tops_count = Product::where(['top'=>1, 'status'=>'active'])->where('active_at', '>=', date("Y-m-d", strtotime("-1 months")))->count();
+            if ($tops_count >= 6){
+                $tops_count = 6;
+            }
+            $tops = Product::where(['top'=>1, 'status'=>'active'])->where('active_at', '>=', date("Y-m-d", strtotime("-1 months")))->get()->take($tops_count);
+            $featured_products_count = Product::where(['featured'=>1, 'status'=>'active'])->where('active_at', '>=', date("Y-m-d", strtotime("-1 months")))->count();
+            if ($featured_products_count >= 6){
+                $featured_products_count = 6;
+            }
+            $featured_products = Product::where(['featured'=>1, 'status'=>'active'])->where('active_at', '>=', date("Y-m-d", strtotime("-1 months")))->get()->take($featured_products_count);
+            $property = LandingPage::first();
+
+            return redirect('/')->with([
+                'holidays'=>$holidays,
+                'cities'=>$cities,
+                'categories_top'=>$categories_top,
+                'tops'=>$tops,
+                'property'=>$property,
+                'featured_products'=>$featured_products,
+                'flash_message_success'=>'Успешно изпратихте съобщението си към екипа на PartyBox!'
+            ]);
+        }
+    }
+
 }
