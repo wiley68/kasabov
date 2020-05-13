@@ -12,6 +12,14 @@
                   </div>
                   <ul class="mt-3 footer-social">
                     <li><a class="facebook" href="https://www.facebook.com/partybox.bg" target="_blank"><i class="lni-facebook-filled"></i></a></li>
+                    <li>
+                      <p style="text-align:center;width:100%;">Абонамент за бюлетин</p>
+                      <form enctype="multipart/form-data" action="{{ route('abonament') }}" method="post" name="abonament" id="abonament" novalidate="novalidate">
+                        @csrf
+                        <input style="width:100%;" type="text" name="abonament_email" placeholder="Въведете e-mail адрес">
+                        <button class="btn btn-common fullwidth mt-4" type="submit">Абонирай се</button>
+                      </form>
+                    </li>
                   </ul>
                 </div>
               </div>

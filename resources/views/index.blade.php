@@ -9,6 +9,12 @@
 <!-- Categories item Start -->
 <section id="categories" class="section-padding">
     <div class="container">
+        @if (Session::has('flash_message_success'))
+            <div class="alert alert-success alert-block">
+                <button type="button" class="close" data-dismiss="alert">×</button>
+                <strong>{!! session('flash_message_success') !!}</strong>
+            </div>
+        @endif
         <div class="row">
             <div class="col-12 text-center">
                 <div class="heading">
