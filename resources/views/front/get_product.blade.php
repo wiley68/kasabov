@@ -250,7 +250,7 @@ if(!empty($product->image)){
                             @php
                                 switch ($product->available_for) {
                                     case 'country':
-                                        $avavailable_for_txtailable = "Цялата страна";
+                                        $available_for_txt = "Цялата страна";
                                         $availablecity = "";
                                         break;
                                     case 'area':
