@@ -333,15 +333,19 @@ if(!empty($product->image)){
                                     </div>
                                 </div>
                             </div>
-                            <div class="agent-title">
-                                <div class="agent-photo">
-                                    <a href="{{ route('products', ['user_id'=>$product->user_id]) }}" title="Покажи всички продукти на този търговец."><img src="{{ asset('/images/backend_images/users/'.User::where(['id'=>$product->user_id])->first()->image) }}" alt=""></a>
-                                </div>
-                                <div class="agent-details">
-                                    <h3><a href="{{ route('products', ['user_id'=>$product->user_id]) }}" title="Покажи всички продукти на този търговец.">{{ User::where(['id'=>$product->user_id])->first()->name }}</a></h3>
-                                    <span><i class="lni-phone-handset"></i>(123) 123-456</span>
-                                </div>
+                            <div style="text-align:center;">
+                                <p style="font-size:16px;color:black;font-weight:bold;">ПРОДУКТ НА</p>
+                                <p style="font-size:30px;font-weight:bold;"><a href="{{ route('products', ['user_id'=>$product->user_id]) }}" title="Покажи всички продукти на този търговец.">{{ User::where(['id'=>$product->user_id])->first()->name }}</a></p>
+                                <span><i class="lni-phone-handset"></i> {{ User::where(['id'=>$product->user_id])->first()->phone }}</span>
                             </div>
+                            <div style="text-align:center;padding-top:20px;padding-bottom:20px;">
+                                <p style="font-size:16px;color:black;">
+                                Имаш въпроси относно този продукт или искаш да го поръчаш?
+                                </p>
+                                <p style="font-size:16px;color:black;">
+                                Изпрати ни съобщение тук:
+                                </p>
+                                </div>
                             @guest
                             <p>Моля направете си регистрация или влезте с профила си в сайта, ако желаете да направите заявка за този продукт към търговеца!</p>
                             <a href="{{ route('users-login-register') }}" class="btn btn-common fullwidth mt-4">Вход | Регистрация</a>
@@ -356,9 +360,9 @@ if(!empty($product->image)){
                                 @csrf
                                 <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
                                 <input type="hidden" name="product_id" value="{{ $product->id }}">
-                                <input type="text" name="user_email" class="form-control" value="{{ User::where(['id'=>Auth::user()->id])->first()->email }}">
                                 <input type="text" name="user_phone" class="form-control" value="{{ User::where(['id'=>Auth::user()->id])->first()->phone }}">
-                                <textarea name="message" class="form-controll" style="width:100%;" rows="6">Интересувам се от Вашия продукт с код [{{ $product->product_code }}] и бих искал да получа повече детайли.</textarea>
+                                <input type="text" name="user_email" class="form-control" value="{{ User::where(['id'=>Auth::user()->id])->first()->email }}">
+                                <textarea name="message" class="form-controll" style="width:100%;" rows="6" placeholder="Съдържание на съобщението"></textarea>
                                 <button class="btn btn-common fullwidth mt-4" type="submit">Изпрати съобщението</button>
                             </form>
                             @endguest
@@ -366,7 +370,14 @@ if(!empty($product->image)){
                     </div>
                     <!-- Popular Posts widget -->
                     <div class="widget">
-                        <h4 class="widget-title">Продукти от продавача</h4>
+                        <a href="{{ route('products', ['user_id'=>$product->user_id]) }}" title="Покажи всички продукти на този търговец.">
+                            <div style="text-align:center;font-size:16px;color:black;padding-top:10px;">
+                            всички продукти на
+                            </div>
+                            <div style="text-align:center;font-size:30px;font-weight:bold;border-bottom:1px solid whitesmoke;margin-bootom:10px;">
+                                {{ User::where(['id'=>$product->user_id])->first()->name }}
+                            </div>
+                        </a>
                         <ul class="posts-list">
                             @foreach (ProductController::frontGetProductByUser($product->user_id) as $item)
                                 @php
