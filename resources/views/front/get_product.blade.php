@@ -336,7 +336,7 @@ if(!empty($product->image)){
                             <div style="text-align:center;">
                                 <p style="font-size:16px;color:black;font-weight:bold;">ПРОДУКТ НА</p>
                                 <p style="font-size:30px;font-weight:bold;"><a href="{{ route('products', ['user_id'=>$product->user_id]) }}" title="Покажи всички продукти на този търговец.">{{ User::where(['id'=>$product->user_id])->first()->name }}</a></p>
-                                <span><i class="lni-phone-handset"></i> {{ User::where(['id'=>$product->user_id])->first()->phone }}</span>
+                                <span><i class="lni-phone-handset"></i>&nbsp;{{ User::where(['id'=>$product->user_id])->first()->phone }}</span>
                             </div>
                             <div style="text-align:center;padding-top:20px;padding-bottom:20px;">
                                 <p style="font-size:16px;color:black;">
