@@ -70,7 +70,7 @@
                 <div class="col-md-12 col-lg-9 col-xs-12 text-center">
                     <div class="contents-ctg">
                         <h5>
-                            <a href="{{ route('index') }}" style="color:dimgray;">В началото</a>
+                            <a href="{{ route('index') }}" style="color:dimgray;">Начало</a>
                             <i class="fas fa-chevron-right" style="color:dimgray;"></i>
                             @if(Route::current()->getName() == 'products')
                                 @if(request('filter') == 'yes')
