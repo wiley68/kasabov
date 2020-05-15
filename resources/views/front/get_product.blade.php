@@ -312,12 +312,7 @@ if(!empty($product->image)){
                 <!--Sidebar-->
                 <aside class="details-sidebar">
                     <div class="widget">
-                        <h4 class="widget-title">Продукт на: <a href="{{ route('products', ['user_id'=>$product->user_id]) }}" title="Покажи всички продукти на този търговец.">{{ User::where(['id'=>$product->user_id])->first()->name }}</a></h4>
                         <div class="agent-inner">
-                            <div class="mb-4">
-                                <p>{{ User::where(['id'=>$product->user_id])->first()->info }}</p>
-                            </div>
-                            <hr />
                             <div class="mb-4">
                                 <div class="mapouter">
                                     <div class="gmap_canvas">
