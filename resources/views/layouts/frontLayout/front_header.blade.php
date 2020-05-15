@@ -1,5 +1,6 @@
 <?php use App\Holiday; ?>
 <?php use App\Category; ?>
+<?php use App\User; ?>
 <!-- Header Area wrapper Starts -->
 <header id="header-wrap">
     <!-- Navbar Start -->
@@ -86,7 +87,11 @@
                                         <a href="{{ route('products', ['filter'=>'yes', 'category_id'=>request('category_id')]) }}">{{ Category::where(['id'=>request('category_id')])->first()->name }}</a>
                                     @endif
                                 @else
+                                    @if(!empty(request('user_id')) && request('user_id') != 0)
+                                    <a href="{{ route('products', ['user_id'=>request('user_id')]) }}" style="color:dimgray;">Всички продукти на {{ User::where(['id'=>request('user_id')])->first()->name}}</a>
+                                    @else
                                     <a href="{{ route('products') }}" style="color:dimgray;">Всички продукти</a>
+                                    @endif
                                 @endif
                             @elseif(Route::current()->getName() == 'product')
                             <a href="{{ route('products') }}" style="color:dimgray;">Всички продукти</a>
