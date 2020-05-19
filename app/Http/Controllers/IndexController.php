@@ -13,6 +13,30 @@ use Config;
 
 class IndexController extends Controller
 {
+    public static function getUserIP()
+    {
+        if (isset($_SERVER["HTTP_CF_CONNECTING_IP"])) {
+            $_SERVER['REMOTE_ADDR'] = $_SERVER["HTTP_CF_CONNECTING_IP"];
+            $_SERVER['HTTP_CLIENT_IP'] = $_SERVER["HTTP_CF_CONNECTING_IP"];
+        }
+        $client  = @$_SERVER['HTTP_CLIENT_IP'];
+        $forward = @$_SERVER['HTTP_X_FORWARDED_FOR'];
+        $remote  = $_SERVER['REMOTE_ADDR'];
+        if (filter_var($client, FILTER_VALIDATE_IP)) {
+            $ip = $client;
+        } elseif (filter_var($forward, FILTER_VALIDATE_IP)) {
+            $ip = $forward;
+        } else {
+            $ip = $remote;
+        }
+        return $ip;
+    }
+
+    public function maintenance()
+    {
+        return view('maintenance');
+    }
+
     public function index(){
         $holidays_count = Holiday::where(['parent_id'=>0])->count();
         if ($holidays_count >= 5){
@@ -92,6 +116,18 @@ class IndexController extends Controller
             $property->save();
         }
         return view('admin.properties.edit_payment_packages')->with([
+            'property'=>$property
+        ]);
+    }
+
+    public function editMaintenancePage(Request $request){
+        $property = LandingPage::first();
+        if ($request->isMethod('post')){
+            $property->maintenance_status = $request->input('maintenance_status');
+            $property->maintenance_ip = $request->input('maintenance_ip');
+            $property->save();
+        }
+        return view('admin.properties.edit_maintenance_page')->with([
             'property'=>$property
         ]);
     }

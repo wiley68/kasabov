@@ -355,8 +355,11 @@ if(!empty($product->image)){
                                 @csrf
                                 <input type="hidden" name="user_id" value="{{ Auth::user()->id }}">
                                 <input type="hidden" name="product_id" value="{{ $product->id }}">
+                                <label for="user_phone">Тел. номер</label>
                                 <input type="text" name="user_phone" class="form-control" value="{{ User::where(['id'=>Auth::user()->id])->first()->phone }}">
+                                <label for="user_email">Email</label>
                                 <input type="text" name="user_email" class="form-control" value="{{ User::where(['id'=>Auth::user()->id])->first()->email }}">
+                                <label for="message">Съобщение</label>
                                 <textarea name="message" class="form-controll" style="width:100%;" rows="6" placeholder="Съдържание на съобщението"></textarea>
                                 <button class="btn btn-common fullwidth mt-4" type="submit">Изпрати съобщението</button>
                             </form>

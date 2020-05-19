@@ -1,3 +1,5 @@
+<?php use App\LandingPage; ?>
+<?php use App\Http\Controllers\IndexController; ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,6 +7,25 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="csrf-token" content="{{ csrf_token() }}" />
+@php
+    $property = LandingPage::where('id', '>', 0)->first();
+    $show = false;
+    if (!empty($property)){
+    if ($property->maintenance_status == 1){
+    $maintenance_ip = explode(",", $property->maintenance_ip);
+    foreach ($maintenance_ip as $maintenance_ip_address) {
+    if (($maintenance_ip_address == IndexController::getUserIP()) || ('::1' == IndexController::getUserIP())){
+    $show = true;
+    }
+    }
+    }else{
+    $show = true;
+    }
+    }
+    @endphp
+    @if(!$show)
+    <meta http-equiv="refresh" content="0; url=/maintenance" />
+    @endif
 <!-- index controller -->
 <link rel="stylesheet" href="{{ asset('css/frontend_css/bootstrap.min.css') }}" />
 <link href="{{ asset('fonts/frontend_fonts/css/line-icons.css') }}" rel="stylesheet" />
