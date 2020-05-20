@@ -140,10 +140,6 @@
                                     <input name="product_code" style="width:100%;" type="text" value="{{ $product->product_code }}">
                                 </div>
                                 <div class="form-group mb-3" style="display:flex">
-                                    <label style="width:200px;">Количество</label>
-                                    <input name="quantity" style="width:100%;" type="number" value="{{ $product->quantity }}">
-                                </div>
-                                <div class="form-group mb-3" style="display:flex">
                                     <label style="color:red;width:200px;">Цена *</label>
                                     <input name="price" style="width:100%;" type="number" value="{{ $product->price }}">
                                 </div>
@@ -238,7 +234,7 @@
                                     </select>
                                 </div>
                                 <div class="form-group mb-3" style="display:flex">
-                                    <label style="width:200px;">Цена на изпращане</label>
+                                    <label style="width:200px;">Цена на доставка</label>
                                     <input name="price_send" style="width:100%;" type="number" value="{{ $product->price_send }}">
                                 </div>
                                 <div class="form-group mb-3" style="display:flex">

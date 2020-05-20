@@ -81,12 +81,6 @@
                                 </div>
                             </div>
                             <div class="control-group">
-                                <label class="control-label">Количество</label>
-                                <div class="controls">
-                                    <input type="number" name="quantity" id="quantity">
-                                </div>
-                            </div>
-                            <div class="control-group">
                                 <label class="control-label" style="color:red;">Цена *</label>
                                 <div class="controls">
                                     <input type="number" name="price" id="price">
@@ -187,7 +181,7 @@
                                 </div>
                             </div>
                             <div class="control-group">
-                                <label class="control-label">Цена за изпращане</label>
+                                <label class="control-label">Цена на доставка</label>
                                 <div class="controls">
                                     <input type="number" name="price_send" id="price_send">
                                 </div>

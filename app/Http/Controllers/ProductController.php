@@ -107,11 +107,6 @@ class ProductController extends Controller
             }
             $personalize = $request->input('personalize');
             $description = $request->input('description');
-            if (empty($request->input('quantity'))){
-                $quantity = 0;
-            }else{
-                $quantity = $request->input('quantity');
-            }
             $price = $request->input('price');
             if (empty($request->input('likes'))){
                 $likes = 0;
@@ -151,7 +146,6 @@ class ProductController extends Controller
             if (empty($description)){
                 $product->description = '';
             }
-            $product->quantity = $quantity;
             $product->price = $price;
 
             // check featured
@@ -399,11 +393,6 @@ class ProductController extends Controller
             $product->description = $request->input('description');
             if (empty($product->description)){
                 $product->description = '';
-            }
-            if (empty($request->input('quantity'))){
-                $product->quantity = 0;
-            }else{
-                $product->quantity = $request->input('quantity');
             }
             $product->price = $request->input('price');
             $product->image = $filename;

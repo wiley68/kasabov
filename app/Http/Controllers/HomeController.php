@@ -535,11 +535,6 @@ class HomeController extends Controller
                 $product->holiday_id = $request->input('holiday_id');
                 $product->product_name = $request->input('product_name');
                 $product->product_code = $request->input('product_code');
-                if (empty($request->input('quantity'))) {
-                    $product->quantity = 0;
-                } else {
-                    $product->quantity = $request->input('quantity');
-                }
                 $product->price = $request->input('price');
                 $product->description = $request->input('description');
                 if (empty($product->description)) {
@@ -789,11 +784,6 @@ class HomeController extends Controller
             $product->holiday_id = $request->input('holiday_id');
             $product->product_name = $request->input('product_name');
             $product->product_code = $request->input('product_code');
-            if (empty($request->input('quantity'))) {
-                $product->quantity = 0;
-            } else {
-                $product->quantity = $request->input('quantity');
-            }
             $product->price = $request->input('price');
             $product->description = $request->input('description');
             if (empty($product->description)) {
