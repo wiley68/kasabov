@@ -1,29 +1,38 @@
-<?php use App\Category; ?>
-<?php use App\Holiday; ?>
-<?php use App\City; ?>
-<?php use App\ProductsCity; ?>
-<?php use App\Tag; ?>
+<?php
+
+use App\Category; ?>
+<?php
+
+use App\Holiday; ?>
+<?php
+
+use App\City; ?>
+<?php
+
+use App\ProductsCity; ?>
+<?php
+
+use App\Tag; ?>
 @extends('layouts.frontLayout.front_design')
 @section('content')
 <script type="text/javascript">
-    function deleteProductImage(url){
+    function deleteProductImage(url) {
         swal({
-            title: "Сигурни ли сте?",
-            text: "Ще бъде изтрита снимката за този продукт. Операцията е невъзвратима!",
-            icon: "warning",
-            buttons: ["Отказ!", "Съгласен съм!"],
-            dangerMode: true,
-        })
-        .then((willDelete) => {
-            if (willDelete) {
-            window.location = url;
-        } else {
-            return false;
-        }
-        });
+                title: "Сигурни ли сте?",
+                text: "Ще бъде изтрита снимката за този продукт. Операцията е невъзвратима!",
+                icon: "warning",
+                buttons: ["Отказ!", "Съгласен съм!"],
+                dangerMode: true,
+            })
+            .then((willDelete) => {
+                if (willDelete) {
+                    window.location = url;
+                } else {
+                    return false;
+                }
+            });
         return false;
     };
-
 </script>
 <!-- Start Content -->
 <div id="content" class="section-padding">
@@ -102,52 +111,58 @@
                         <div class="dashboard-box">
                             <h2 class="dashbord-title">Създаване на нова Оферта</h2>
                         </div>
-                        <form enctype="multipart/form-data" class="form-horizontal" method="post" action="{{ route('home-firm-product-new', ['id'=>$product->id]) }}"
-                            name="home_firm_product_edit" id="home_firm_product_edit" novalidate="novalidate">
+                        <form enctype="multipart/form-data" class="form-horizontal" method="post" action="{{ route('home-firm-product-new', ['id'=>$product->id]) }}" name="home_firm_product_edit" id="home_firm_product_edit" novalidate="novalidate">
                             @csrf
                             <input type="hidden" id="product_id" value="{{ $product->id }}">
                             <div class="dashboard-wrapper">
                                 <div class="form-group mb-3" style="display:flex">
+                                    <span><i class="lni lni-question-circle" data-toggle="tooltip" data-placement="top" title="Избери категория, в която да бъде публикувана тази оферта"></i></span>&nbsp;
                                     <label style="color:red;width:200px;">Категория *</label>
                                     <select name="category_id" id="category_id" style="width:100%;">
                                         <option value="0" @if($product->category_id == 0) selected @endif>Избери категория</option>
                                         @foreach ($categories as $category)
                                         <option value="{{ $category->id }}" @if ($category->id === $product->category_id) selected @endif>{{ $category->name }}</option>
-                                            @foreach (Category::where(['parent_id'=>$category->id])->get() as $item)
-                                            <option value="{{ $item->id }}" @if ($item->id === $product->category_id) selected @endif>&nbsp;--&nbsp;{{ $item->name }}</option>
-                                            @endforeach
+                                        @foreach (Category::where(['parent_id'=>$category->id])->get() as $item)
+                                        <option value="{{ $item->id }}" @if ($item->id === $product->category_id) selected @endif>&nbsp;--&nbsp;{{ $item->name }}</option>
+                                        @endforeach
                                         @endforeach
                                     </select>
                                 </div>
                                 <div class="form-group mb-3" style="display:flex">
+                                    <span><i class="lni lni-question-circle"></i></span>&nbsp;
                                     <label style="width:200px;">Празник</label>
                                     <select name="holiday_id" id="holiday_id" style="width:100%;">
-                                        <option value="0" @if (0 === $product->holiday_id) selected @endif selected>Избери празник</option>
+                                        <option value="0" @if (0===$product->holiday_id) selected @endif selected>Избери празник</option>
                                         @foreach ($holidays as $holiday)
                                         <option value="{{ $holiday->id }}" @if ($holiday->id === $product->holiday_id) selected @endif>{{ $holiday->name }}</option>
-                                            @foreach (Holiday::where(['parent_id'=>$holiday->id])->get() as $item)
-                                            <option value="{{ $item->id }}" @if ($item->id === $product->holiday_id) selected @endif>&nbsp;--&nbsp;{{ $item->name }}</option>
-                                            @endforeach
+                                        @foreach (Holiday::where(['parent_id'=>$holiday->id])->get() as $item)
+                                        <option value="{{ $item->id }}" @if ($item->id === $product->holiday_id) selected @endif>&nbsp;--&nbsp;{{ $item->name }}</option>
+                                        @endforeach
                                         @endforeach
                                     </select>
                                 </div>
                                 <div class="form-group mb-3" style="display:flex">
+                                    <span><i class="lni lni-question-circle" data-toggle="tooltip" data-placement="top" title="Създай точно и ясно заглавие на офертата"></i></span>&nbsp;
                                     <label style="color:red;width:200px;">Продукт *</label>
                                     <input name="product_name" type="text" style="width:100%;" value="{{ $product->product_name }}">
                                 </div>
                                 <div class="form-group mb-3" style="display:flex">
+                                    <span><i class="lni lni-question-circle" data-toggle="tooltip" data-placement="top" title="Всяка оферта трябва да бъде публикувана с уникален цифрен код"></i></span>&nbsp;
                                     <label style="color:red;width:200px;">Код *</label>
                                     <input name="product_code" style="width:100%;" type="text" value="{{ $product->product_code }}">
                                 </div>
                                 <div class="form-group mb-3" style="display:flex">
+                                    <span><i class="lni lni-question-circle" data-toggle="tooltip" data-placement="top" title="Предложи най-добрата цена за тази оферта"></i></span>&nbsp;
                                     <label style="color:red;width:200px;">Цена *</label>
                                     <input name="price" style="width:100%;" type="number" value="{{ $product->price }}">
                                 </div>
                                 <div class="form-group mb-3" style="display:flex">
+                                    <span><i class="lni lni-question-circle" data-toggle="tooltip" data-placement="top" title="Точно и пълно описание на офертата ще улесни купувачите и ще им помогне да стигнат по-бързо до коръчка"></i></span>&nbsp;
                                     <label style="width:200px;">Описание на продукта</label>
                                     <textarea name="description" id="description" style="width:100%;" class="span12" rows="5">{!! $product->description !!}</textarea>
                                 </div>
                                 <div class="form-group mb-3">
+                                    <span><i class="lni lni-question-circle" data-toggle="tooltip" data-placement="top" title="Избери най-добрата снимка за твоята оферта. Тя ще се показва в резултатите при търсене и е първото нещо, което ще привлече вниманието на купувачите и ще ги накара да отворят офертата ти"></i></span>&nbsp;
                                     <label class="control-label">Заглавна снимка</label>
                                     <input type="file" name="image" id="image">
                                     <input type="hidden" name="current_image" id="current_image" value="{{ $product->image }}">
@@ -159,6 +174,7 @@
                                     @endif
                                 </div>
                                 <div class="form-group mb-3" style="display:flex">
+                                    <span><i class="lni lni-question-circle"></i></span>&nbsp;
                                     <label style="width:200px;">Основен цвят</label>
                                     <select name="first_color" id="first_color" style="width:100%;">
                                         <option value="white" @if($product->first_color == 'white') selected @endif>Бял</option>
@@ -176,6 +192,7 @@
                                     </select>
                                 </div>
                                 <div class="form-group mb-3" style="display:flex">
+                                    <span><i class="lni lni-question-circle"></i></span>&nbsp;
                                     <label style="width:200px;">Втори цвят</label>
                                     <select name="second_color" id="second_color" style="width:100%;">
                                         <option value="white" @if($product->second_color == 'white') selected @endif>Бял</option>
@@ -193,6 +210,7 @@
                                     </select>
                                 </div>
                                 <div class="form-group mb-3" style="display:flex">
+                                    <span><i class="lni lni-question-circle" data-toggle="tooltip" data-placement="top" title="Отбележи за каква възрастова група е подходящ продукта или услугата от тази оферта"></i></span>&nbsp;
                                     <label style="width:200px;">Възрастова група</label>
                                     <select name="age" id="age" style="width:100%;">
                                         <option value="any" @if ($product->age === 'age') selected @endif>Без значение</option>
@@ -201,6 +219,7 @@
                                     </select>
                                 </div>
                                 <div class="form-group mb-3" style="display:flex">
+                                    <span><i class="lni lni-question-circle"></i></span>&nbsp;
                                     <label style="width:200px;">Пол</label>
                                     <select name="pol" id="pol" style="width:100%;">
                                         <option value="any" @if ($product->pol === 'any') selected @endif>Без значение</option>
@@ -209,6 +228,7 @@
                                     </select>
                                 </div>
                                 <div class="form-group mb-3" style="display:flex">
+                                    <span><i class="lni lni-question-circle"></i></span>&nbsp;
                                     <label style="width:200px;">Състояние</label>
                                     <select name="condition" id="condition" style="width:100%;">
                                         <option value="new" @if ($product->condition === 'new') selected @endif>Нов</option>
@@ -216,28 +236,32 @@
                                     </select>
                                 </div>
                                 <div class="form-group mb-3" style="display:flex">
+                                    <span><i class="lni lni-question-circle" data-toggle="tooltip" data-placement="top" title="Ако предлагаш физически продукт, посочи коя куриерска фирма използваш за доставка"></i></span>&nbsp;
                                     <label style="width:200px;">Изпраща се с</label>
                                     <select name="send_id" id="send_id" style="width:100%;">
                                         <option value="0" selected>Избери доставчик</option>
                                         @foreach ($speditors as $speditor)
-                                            <option value="{{ $speditor->id }}" @if ($speditor->id === $product->send_id) selected @endif>{{ $speditor->name }}</option>
+                                        <option value="{{ $speditor->id }}" @if ($speditor->id === $product->send_id) selected @endif>{{ $speditor->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
                                 <div class="form-group mb-3" style="display:flex">
+                                    <span><i class="lni lni-question-circle" data-toggle="tooltip" data-placement="top" title="Ако предлагаш физически продукт, посочи населеното място от което изпращащ"></i></span>&nbsp;
                                     <label style="width:200px;">Изпраща се от</label>
                                     <select name="send_from_id" id="send_from_id" style="width:100%;">
                                         <option value="0" selected>Избери населено място</option>
                                         @foreach ($cities as $city)
-                                            <option value="{{ $city->id }}" @if ($city->id === $product->send_from_id) selected @endif>{{ $city->city }} - {{ $city->oblast }}</option>
+                                        <option value="{{ $city->id }}" @if ($city->id === $product->send_from_id) selected @endif>{{ $city->city }} - {{ $city->oblast }}</option>
                                         @endforeach
                                     </select>
                                 </div>
                                 <div class="form-group mb-3" style="display:flex">
+                                    <span><i class="lni lni-question-circle" data-toggle="tooltip" data-placement="top" title="Посочи точна или ориентировъчна цена на доставка с куриер"></i></span>&nbsp;
                                     <label style="width:200px;">Цена на доставка</label>
                                     <input name="price_send" style="width:100%;" type="number" value="{{ $product->price_send }}">
                                 </div>
                                 <div class="form-group mb-3" style="display:flex">
+                                    <span><i class="lni lni-question-circle"></i></span>&nbsp;
                                     <label style="width:200px;">Безплатна доставка</label>
                                     <select name="send_free" id="send_free" style="width:100%;">
                                         <option value=1 @if ($product->send_free === 1) selected @endif>Да</option>
@@ -246,6 +270,7 @@
                                 </div>
 
                                 <div class="form-group mb-3" style="display:flex">
+                                    <span><i class="lni lni-question-circle" data-toggle="tooltip" data-placement="top" title="Можеш да избереш дали офертата ти да бъде актуална за цялата страна или за конкретна област, едно или няколко населени места"></i></span>&nbsp;
                                     <label style="width:200px;">Офертата важи за</label>
                                     <select name="send_free_available_for" id="send_free_available_for" style="width:100%;">
                                         <option value="country">Цялата страна</option>
@@ -255,34 +280,38 @@
                                     </select>
                                 </div>
                                 <div id="send_free_available_for_send_free_id_div" class="form-group mb-3" style="display:flex">
+                                    <span><i class="lni lni-question-circle"></i></span>&nbsp;
                                     <label style="width:200px;">Избери</label>
                                     <select name="send_free_id" id="send_free_id" style="width:100%;">
                                         <option value="0" selected>Избери населено място</option>
                                         @foreach ($cities as $city)
-                                            <option value="{{ $city->id }}">{{ $city->city }} - {{ $city->oblast }}</option>
+                                        <option value="{{ $city->id }}">{{ $city->city }} - {{ $city->oblast }}</option>
                                         @endforeach
                                     </select>
                                 </div>
                                 <div id="send_free_available_for_oblast_div" class="form-group mb-3" style="display:flex">
+                                    <span><i class="lni lni-question-circle"></i></span>&nbsp;
                                     <label style="width:200px;">Избери</label>
                                     <select name="send_free_oblast" id="send_free_oblast" style="width:100%;">
                                         <option value="0" selected>Избери област</option>
                                         @foreach ($cities as $city)
-                                            @if($city->city === $city->oblast)
-                                            <option value="{{ $city->id }}">{{ $city->city }}</option>
-                                            @endif
+                                        @if($city->city === $city->oblast)
+                                        <option value="{{ $city->id }}">{{ $city->city }}</option>
+                                        @endif
                                         @endforeach
                                     </select>
                                 </div>
                                 <div id="send_free_available_for_cities_div" class="form-group mb-3" style="display:flex">
+                                    <span><i class="lni lni-question-circle"></i></span>&nbsp;
                                     <label style="width:200px;">Избери</label>
                                     <select multiple name="send_free_available_for_cities[ ]" id="send_free_available_for_cities" style="width:100%;">>
                                         @foreach ($cities as $city)
-                                            <option value="{{ $city->id }}">{{ $city->city }}&nbsp;--&nbsp;{{ $city->oblast }}</option>
+                                        <option value="{{ $city->id }}">{{ $city->city }}&nbsp;--&nbsp;{{ $city->oblast }}</option>
                                         @endforeach
                                     </select>
-                                </div>                                    
+                                </div>
                                 <div class="form-group mb-3" style="display:flex">
+                                    <span><i class="lni lni-question-circle"></i></span>&nbsp;
                                     <label style="width:200px;">Доставя за</label>
                                     <select name="available_for" id="available_for" style="width:100%;">
                                         <option value="country" @if ($product->available_for === 'country') selected @endif>Цялата страна</option>
@@ -292,38 +321,42 @@
                                     </select>
                                 </div>
                                 <div id="available_for_city_div" class="form-group mb-3" style="display:flex">
+                                    <span><i class="lni lni-question-circle"></i></span>&nbsp;
                                     <label style="width:200px;">Избери</label>
                                     <select name="available_for_city" id="available_for_city" style="width:100%;">
                                         <option value="0" selected>Избери населено място</option>
                                         @foreach ($cities as $city)
-                                            <option value="{{ $city->id }}" @if ($city->id === $product->available_for_city) selected @endif>{{ $city->city }} - {{ $city->oblast }}</option>
+                                        <option value="{{ $city->id }}" @if ($city->id === $product->available_for_city) selected @endif>{{ $city->city }} - {{ $city->oblast }}</option>
                                         @endforeach
                                     </select>
                                 </div>
                                 <div id="available_for_oblast_div" class="form-group mb-3" style="display:flex">
+                                    <span><i class="lni lni-question-circle"></i></span>&nbsp;
                                     <label style="width:200px;">Избери</label>
                                     <select name="available_for_oblast" id="available_for_oblast" style="width:100%;">
                                         <option value="0" selected>Избери Област</option>
                                         @foreach ($oblasti as $oblast)
-                                            <option value="{{ $oblast->id }}" @if ($oblast->id === $product->available_for_city) selected @endif>{{ $oblast->city }}</option>
+                                        <option value="{{ $oblast->id }}" @if ($oblast->id === $product->available_for_city) selected @endif>{{ $oblast->city }}</option>
                                         @endforeach
                                     </select>
                                 </div>
                                 <div id="available_for_cities_div" class="form-group mb-3" style="display:flex">
+                                    <span><i class="lni lni-question-circle"></i></span>&nbsp;
                                     <label style="width:200px;">Избери</label>
                                     <select multiple name="available_for_cities[ ]" id="available_for_cities" style="width:100%;">
                                         @foreach ($cities as $city)
-                                            @php
-                                                $city_arr = [];
-                                                foreach (ProductsCity::where(['product_id'=>$product->id])->get() as $product_city) {
-                                                    $city_arr[] = $product_city->city_id;
-                                                }
-                                            @endphp
-                                            <option value="{{ $city->id }}" @if (in_array($city->id, $city_arr)) selected @endif>{{ $city->city }}&nbsp;--&nbsp;{{ $city->oblast }}</option>
+                                        @php
+                                        $city_arr = [];
+                                        foreach (ProductsCity::where(['product_id'=>$product->id])->get() as $product_city) {
+                                        $city_arr[] = $product_city->city_id;
+                                        }
+                                        @endphp
+                                        <option value="{{ $city->id }}" @if (in_array($city->id, $city_arr)) selected @endif>{{ $city->city }}&nbsp;--&nbsp;{{ $city->oblast }}</option>
                                         @endforeach
                                     </select>
                                 </div>
                                 <div class="form-group mb-3" style="display:flex">
+                                    <span><i class="lni lni-question-circle" data-toggle="tooltip" data-placement="top" title="Избери тази опция, ако продукта, който предлагаш, може да бъде закупен от физически магазин."></i></span>&nbsp;
                                     <label style="width:200px;">Може да се вземе от обект</label>
                                     <select name="object" id="object" style="width:100%;">
                                         <option value=0 @if ($product->object === 0) selected @endif>Не</option>
@@ -331,10 +364,12 @@
                                     </select>
                                 </div>
                                 <div class="form-group mb-3" style="display:flex">
+                                    <span><i class="lni lni-question-circle" data-toggle="tooltip" data-placement="top" title="Адрес на физическия магазин."></i></span>&nbsp;
                                     <label style="width:200px;">Адрес на обекта</label>
                                     <input name="object_name" type="text" style="width:100%;" value="{{ $product->object_name }}">
                                 </div>
                                 <div class="form-group mb-3" style="display:flex">
+                                    <span><i class="lni lni-question-circle" data-toggle="tooltip" data-placement="top" title="Отбележи дали продуктът или услугата могат да бъдат персонализирани спрямо конкретни изисквания на клиента"></i></span>&nbsp;
                                     <label style="width:200px;">Възможност за персонализиране</label>
                                     <select name="personalize" id="personalize" style="width:100%;">
                                         <option value=0 @if ($product->personalize === 0) selected @endif>Не</option>
@@ -342,6 +377,7 @@
                                     </select>
                                 </div>
                                 <div class="form-group mb-3" style="display:flex">
+                                    <span><i class="lni lni-question-circle" data-toggle="tooltip" data-placement="top" title="По всяко време можеш да променяш статуса на своята оферта и да следиш периода за нейната активност"></i></span>&nbsp;
                                     <label style="width:200px;">Статус</label>
                                     <select name="status" id="status" style="width:100%;">
                                         <option value='active' @if ($product->status === 'active') selected @endif>Активен</option>
@@ -351,6 +387,7 @@
                                     </select>
                                 </div>
                                 <div class="form-group mb-3" style="display:flex">
+                                    <span><i class="lni lni-question-circle"></i></span>&nbsp;
                                     <label style="width:200px;">Промоционален</label>
                                     <select name="featured" id="featured" style="width:100%;">
                                         <option value=0 @if ($product->featured === 0) selected @endif>Не</option>
@@ -359,7 +396,7 @@
                                 </div>
                                 <hr />
                                 <div class="form-group mb-3">
-                                    <p>Етикети</p>
+                                    <span><i class="lni lni-question-circle" data-toggle="tooltip" data-placement="top" title="За да бъде повече видима и по-лесно откриваема при търсене в търсачката на сайта, твоята оферта е необходимо да притежава етикети (тагове). Използвай кратки думи или словосъчетания, които най-точно описват това, което предлагащ"></i>&nbsp;<p style="display: inline-block">Етикети</p></span>
                                     <div style="width:100%;">
                                         <input type="text" name="tag_add" id="tag_add">
                                         <button id="btn_add_tag" class="btn btn-primary">Добави етикета</button>
@@ -394,124 +431,125 @@
 @endsection
 
 @section('scripts')
-    <script>
-        // Hide send_free_div
-        // Hide all city chooses
-        function hideAllsend_free(){
-            $('#send_free_available_for_send_free_id_div').hide();
-            $('#send_free_available_for_oblast_div').hide();  
-            $('#send_free_available_for_cities_div').hide();            
+<script>
+    // Hide send_free_div
+    // Hide all city chooses
+    function hideAllsend_free() {
+        $('#send_free_available_for_send_free_id_div').hide();
+        $('#send_free_available_for_oblast_div').hide();
+        $('#send_free_available_for_cities_div').hide();
+    }
+    hideAllsend_free();
+    $('#send_free_available_for').change(function() {
+        switch ($(this).val()) {
+            case 'country':
+                hideAllsend_free();
+                break;
+            case 'city':
+                hideAllsend_free();
+                $('#send_free_available_for_send_free_id_div').show();
+                break;
+            case 'cities':
+                hideAllsend_free();
+                $('#send_free_available_for_cities_div').show();
+                break;
+            case 'area':
+                hideAllsend_free();
+                $('#send_free_available_for_oblast_div').show();
+                break;
+            default:
+                hideAllsend_free();
+                break;
         }
-        hideAllsend_free();
-        $('#send_free_available_for').change(function(){
-            switch ($(this).val()) {
-                case 'country':
-                    hideAllsend_free();
-                    break;
-                case 'city':
-                    hideAllsend_free();
-                    $('#send_free_available_for_send_free_id_div').show();
-                    break;
-                case 'cities':
-                    hideAllsend_free();
-                    $('#send_free_available_for_cities_div').show();
-                    break;
-                case 'area':
-                    hideAllsend_free();
-                    $('#send_free_available_for_oblast_div').show();
-                    break;
-                default:
-                    hideAllsend_free();
-                    break;
+    });
+    // Hide all chooses
+    function hideAll() {
+        switch ($('#available_for').val()) {
+            case 'country':
+                $('#available_for_city_div').hide();
+                $('#available_for_oblast_div').hide();
+                $('#available_for_cities_div').hide();
+                break;
+            case 'city':
+                $('#available_for_oblast_div').hide();
+                $('#available_for_cities_div').hide();
+                $('#available_for_city_div').show();
+                break;
+            case 'cities':
+                $('#available_for_city_div').hide();
+                $('#available_for_oblast_div').hide();
+                $('#available_for_cities_div').show();
+                break;
+            case 'area':
+                $('#available_for_city_div').hide();
+                $('#available_for_cities_div').hide();
+                $('#available_for_oblast_div').show();
+                break;
+            default:
+                $('#available_for_city_div').hide();
+                $('#available_for_oblast_div').hide();
+                $('#available_for_cities_div').hide();
+                break;
+        }
+    }
+    hideAll();
+    $('#available_for').change(function() {
+        switch ($(this).val()) {
+            case 'country':
+                hideAll();
+                break;
+            case 'city':
+                hideAll();
+                $('#available_for_city_div').show();
+                break;
+            case 'cities':
+                hideAll();
+                $('#available_for_cities_div').show();
+                break;
+            case 'area':
+                hideAll();
+                $('#available_for_oblast_div').show();
+                break;
+            default:
+                hideAll();
+                break;
+        }
+    });
+    // Add tags
+    function isNullOrWhitespace(input) {
+        if (typeof input === 'undefined' || input == null) return true;
+        return input.replace(/\s/g, '').length < 1;
+    }
+
+    function removeTag(item) {
+        // Remove tag from products_tags table by ajax
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
-        // Hide all chooses
-        function hideAll(){
-            switch ($('#available_for').val()) {
-                case 'country':
-                    $('#available_for_city_div').hide();
-                    $('#available_for_oblast_div').hide();
-                    $('#available_for_cities_div').hide();
-                    break;
-                case 'city':
-                    $('#available_for_oblast_div').hide();
-                    $('#available_for_cities_div').hide();
-                    $('#available_for_city_div').show();
-                    break;
-                case 'cities':
-                    $('#available_for_city_div').hide();
-                    $('#available_for_oblast_div').hide();
-                    $('#available_for_cities_div').show();
-                    break;
-                case 'area':
-                    $('#available_for_city_div').hide();
-                    $('#available_for_cities_div').hide();
-                    $('#available_for_oblast_div').show();
-                    break;
-                default:
-                    $('#available_for_city_div').hide();
-                    $('#available_for_oblast_div').hide();
-                    $('#available_for_cities_div').hide();
-                    break;
-            }
-        }
-        hideAll();
-        $('#available_for').change(function(){
-            switch ($(this).val()) {
-                case 'country':
-                    hideAll();
-                    break;
-                case 'city':
-                    hideAll();
-                    $('#available_for_city_div').show();
-                    break;
-                case 'cities':
-                    hideAll();
-                    $('#available_for_cities_div').show();
-                    break;
-                case 'area':
-                    hideAll();
-                    $('#available_for_oblast_div').show();
-                    break;
-                default:
-                    hideAll();
-                    break;
-            }
-        });
-        // Add tags
-        function isNullOrWhitespace( input ) {
-            if (typeof input === 'undefined' || input == null) return true;
-            return input.replace(/\s/g, '').length < 1;
-        }
-        function removeTag(item){
-            // Remove tag from products_tags table by ajax
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        $.ajax({
+            url: "{{ route('admin.delete-products-tags') }}",
+            method: 'post',
+            data: {
+                name: $('div:first', item.parentElement).text(),
+                product_id: '{{ $product->id }}'
+            },
+            success: function(result) {
+                if (result === 'Yes') {
+                    item.parentElement.remove();
                 }
-            });
-            $.ajax({
-                url: "{{ route('admin.delete-products-tags') }}",
-                method: 'post',
-                data: {
-                    name: $('div:first', item.parentElement).text(),
-                    product_id: '{{ $product->id }}'
-                },
-                success: function(result){
-                    if (result === 'Yes'){
-                        item.parentElement.remove();
-                    }
-                }
-            });
-        };
-        $('#btn_add_tag').click(function(e){
-            e.preventDefault();
-            const divTags = document.getElementById('div_tags');
-            const tagAdd = document.getElementById('tag_add');
-            if (!isNullOrWhitespace(tagAdd.value)){
-                divTags.innerHTML += '<div><div class="badge badge-success" style="padding:5px;font-size:14px;">'+tagAdd.value+'</div><input type="hidden" name="tags[]" value="'+tagAdd.value+'"> <span onclick="removeTag(this);" style="color:red;cursor:pointer;">Изтрий</span></div>';
-                tagAdd.value = '';
             }
         });
-    </script>
+    };
+    $('#btn_add_tag').click(function(e) {
+        e.preventDefault();
+        const divTags = document.getElementById('div_tags');
+        const tagAdd = document.getElementById('tag_add');
+        if (!isNullOrWhitespace(tagAdd.value)) {
+            divTags.innerHTML += '<div><div class="badge badge-success" style="padding:5px;font-size:14px;">' + tagAdd.value + '</div><input type="hidden" name="tags[]" value="' + tagAdd.value + '"> <span onclick="removeTag(this);" style="color:red;cursor:pointer;">Изтрий</span></div>';
+            tagAdd.value = '';
+        }
+    });
+</script>
 @stop

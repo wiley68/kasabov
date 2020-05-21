@@ -42,6 +42,7 @@
 <!-- index controller -->
 </head>
 <body>
+
 @if(Route::current()->getName() == 'home-firm-product-edit' || Route::current()->getName() == 'home-firm-product-new')
 <script>document.body.className += ' fade-out';</script>
 @endif
@@ -77,6 +78,10 @@
         $('body').removeClass('fade-out');
         @endif
     });
+
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
 </script>
 <!-- index controller -->
 @yield('scripts')

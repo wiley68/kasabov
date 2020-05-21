@@ -115,6 +115,7 @@
                             <input type="hidden" id="product_id" value="{{ $product->id }}">
                             <div class="dashboard-wrapper">
                                 <div class="form-group mb-3" style="display:flex">
+                                    <span><i class="lni lni-question-circle" data-toggle="tooltip" data-placement="top" title="Избери категория, в която да бъде публикувана тази оферта"></i></span>&nbsp;
                                     <label style="color:red;width:200px;">Категория *</label>
                                     <select name="category_id" id="category_id" style="width:100%;">
                                         <option value="0" @if($product->category_id == 0) selected @endif>Избери категория</option>
@@ -127,6 +128,7 @@
                                     </select>
                                 </div>
                                 <div class="form-group mb-3" style="display:flex">
+                                    <span><i class="lni lni-question-circle"></i></span>&nbsp;
                                     <label style="width:200px;">Празник</label>
                                     <select name="holiday_id" id="holiday_id" style="width:100%;">
                                         <option value="0" @if (0 == $product->holiday_id) selected @endif selected>Избери празник</option>
@@ -139,22 +141,27 @@
                                     </select>
                                 </div>
                                 <div class="form-group mb-3" style="display:flex">
+                                    <span><i class="lni lni-question-circle" data-toggle="tooltip" data-placement="top" title="Създай точно и ясно заглавие на офертата"></i></span>&nbsp;
                                     <label style="color:red;width:200px;">Продукт *</label>
                                     <input name="product_name" type="text" style="width:100%;" value="{{ $product->product_name }}">
                                 </div>
                                 <div class="form-group mb-3" style="display:flex">
+                                    <span><i class="lni lni-question-circle" data-toggle="tooltip" data-placement="top" title="Всяка оферта трябва да бъде публикувана с уникален цифрен код"></i></span>&nbsp;
                                     <label style="color:red;width:200px;">Код *</label>
                                     <input name="product_code" style="width:100%;" type="text" value="{{ $product->product_code }}">
                                 </div>
                                 <div class="form-group mb-3" style="display:flex">
+                                    <span><i class="lni lni-question-circle" data-toggle="tooltip" data-placement="top" title="Предложи най-добрата цена за тази оферта"></i></span>&nbsp;
                                     <label style="color:red;width:200px;">Цена *</label>
                                     <input name="price" style="width:100%;" type="number" value="{{ $product->price }}">
                                 </div>
                                 <div class="form-group mb-3" style="display:flex">
+                                    <span><i class="lni lni-question-circle" data-toggle="tooltip" data-placement="top" title="Точно и пълно описание на офертата ще улесни купувачите и ще им помогне да стигнат по-бързо до коръчка"></i></span>&nbsp;
                                     <label style="width:200px;">Описание на продукта</label>
                                     <textarea name="description" id="description" style="width:100%;" class="span12" rows="5">{!! $product->description !!}</textarea>
                                 </div>
                                 <div class="form-group mb-3">
+                                    <span><i class="lni lni-question-circle" data-toggle="tooltip" data-placement="top" title="Избери най-добрата снимка за твоята оферта. Тя ще се показва в резултатите при търсене и е първото нещо, което ще привлече вниманието на купувачите и ще ги накара да отворят офертата ти"></i></span>&nbsp;
                                     <label class="control-label">Заглавна снимка</label>
                                     <input type="file" name="image" id="image">
                                     <input type="hidden" name="current_image" id="current_image" value="{{ $product->image }}">
@@ -166,6 +173,7 @@
                                     @endif
                                 </div>
                                 <div class="form-group mb-3" style="display:flex">
+                                    <span><i class="lni lni-question-circle"></i></span>&nbsp;
                                     <label style="width:200px;">Основен цвят</label>
                                     <select name="first_color" id="first_color" style="width:100%;">
                                         <option value="white" @if($product->first_color == 'white') selected @endif>Бял</option>
@@ -183,6 +191,7 @@
                                     </select>
                                 </div>
                                 <div class="form-group mb-3" style="display:flex">
+                                    <span><i class="lni lni-question-circle"></i></span>&nbsp;
                                     <label style="width:200px;">Втори цвят</label>
                                     <select name="second_color" id="second_color" style="width:100%;">
                                         <option value="white" @if($product->second_color == 'white') selected @endif>Бял</option>
@@ -200,6 +209,7 @@
                                     </select>
                                 </div>
                                 <div class="form-group mb-3" style="display:flex">
+                                    <span><i class="lni lni-question-circle" data-toggle="tooltip" data-placement="top" title="Отбележи за каква възрастова група е подходящ продукта или услугата от тази оферта"></i></span>&nbsp;
                                     <label style="width:200px;">Възрастова група</label>
                                     <select name="age" id="age" style="width:100%;">
                                         <option value="any" @if ($product->age === 'age') selected @endif>Без значение</option>
@@ -208,6 +218,7 @@
                                     </select>
                                 </div>
                                 <div class="form-group mb-3" style="display:flex">
+                                    <span><i class="lni lni-question-circle"></i></span>&nbsp;
                                     <label style="width:200px;">Пол</label>
                                     <select name="pol" id="pol" style="width:100%;">
                                         <option value="any" @if ($product->pol === 'any') selected @endif>Без значение</option>
@@ -216,6 +227,7 @@
                                     </select>
                                 </div>
                                 <div class="form-group mb-3" style="display:flex">
+                                    <span><i class="lni lni-question-circle"></i></span>&nbsp;
                                     <label style="width:200px;">Състояние</label>
                                     <select name="condition" id="condition" style="width:100%;">
                                         <option value="new" @if ($product->condition === 'new') selected @endif>Нов</option>
@@ -223,6 +235,7 @@
                                     </select>
                                 </div>
                                 <div class="form-group mb-3" style="display:flex">
+                                    <span><i class="lni lni-question-circle" data-toggle="tooltip" data-placement="top" title="Ако предлагаш физически продукт, посочи коя куриерска фирма използваш за доставка"></i></span>&nbsp;
                                     <label style="width:200px;">Изпраща се с</label>
                                     <select name="send_id" id="send_id" style="width:100%;">
                                         <option value="0" selected>Избери доставчик</option>
@@ -232,6 +245,7 @@
                                     </select>
                                 </div>
                                 <div class="form-group mb-3" style="display:flex">
+                                    <span><i class="lni lni-question-circle" data-toggle="tooltip" data-placement="top" title="Ако предлагаш физически продукт, посочи населеното място от което изпращащ"></i></span>&nbsp;
                                     <label style="width:200px;">Изпраща се от</label>
                                     <select name="send_from_id" id="send_from_id" style="width:100%;">
                                         <option value="0" selected>Избери населено място</option>
@@ -241,10 +255,12 @@
                                     </select>
                                 </div>
                                 <div class="form-group mb-3" style="display:flex">
+                                    <span><i class="lni lni-question-circle" data-toggle="tooltip" data-placement="top" title="Посочи точна или ориентировъчна цена на доставка с куриер"></i></span>&nbsp;
                                     <label style="width:200px;">Цена на доставка</label>
                                     <input name="price_send" style="width:100%;" type="number" value="{{ $product->price_send }}">
                                 </div>
                                 <div class="form-group mb-3" style="display:flex">
+                                    <span><i class="lni lni-question-circle"></i></span>&nbsp;
                                     <label style="width:200px;">Безплатна доставка</label>
                                     <select name="send_free" id="send_free" style="width:100%;">
                                         <option value=1 @if ($product->send_free === 1) selected @endif>Да</option>
@@ -252,6 +268,7 @@
                                     </select>
                                 </div>
                                 <div class="form-group mb-3" style="display:flex">
+                                    <span><i class="lni lni-question-circle" data-toggle="tooltip" data-placement="top" title="Можеш да избереш дали офертата ти да бъде актуална за цялата страна или за конкретна област, едно или няколко населени места"></i></span>&nbsp;
                                     <label style="width:200px;">Офертата важи за</label>
                                     <select name="send_free_available_for" id="send_free_available_for" style="width:100%;">
                                         <option value="country" @if ($product->send_free_available_for === 'country') selected @endif>Цялата страна</option>
@@ -261,6 +278,7 @@
                                     </select>
                                 </div>
                                 <div id="send_free_available_for_send_free_id_div" class="form-group mb-3" style="display:flex">
+                                    <span><i class="lni lni-question-circle"></i></span>&nbsp;
                                     <label style="width:200px;">Избери</label>
                                     <select name="send_free_id" id="send_free_id" style="width:100%;">
                                         <option value="0" selected>Избери населено място</option>
@@ -270,6 +288,7 @@
                                     </select>
                                 </div>
                                 <div id="send_free_available_for_oblast_div" class="form-group mb-3" style="display:flex">
+                                    <span><i class="lni lni-question-circle"></i></span>&nbsp;
                                     <label style="width:200px;">Избери</label>
                                     <select name="send_free_oblast" id="send_free_oblast" style="width:100%;">
                                         <option value="0" selected>Избери област</option>
@@ -281,6 +300,7 @@
                                     </select>
                                 </div>
                                 <div id="send_free_available_for_cities_div" class="form-group mb-3" style="display:flex">
+                                    <span><i class="lni lni-question-circle"></i></span>&nbsp;
                                     <label style="width:200px;">Избери</label>
                                     <select multiple name="send_free_available_for_cities[ ]" id="send_free_available_for_cities" style="width:100%;">>
                                         @foreach ($cities as $city)
@@ -295,6 +315,7 @@
                                     </select>
                                 </div>
                                 <div class="form-group mb-3" style="display:flex">
+                                    <span><i class="lni lni-question-circle"></i></span>&nbsp;
                                     <label style="width:200px;">Доставя за</label>
                                     <select name="available_for" id="available_for" style="width:100%;">
                                         <option value="country" @if ($product->available_for === 'country') selected @endif>Цялата страна</option>
@@ -304,6 +325,7 @@
                                     </select>
                                 </div>
                                 <div id="available_for_city_div" class="form-group mb-3" style="display:flex">
+                                    <span><i class="lni lni-question-circle"></i></span>&nbsp;
                                     <label style="width:200px;">Избери</label>
                                     <select name="available_for_city" id="available_for_city" style="width:100%;">
                                         <option value="0" selected>Избери населено място</option>
@@ -313,6 +335,7 @@
                                     </select>
                                 </div>
                                 <div id="available_for_oblast_div" class="form-group mb-3" style="display:flex">
+                                    <span><i class="lni lni-question-circle"></i></span>&nbsp;
                                     <label style="width:200px;">Избери</label>
                                     <select name="available_for_oblast" id="available_for_oblast" style="width:100%;">
                                         <option value="0" selected>Избери Област</option>
@@ -322,6 +345,7 @@
                                     </select>
                                 </div>
                                 <div id="available_for_cities_div" class="form-group mb-3" style="display:flex">
+                                    <span><i class="lni lni-question-circle"></i></span>&nbsp;
                                     <label style="width:200px;">Избери</label>
                                     <select multiple name="available_for_cities[ ]" id="available_for_cities" style="width:100%;">
                                         @foreach ($cities as $city)
@@ -336,6 +360,7 @@
                                     </select>
                                 </div>
                                 <div class="form-group mb-3" style="display:flex">
+                                    <span><i class="lni lni-question-circle" data-toggle="tooltip" data-placement="top" title="Избери тази опция, ако продукта, който предлагаш, може да бъде закупен от физически магазин."></i></span>&nbsp;
                                     <label style="width:200px;">Може да се вземе от обект</label>
                                     <select name="object" id="object" style="width:100%;">
                                         <option value=0 @if ($product->object === 0) selected @endif>Не</option>
@@ -343,10 +368,12 @@
                                     </select>
                                 </div>
                                 <div class="form-group mb-3" style="display:flex">
+                                    <span><i class="lni lni-question-circle" data-toggle="tooltip" data-placement="top" title="Адрес на физическия магазин."></i></span>&nbsp;
                                     <label style="width:200px;">Адрес на обекта</label>
                                     <input name="object_name" type="text" style="width:100%;" value="{{ $product->object_name }}">
                                 </div>
                                 <div class="form-group mb-3" style="display:flex">
+                                    <span><i class="lni lni-question-circle" data-toggle="tooltip" data-placement="top" title="Отбележи дали продуктът или услугата могат да бъдат персонализирани спрямо конкретни изисквания на клиента"></i></span>&nbsp;
                                     <label style="width:200px;">Възможност за персонализиране</label>
                                     <select name="personalize" id="personalize" style="width:100%;">
                                         <option value=0 @if ($product->personalize === 0) selected @endif>Не</option>
@@ -354,6 +381,7 @@
                                     </select>
                                 </div>
                                 <div class="form-group mb-3" style="display:flex">
+                                    <span><i class="lni lni-question-circle" data-toggle="tooltip" data-placement="top" title="По всяко време можеш да променяш статуса на своята оферта и да следиш периода за нейната активност"></i></span>&nbsp;
                                     <label style="width:200px;">Статус</label>
                                     <select name="status" id="status" style="width:100%;">
                                         <option value='active' @if ($product->status === 'active') selected @endif>Активен</option>
@@ -363,11 +391,13 @@
                                     </select>
                                 </div>
                                 <div class="form-group mb-3" style="display:flex">
+                                    <span><i class="lni lni-question-circle"></i></span>&nbsp;
                                     <label style="width:200px;">Активиран на</label>
                                     <input type="text" disabled name="active_at" id="active_at" value="{{ date('d.m.Y', strtotime(date($product->active_at))) }}">&nbsp;
                                     <button id="btn_activate" class="btn btn-primary">Активирай отново</button>
                                 </div>
                                 <div class="form-group mb-3" style="display:flex">
+                                    <span><i class="lni lni-question-circle"></i></span>&nbsp;
                                     <label style="width:200px;">Промоционален</label>
                                     <select name="featured" id="featured" style="width:100%;">
                                         <option value=0 @if ($product->featured === 0) selected @endif>Не</option>
@@ -376,7 +406,7 @@
                                 </div>
                                 <hr />
                                 <div class="form-group mb-3">
-                                    <p>Етикети</p>
+                                    <span><i class="lni lni-question-circle" data-toggle="tooltip" data-placement="top" title="За да бъде повече видима и по-лесно откриваема при търсене в търсачката на сайта, твоята оферта е необходимо да притежава етикети (тагове). Използвай кратки думи или словосъчетания, които най-точно описват това, което предлагащ"></i>&nbsp;<p style="display: inline-block">Етикети</p></span>                                    
                                     <div style="width:100%;">
                                         <input type="text" name="tag_add" id="tag_add">
                                         <button id="btn_add_tag" class="btn btn-primary">Добави етикета</button>
