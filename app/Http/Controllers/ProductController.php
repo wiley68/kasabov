@@ -686,7 +686,7 @@ class ProductController extends Controller
         $min_price = 0;
         $max_price = 0;
         $turgovetsName = "";
-        $turgovetsCityName = "";
+        $turgovetsCityName = "Не е отбелязано";
         $turgovetsDate = "";
         $numberOfOrders = 0;
 
@@ -904,10 +904,16 @@ class ProductController extends Controller
                 $turgovets = User::where(['id'=>$user_id])->first();
                 $turgovetsName = $turgovets->name;
                 $turgovetsCityId = $turgovets->city_id;
-                $turgovetsCityName = City::where(['id'=>$turgovetsCityId])->first()->city;
-                $turgovetsDate = $turgovets->created_at->format('d-m-Y');
-                $userOrders = Order::where(['user_id'=>$user_id])->get();
-                $numberOfOrders = sizeof($userOrders );
+                if($turgovetsCityId != null){
+                    $turgovetsCityName = City::where(['id'=>$turgovetsCityId])->first()->city;
+                }
+                $turgovetsDate = $turgovets->created_at->format('d.m.Y');
+                $productsByUser = Product::where(['user_id'=>$user_id])->get();
+
+                foreach($productsByUser as $productByUser){
+                    $OrdersOfProduct = Order::where(['product_id'=>$productByUser->id])->count();
+                    $numberOfOrders = $numberOfOrders + $OrdersOfProduct;
+                }            
             }
         }
 
