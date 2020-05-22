@@ -93,25 +93,6 @@
                                 </div>
                             </div>
                             <div class="control-group">
-                                <label class="control-label">Основен цвят</label>
-                                <div class="controls">
-                                    <select name="first_color" id="first_color" style="width:314px;">
-                                        <option value="white">Бял</option>
-                                        <option value="gray">Сив</option>
-                                        <option value="black">Черен</option>
-                                        <option value="red">Червен</option>
-                                        <option value="yellow">Жълт</option>
-                                        <option value="green">Зелен</option>
-                                        <option value="blue">Син</option>
-                                        <option value="brown">Кафяв</option>
-                                        <option value="pink">Розов</option>
-                                        <option value="orange">Оранжев</option>
-                                        <option value="purple">Лилав</option>
-                                        <option value="many">Многоцветен</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="control-group">
                                 <label class="control-label">Втори цвят</label>
                                 <div class="controls">
                                     <select name="second_color" id="second_color" style="width:314px;">

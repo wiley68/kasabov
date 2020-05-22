@@ -118,7 +118,6 @@
                                         <p><strong>Празник:</strong> {{ HolidayController::getHolidayById($product->holiday_id) }}</p>
                                         <p><strong>Количество:</strong> {{ $product->quantity }}</p>
                                         <p><strong>Цена:</strong> {{ $product->price }}</p>
-                                        <p><strong>Основен цвят:</strong> <i class="icon-stop" style="color:{{ $product->first_color }};"></i></p>
                                         <p><strong>Втори цвят:</strong> <i class="icon-stop" style="color:{{ $product->second_color }};"></i></p>
                                         @php
                                         switch ($product->age) {

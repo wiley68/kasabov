@@ -541,7 +541,6 @@ class HomeController extends Controller
                     $product->description = '';
                 }
                 $product->image = $filename;
-                $product->first_color = $request->input('first_color');
                 $product->second_color = $request->input('second_color');
                 $product->age = $request->input('age');
                 $product->pol = $request->input('pol');
@@ -790,7 +789,6 @@ class HomeController extends Controller
                 $product->description = '';
             }
             $product->image = $filename;
-            $product->first_color = $request->input('first_color');
             $product->second_color = $request->input('second_color');
             $product->age = $request->input('age');
             $product->pol = $request->input('pol');

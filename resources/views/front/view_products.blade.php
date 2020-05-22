@@ -56,11 +56,6 @@
                         }else{
                             $max_price = 0;
                         }
-                        if(request()->has('first_color')){
-                            $first_color = request('first_color');
-                        }else{
-                            $first_color = "0";
-                        }
                         if(request()->has('second_color')){
                             $second_color = request('second_color');
                         }else{
@@ -109,7 +104,6 @@
                     @endphp
                     <input name="min_price" type="hidden" value="{{ $min_price }}">
                     <input name="max_price" type="hidden" value="{{ $max_price }}">
-                    <input name="first_color" type="hidden" value="{{ $first_color }}">
                     <input name="second_color" type="hidden" value="{{ $second_color }}">
                     <input name="age" type="hidden" value="{{ $age }}">
                     <input name="pol" type="hidden" value="{{ $pol }}">

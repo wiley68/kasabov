@@ -39,7 +39,6 @@ class ProductController extends Controller
             $holiday_id = $request->input('holiday_id');
             $product_name = $request->input('product_name');
             $product_code = $request->input('product_code');
-            $first_color = $request->input('first_color');
             $second_color = $request->input('second_color');
             $age = $request->input('age');
             $pol = $request->input('pol');
@@ -127,7 +126,6 @@ class ProductController extends Controller
             $product->holiday_id = $holiday_id;
             $product->product_name = $product_name;
             $product->product_code = $product_code;
-            $product->first_color = $first_color;
             $product->second_color = $second_color;
             $product->age = $age;
             $product->pol = $pol;
@@ -317,7 +315,6 @@ class ProductController extends Controller
             $product->holiday_id = $request->input('holiday_id');
             $product->product_name = $request->input('product_name');
             $product->product_code = $request->input('product_code');
-            $product->first_color = $request->input('first_color');
             $product->second_color = $request->input('second_color');
             $product->age = $request->input('age');
             $product->pol = $request->input('pol');
@@ -674,7 +671,6 @@ class ProductController extends Controller
         $max_price_filter = $products->max('price');
 
         // Get requests
-        $first_color = 'white';
         $second_color = 'white';
         $age = 'any';
         $pol = 'any';
@@ -757,18 +753,6 @@ class ProductController extends Controller
             $products = $products->where('product_name', 'like', '%' . request('custom_search') . '%');
             // save queries
             $queries['custom_search'] = request('custom_search');
-        }
-
-        // Get first_color requests
-        if (!empty(request('first_color'))){
-            if (request('first_color') != '0'){
-                // Get first_color request var
-                $first_color = request('first_color');
-                // filter products
-                $products = $products->where('first_color', 'like', $first_color);
-                // save queries
-                $queries['first_color'] = request('first_color');
-            }
         }
 
         // Get second_color requests

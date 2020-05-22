@@ -83,52 +83,6 @@ if(!empty($product->image)){
                             <li><i class="lni-check-mark-circle"></i> Празник: <a href="{{ route('products', ['holiday_id'=>$holiday_ids]) }}" title="Покажи всички обяви от този празник"> {{ HolidayController::getHolidayById($product->holiday_id) }}</a></li>
                             <li><i class="lni-check-mark-circle"></i> Цена: {{ number_format($product->price, 2, '.', '') }}{{ Config::get('settings.currency') }}</li>
                             @php
-                                switch ($product->first_color) {
-                                    case 'white':
-                                        $first_color = 'Бял';
-                                        break;
-                                    case 'gray':
-                                        $first_color = 'Сив';
-                                        break;
-                                    case 'black':
-                                        $first_color = 'Черен';
-                                        break;
-                                    case 'red':
-                                        $first_color = 'Червен';
-                                        break;
-                                    case 'yellow':
-                                        $first_color = 'Жълт';
-                                        break;
-                                    case 'green':
-                                        $first_color = 'Зелен';
-                                        break;
-                                    case 'blue':
-                                        $first_color = 'Син';
-                                        break;
-                                    case 'brown':
-                                        $first_color = 'Кафяв';
-                                        break;
-                                    case 'white':
-                                        $first_color = 'Бял';
-                                        break;
-                                    case 'pink':
-                                        $first_color = 'Розов';
-                                        break;
-                                    case 'orange':
-                                        $first_color = 'Оранжев';
-                                        break;
-                                    case 'purple':
-                                        $first_color = 'Лилав';
-                                        break;
-                                    case 'many':
-                                        $first_color = 'Многоцветен';
-                                        break;
-                                    default:
-                                        $first_color = 'Многоцветен';
-                                }
-                            @endphp
-                            <li><i class="lni-check-mark-circle"></i> Основен цвят: <i class="fas fa-square" style="color:{{ $product->first_color }};"></i><a href="{{ route('products', ['first_color'=>$product->first_color]) }}" title="Покажи всички обяви в този основен цвят"> {{ $first_color }}</a></li>
-                            @php
                                 switch ($product->second_color) {
                                     case 'white':
                                         $second_color = 'Бял';
