@@ -10,6 +10,7 @@ use App\Category;
 use Intervention\Image\Facades\Image;
 use File;
 use App\ProductsImage;
+use App\Order;
 use App\Tag;
 use App\ProductsTags;
 use App\Speditor;
@@ -684,7 +685,10 @@ class ProductController extends Controller
         $personalize = 0;
         $min_price = 0;
         $max_price = 0;
-        $user_id = 0;
+        $turgovetsName = "";
+        $turgovetsCityName = "";
+        $turgovetsDate = "";
+        $numberOfOrders = 0;
 
         // Get tag requests
         if (!empty(request('tag'))){
@@ -896,6 +900,14 @@ class ProductController extends Controller
                 $products = $products->where('user_id', $user_id);
                 // save queries
                 $queries['user_id'] = request('user_id');
+                // user details
+                $turgovets = User::where(['id'=>$user_id])->first();
+                $turgovetsName = $turgovets->name;
+                $turgovetsCityId = $turgovets->city_id;
+                $turgovetsCityName = City::where(['id'=>$turgovetsCityId])->first()->city;
+                $turgovetsDate = $turgovets->created_at->format('d-m-Y');
+                $userOrders = Order::where(['user_id'=>$user_id])->get();
+                $numberOfOrders = sizeof($userOrders );
             }
         }
 
@@ -952,7 +964,11 @@ class ProductController extends Controller
             'all_products_count'=>$all_products_count,
             'paginate'=>$paginate,
             'speditors'=>$speditors,
-            'max_price_filter'=>$max_price_filter
+            'max_price_filter'=>$max_price_filter,
+            'turgovetsName'=>$turgovetsName,
+            'turgovetsCityName'=>$turgovetsCityName,
+            'turgovetsDate'=>$turgovetsDate,
+            'numberOfOrders'=>$numberOfOrders
         ]);
     }
 
