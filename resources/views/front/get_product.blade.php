@@ -83,52 +83,6 @@ if(!empty($product->image)){
                             <li><i class="lni-check-mark-circle"></i> Празник: <a href="{{ route('products', ['holiday_id'=>$holiday_ids]) }}" title="Покажи всички обяви от този празник"> {{ HolidayController::getHolidayById($product->holiday_id) }}</a></li>
                             <li><i class="lni-check-mark-circle"></i> Цена: {{ number_format($product->price, 2, '.', '') }}{{ Config::get('settings.currency') }}</li>
                             @php
-                                switch ($product->second_color) {
-                                    case 'white':
-                                        $second_color = 'Бял';
-                                        break;
-                                    case 'gray':
-                                        $second_color = 'Сив';
-                                        break;
-                                    case 'black':
-                                        $second_color = 'Черен';
-                                        break;
-                                    case 'red':
-                                        $second_color = 'Червен';
-                                        break;
-                                    case 'yellow':
-                                        $second_color = 'Жълт';
-                                        break;
-                                    case 'green':
-                                        $second_color = 'Зелен';
-                                        break;
-                                    case 'blue':
-                                        $second_color = 'Син';
-                                        break;
-                                    case 'brown':
-                                        $second_color = 'Кафяв';
-                                        break;
-                                    case 'white':
-                                        $second_color = 'Бял';
-                                        break;
-                                    case 'pink':
-                                        $second_color = 'Розов';
-                                        break;
-                                    case 'orange':
-                                        $second_color = 'Оранжев';
-                                        break;
-                                    case 'purple':
-                                        $second_color = 'Лилав';
-                                        break;
-                                    case 'many':
-                                        $second_color = 'Многоцветен';
-                                        break;
-                                    default:
-                                        $second_color = 'Многоцветен';
-                                }
-                            @endphp
-                            <li><i class="lni-check-mark-circle"></i> Втори цвят: <i class="fas fa-square" style="color:{{ $product->second_color }};"></i><a href="{{ route('products', ['second_color'=>$product->second_color]) }}" title="Покажи всички обяви в този втори цвят"> {{ $second_color }}</a></li>
-                            @php
                             switch ($product->age) {
                                 case 'child':
                                     $age_txt = 'За деца';

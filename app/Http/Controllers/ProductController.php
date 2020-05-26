@@ -39,7 +39,6 @@ class ProductController extends Controller
             $holiday_id = $request->input('holiday_id');
             $product_name = $request->input('product_name');
             $product_code = $request->input('product_code');
-            $second_color = $request->input('second_color');
             $age = $request->input('age');
             $pol = $request->input('pol');
             $condition = $request->input('condition');
@@ -126,7 +125,6 @@ class ProductController extends Controller
             $product->holiday_id = $holiday_id;
             $product->product_name = $product_name;
             $product->product_code = $product_code;
-            $product->second_color = $second_color;
             $product->age = $age;
             $product->pol = $pol;
             $product->condition = $condition;
@@ -315,7 +313,6 @@ class ProductController extends Controller
             $product->holiday_id = $request->input('holiday_id');
             $product->product_name = $request->input('product_name');
             $product->product_code = $request->input('product_code');
-            $product->second_color = $request->input('second_color');
             $product->age = $request->input('age');
             $product->pol = $request->input('pol');
             $product->condition = $request->input('condition');
@@ -671,7 +668,6 @@ class ProductController extends Controller
         $max_price_filter = $products->max('price');
 
         // Get requests
-        $second_color = 'white';
         $age = 'any';
         $pol = 'any';
         $condition = 'new';
@@ -753,18 +749,6 @@ class ProductController extends Controller
             $products = $products->where('product_name', 'like', '%' . request('custom_search') . '%');
             // save queries
             $queries['custom_search'] = request('custom_search');
-        }
-
-        // Get second_color requests
-        if (!empty(request('second_color'))){
-            if (request('second_color') != '0'){
-                // Get second_color request var
-                $second_color = request('second_color');
-                // filter products
-                $products = $products->where('second_color', 'like', $second_color);
-                // save queries
-                $queries['second_color'] = request('second_color');
-            }
         }
 
         // Get age requests

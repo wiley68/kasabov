@@ -122,25 +122,6 @@
                                 </div>
                             </div>
                             <div class="control-group">
-                                <label class="control-label">Втори цвят</label>
-                                <div class="controls">
-                                    <select name="second_color" id="second_color" style="width:314px;">
-                                        <option value="white" @if($product->second_color == 'white') selected @endif>Бял</option>
-                                        <option value="gray" @if($product->second_color == 'gray') selected @endif>Сив</option>
-                                        <option value="black" @if($product->second_color == 'black') selected @endif>Черен</option>
-                                        <option value="red" @if($product->second_color == 'red') selected @endif>Червен</option>
-                                        <option value="yellow" @if($product->second_color == 'yellow') selected @endif>Жълт</option>
-                                        <option value="green" @if($product->second_color == 'green') selected @endif>Зелен</option>
-                                        <option value="blue" @if($product->second_color == 'blue') selected @endif>Син</option>
-                                        <option value="brown" @if($product->second_color == 'brown') selected @endif>Кафяв</option>
-                                        <option value="pink" @if($product->second_color == 'pink') selected @endif>Розов</option>
-                                        <option value="orange" @if($product->second_color == 'orange') selected @endif>Оранжев</option>
-                                        <option value="purple" @if($product->second_color == 'purple') selected @endif>Лилав</option>
-                                        <option value="many" @if($product->second_color == 'many') selected @endif>Многоцветен</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="control-group">
                                 <label class="control-label">Възрастова група</label>
                                 <div class="controls">
                                     <select name="age" id="age" style="width:314px;">

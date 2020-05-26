@@ -173,24 +173,6 @@
                                     @endif
                                 </div>
                                 <div class="form-group mb-3" style="display:flex">
-                                    <span><i class="lni lni-question-circle"></i></span>&nbsp;
-                                    <label style="width:200px;">Втори цвят</label>
-                                    <select name="second_color" id="second_color" style="width:100%;">
-                                        <option value="white" @if($product->second_color == 'white') selected @endif>Бял</option>
-                                        <option value="gray" @if($product->second_color == 'gray') selected @endif>Сив</option>
-                                        <option value="black" @if($product->second_color == 'black') selected @endif>Черен</option>
-                                        <option value="red" @if($product->second_color == 'red') selected @endif>Червен</option>
-                                        <option value="yellow" @if($product->second_color == 'yellow') selected @endif>Жълт</option>
-                                        <option value="green" @if($product->second_color == 'green') selected @endif>Зелен</option>
-                                        <option value="blue" @if($product->second_color == 'blue') selected @endif>Син</option>
-                                        <option value="brown" @if($product->second_color == 'brown') selected @endif>Кафяв</option>
-                                        <option value="pink" @if($product->second_color == 'pink') selected @endif>Розов</option>
-                                        <option value="orange" @if($product->second_color == 'orange') selected @endif>Оранжев</option>
-                                        <option value="purple" @if($product->second_color == 'purple') selected @endif>Лилав</option>
-                                        <option value="many" @if($product->second_color == 'many') selected @endif>Многоцветен</option>
-                                    </select>
-                                </div>
-                                <div class="form-group mb-3" style="display:flex">
                                     <span><i class="lni lni-question-circle" data-toggle="tooltip" data-placement="top" title="Отбележи за каква възрастова група е подходящ продукта или услугата от тази оферта"></i></span>&nbsp;
                                     <label style="width:200px;">Възрастова група</label>
                                     <select name="age" id="age" style="width:100%;">

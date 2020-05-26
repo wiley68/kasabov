@@ -51,22 +51,6 @@
                     <p>(<span id="max_price_current">{{ number_format($max_price, 2, '.', '') }} {{ Config::get('settings.currency') }}</span>)</p>
                     <input id="max_price" name="max_price" type="range" min="0" max="{{ $max_price_filter }}" value="{{ $max_price }}">
                     <div style="padding-bottom:10px;"></div>
-                    <select style="width:100%;" name="second_color">
-                        <option value="0">Втори цвят - всички</option>
-                        <option value="white" @if(request()->has('second_color') AND request('second_color') == 'white') selected @endif>Бял</option>
-                        <option value="gray" @if(request()->has('second_color') AND request('second_color') == 'gray') selected @endif>Сив</option>
-                        <option value="black" @if(request()->has('second_color') AND request('second_color') == 'black') selected @endif>Черен</option>
-                        <option value="red" @if(request()->has('second_color') AND request('second_color') == 'red') selected @endif>Червен</option>
-                        <option value="yellow" @if(request()->has('second_color') AND request('second_color') == 'yellow') selected @endif>Жълт</option>
-                        <option value="green" @if(request()->has('second_color') AND request('second_color') == 'green') selected @endif>Зелен</option>
-                        <option value="blue" @if(request()->has('second_color') AND request('second_color') == 'blue') selected @endif>Син</option>
-                        <option value="brown" @if(request()->has('second_color') AND request('second_color') == 'brown') selected @endif>Кафяв</option>
-                        <option value="pink" @if(request()->has('second_color') AND request('second_color') == 'pink') selected @endif>Розов</option>
-                        <option value="orange" @if(request()->has('second_color') AND request('second_color') == 'orange') selected @endif>Оранжев</option>
-                        <option value="purple" @if(request()->has('second_color') AND request('second_color') == 'purple') selected @endif>Лилав</option>
-                        <option value="many" @if(request()->has('second_color') AND request('second_color') == 'many') selected @endif>Многоцветен</option>
-                    </select>
-                    <div style="padding-bottom:10px;"></div>
                     <select style="width:100%;" name="age">
                         <option value="0">Възрастова група - всички</option>
                         <option value="any" @if(request()->has('age') AND request('age') == 'any') selected @endif>Без значение</option>
