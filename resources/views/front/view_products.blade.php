@@ -10,8 +10,8 @@
     <div class="container">
         @if ($turgovetsName != '')
         <div class="row"> 
-            <div class="col-lg-12 col-md-12 col-xs-12 product-filter" style="text-align:center;color:#333333;">
-                <h6>Търговец: <span class="text-xl">{{$turgovetsName}}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Населено място: <span class="text-xl">{{$turgovetsCityName}}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Продава в partybox.bg от дата: <span class="text-xl">{{$turgovetsDate}}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Брой поръчки: <span class="text-xl">{{$numberOfOrders}}</span></h6>
+            <div class="col-lg-12 col-md-12 col-xs-12 product-filter" style="text-align:center;background-color:#333333;color:white;">
+                <h6 style="padding-top:5px;">Търговец: <span class="text-xl">{{$turgovetsName}}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Населено място: <span class="text-xl">{{$turgovetsCityName}}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Продава в partybox.bg от дата: <span class="text-xl">{{$turgovetsDate}}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Брой поръчки: <span class="text-xl">{{$numberOfOrders}}</span></h6>
             </div>
         </div>
         @endif
