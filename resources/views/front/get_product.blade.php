@@ -97,18 +97,7 @@ if(!empty($product->image)){
                             $holiday_ids = [];
                             $holiday_ids[] = $product->holiday_id;
                             @endphp
-                        <li><i class="lni-check-mark-circle"></i> Възрастова група: <a href="{{ route('products', ['age'=>$product->age]) }}" title="Покажи всички обяви в тази възрастова група">{{ $age_txt }}</a></li>
-                            @php
-                            switch ($product->condition) {
-                                case 'old':
-                                    $condition_txt = 'Употребяван';
-                                    break;
-                                case 'new':
-                                    $condition_txt = 'Нов';
-                                    break;
-                            }
-                            @endphp
-                            <li><i class="lni-check-mark-circle"></i> Състояние: <a href="{{ route('products', ['condition'=>$product->condition]) }}" title="Покажи всички обяви с това състояние">{{ $condition_txt }}</a></li>
+                            <li><i class="lni-check-mark-circle"></i> Възрастова група: <a href="{{ route('products', ['age'=>$product->age]) }}" title="Покажи всички обяви в тази възрастова група">{{ $age_txt }}</a></li>
                             <li><i class="lni-check-mark-circle"></i> Изпраща се с: <a href="{{ route('products', ['send_id'=>$product->send_id]) }}" title="Покажи всички обяви които се изпращат с този иапращач">{{ SpeditorController::getSpeditorById($product->send_id) }}</a></li>
                             <li><i class="lni-check-mark-circle"></i> Изпраща се от: {{ CityController::getCityById($product->send_from_id) }}&nbsp;, област: {{ CityController::getOblastById($product->send_from_id) }}</li>
                             <li><i class="lni-check-mark-circle"></i> Цена за изпращане: {{ number_format($product->price_send, 2, '.', '') }}{{ Config::get('settings.currency') }}</li>
@@ -185,9 +174,6 @@ if(!empty($product->image)){
                             <ul class="advertisement">
                                 <li>
                                     <p><strong><i class="lni-folder"></i> Категория:</strong> <a href="{{ route('products', ['category_id'=>$category_ids]) }}" title="Покажи всички обяви от тази категория">{{ Category::where(['id'=>$product->category_id])->first()->name }}</a></p>
-                                </li>
-                                <li>
-                                    <p><strong><i class="lni-archive"></i> Състояние:</strong> <a href="{{ route('products', ['condition'=>$product->condition]) }}" title="Покажи всички обяви с това състояние">{{ $condition_txt }}</a></p>
                                 </li>
                             </ul>
                         </div>

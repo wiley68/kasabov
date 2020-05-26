@@ -132,17 +132,6 @@
                                         }
                                         @endphp
                                         <p><strong>Възрастова група:</strong> {{ $age_txt }}</p>
-                                        @php
-                                        switch ($product->condition) {
-                                            case 'old':
-                                                $condition_txt = 'Употребяван';
-                                                break;
-                                            case 'new':
-                                                $condition_txt = 'Нов';
-                                                break;
-                                        }
-                                        @endphp
-                                        <p><strong>Състояние:</strong> {{ $condition_txt }}</p>
                                         <p><strong>Изпраща се с:</strong> {{ SpeditorController::getSpeditorById($product->send_id) }}</p>
                                         <p><strong>Изпраща се от:</strong> {{ CityController::getCityById($product->send_from_id) }}&nbsp;, област: {{ CityController::getOblastById($product->send_from_id) }}</p>
                                         <p><strong>Цена за изпращане:</strong> {{ $product->price_send }}</p>

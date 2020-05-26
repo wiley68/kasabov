@@ -542,7 +542,6 @@ class HomeController extends Controller
                 }
                 $product->image = $filename;
                 $product->age = $request->input('age');
-                $product->condition = $request->input('condition');
                 $product->send_id = $request->input('send_id');
                 $product->send_from_id = $request->input('send_from_id');
                 if (empty($request->input('price_send'))) {
@@ -788,7 +787,6 @@ class HomeController extends Controller
             }
             $product->image = $filename;
             $product->age = $request->input('age');
-            $product->condition = $request->input('condition');
             $product->send_id = $request->input('send_id');
             $product->send_from_id = $request->input('send_from_id');
             if (empty($request->input('price_send'))) {

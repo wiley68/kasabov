@@ -58,12 +58,6 @@
                         <option value="adult" @if(request()->has('age') AND request('age') == 'adult') selected @endif>За възрастни</option>
                     </select>
                     <div style="padding-bottom:10px;"></div>
-                    <select style="width:100%;" name="condition">
-                        <option value="0">Състояние - всички</option>
-                        <option value="new" @if(request()->has('condition') AND request('condition') == 'new') selected @endif>Нов</option>
-                        <option value="old" @if(request()->has('condition') AND request('condition') == 'old') selected @endif>Употребяван</option>
-                    </select>
-                    <div style="padding-bottom:10px;"></div>
                     <select style="width:100%;" name="send_id">
                         <option value="0">Изпраща се с - всички</option>
                         @foreach ($speditors as $speditor)

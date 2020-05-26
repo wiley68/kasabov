@@ -132,15 +132,6 @@
                                 </div>
                             </div>
                             <div class="control-group">
-                                <label class="control-label">Състояние</label>
-                                <div class="controls">
-                                    <select name="condition" id="condition" style="width:314px;">
-                                        <option value="new" @if ($product->condition === 'new') selected @endif>Нов</option>
-                                        <option value="old" @if ($product->condition === 'old') selected @endif>Употребяван</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="control-group">
                                 <label class="control-label">Изпраща се с</label>
                                 <div class="controls">
                                     <select name="send_id" id="send_id" style="width:314px;">

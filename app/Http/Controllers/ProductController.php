@@ -40,7 +40,6 @@ class ProductController extends Controller
             $product_name = $request->input('product_name');
             $product_code = $request->input('product_code');
             $age = $request->input('age');
-            $condition = $request->input('condition');
             $send_id = $request->input('send_id');
             $send_from_id = $request->input('send_from_id');
             if (empty($request->input('price_send'))){
@@ -125,7 +124,6 @@ class ProductController extends Controller
             $product->product_name = $product_name;
             $product->product_code = $product_code;
             $product->age = $age;
-            $product->condition = $condition;
             $product->send_id = $send_id;
             $product->send_from_id = $send_from_id;
             $product->price_send = $price_send;
@@ -312,7 +310,6 @@ class ProductController extends Controller
             $product->product_name = $request->input('product_name');
             $product->product_code = $request->input('product_code');
             $product->age = $request->input('age');
-            $product->condition = $request->input('condition');
             $product->send_id = $request->input('send_id');
             $product->send_from_id = $request->input('send_from_id');
             if (empty($request->input('price_send'))){
@@ -666,7 +663,6 @@ class ProductController extends Controller
 
         // Get requests
         $age = 'any';
-        $condition = 'new';
         $send_id = '0';
         $send_free = 0;
         $object = 0;
@@ -756,18 +752,6 @@ class ProductController extends Controller
                 $products = $products->where('age', 'like', $age);
                 // save queries
                 $queries['age'] = request('age');
-            }
-        }
-
-        // Get condition requests
-        if (!empty(request('condition'))){
-            if (request('condition') != '0'){
-                // Get condition request var
-                $condition = request('condition');
-                // filter products
-                $products = $products->where('condition', 'like', $condition);
-                // save queries
-                $queries['condition'] = request('condition');
             }
         }
 

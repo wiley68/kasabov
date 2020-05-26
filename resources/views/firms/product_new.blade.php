@@ -183,14 +183,6 @@ use App\Tag; ?>
                                     </select>
                                 </div>
                                 <div class="form-group mb-3" style="display:flex">
-                                    <span><i class="lni lni-question-circle"></i></span>&nbsp;
-                                    <label style="width:200px;">Състояние</label>
-                                    <select name="condition" id="condition" style="width:100%;">
-                                        <option value="new" @if ($product->condition === 'new') selected @endif>Нов</option>
-                                        <option value="old" @if ($product->condition === 'old') selected @endif>Употребяван</option>
-                                    </select>
-                                </div>
-                                <div class="form-group mb-3" style="display:flex">
                                     <span><i class="lni lni-question-circle" data-toggle="tooltip" data-placement="top" title="Ако предлагаш физически продукт, посочи коя куриерска фирма използваш за доставка"></i></span>&nbsp;
                                     <label style="width:200px;">Изпраща се с</label>
                                     <select name="send_id" id="send_id" style="width:100%;">
