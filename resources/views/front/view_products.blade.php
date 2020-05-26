@@ -61,11 +61,6 @@
                         }else{
                             $age = "0";
                         }
-                        if(request()->has('pol')){
-                            $pol = request('pol');
-                        }else{
-                            $pol = "0";
-                        }
                         if(request()->has('condition')){
                             $condition = request('condition');
                         }else{
@@ -100,7 +95,6 @@
                     <input name="min_price" type="hidden" value="{{ $min_price }}">
                     <input name="max_price" type="hidden" value="{{ $max_price }}">
                     <input name="age" type="hidden" value="{{ $age }}">
-                    <input name="pol" type="hidden" value="{{ $pol }}">
                     <input name="condition" type="hidden" value="{{ $condition }}">
                     <input name="send_id" type="hidden" value="{{ $send_id }}">
                     <input name="send_free" type="hidden" value="{{ $send_free }}">

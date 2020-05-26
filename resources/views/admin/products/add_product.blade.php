@@ -103,16 +103,6 @@
                                 </div>
                             </div>
                             <div class="control-group">
-                                <label class="control-label">Пол</label>
-                                <div class="controls">
-                                    <select name="pol" id="pol" style="width:314px;">
-                                        <option value="any" selected>Без значение</option>
-                                        <option value="man">За мъже</option>
-                                        <option value="woman">За жени</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="control-group">
                                 <label class="control-label">Състояние</label>
                                 <div class="controls">
                                     <select name="condition" id="condition" style="width:314px;">

@@ -99,20 +99,6 @@ if(!empty($product->image)){
                             @endphp
                         <li><i class="lni-check-mark-circle"></i> Възрастова група: <a href="{{ route('products', ['age'=>$product->age]) }}" title="Покажи всички обяви в тази възрастова група">{{ $age_txt }}</a></li>
                             @php
-                            switch ($product->pol) {
-                                case 'woman':
-                                    $pol_txt = 'За жени';
-                                    break;
-                                case 'man':
-                                    $pol_txt = 'За мъже';
-                                    break;
-                                case 'any':
-                                    $pol_txt = 'Без значение';
-                                    break;
-                            }
-                            @endphp
-                            <li><i class="lni-check-mark-circle"></i> Пол: <a href="{{ route('products', ['pol'=>$product->pol]) }}" title="Покажи всички обяви за този пол">{{ $pol_txt }}</a></li>
-                            @php
                             switch ($product->condition) {
                                 case 'old':
                                     $condition_txt = 'Употребяван';

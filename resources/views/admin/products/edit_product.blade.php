@@ -132,16 +132,6 @@
                                 </div>
                             </div>
                             <div class="control-group">
-                                <label class="control-label">Пол</label>
-                                <div class="controls">
-                                    <select name="pol" id="pol" style="width:314px;">
-                                        <option value="any" @if ($product->pol === 'any') selected @endif>Без значение</option>
-                                        <option value="man" @if ($product->pol === 'man') selected @endif>За мъже</option>
-                                        <option value="woman" @if ($product->pol === 'woman') selected @endif>За жени</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="control-group">
                                 <label class="control-label">Състояние</label>
                                 <div class="controls">
                                     <select name="condition" id="condition" style="width:314px;">

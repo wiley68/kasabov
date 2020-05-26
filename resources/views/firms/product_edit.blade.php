@@ -183,15 +183,6 @@
                                 </div>
                                 <div class="form-group mb-3" style="display:flex">
                                     <span><i class="lni lni-question-circle"></i></span>&nbsp;
-                                    <label style="width:200px;">Пол</label>
-                                    <select name="pol" id="pol" style="width:100%;">
-                                        <option value="any" @if ($product->pol === 'any') selected @endif>Без значение</option>
-                                        <option value="man" @if ($product->pol === 'man') selected @endif>За мъже</option>
-                                        <option value="woman" @if ($product->pol === 'woman') selected @endif>За жени</option>
-                                    </select>
-                                </div>
-                                <div class="form-group mb-3" style="display:flex">
-                                    <span><i class="lni lni-question-circle"></i></span>&nbsp;
                                     <label style="width:200px;">Състояние</label>
                                     <select name="condition" id="condition" style="width:100%;">
                                         <option value="new" @if ($product->condition === 'new') selected @endif>Нов</option>

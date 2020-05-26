@@ -133,20 +133,6 @@
                                         @endphp
                                         <p><strong>Възрастова група:</strong> {{ $age_txt }}</p>
                                         @php
-                                        switch ($product->pol) {
-                                            case 'woman':
-                                                $pol_txt = 'За жени';
-                                                break;
-                                            case 'man':
-                                                $pol_txt = 'За мъже';
-                                                break;
-                                            case 'any':
-                                                $pol_txt = 'Без значение';
-                                                break;
-                                        }
-                                        @endphp
-                                        <p><strong>Пол:</strong> {{ $pol_txt }}</p>
-                                        @php
                                         switch ($product->condition) {
                                             case 'old':
                                                 $condition_txt = 'Употребяван';

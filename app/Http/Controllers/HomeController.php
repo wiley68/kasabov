@@ -542,7 +542,6 @@ class HomeController extends Controller
                 }
                 $product->image = $filename;
                 $product->age = $request->input('age');
-                $product->pol = $request->input('pol');
                 $product->condition = $request->input('condition');
                 $product->send_id = $request->input('send_id');
                 $product->send_from_id = $request->input('send_from_id');
@@ -789,7 +788,6 @@ class HomeController extends Controller
             }
             $product->image = $filename;
             $product->age = $request->input('age');
-            $product->pol = $request->input('pol');
             $product->condition = $request->input('condition');
             $product->send_id = $request->input('send_id');
             $product->send_from_id = $request->input('send_from_id');

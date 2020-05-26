@@ -58,13 +58,6 @@
                         <option value="adult" @if(request()->has('age') AND request('age') == 'adult') selected @endif>За възрастни</option>
                     </select>
                     <div style="padding-bottom:10px;"></div>
-                    <select style="width:100%;" name="pol">
-                        <option value="0">Пол - всички</option>
-                        <option value="any" @if(request()->has('pol') AND request('pol') == 'any') selected @endif>Без значение</option>
-                        <option value="man" @if(request()->has('pol') AND request('pol') == 'man') selected @endif>Мъж</option>
-                        <option value="woman" @if(request()->has('pol') AND request('pol') == 'woman') selected @endif>Жена</option>
-                    </select>
-                    <div style="padding-bottom:10px;"></div>
                     <select style="width:100%;" name="condition">
                         <option value="0">Състояние - всички</option>
                         <option value="new" @if(request()->has('condition') AND request('condition') == 'new') selected @endif>Нов</option>

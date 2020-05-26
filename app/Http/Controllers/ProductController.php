@@ -40,7 +40,6 @@ class ProductController extends Controller
             $product_name = $request->input('product_name');
             $product_code = $request->input('product_code');
             $age = $request->input('age');
-            $pol = $request->input('pol');
             $condition = $request->input('condition');
             $send_id = $request->input('send_id');
             $send_from_id = $request->input('send_from_id');
@@ -126,7 +125,6 @@ class ProductController extends Controller
             $product->product_name = $product_name;
             $product->product_code = $product_code;
             $product->age = $age;
-            $product->pol = $pol;
             $product->condition = $condition;
             $product->send_id = $send_id;
             $product->send_from_id = $send_from_id;
@@ -314,7 +312,6 @@ class ProductController extends Controller
             $product->product_name = $request->input('product_name');
             $product->product_code = $request->input('product_code');
             $product->age = $request->input('age');
-            $product->pol = $request->input('pol');
             $product->condition = $request->input('condition');
             $product->send_id = $request->input('send_id');
             $product->send_from_id = $request->input('send_from_id');
@@ -669,7 +666,6 @@ class ProductController extends Controller
 
         // Get requests
         $age = 'any';
-        $pol = 'any';
         $condition = 'new';
         $send_id = '0';
         $send_free = 0;
@@ -760,18 +756,6 @@ class ProductController extends Controller
                 $products = $products->where('age', 'like', $age);
                 // save queries
                 $queries['age'] = request('age');
-            }
-        }
-
-        // Get pol requests
-        if (!empty(request('pol'))){
-            if (request('pol') != '0'){
-                // Get pol request var
-                $pol = request('pol');
-                // filter products
-                $products = $products->where('pol', 'like', $pol);
-                // save queries
-                $queries['pol'] = request('pol');
             }
         }
 
