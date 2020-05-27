@@ -74,28 +74,6 @@ class ProductController extends Controller
                     break;
             }
 
-            $available_for = $request->input('available_for');
-            $available_cities = [];
-            switch ($available_for) {
-                case 'country':
-                    $available_for_city = 0;
-                    break;
-                case 'city':
-                    $available_for_city = $request->input('available_for_city');
-                    break;
-                case 'cities':
-                    $available_for_city = 0;
-                    foreach ($request->input('available_for_cities') as $item) {
-                        $available_cities[] = $item;
-                    }
-                    break;
-                case 'area':
-                    $available_for_city = $request->input('available_for_oblast');
-                    break;
-                default:
-                    $available_for_city = 0;
-                    break;
-            }
             $object = $request->input('object');
             if (empty($request->input('object_name'))){
                 $object_name = '';
@@ -130,8 +108,6 @@ class ProductController extends Controller
             $product->send_free = $send_free;
             $product->send_free_id = $send_free_id;
             $product->send_free_available_for = $send_free_available_for;
-            $product->available_for = $available_for;
-            $product->available_for_city = $available_for_city;
             $product->object = $object;
             $product->object_name = $object_name;
             $product->personalize = $personalize;
@@ -344,33 +320,6 @@ class ProductController extends Controller
                     break;
             }
             $product->send_free_id = $send_free_id;
-
-            $product->available_for = $request->input('available_for');
-            $available_cities = [];
-            switch ($product->available_for) {
-                case 'country':
-                    $available_for_city = 0;
-                    break;
-                case 'city':
-                    $available_for_city = $request->input('available_for_city');
-                    break;
-                case 'cities':
-                    $available_for_city = 0;
-                    if(!empty($request->input('available_for_cities'))){
-                        foreach ($request->input('available_for_cities') as $item) {
-                            $available_cities[] = $item;
-                        }
-                    }
-                    break;
-                case 'area':
-                    $available_for_city = $request->input('available_for_oblast');
-                    break;
-                default:
-                    $available_for_city = 0;
-                    break;
-            }
-            $product->available_for_city = $available_for_city;
-
 
             $product->object = $request->input('object');
             if (empty($request->input('object_name'))){

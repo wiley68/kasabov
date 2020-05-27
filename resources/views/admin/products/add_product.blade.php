@@ -138,10 +138,6 @@
                                     </select>
                                 </div>
                             </div>
-
-
-
-
                             <div class="control-group">
                                 <label class="control-label">Офертата важи за:</label>
                                 <div class="controls">
@@ -180,57 +176,6 @@
                                     <select multiple name="send_free_available_for_cities[ ]" id="send_free_available_for_cities" style="width:314px;">
                                         @foreach ($cities as $city)
                                             <option value="{{ $city->id }}">{{ $city->city }}&nbsp;--&nbsp;{{ $city->oblast }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-
-
-
-
-
-                            <div class="control-group">
-                                <label class="control-label">Доставя за:</label>
-                                <div class="controls">
-                                    <select name="available_for" id="available_for" style="width:314px;">
-                                        <option value="country" selected>Цялата страна</option>
-                                        <option value="city">Населено място</option>
-                                        <option value="cities">Населени места</option>
-                                        <option value="area">Област</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div id="available_for_city_div" class="control-group">
-                                <label class="control-label">Избери</label>
-                                <div class="controls">
-                                    <input type="text" name="available_for_city_txt" id="available_for_city_txt"
-                                        placeholder="Избери населено място" />
-                                    <input type="hidden" name="available_for_city" id="available_for_city" value="0" />
-                                    <a id="btn_available_for_city" href="#choose_city_form" data-toggle="modal"
-                                        title="Избери населено място" class="btn btn-success btn-mini">Избери</a>
-                                </div>
-                            </div>
-                            <div id="available_for_oblast_div" class="control-group">
-                                <label class="control-label">Избери</label>
-                                <div class="controls">
-                                    <select name="available_for_oblast" id="available_for_oblast" style="width:314px;">
-                                        <option value="0" selected>Избери област</option>
-                                        @foreach ($cities as $city)
-                                        @if($city->city === $city->oblast)
-                                        <option value="{{ $city->id }}">{{ $city->city }}</option>
-                                        @endif
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>
-                            <div id="available_for_cities_div" class="control-group">
-                                <label class="control-label">Избери</label>
-                                <div class="controls">
-                                    <select multiple name="available_for_cities[ ]" id="available_for_cities"
-                                        style="width:314px;">
-                                        @foreach ($cities as $city)
-                                        <option value="{{ $city->id }}">
-                                            {{ $city->city }}&nbsp;--&nbsp;{{ $city->oblast }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -433,36 +378,6 @@
                     break;
             }
         });
-        // Hide all city chooses
-
-        function hideAll(){
-            $('#available_for_city_div').hide();
-            $('#available_for_oblast_div').hide();
-            $('#available_for_cities_div').hide();
-        }
-        hideAll();
-        $('#available_for').change(function(){
-            switch ($(this).val()) {
-                case 'country':
-                    hideAll();
-                    break;
-                case 'city':
-                    hideAll();
-                    $('#available_for_city_div').show();
-                    break;
-                case 'cities':
-                    hideAll();
-                    $('#available_for_cities_div').show();
-                    break;
-                case 'area':
-                    hideAll();
-                    $('#available_for_oblast_div').show();
-                    break;
-                default:
-                    hideAll();
-                    break;
-            }
-        });
 
         // Add tags
         function isNullOrWhitespace( input ) {
@@ -496,12 +411,6 @@
                 $(this).removeClass('selected_tr');
             });
         });
-        $('#btn_available_for_city').click(function(){
-            city_btn_click = 3;
-            $('#table_city tr').each(function(){
-                $(this).removeClass('selected_tr');
-            });
-        });
         $('#btn_select_city').click(function(){
             if (city_btn_click == 1){
                 $('#send_from_id').val(('tr', $('.selected_tr')).find("td:nth-child(1)").html());
@@ -517,14 +426,6 @@
                     $('#send_free_id_txt').val(('tr', $('.selected_tr')).find("td:nth-child(2)").html());
                 }else{
                     $('#send_free_id_txt').val(('tr', $('.selected_tr')).find("td:nth-child(2)").html() + ' - ' + ('tr', $('.selected_tr')).find("td:nth-child(3)").html());
-                }
-            }
-            if (city_btn_click == 3){
-                $('#available_for_city').val(('tr', $('.selected_tr')).find("td:nth-child(1)").html());
-                if (('tr', $('.selected_tr')).find("td:nth-child(2)").html() == ('tr', $('.selected_tr')).find("td:nth-child(3)").html()){
-                    $('#available_for_city_txt').val(('tr', $('.selected_tr')).find("td:nth-child(2)").html());
-                }else{
-                    $('#available_for_city_txt').val(('tr', $('.selected_tr')).find("td:nth-child(2)").html() + ' - ' + ('tr', $('.selected_tr')).find("td:nth-child(3)").html());
                 }
             }
             city_btn_click = 0;

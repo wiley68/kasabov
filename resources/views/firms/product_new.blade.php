@@ -257,51 +257,7 @@ use App\Tag; ?>
                                         @endforeach
                                     </select>
                                 </div>
-                                <div class="form-group mb-3" style="display:flex">
-                                    <span><i class="lni lni-question-circle"></i></span>&nbsp;
-                                    <label style="width:200px;">Доставя за</label>
-                                    <select name="available_for" id="available_for" style="width:100%;">
-                                        <option value="country" @if ($product->available_for === 'country') selected @endif>Цялата страна</option>
-                                        <option value="city" @if ($product->available_for === 'city') selected @endif>Населено място</option>
-                                        <option value="cities" @if ($product->available_for === 'cities') selected @endif>Населени места</option>
-                                        <option value="area" @if ($product->available_for === 'area') selected @endif>Област</option>
-                                    </select>
-                                </div>
-                                <div id="available_for_city_div" class="form-group mb-3" style="display:flex">
-                                    <span><i class="lni lni-question-circle"></i></span>&nbsp;
-                                    <label style="width:200px;">Избери</label>
-                                    <select name="available_for_city" id="available_for_city" style="width:100%;">
-                                        <option value="0" selected>Избери населено място</option>
-                                        @foreach ($cities as $city)
-                                        <option value="{{ $city->id }}" @if ($city->id === $product->available_for_city) selected @endif>{{ $city->city }} - {{ $city->oblast }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div id="available_for_oblast_div" class="form-group mb-3" style="display:flex">
-                                    <span><i class="lni lni-question-circle"></i></span>&nbsp;
-                                    <label style="width:200px;">Избери</label>
-                                    <select name="available_for_oblast" id="available_for_oblast" style="width:100%;">
-                                        <option value="0" selected>Избери Област</option>
-                                        @foreach ($oblasti as $oblast)
-                                        <option value="{{ $oblast->id }}" @if ($oblast->id === $product->available_for_city) selected @endif>{{ $oblast->city }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div id="available_for_cities_div" class="form-group mb-3" style="display:flex">
-                                    <span><i class="lni lni-question-circle"></i></span>&nbsp;
-                                    <label style="width:200px;">Избери</label>
-                                    <select multiple name="available_for_cities[ ]" id="available_for_cities" style="width:100%;">
-                                        @foreach ($cities as $city)
-                                        @php
-                                        $city_arr = [];
-                                        foreach (ProductsCity::where(['product_id'=>$product->id])->get() as $product_city) {
-                                        $city_arr[] = $product_city->city_id;
-                                        }
-                                        @endphp
-                                        <option value="{{ $city->id }}" @if (in_array($city->id, $city_arr)) selected @endif>{{ $city->city }}&nbsp;--&nbsp;{{ $city->oblast }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
+                                
                                 <div class="form-group mb-3" style="display:flex">
                                     <span><i class="lni lni-question-circle" data-toggle="tooltip" data-placement="top" title="Избери тази опция, ако продукта, който предлагаш, може да бъде закупен от физически магазин."></i></span>&nbsp;
                                     <label style="width:200px;">Може да се вземе от обект</label>
@@ -406,59 +362,6 @@ use App\Tag; ?>
                 break;
             default:
                 hideAllsend_free();
-                break;
-        }
-    });
-    // Hide all chooses
-    function hideAll() {
-        switch ($('#available_for').val()) {
-            case 'country':
-                $('#available_for_city_div').hide();
-                $('#available_for_oblast_div').hide();
-                $('#available_for_cities_div').hide();
-                break;
-            case 'city':
-                $('#available_for_oblast_div').hide();
-                $('#available_for_cities_div').hide();
-                $('#available_for_city_div').show();
-                break;
-            case 'cities':
-                $('#available_for_city_div').hide();
-                $('#available_for_oblast_div').hide();
-                $('#available_for_cities_div').show();
-                break;
-            case 'area':
-                $('#available_for_city_div').hide();
-                $('#available_for_cities_div').hide();
-                $('#available_for_oblast_div').show();
-                break;
-            default:
-                $('#available_for_city_div').hide();
-                $('#available_for_oblast_div').hide();
-                $('#available_for_cities_div').hide();
-                break;
-        }
-    }
-    hideAll();
-    $('#available_for').change(function() {
-        switch ($(this).val()) {
-            case 'country':
-                hideAll();
-                break;
-            case 'city':
-                hideAll();
-                $('#available_for_city_div').show();
-                break;
-            case 'cities':
-                hideAll();
-                $('#available_for_cities_div').show();
-                break;
-            case 'area':
-                hideAll();
-                $('#available_for_oblast_div').show();
-                break;
-            default:
-                hideAll();
                 break;
         }
     });

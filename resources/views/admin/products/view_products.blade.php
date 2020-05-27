@@ -137,30 +137,6 @@
                                         <p><strong>Цена за изпращане:</strong> {{ $product->price_send }}</p>
                                         <p><strong>Безплатна доставка:</strong> @if ($product->send_free === 1) Да @else Не @endif</p>
                                         <p><strong>Важи за:</strong> {{ CityController::getCityById($product->send_free_id) }}&nbsp;, област: {{ CityController::getOblastById($product->send_free_id) }}</p>
-                                        @php
-                                        $available_for_cities = '';
-                                        switch ($product->available_for) {
-                                            case 'city':
-                                                $available_for_txt = 'Населено място';
-                                                $available_for_cities = CityController::getCityById($product->available_for_city);
-                                                break;
-                                            case 'cities':
-                                                $available_for_txt = 'Населени места';
-                                                foreach (ProductsCity::where(['product_id'=>$product->id])->get() as $products_cities) {
-                                                    $available_for_cities .= CityController::getCityById($products_cities->city_id) . ' ';
-                                                }
-                                                break;
-                                            case 'area':
-                                                $available_for_txt = 'Област';
-                                                $available_for_cities = CityController::getCityById($product->available_for_city);
-                                                break;
-                                            case 'country':
-                                                $available_for_txt = 'Цялата страна';
-                                                $available_for_cities = '';
-                                                break;
-                                        }
-                                        @endphp
-                                        <p><strong>Доставя за:</strong> {{ $available_for_txt }}: {{ $available_for_cities }}</p>
                                         <p><strong>Може да се вземе от обект:</strong> @if ($product->object == 1) Да @else Не @endif</p>
                                         <p><strong>Адрес на обекта:</strong> {{ $product->object_name }}</p>
                                         <p><strong>Възможност за персонализиране:</strong> @if ($product->personalize == 1) Да @else Не @endif</p>
