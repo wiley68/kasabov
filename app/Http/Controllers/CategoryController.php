@@ -72,4 +72,17 @@ class CategoryController extends Controller
         }
     }
 
+    public function populateCategories(Request $request){
+        if($request->isMethod('post')){
+            if ($request->input('category_id') != 0){
+                $category = Category::where(['parent_id'=>$request->input('category_id')])->get();
+                return $category;    
+            }else{
+                return 'No';
+            }
+        }else{
+            return 'No';
+        }
+    }
+
 }

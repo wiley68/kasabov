@@ -115,15 +115,29 @@
                             <input type="hidden" id="product_id" value="{{ $product->id }}">
                             <div class="dashboard-wrapper">
                                 <div class="form-group mb-3" style="display:flex">
-                                    <span><i class="lni lni-question-circle" data-toggle="tooltip" data-placement="top" title="Избери категория, в която да бъде публикувана тази оферта"></i></span>&nbsp;
-                                    <label style="color:red;width:200px;">Категория *</label>
-                                    <select name="category_id" id="category_id" style="width:100%;">
+                                    <span><i class="lni lni-question-circle" data-toggle="tooltip" data-placement="top" title="Избери главна категория, в която да бъде публикувана тази оферта"></i></span>&nbsp;
+                                    <label style="color:red;width:200px;">Главна категория *</label>
+                                    <select name="category_root_id" id="category_root_id" style="width:100%;">
                                         <option value="0" @if($product->category_id == 0) selected @endif>Избери категория</option>
                                         @foreach ($categories as $category)
-                                        <option value="{{ $category->id }}" @if ($category->id == $product->category_id) selected @endif>{{ $category->name }}</option>
-                                            @foreach (Category::where(['parent_id'=>$category->id])->get() as $item)
-                                            <option value="{{ $item->id }}" @if ($item->id == $product->category_id) selected @endif>&nbsp;--&nbsp;{{ $item->name }}</option>
-                                            @endforeach
+                                        @php
+                                            $parent_category_id = Category::where(['id'=>$product->category_id])->first()->parent_id;
+                                        @endphp
+                                        <option value="{{ $category->id }}" @if ($category->id == $parent_category_id) selected @endif>{{ $category->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group mb-3" style="display:flex">
+                                    <span><i class="lni lni-question-circle" data-toggle="tooltip" data-placement="top" title="Избери подкатегория, в която да бъде публикувана тази оферта"></i></span>&nbsp;
+                                    <label style="color:red;width:200px;">Подкатегория *</label>
+                                    <select name="category_id" id="category_id" style="width:100%;">
+                                        <option value="0">Избери категория</option>
+                                        @php
+                                            $parent_category_id = Category::where(['id'=>$product->category_id])->first()->parent_id;
+                                            $sub_category = Category::where(['parent_id'=>$parent_category_id])->get();
+                                        @endphp
+                                        @foreach ($sub_category as $category)
+                                            <option value="{{ $category->id }}" @if ($category->id == $product->category_id) selected @endif>{{ $category->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -451,6 +465,43 @@
             var currdate = currentdate.getDate() + "." + (currentdate.getMonth()+1) + "." + currentdate.getFullYear();
             $("#active_at").val(currdate);
             $("#status").val('active');
+        });
+        $('#category_root_id').change(function(e){
+            // populate subcategories
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                url: "{{ route('admin.populate-categories') }}",
+                method: 'post',
+                data: {
+                    category_id: $('#category_root_id').val()
+                },
+                success: function(result){
+                    var category_select = $('#category_id');
+                    category_select.empty();
+                    if (result === 'No'){
+                        category_select.append('<option value=0 selected>Избери категория</option>');
+                    }else{
+                        category_select.append('<option value=0 selected>Избери категория</option>');
+                        $.each(result, function(i, object) {
+                            var id = "";
+                            var name = "";
+				            $.each(object, function(key, value) {
+					            if (key == 'id'){
+						            id = value;
+					            }
+					            if (key == 'name'){
+						            name = value;
+					            }
+				            });
+                            category_select.append('<option value='+id+'>'+name+'</option>');
+			            });
+                    }
+                }
+            });
         });
     </script>
 @stop

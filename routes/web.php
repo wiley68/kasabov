@@ -67,6 +67,7 @@ Route::group(
         Route::match(['get', 'post'], '/admin/edit-category/{id}', 'CategoryController@editCategory')->name('admin.edit-category');
         Route::get('/admin/delete-category/{id}', 'CategoryController@deleteCategory')->name('admin.delete-category');
         Route::get('/admin/view-categories', 'CategoryController@viewCategory')->name('admin.view-categories');
+        Route::post('/admin/populate-categories', 'CategoryController@populateCategories')->name('admin.populate-categories');
         // Holiday routes
         Route::match(['get', 'post'], '/admin/add-holiday', 'HolidayController@addHoliday')->name('admin.add-holiday');
         Route::match(['get', 'post'], '/admin/edit-holiday/{id}', 'HolidayController@editHoliday')->name('admin.edit-holiday');
