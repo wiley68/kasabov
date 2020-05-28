@@ -9,19 +9,27 @@ class CategoryController extends Controller
 {
     public function addCategory(Request $request){
         if ($request->isMethod('post')){
-            $category_name = $request->input('category_name');
-            $category_parent_id = $request->input('parent_id');
-            $category_description = $request->input('category_description');
-            $category_url = $request->input('category_url');
-            $category_icon = $request->input('category_icon');
-            $category = new Category();
-            $category->name = $category_name;
-            $category->parent_id = $category_parent_id;
-            $category->description = $category_description;
-            $category->url = $category_url;
-            $category->icon = $category_icon;
-            $category->save();
-            return redirect('/admin/view-categories')->with('flash_message_success', 'Успешно създадохте нова категория!');
+            if (
+                !empty($request->input('category_name')) && 
+                !empty($category_description = $request->input('category_description')) && 
+                !empty($category_url = $request->input('category_url'))
+            ){
+                $category_name = $request->input('category_name');
+                $category_parent_id = $request->input('parent_id');
+                $category_description = $request->input('category_description');
+                $category_url = $request->input('category_url');
+                $category_icon = $request->input('category_icon');
+                $category = new Category();
+                $category->name = $category_name;
+                $category->parent_id = $category_parent_id;
+                $category->description = $category_description;
+                $category->url = $category_url;
+                $category->icon = $category_icon;
+                $category->save();
+                return redirect('/admin/view-categories')->with('flash_message_success', 'Успешно създадохте нова категория!');
+            }else{
+                return redirect('/admin/add-category')->with('flash_message_error', 'Имате непопълнено поле!');
+            }
         }
         $levels = Category::where(['parent_id'=>0])->get();
         return view('admin.categories.add_category')->with(['levels'=>$levels]);
