@@ -75,7 +75,7 @@
                                 <form enctype="multipart/form-data" class="search-form" action="{{ route('products') }}" method="post" name="filter_products" id="filter_products" novalidate="novalidate">
                                 @csrf
                                     <div class="form-group">
-                                        <input type="text" id="custom_search" name="custom_search" class="form-control" placeholder="Въведете търсената дума?">
+                                        <input type="text" id="custom_search" name="custom_search" class="form-control" placeholder="Търсене на оферти">
                                     </div>
                                     <div class="form-group inputwithicon">
                                         <div class="select" id="city_id_search">

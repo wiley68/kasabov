@@ -19,7 +19,7 @@
             <div class="col-12 text-center">
                 <div class="heading">
                     <h1 class="section-title">КАТЕГОРИИ</h1>
-                    <h4 class="sub-title"><a href="{{ route('products') }}">ПОКАЖИ ВСИЧКИ ОФЕРТИ</a></h4>
+                    <h4 class="sub-title"><a href="{{ route('products') }}" >ПОКАЖИ ВСИЧКИ ОФЕРТИ</a></h4>
                 </div>
             </div>
             @foreach ($categories_top as $category_top)
