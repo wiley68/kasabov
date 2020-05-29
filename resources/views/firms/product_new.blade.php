@@ -42,9 +42,11 @@ use App\Tag; ?>
                 <aside>
                     <div class="sidebar-box">
                         <div class="user">
+                            @if ($user->image != null)
                             <figure>
                                 <img src="{{ asset('/images/backend_images/users/'.$user->image) }}" alt="">
                             </figure>
+                            @endif
                             <div class="usercontent">
                                 <h3>Здравейте {{ Auth::user()->name }}!</h3>
                                 <h4>Търговец</h4>

@@ -166,10 +166,10 @@ footer .menu li a:hover{
   color: #FBC02D;
 }
 .sidebar-box .user{
-  background: #FBC02D;
+  background: #333333;
 }
 .sidebar-box .user figure{
-  border-color: #FBC02D;
+  border-color: #333333;
 }
 .sidebar-box .navdashboard ul li a:focus, 
 .sidebar-box .navdashboard ul li a:hover, 

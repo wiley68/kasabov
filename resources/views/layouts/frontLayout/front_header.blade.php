@@ -54,7 +54,7 @@
                     @endguest
                     &nbsp;
                     <div class="post-btn">
-                        <a class="btn btn-common" href="{{ route('firms-login-register') }}"><i class="lni-pencil-alt"></i> За търговци</a>
+                        <a class="btn btn-common" href="{{ route('firms-login-register') }}"><i class="lni-pencil-alt"></i> Вход за търговци</a>
                     </div>
                 </div>
             </div>
