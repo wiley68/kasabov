@@ -123,7 +123,7 @@
                                     $image = asset('/images/backend_images/products/large/no-image-1200.png');
                                 }
                                 @endphp
-                                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
                                     <div class="featured-box">
                                         <figure>
                                             @php
