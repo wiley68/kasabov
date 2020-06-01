@@ -847,6 +847,13 @@ class ProductController extends Controller
         // Add speditors
         $speditors = Speditor::all();
 
+        // Add featured products
+        $random_count = Product::where(['status'=>'active', 'featured'=>1])->count();
+        if ($random_count > 3){
+            $random_count = 3;
+        }
+        $featureds = Product::where(['status'=>'active', 'featured'=>1])->get()->random($random_count);
+
         return view('/front/view_products')->with([
             'holidays'=>$holidays,
             'property'=>$property,
@@ -859,7 +866,8 @@ class ProductController extends Controller
             'turgovetsName'=>$turgovetsName,
             'turgovetsCityName'=>$turgovetsCityName,
             'turgovetsDate'=>$turgovetsDate,
-            'numberOfOrders'=>$numberOfOrders
+            'numberOfOrders'=>$numberOfOrders,
+            'featureds'=>$featureds
         ]);
     }
 

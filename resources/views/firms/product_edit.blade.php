@@ -24,7 +24,6 @@
         });
         return false;
     };
-
 </script>
 <!-- Start Content -->
 <div id="content" class="section-padding">

@@ -115,6 +115,64 @@
                     <div class="tab-content">
                         <div id="grid-view" class="tab-pane fade active show">
                             <div class="row">
+                                @foreach ($featureds as $featured)
+                                @php
+                                if(!empty($featured->image)){
+                                    $image = asset('/images/backend_images/products/large/'.$featured->image);
+                                }else{
+                                    $image = asset('/images/backend_images/products/large/no-image-1200.png');
+                                }
+                                @endphp
+                                <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                                    <div class="featured-box">
+                                        <figure>
+                                            @php
+                                                if(!empty(Holiday::where(['id'=>$featured->holiday_id])->first())){
+                                                    $holiday_name = Holiday::where(['id'=>$featured->holiday_id])->first()->name;
+                                                }else{
+                                                    $holiday_name = '';
+                                                }
+                                            @endphp
+                                            <div class="homes-tag featured">{{ $holiday_name }}</div>
+                                            <div class="homes-tag rent"><i class="lni-heart"></i> {{ $featured->likes }}</div>
+                                            <span class="price-save">{{ number_format($featured->price, 2, '.', '') }}{{ Config::get('settings.currency') }}</span>
+                                            <a href="{{ route('product', ['id'=>$featured->product_code]) }}"><img class="img-fluid" src="{{ $image }}" alt=""></a>
+                                        </figure>
+                                        <div class="content-wrapper">
+                                            <div class="feature-content">
+                                                <h4><a href="{{ route('product', ['id'=>$featured->product_code]) }}">{{ $featured->product_name }}</a></h4>
+                                                <p class="listing-tagline">{{ $featured->product_code }}</p>
+                                                <div class="meta-tag">
+                                                    <div class="user-name">
+                                                        <a href="{{ route('products', ['user_id'=>$featured->user_id]) }}"><i class="lni-user"></i> {{ User::where(['id'=>$featured->user_id])->first()->name }}</a>
+                                                    </div>
+                                                    <div class="listing-category">
+                                                        @php
+                                                            $category_ids = [];
+                                                            $category_ids[] = $featured->category_id;
+                                                        @endphp
+                                                        <a href="{{ route('products', ['category_id'=>$category_ids]) }}"><i class="{{ Category::where(['id'=>$featured->category_id])->first()->icon }}"></i>{{ Category::where(['id'=>$featured->category_id])->first()->name }} </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="listing-bottom clearfix">
+                                                @php
+                                                    if(!empty(City::where(['id'=>$featured->send_from_id])->first())){
+                                                        $city_name = City::where(['id'=>$featured->send_from_id])->first()->city;
+                                                    }else{
+                                                        $city_name = '';
+                                                    }
+                                                @endphp
+                                                <i class="lni-map-marker"></i> {{ $city_name }}
+                                                <a href="{{ route('product', ['id'=>$featured->product_code]) }}" class="float-right">Прегледай Детайлно</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                @endforeach
+                            </div>
+                            <hr />
+                            <div class="row">
                                 @foreach ($products as $product)
                                 @php
                                 if(!empty($product->image)){
@@ -171,6 +229,7 @@
                                 </div>
                                 @endforeach
                             </div>
+
                         </div>
                     </div>
                 </div>

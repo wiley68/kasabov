@@ -313,7 +313,7 @@
                         </div>
                         <div class="widget-content nopadding">
                                 <div class="control-group">
-                                    <label class="control-label">Специален продукт</label>
+                                    <label class="control-label">Промоционален</label>
                                     <div class="controls">
                                         <select name="featured" id="featured" style="width:314px;">
                                             <option value=0 @if ($product->featured === 0) selected @endif>Не</option>
