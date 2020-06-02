@@ -5,6 +5,7 @@
 <?php use App\Speditor; ?>
 <?php use App\City; ?>
 <?php use App\Order; ?>
+<?php use App\Reklama; ?>
 <!--sidebar-menu-->
 <div id="sidebar"><a href="{{ route('admin.dashboard') }}" class="visible-phone"><i class="icon icon-home"></i> Панел Управление</a>
     <ul>
@@ -59,6 +60,12 @@
         </ul>
       </li>
       <li><a href="{{ route('admin.view-orders') }}"><i class="icon icon-th-list"></i> <span>Заявки</span> <span class="label label-important">{{ Order::count() }}</span></a></li>
+      <li class="submenu"> <a href="#"><i class="icon icon-th-list"></i> <span>Реклама</span> <span class="label label-important">{{ Reklama::count() }}</span></a>
+        <ul>
+          <li><a href="{{ route('admin.add-reklama') }}">Добави реклама</a></li>
+          <li><a href="{{ route('admin.view-reklami') }}">Всички реклами</a></li>
+        </ul>
+      </li>
       <li class="submenu"> <a href="#"><i class="icon icon-th-list"></i> <span>Настройки</span> </a>
         <ul>
           <li><a href="{{ route('admin.edit-landing-page') }}">Начална страница</a></li>
@@ -66,20 +73,6 @@
           <li><a href="{{ route('admin.edit-payment-packages') }}">Платежни методи</a></li>
           <li><a href="{{ route('admin.edit-maintenance-page') }}">Режим поддръжка</a></li>
         </ul>
-      </li>
-      <li class="content"> <span>Monthly Bandwidth Transfer</span>
-        <div class="progress progress-mini progress-danger active progress-striped">
-          <div style="width: 77%;" class="bar"></div>
-        </div>
-        <span class="percent">77%</span>
-        <div class="stat">21419.94 / 14000 MB</div>
-      </li>
-      <li class="content"> <span>Disk Space Usage</span>
-        <div class="progress progress-mini active progress-striped">
-          <div style="width: 87%;" class="bar"></div>
-        </div>
-        <span class="percent">87%</span>
-        <div class="stat">604.44 / 4000 MB</div>
       </li>
     </ul>
   </div>
