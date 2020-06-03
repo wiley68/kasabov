@@ -124,6 +124,8 @@ Route::group(
         Route::match(['get', 'post'], '/admin/edit-reklama/{id}', 'ReklamaController@editReklama')->name('admin.edit-reklama');
         Route::get('/admin/delete-reklama/{id}', 'ReklamaController@deleteReklama')->name('admin.delete-reklama');
         Route::get('/admin/view-reklami', 'ReklamaController@viewReklami')->name('admin.view-reklami');
+        Route::get('/admin/delete-reklama-image-small/{id}', 'ReklamaController@deleteReklamaImageSmall')->name('admin.delete-reklama-image-small');
+        Route::get('/admin/delete-reklama-image-large/{id}', 'ReklamaController@deleteReklamaImageLarge')->name('admin.delete-reklama-image-large');
         // LandingPage routes
         Route::match(['get', 'post'], '/admin/edit-landing-page', 'IndexController@editLandingPage')->name('admin.edit-landing-page');
         Route::match(['get', 'post'], '/admin/edit-price-page', 'IndexController@editPricePage')->name('admin.edit-price-page');
