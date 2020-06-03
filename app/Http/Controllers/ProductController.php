@@ -23,6 +23,7 @@ use App\Favorite;
 use Auth;
 use App\Payment;
 use App\ProductsCitySend;
+use App\Reklama;
 
 class ProductController extends Controller
 {
@@ -854,6 +855,12 @@ class ProductController extends Controller
         }
         $featureds = Product::where(['status'=>'active', 'featured'=>1])->get()->random($random_count);
 
+        $reklama_count = Reklama::where(['status'=>1])->count();
+        if ($reklama_count > 1){
+            $reklama_count = 1;
+        }
+        $reklami = Reklama::where(['status'=>1])->get()->random($reklama_count);
+
         return view('/front/view_products')->with([
             'holidays'=>$holidays,
             'property'=>$property,
@@ -867,7 +874,8 @@ class ProductController extends Controller
             'turgovetsCityName'=>$turgovetsCityName,
             'turgovetsDate'=>$turgovetsDate,
             'numberOfOrders'=>$numberOfOrders,
-            'featureds'=>$featureds
+            'featureds'=>$featureds,
+            'reklami'=>$reklami 
         ]);
     }
 

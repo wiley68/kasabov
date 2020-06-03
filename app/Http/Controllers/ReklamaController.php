@@ -66,7 +66,7 @@ class ReklamaController extends Controller
                     $filename_small = $reklama->id . rand(111, 99999) . '.' . $extension_small;
                     $image_small_path = 'images/backend_images/reklama_small/' . $filename_small;
                     // Resize images
-                    Image::make($image_small_temp)->resize(null, 75, function ($constraint) {
+                    Image::make($image_small_temp)->resize(null, 200, function ($constraint) {
                         $constraint->aspectRatio();
                         $constraint->upsize();
                     })->save($image_small_path);
@@ -90,7 +90,7 @@ class ReklamaController extends Controller
                     $filename_large = $reklama->id . rand(111, 99999) . '.' . $extension_large;
                     $image_large_path = 'images/backend_images/reklama_large/' . $filename_large;
                     // Resize images
-                    Image::make($image_large_temp)->resize(null, 75, function ($constraint) {
+                    Image::make($image_large_temp)->resize(null, 600, function ($constraint) {
                         $constraint->aspectRatio();
                         $constraint->upsize();
                     })->save($image_large_path);

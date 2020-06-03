@@ -239,6 +239,27 @@
                 {{ $products->links() }}
                 <!-- End Pagination -->
 
+                <div style="padding-bottom:20px;"></div>
+                <hr />
+                <div class="widget">
+                    @foreach ($reklami as $reklama)
+                    <div class="add-box">
+                        <h5>{{ $reklama->title }}</h5>
+                        <p>{{ $reklama->description }}</p>
+                        @php
+                            if(!empty($reklama->image_large)){
+                                $image_large = asset('/images/backend_images/reklama_large/'.$reklama->image_large);
+                            }else{
+                                $image_large = "";
+                            }
+                        @endphp
+                        @if ($image_large != "")
+                            @if ($reklama->url != "") <a target="_blank" href="{{ $reklama->url }}"> @endif <img class="img-fluid" style="border:1px solid #FAAA39" src="{{ $image_large }}" alt="{{ $reklama->title }}"> @if ($reklama->url != "") </a> @endif
+                        @endif
+                    </div>            
+                    @endforeach
+                </div>
+
             </div>
         </div>
     </div>

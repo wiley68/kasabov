@@ -1,6 +1,7 @@
 <?php use App\Category; ?>
 <?php use App\Holiday; ?>
 <?php use App\Product; ?>
+<?php use App\Reklama; ?>
 <aside>
     <!-- Searcg Widget -->
     <div class="widget_search">
@@ -92,8 +93,29 @@
     </div>
 
     <div class="widget">
-        <h4 class="widget-title">Advertisement</h4>
+        <h4 class="widget-title">Реклама</h4>
+        @php
+            $random_count = Reklama::where(['status'=>1])->count();
+            if ($random_count > 3){
+                $random_count = 3;
+            }
+            $reklami = Reklama::where(['status'=>1])->get()->random($random_count);
+        @endphp
+        @foreach ($reklami as $reklama)
         <div class="add-box">
-        </div>
+            <h5>{{ $reklama->title }}</h5>
+            <p>{{ $reklama->description }}</p>
+            @php
+                if(!empty($reklama->image_small)){
+                    $image_small = asset('/images/backend_images/reklama_small/'.$reklama->image_small);
+                }else{
+                    $image_small = "";
+                }
+            @endphp
+            @if ($image_small != "")
+                @if ($reklama->url != "") <a target="_blank" href="{{ $reklama->url }}"> @endif <img class="img-fluid" src="{{ $image_small }}" alt="{{ $reklama->title }}"> @if ($reklama->url != "") </a> @endif
+            @endif
+        </div>            
+        @endforeach
     </div>
 </aside>
