@@ -1,4 +1,5 @@
 <?php use App\Category; ?>
+<?php use App\Reklama; ?>
 @extends('layouts.frontLayout.front_design')
 @section('content')
 <!-- Start Content -->
@@ -73,10 +74,30 @@
                         </nav>
                     </div>
                     <div class="widget">
-                        <h4 class="widget-title">Advertisement</h4>
+                        <h4 class="widget-title">Реклама</h4>
+                        @php
+                            $random_count = Reklama::where(['status'=>1])->count();
+                            if ($random_count > 3){
+                                $random_count = 3;
+                            }
+                            $reklami = Reklama::where(['status'=>1])->get()->random($random_count);
+                        @endphp
+                        @foreach ($reklami as $reklama)
                         <div class="add-box">
-                            <img class="img-fluid" src="assets/img/img1.jpg" alt="">
-                        </div>
+                            <h5>{{ $reklama->title }}</h5>
+                            <p>{{ $reklama->description }}</p>
+                            @php
+                                if(!empty($reklama->image_small)){
+                                    $image_small = asset('/images/backend_images/reklama_small/'.$reklama->image_small);
+                                }else{
+                                    $image_small = "";
+                                }
+                            @endphp
+                            @if ($image_small != "")
+                                @if ($reklama->url != "") <a target="_blank" href="{{ $reklama->url }}"> @endif <img class="img-fluid" src="{{ $image_small }}" alt="{{ $reklama->title }}"> @if ($reklama->url != "") </a> @endif
+                            @endif
+                        </div>            
+                        @endforeach
                     </div>
                 </aside>
             </div>
