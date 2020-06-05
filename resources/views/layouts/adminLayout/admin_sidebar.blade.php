@@ -71,6 +71,7 @@
           <li><a href="{{ route('admin.edit-obshti-uslovia') }}">Общи условия</a></li>
           <li><a href="{{ route('admin.edit-politika') }}">Политика за лични данни</a></li>
           <li><a href="{{ route('admin.edit-help') }}">Помощ</a></li>
+          <li><a href="{{ route('admin.edit-politika-biskvitki') }}">Политика за бисквитки</a></li>
         </ul>
       </li>
       <li class="submenu"> <a href="#"><i class="icon icon-th-list"></i> <span>Настройки</span> </a>

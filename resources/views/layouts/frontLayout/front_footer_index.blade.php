@@ -30,7 +30,7 @@
                     <li><a href="{{ route('obshti-uslovia') }}">ОБЩИ УСЛОВИЯ</a></li>
                     <li><a href="{{ route('help') }}">ПОМОЩ</a></li>
                     <li><a href="{{ route('politika') }}">ПОЛИТИКА ЗА ЛИЧНИ ДАННИ</a></li>
-                    <li><a href="#">ПОЛИТИКА ЗА БИСКВИТКИ</a></li>
+                    <li><a href="{{ route('politika-biskvitki') }}">ПОЛИТИКА ЗА БИСКВИТКИ</a></li>
                     <li><a href="#">PARTYBOX.BG БЛОГ</a></li>
                     <li><a href="{{ route('products') }}">ВСИЧКИ ОФЕРТИ</a></li>
                   </ul>
