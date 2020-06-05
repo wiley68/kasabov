@@ -28,7 +28,7 @@
                   <h3 class="block-title">МЕНЮ</h3>
                   <ul class="menu">
                     <li><a href="{{ route('obshti-uslovia') }}">ОБЩИ УСЛОВИЯ</a></li>
-                    <li><a href="#">ПОМОЩ</a></li>
+                    <li><a href="{{ route('help') }}">ПОМОЩ</a></li>
                     <li><a href="{{ route('politika') }}">ПОЛИТИКА ЗА ЛИЧНИ ДАННИ</a></li>
                     <li><a href="#">ПОЛИТИКА ЗА БИСКВИТКИ</a></li>
                     <li><a href="#">PARTYBOX.BG БЛОГ</a></li>
