@@ -27,7 +27,7 @@
                 <div class="widget">
                   <h3 class="block-title">МЕНЮ</h3>
                   <ul class="menu">
-                    <li><a href="#">ОБЩИ УСЛОВИЯ</a></li>
+                    <li><a href="{{ route('obshti-uslovia') }}">ОБЩИ УСЛОВИЯ</a></li>
                     <li><a href="#">ПОМОЩ</a></li>
                     <li><a href="#">ПОЛИТИКА ЗА ЛИЧНИ ДАННИ</a></li>
                     <li><a href="#">ПОЛИТИКА ЗА БИСКВИТКИ</a></li>

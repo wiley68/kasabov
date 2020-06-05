@@ -66,6 +66,11 @@
           <li><a href="{{ route('admin.view-reklami') }}">Всички реклами</a></li>
         </ul>
       </li>
+      <li class="submenu"> <a href="#"><i class="icon icon-th-list"></i> <span>Страници</span> </a>
+        <ul>
+          <li><a href="{{ route('admin.edit-obshti-uslovia') }}">Общи условия</a></li>
+        </ul>
+      </li>
       <li class="submenu"> <a href="#"><i class="icon icon-th-list"></i> <span>Настройки</span> </a>
         <ul>
           <li><a href="{{ route('admin.edit-landing-page') }}">Начална страница</a></li>

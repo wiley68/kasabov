@@ -131,6 +131,8 @@ Route::group(
         Route::match(['get', 'post'], '/admin/edit-price-page', 'IndexController@editPricePage')->name('admin.edit-price-page');
         Route::match(['get', 'post'], '/admin/edit-payment-packages', 'IndexController@editPaymentPackages')->name('admin.edit-payment-packages');
         Route::match(['get', 'post'], '/admin/edit-maintenance-page', 'IndexController@editMaintenancePage')->name('admin.edit-maintenance-page');
+        // Other pages
+        Route::match(['get', 'post'], '/admin/edit-obshti-uslovia', 'PagesController@editObshtiUslovia')->name('admin.edit-obshti-uslovia');
     }
 );
 Route::get('/logout', 'AdminController@logout')->name('logout');
@@ -159,3 +161,6 @@ Route::match(['get', 'post'], '/check-email', 'UsersController@checkEmail');
 Route::get('/firms-login-register', 'UsersController@loginRegisterFirms')->name('firms-login-register');
 Route::post('/firm-register', 'UsersController@registerFirm')->name('firm-register');
 Route::post('/firm-login', 'UsersController@loginFirm')->name('firm-login');
+
+// Other routes
+Route::get('/obshti-uslovia', 'PagesController@obshtiUslovia')->name('obshti-uslovia');
