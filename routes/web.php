@@ -133,6 +133,7 @@ Route::group(
         Route::match(['get', 'post'], '/admin/edit-maintenance-page', 'IndexController@editMaintenancePage')->name('admin.edit-maintenance-page');
         // Other pages
         Route::match(['get', 'post'], '/admin/edit-obshti-uslovia', 'PagesController@editObshtiUslovia')->name('admin.edit-obshti-uslovia');
+        Route::match(['get', 'post'], '/admin/edit-politika', 'PagesController@editPolitika')->name('admin.edit-politika');
     }
 );
 Route::get('/logout', 'AdminController@logout')->name('logout');
@@ -164,3 +165,4 @@ Route::post('/firm-login', 'UsersController@loginFirm')->name('firm-login');
 
 // Other routes
 Route::get('/obshti-uslovia', 'PagesController@obshtiUslovia')->name('obshti-uslovia');
+Route::get('/politika', 'PagesController@politika')->name('politika');
