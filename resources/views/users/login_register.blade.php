@@ -75,16 +75,9 @@
                         </div>
                         <div class="form-group mb-3">
                             <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="checkedall" name="checkedall">
+                                <input type="checkbox" class="custom-control-input" id="checkedall">
                                 <label class="custom-control-label" for="checkedall">Регистрирайки се Вие приемате нашите Правила за работа</label>
                             </div>
-                        </div>
-                        <div class="form-group">
-                            @if(env('GOOGLE_RECAPTCHA_KEY'))
-                            <div class="g-recaptcha"
-                                data-sitekey="{{env('GOOGLE_RECAPTCHA_KEY')}}">
-                            </div>
-                            @endif
                         </div>
                         <div class="text-center">
                             <button type="submit" class="btn btn-common log-btn">Регистрация</button>
@@ -96,8 +89,4 @@
     </div>
 </section>
 <!-- Content section End -->
-@endsection
-
-@section('scripts')
-<script src='https://www.google.com/recaptcha/api.js'></script>
 @endsection
