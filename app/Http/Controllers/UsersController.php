@@ -48,6 +48,26 @@ class UsersController extends Controller
     }
 
     public function registerUser(Request $request){
+        $this->validate($request, [
+            'register_name' => 'required',
+            'register_email' => 'required',
+            'register_password' => 'min:6|required_with:register_password_again|same:register_password_again',
+            'register_password_again' => 'min:6',
+            'checkedall' => 'required',
+            'g-recaptcha-response' => 'required|recaptcha'
+        ],
+        [
+            'register_name.required' => 'Задължително е въвеждането на Вашето име!',
+            'register_email.required' => 'Задължително е въвеждането на вашия e-mail адрес!',
+            'register_password.min' => 'Минималната дължина на паролата е 6 символа!',
+            'register_password.required_with' => 'Трябва да въведете два пъти паролата!',
+            'register_password.same' => 'Повторната парола трябва да съответства на въведената първа!',
+            'register_password_again.min' => 'Минималната дължина на паролата е 6 символа!',
+            'checkedall.required' => 'Задължително е да приемете Общите ни условия за да се регистрирате!',
+            'g-recaptcha-response.required' => 'Задължително е да преминете проверката за бот!',
+            'g-recaptcha-response.recaptcha' => 'Неуспешна проверка за бот!'
+        ]);
+
         // Add user
         if($request->isMethod('post')){
             $user = new User;
