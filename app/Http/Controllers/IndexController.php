@@ -199,6 +199,16 @@ class IndexController extends Controller
     }
 
     public function abonament(Request $request){
+        $this->validate($request, [
+            'abonament_email' => 'required',
+            'g-recaptcha-response' => 'required|recaptcha'
+        ],
+        [
+            'abonament_email.required' => 'Задължително е въвеждането на вашия e-mail адрес!',
+            'g-recaptcha-response.required' => 'Задължително е да преминете проверката за бот!',
+            'g-recaptcha-response.recaptcha' => 'Неуспешна проверка за бот!'
+        ]);
+
         if ($request->isMethod('post')){
             $abonament_email = $request->input('abonament_email');
 
