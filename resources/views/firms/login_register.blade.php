@@ -75,7 +75,7 @@
                         </div>
                         <div class="form-group mb-3">
                             <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="checkedall">
+                                <input type="checkbox" class="custom-control-input" id="checkedall" name="checkedall">
                                 <label class="custom-control-label" for="checkedall">Регистрирайки се Вие приемате нашите Правила за работа</label>
                             </div>
                         </div>
