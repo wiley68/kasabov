@@ -41,11 +41,16 @@
                   <h3 class="block-title">СВЪРЖИ СЕ С НАС</h3>
                   <ul class="contact-footer">
                     <li>
-                      <form enctype="multipart/form-data" action="{{ route('contact') }}" method="post" name="contact" id="contact" novalidate="novalidate">
+                      <form enctype="multipart/form-data" action="{{ route('contact') }}" method="post" name="contact" id="contact">
                         @csrf
                         <input style="width:100%;margin-bottom:10px;" type="text" name="contact_name" placeholder="Име">
                         <input style="width:100%;margin-bottom:10px;" type="text" name="contact_email" placeholder="E-Mail">
                         <textarea style="width:100%;height:120px;" name="contact_message" placeholder="Съобщение"></textarea>
+                        @if(env('GOOGLE_RECAPTCHA_KEY'))
+                          <div class="g-recaptcha"
+                              data-sitekey="{{env('GOOGLE_RECAPTCHA_KEY')}}">
+                          </div>
+                        @endif
                         <button class="btn btn-common fullwidth mt-4" type="submit">Изпрати</button>
                       </form>
                     </li>
@@ -77,29 +82,4 @@
       <a href="#" class="back-to-top">
         <i class="lni-chevron-up"></i>
       </a>
-
-      @section('scripts')
-      <script>
-            // Submit search form on click
-            $('#btn_search_form').on('click', function() {
-                if (($("#category_id_search option:selected").val() != '0') || ($("#city_id_search option:selected").val() != '0') || ($("#custom_search").val() != '')){
-                    if ($("#category_id_search option:selected").val() != '0'){
-                        $('#filter_products').append('<input type="hidden" id="category_id" name="category_id[]" />');
-                        $('#category_id').val([$("#category_id_search option:selected").val()]);
-                    }
-                    if ($("#city_id_search option:selected").val() != '0'){
-                        $('#filter_products').append('<input type="hidden" id="city_id" name="city_id[]" />');
-                        $('#city_id').val([$("#city_id_search option:selected").val()]);
-                    }
-                    document.forms['filter_products'].submit();
-                }else{
-                    document.location = "{{ route('products') }}";
-                }
-            });
-      </script>
-      @endsection
-      <!-- Preloader -->
-      <!--<div id="preloader">
-        <div class="loader" id="loader-1"></div>
-      </div>-->
-      <!-- End Preloader -->
+ 

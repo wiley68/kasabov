@@ -249,6 +249,20 @@ class IndexController extends Controller
     }
 
     public function contact(Request $request){
+        $this->validate($request, [
+            'contact_name' => 'required',
+            'contact_email' => 'required',
+            'contact_message' => 'required',
+            'g-recaptcha-response' => 'required|recaptcha'
+        ],
+        [
+            'contact_name.required' => 'Задължително е въвеждането на Вашето име!',
+            'contact_email.required' => 'Задължително е въвеждането на вашия e-mail адрес!',
+            'contact_message.required' => 'Задължително е да попълните съобщението си!',
+            'g-recaptcha-response.required' => 'Задължително е да преминете проверката за бот!',
+            'g-recaptcha-response.recaptcha' => 'Неуспешна проверка за бот!'
+        ]);
+
         if ($request->isMethod('post')){
             $contact_name = $request->input('contact_name');
             $contact_email = $request->input('contact_email');

@@ -278,10 +278,27 @@
 @endsection
 
 @section('scripts')
+    <script src='https://www.google.com/recaptcha/api.js'></script>
     <script>
     function changeOther(event, id){
         event.preventDefault();
         $("#div_"+id).toggle();
     }
+    // Submit search form on click
+    $('#btn_search_form').on('click', function() {
+          if (($("#category_id_search option:selected").val() != '0') || ($("#city_id_search option:selected").val() != '0') || ($("#custom_search").val() != '')){
+            if ($("#category_id_search option:selected").val() != '0'){
+              $('#filter_products').append('<input type="hidden" id="category_id" name="category_id[]" />');
+              $('#category_id').val([$("#category_id_search option:selected").val()]);
+            }
+            if ($("#city_id_search option:selected").val() != '0'){
+              $('#filter_products').append('<input type="hidden" id="city_id" name="city_id[]" />');
+              $('#city_id').val([$("#city_id_search option:selected").val()]);
+            }
+            document.forms['filter_products'].submit();
+          }else{
+            document.location = "{{ route('products') }}";
+          }
+        });
     </script>
 @endsection
