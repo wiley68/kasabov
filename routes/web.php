@@ -135,7 +135,6 @@ Route::group(
         Route::match(['get', 'post'], '/admin/edit-obshti-uslovia', 'PagesController@editObshtiUslovia')->name('admin.edit-obshti-uslovia');
         Route::match(['get', 'post'], '/admin/edit-politika', 'PagesController@editPolitika')->name('admin.edit-politika');
         Route::match(['get', 'post'], '/admin/edit-help', 'PagesController@editHelp')->name('admin.edit-help');
-        Route::match(['get', 'post'], '/admin/edit-politika-biskvitki', 'PagesController@editPolitikaBiskvitki')->name('admin.edit-politika-biskvitki');
     }
 );
 Route::get('/logout', 'AdminController@logout')->name('logout');
@@ -169,4 +168,3 @@ Route::post('/firm-login', 'UsersController@loginFirm')->name('firm-login');
 Route::get('/obshti-uslovia', 'PagesController@obshtiUslovia')->name('obshti-uslovia');
 Route::get('/politika', 'PagesController@politika')->name('politika');
 Route::get('/help', 'PagesController@help')->name('help');
-Route::get('/politika-biskvitki', 'PagesController@politkaBiskvitki')->name('politika-biskvitki');
