@@ -151,7 +151,7 @@
                                                             $category_ids = [];
                                                             $category_ids[] = $featured->category_id;
                                                         @endphp
-                                                        <a href="{{ route('products', ['category_id'=>$category_ids]) }}"><i class="{{ Category::where(['id'=>$featured->category_id])->first()->icon }}"></i>{{ Category::where(['id'=>$featured->category_id])->first()->name }} </a>
+                                                        <a href="{{ route('products', ['category_id'=>$category_ids]) }}">{{ Category::where(['id'=>$featured->category_id])->first()->name }} </a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -209,7 +209,7 @@
                                                             $category_ids = [];
                                                             $category_ids[] = $product->category_id;
                                                         @endphp
-                                                        <a href="{{ route('products', ['category_id'=>$category_ids]) }}"><i class="{{ Category::where(['id'=>$product->category_id])->first()->icon }}"></i>{{ Category::where(['id'=>$product->category_id])->first()->name }} </a>
+                                                        <a href="{{ route('products', ['category_id'=>$category_ids]) }}">{{ Category::where(['id'=>$product->category_id])->first()->name }} </a>
                                                     </div>
                                                 </div>
                                             </div>
