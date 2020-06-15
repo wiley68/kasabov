@@ -60,6 +60,31 @@
             </div>
         </div>
         <div class="mobile-menu" data-logo="{{ asset('images/frontend_images/logo-mobile.png') }}"></div>
+        <div class="login_mobile">
+            @guest
+            <div>
+                <a href="{{ route('users-login-register') }}"><i class="lni-lock"></i> Вход | Регистрация</a>
+            </div>
+            @else
+            <div>
+                @if(Auth::user()->admin == 0)
+                <a href="{{ route('home') }}" class="header-top-button"><i class="lni-user"></i> {{ Auth::user()->name }}</a> |
+                <a href="{{ route('logout-front-user') }}" class="header-top-button"><i class="lni-exit"></i> Изход</a>
+                @endif
+                @if(Auth::user()->admin == 2)
+                <a href="{{ route('home-firm') }}" class="header-top-button"><i class="lni-user"></i> {{ Auth::user()->name }}</a> |
+                <a href="{{ route('logout-front-firm') }}" class="header-top-button"><i class="lni-exit"></i> Изход</a>
+                @endif
+                @if(Auth::user()->admin == 1)
+                <i class="lni-user"></i> {{ Auth::user()->name }}
+                @endif
+            </div>
+        @endguest
+            &nbsp;
+            <div>
+                <a href="{{ route('firms-login-register') }}"><i class="lni-pencil-alt"></i> Вход за търговци</a>
+            </div>
+        </div>
     </nav>
     <!-- Navbar End -->
 

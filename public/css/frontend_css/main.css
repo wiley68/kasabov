@@ -5748,6 +5748,10 @@ body .modal-dialog {
     text-align: center;
 }
 
+.login_mobile {
+    display: none;
+}
+
 @media only screen and (max-height: 900px) {
     #hero-area-index {
         background: white;
@@ -5770,5 +5774,11 @@ body .modal-dialog {
     #hero-area .contents,
     #hero-area-index .contents {
         padding: 100px 0 100px;
+    }
+    .login_mobile {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        background: #fafaf1;
     }
 }

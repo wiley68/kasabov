@@ -1,4 +1,3 @@
-
 /*
 Theme Name:       Classix - Classified Ads and Listing Template
 Author:           UIdeck
@@ -19,28 +18,27 @@ JS INDEX
 9. Categories Iocn owl Carousel
 ================================================*/
 
-(function ($) {
-
+(function($) {
     var $main_window = $(window);
 
     /*====================================
     preloader js
     ======================================*/
-    $main_window.on("load", function () {
+    $main_window.on("load", function() {
         $("#preloader").fadeOut("slow");
     });
 
     /*====================================
     scroll to top js
     ======================================*/
-    $main_window.on("scroll", function () {
+    $main_window.on("scroll", function() {
         if ($(this).scrollTop() > 250) {
             $(".back-to-top").fadeIn(200);
         } else {
             $(".back-to-top").fadeOut(200);
         }
     });
-    $(".back-to-top").on("click", function () {
+    $(".back-to-top").on("click", function() {
         $("html, body").animate(
             {
                 scrollTop: 0
@@ -53,20 +51,23 @@ JS INDEX
     /*====================================
     slick menu js
     ======================================*/
-    var logo_path = $('.mobile-menu').data('logo');
-    $('#main-navbar').slicknav({
-        appendTo: '.mobile-menu',
+    var logo_path = $(".mobile-menu").data("logo");
+    $("#main-navbar").slicknav({
+        appendTo: ".mobile-menu",
         removeClasses: false,
-        label: '',
+        label: "",
         closedSymbol: '<i class="lni-chevron-right"><i/>',
         openedSymbol: '<i class="lni-chevron-right"><i/>',
-        brand: '<a href="index.html"><img src="' + logo_path + '" class="img-responsive" alt="logo"></a>'
+        brand:
+            '<a href="/"><img src="' +
+            logo_path +
+            '" class="img-responsive" alt="logo"></a>'
     });
 
     /*====================================
     sticky menu js
     ======================================*/
-    $main_window.on('scroll', function () {
+    $main_window.on("scroll", function() {
         var scroll = $(window).scrollTop();
         if (scroll >= 10) {
             $(".scrolling-navbar").addClass("top-nav-collapse");
@@ -97,7 +98,7 @@ JS INDEX
     /*====================================
     Tooltip Toggle
     ======================================*/
-    $('[data-toggle="tooltip"]').tooltip()
+    $('[data-toggle="tooltip"]').tooltip();
 
     /*====================================
     Testimonials Carousel
@@ -113,7 +114,7 @@ JS INDEX
         responsiveClass: true,
         responsive: {
             0: {
-                items: 1,
+                items: 1
             },
             991: {
                 items: 2
@@ -140,13 +141,13 @@ JS INDEX
         responsiveClass: true,
         responsive: {
             0: {
-                items: 1,
+                items: 1
             },
             575: {
-                items: 2,
+                items: 2
             },
             991: {
-                items: 3,
+                items: 3
             }
         }
     });
@@ -170,13 +171,13 @@ JS INDEX
         responsiveClass: true,
         responsive: {
             0: {
-                items: 1,
+                items: 1
             },
             575: {
-                items: 2,
+                items: 2
             },
             991: {
-                items: 5,
+                items: 5
             }
         }
     });
@@ -200,15 +201,14 @@ JS INDEX
         responsiveClass: true,
         responsive: {
             0: {
-                items: 1,
+                items: 1
             },
             575: {
-                items: 1,
+                items: 1
             },
             991: {
-                items: 1,
+                items: 1
             }
         }
     });
-
 })(jQuery);
