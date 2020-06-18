@@ -132,6 +132,7 @@
                                             $image = asset('/images/backend_images/products/small/no-image-300.png');
                                         }
                                         @endphp
+                                        @if(!empty($product->image))
                                         <tr>
                                             <td class="photo"><a href="#imageModal{{ $product->id }}" data-toggle="modal" title="Покажи снимката в голям размер."><img class="img-fluid" src="{{ $image }}" alt=""></a></td>
                                             <td data-title="Продукт">
@@ -171,6 +172,7 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        @endif
                                         @endforeach
                                 </tbody>
                             </table>
