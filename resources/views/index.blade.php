@@ -24,7 +24,7 @@
             </div>
             @foreach ($categories_top as $category_top)
             @php
-            $categories_parent = Category::where(['parent_id'=>$category_top->id])->get();
+            $categories_parent = Category::where(['parent_id'=>$category_top->id])->orderBy('position', 'DESC')->get();
             $categories_in[] = $category_top->id;
             foreach ($categories_parent as $category_parent) {
                 $categories_in[] = $category_parent->id;
@@ -50,7 +50,7 @@
                         @endphp
                         @foreach ($categories_parent as $cat_parent)
                         @php
-                            $productsin = Product::where(['category_id' => $cat_parent->id]);
+                            $productsin = Product::where(['category_id' => $cat_parent->id])->orderBy('position', 'DESC');
                             $productsin = $productsin->where(['status'=>'active']);
                             $productsin = $productsin->where('active_at', '>=', date("Y-m-d", strtotime("-1 months")));
                             $category_idsin = [];
