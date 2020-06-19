@@ -1,4 +1,6 @@
 <?php use App\Reklama; ?>
+<?php use App\Order; ?>
+<?php use App\Product; ?>
 @extends('layouts.frontLayout.front_design')
 @section('content')
 <!-- Start Content -->
@@ -59,6 +61,20 @@
                                 <li>
                                     <a href="{{ route('home-firm-orders') }}">
                                         <i class="lni-envelope"></i><span>Поръчки</span>
+                                        @php
+                                            $products_ids = [];
+                                            $products_loc = Product::where(['user_id'=>Auth::user()->id])->get();
+                                            foreach ($products_loc as $product){
+                                                $products_ids[] = $product->id;
+                                            }
+
+                                            $order_count = Order::whereIn('product_id', $products_ids)->count();
+                                        @endphp
+                                        @if($order_count == 0)
+                                            <span style="float:right;padding-right:10px;"><p>{{ $order_count }} бр.</p></span>
+                                        @else
+                                            <span style="float:right;padding-right:10px;"><p class="order_blink">{{ $order_count }} бр.</p></span>
+                                        @endif
                                     </a>
                                 </li>
                                 <li>

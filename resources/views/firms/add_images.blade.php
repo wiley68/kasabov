@@ -1,24 +1,29 @@
+<?php
+
+use App\Order; ?>
+<?php
+
+use App\Product; ?>
 @extends('layouts.frontLayout.front_design')
 @section('content')
 <script type="text/javascript">
-    function deleteProductImages(url){
+    function deleteProductImages(url) {
         swal({
-            title: "Сигурни ли сте?",
-            text: "Ще бъде изтрита снимката за този продукт. Операцията е невъзвратима!",
-            icon: "warning",
-            buttons: ["Отказ!", "Съгласен съм!"],
-            dangerMode: true,
-        })
-        .then((willDelete) => {
-            if (willDelete) {
-            window.location = url;
-        } else {
-            return false;
-        }
-        });
+                title: "Сигурни ли сте?",
+                text: "Ще бъде изтрита снимката за този продукт. Операцията е невъзвратима!",
+                icon: "warning",
+                buttons: ["Отказ!", "Съгласен съм!"],
+                dangerMode: true,
+            })
+            .then((willDelete) => {
+                if (willDelete) {
+                    window.location = url;
+                } else {
+                    return false;
+                }
+            });
         return false;
     };
-
 </script>
 <!-- Start Content -->
 <div id="content" class="section-padding">
@@ -42,38 +47,56 @@
                             <ul>
                                 <li>
                                     <a class="active" href="{{ route('home-firm') }}">
-                                            <i class="lni-dashboard"></i><span>Панел управление</span>
-                                        </a>
+                                        <i class="lni-dashboard"></i><span>Панел управление</span>
+                                    </a>
                                 </li>
                                 <li>
                                     <a href="{{ route('home-firm-settings') }}">
-                                            <i class="lni-cog"></i><span>Настройки профил</span>
-                                        </a>
+                                        <i class="lni-cog"></i><span>Настройки профил</span>
+                                    </a>
                                 </li>
                                 <li>
                                     <a href="{{ route('home-firm-adds', ['payed' => 'No']) }}">
-                                            <i class="lni-layers"></i><span>Моите оферти</span>
-                                        </a>
+                                        <i class="lni-layers"></i><span>Моите оферти</span>
+                                    </a>
                                 </li>
                                 <li>
                                     <a href="{{ route('home-firm-orders') }}">
-                                            <i class="lni-envelope"></i><span>Поръчки</span>
-                                        </a>
+                                        <i class="lni-envelope"></i><span>Поръчки</span>
+                                        @php
+                                        $products_ids = [];
+                                        $products_loc = Product::where(['user_id'=>Auth::user()->id])->get();
+                                        foreach ($products_loc as $product){
+                                        $products_ids[] = $product->id;
+                                        }
+
+                                        $order_count = Order::whereIn('product_id', $products_ids)->count();
+                                        @endphp
+                                        @if($order_count == 0)
+                                        <span style="float:right;padding-right:10px;">
+                                            <p>{{ $order_count }} бр.</p>
+                                        </span>
+                                        @else
+                                        <span style="float:right;padding-right:10px;">
+                                            <p class="order_blink">{{ $order_count }} бр.</p>
+                                        </span>
+                                        @endif
+                                    </a>
                                 </li>
                                 <li>
                                     <a href="{{ route('home-firm-payments') }}">
-                                            <i class="lni-wallet"></i><span>Плащания</span>
-                                        </a>
+                                        <i class="lni-wallet"></i><span>Плащания</span>
+                                    </a>
                                 </li>
                                 <li>
                                     <a href="{{ route('home-firm-privacy') }}">
-                                            <i class="lni-star"></i><span>Лични</span>
-                                        </a>
+                                        <i class="lni-star"></i><span>Лични</span>
+                                    </a>
                                 </li>
                                 <li>
                                     <a href="{{ route('logout-front-firm') }}">
-                                            <i class="lni-enter"></i><span>Изход</span>
-                                        </a>
+                                        <i class="lni-enter"></i><span>Изход</span>
+                                    </a>
                                 </li>
                             </ul>
                         </nav>
@@ -105,8 +128,7 @@
                                 <strong>{!! session('flash_message_success') !!}</strong>
                             </div>
                             @endif
-                            <form enctype="multipart/form-data" class="form-horizontal" method="post" action="{{ route('home-add-product-images', ['id'=>$product->id]) }}"
-                                name="add_images" id="add_images" novalidate="novalidate">
+                            <form enctype="multipart/form-data" class="form-horizontal" method="post" action="{{ route('home-add-product-images', ['id'=>$product->id]) }}" name="add_images" id="add_images" novalidate="novalidate">
                                 @csrf
                                 <div class="control-group">
                                     <label class="control-label">Продукт:</label>
@@ -141,7 +163,7 @@
                                         <td>{{ $product->product_name }}</td>
                                         <td>
                                             @if (!empty($image->image))
-                                            <a href="#imageModal{{ $image->id }}" data-toggle="modal" title="Покажи снимката в голям размер."><img src="{{ asset('/images/backend_images/products/small/'.$image->image) }}" style="width:50px;"></a>                                            @endif
+                                            <a href="#imageModal{{ $image->id }}" data-toggle="modal" title="Покажи снимката в голям размер."><img src="{{ asset('/images/backend_images/products/small/'.$image->image) }}" style="width:50px;"></a> @endif
                                         </td>
                                         <td class="center">
                                             <button onclick="deleteProductImages('{{ route('admin.delete-product-images', ['id' => $image->id]) }}');" class="btn btn-danger">Изтрий</button>

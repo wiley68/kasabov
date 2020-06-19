@@ -1,4 +1,12 @@
-<?php use App\Reklama; ?>
+<?php
+
+use App\Reklama; ?>
+<?php
+
+use App\Order; ?>
+<?php
+
+use App\Product; ?>
 @extends('layouts.frontLayout.front_design')
 @section('content')
 <!-- Start Content -->
@@ -23,38 +31,56 @@
                             <ul>
                                 <li>
                                     <a href="{{ route('home-firm') }}">
-                                                <i class="lni-dashboard"></i><span>Панел управление</span>
-                                            </a>
+                                        <i class="lni-dashboard"></i><span>Панел управление</span>
+                                    </a>
                                 </li>
                                 <li>
                                     <a href="{{ route('home-firm-settings') }}">
-                                                <i class="lni-cog"></i><span>Настройки профил</span>
-                                            </a>
+                                        <i class="lni-cog"></i><span>Настройки профил</span>
+                                    </a>
                                 </li>
                                 <li>
                                     <a href="{{ route('home-firm-adds', ['payed' => 'No']) }}">
-                                                <i class="lni-layers"></i><span>Моите оферти</span>
-                                            </a>
+                                        <i class="lni-layers"></i><span>Моите оферти</span>
+                                    </a>
                                 </li>
                                 <li>
                                     <a href="{{ route('home-firm-orders') }}">
-                                                <i class="lni-envelope"></i><span>Поръчки</span>
-                                            </a>
+                                        <i class="lni-envelope"></i><span>Поръчки</span>
+                                        @php
+                                        $products_ids = [];
+                                        $products_loc = Product::where(['user_id'=>Auth::user()->id])->get();
+                                        foreach ($products_loc as $product){
+                                        $products_ids[] = $product->id;
+                                        }
+
+                                        $order_count = Order::whereIn('product_id', $products_ids)->count();
+                                        @endphp
+                                        @if($order_count == 0)
+                                        <span style="float:right;padding-right:10px;">
+                                            <p>{{ $order_count }} бр.</p>
+                                        </span>
+                                        @else
+                                        <span style="float:right;padding-right:10px;">
+                                            <p class="order_blink">{{ $order_count }} бр.</p>
+                                        </span>
+                                        @endif
+                                    </a>
                                 </li>
                                 <li>
                                     <a href="{{ route('home-firm-payments') }}">
-                                                <i class="lni-wallet"></i><span>Плащания</span>
-                                            </a>
+                                        <i class="lni-wallet"></i><span>Плащания</span>
+                                    </a>
                                 </li>
                                 <li>
                                     <a class="active" href="{{ route('home-firm-privacy') }}">
-                                                <i class="lni-star"></i><span>Лични</span>
-                                            </a>
+                                        <i class="lni-star"></i><span>Лични</span>
+                                    </a>
                                 </li>
                                 <li>
                                     <a href="{{ route('logout-front-firm') }}">
-                                                <i class="lni-enter"></i><span>Изход</span>
-                                            </a>
+                                        <i class="lni-enter"></i><span>Изход</span>
+                                    </a>
                                 </li>
                             </ul>
                         </nav>
@@ -62,27 +88,27 @@
                     <div class="widget">
                         <h4 class="widget-title">Реклама</h4>
                         @php
-                            $random_count = Reklama::where(['status'=>1])->count();
-                            if ($random_count > 3){
-                                $random_count = 3;
-                            }
-                            $reklami = Reklama::where(['status'=>1])->get()->random($random_count);
+                        $random_count = Reklama::where(['status'=>1])->count();
+                        if ($random_count > 3){
+                        $random_count = 3;
+                        }
+                        $reklami = Reklama::where(['status'=>1])->get()->random($random_count);
                         @endphp
                         @foreach ($reklami as $reklama)
                         <div class="add-box">
                             <h5>{{ $reklama->title }}</h5>
                             <p>{{ $reklama->description }}</p>
                             @php
-                                if(!empty($reklama->image_small)){
-                                    $image_small = asset('/images/backend_images/reklama_small/'.$reklama->image_small);
-                                }else{
-                                    $image_small = "";
-                                }
+                            if(!empty($reklama->image_small)){
+                            $image_small = asset('/images/backend_images/reklama_small/'.$reklama->image_small);
+                            }else{
+                            $image_small = "";
+                            }
                             @endphp
                             @if ($image_small != "")
-                                @if ($reklama->url != "") <a target="_blank" href="{{ $reklama->url }}"> @endif <img class="img-fluid" src="{{ $image_small }}" alt="{{ $reklama->title }}"> @if ($reklama->url != "") </a> @endif
+                            @if ($reklama->url != "") <a target="_blank" href="{{ $reklama->url }}"> @endif <img class="img-fluid" src="{{ $image_small }}" alt="{{ $reklama->title }}"> @if ($reklama->url != "") </a> @endif
                             @endif
-                        </div>            
+                        </div>
                         @endforeach
                     </div>
                 </aside>
@@ -101,8 +127,7 @@
                             <h2 class="dashbord-title">Лични настройки</h2>
                         </div>
                         <div class="dashboard-wrapper">
-                            <form class="row form-dashboard" enctype="multipart/form-data" class="form-horizontal" method="post" action="{{ route('home-firm-privacy') }}"
-                                name="home_privacy" id="home_privacy" novalidate="novalidate">
+                            <form class="row form-dashboard" enctype="multipart/form-data" class="form-horizontal" method="post" action="{{ route('home-firm-privacy') }}" name="home_privacy" id="home_privacy" novalidate="novalidate">
                                 @csrf
                                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
                                     <div class="privacy-box privacysetting">
@@ -138,8 +163,7 @@
                                     </div>
                                 </div>
                             </form>
-                            <form enctype="multipart/form-data" class="form-horizontal" method="post" action="{{ route('delete-firm-user') }}" name="home_privacy_delete"
-                                id="home_privacy_delete" novalidate="novalidate">
+                            <form enctype="multipart/form-data" class="form-horizontal" method="post" action="{{ route('delete-firm-user') }}" name="home_privacy_delete" id="home_privacy_delete" novalidate="novalidate">
                                 @csrf
                                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
                                     <div class="privacy-box deleteaccount">
