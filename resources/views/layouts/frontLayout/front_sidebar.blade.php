@@ -1,7 +1,15 @@
-<?php use App\Category; ?>
-<?php use App\Holiday; ?>
-<?php use App\Product; ?>
-<?php use App\Reklama; ?>
+<?php
+
+use App\Category; ?>
+<?php
+
+use App\Holiday; ?>
+<?php
+
+use App\Product; ?>
+<?php
+
+use App\Reklama; ?>
 <aside>
     <!-- Searcg Widget -->
     <div class="widget_search">
@@ -22,28 +30,28 @@
                     <p style="font-weight:bold;font-size:120%;">Празници</p>
                     <div style="padding-bottom:10px;"></div>
                     @foreach ($holidays as $holiday)
-                        <label><input type="checkbox" @if(request()->has('holiday_id') AND in_array($holiday->id, request('holiday_id'))) checked @endif name="holiday_id[]" value="{{ $holiday->id }}">&nbsp;{{ $holiday->name }}</label>
+                    <label><input type="checkbox" @if(request()->has('holiday_id') AND in_array($holiday->id, request('holiday_id'))) checked @endif name="holiday_id[]" value="{{ $holiday->id }}">&nbsp;{{ $holiday->name }}</label>
                     @endforeach
                     <div style="padding-bottom:10px;"></div>
                     <!-- Categories filter -->
                     <p style="font-weight:bold;font-size:120%;">Категории</p>
                     <div style="padding-bottom:10px;"></div>
                     @foreach ($categories as $category)
-                        <label><input type="checkbox" @if(request()->has('category_id') AND in_array($category->id, request('category_id'))) checked @endif name="category_id[]" value="{{ $category->id }}">&nbsp;{{ $category->name }}</label>
+                    <label><input type="checkbox" @if(request()->has('category_id') AND in_array($category->id, request('category_id'))) checked @endif name="category_id[]" value="{{ $category->id }}">&nbsp;{{ $category->name }}</label>
                     @endforeach
                     <div style="padding-bottom:10px;"></div>
                     <!-- Price filter -->
                     @php
-                        if(request()->has('min_price')){
-                            $min_price = request('min_price');
-                        }else{
-                            $min_price = 0;
-                        }
-                        if(request()->has('max_price')){
-                            $max_price = request('max_price');
-                        }else{
-                            $max_price = 0;
-                        }
+                    if(request()->has('min_price')){
+                    $min_price = request('min_price');
+                    }else{
+                    $min_price = 0;
+                    }
+                    if(request()->has('max_price')){
+                    $max_price = request('max_price');
+                    }else{
+                    $max_price = 0;
+                    }
                     @endphp
                     <p>Мин. цена: 0 - {{ number_format($max_price_filter, 2, '.', '') }}{{ Config::get('settings.currency') }}</p>
                     <p>(<span id="min_price_current">{{ number_format($min_price, 2, '.', '') }} {{ Config::get('settings.currency') }}</span>)</p>
@@ -95,27 +103,38 @@
     <div class="widget">
         <h4 class="widget-title">Реклама</h4>
         @php
-            $random_count = Reklama::where(['status'=>1])->count();
-            if ($random_count > 3){
-                $random_count = 3;
-            }
-            $reklami = Reklama::where(['status'=>1])->get()->random($random_count);
+        $reklami_small = Reklama::where([['status', '=', '1'],['image_small', '!=', '']])->get();
+        switch(sizeof($reklami_small)){
+            case 0:
+                break;
+            case 1:
+                $reklami_small = $reklami_small->random(1);
+                break;
+            case 2:
+                $reklami_small = $reklami_small->random(2);
+                break;
+            case 3:
+                $reklami_small = $reklami_small->random(3);
+                break;
+            default:
+                $reklami_small = $reklami_small->random(3);
+        }
         @endphp
-        @foreach ($reklami as $reklama)
+        @foreach ($reklami_small as $reklama)
         <div class="add-box">
             <h5>{{ $reklama->title }}</h5>
             <p>{{ $reklama->description }}</p>
             @php
-                if(!empty($reklama->image_small)){
-                    $image_small = asset('/images/backend_images/reklama_small/'.$reklama->image_small);
-                }else{
-                    $image_small = "";
-                }
+            if(!empty($reklama->image_small)){
+            $image_small = asset('/images/backend_images/reklama_small/'.$reklama->image_small);
+            }else{
+            $image_small = "";
+            }
             @endphp
             @if ($image_small != "")
-                @if ($reklama->url != "") <a target="_blank" href="{{ $reklama->url }}"> @endif <img class="img-fluid" src="{{ $image_small }}" alt="{{ $reklama->title }}"> @if ($reklama->url != "") </a> @endif
+            @if ($reklama->url != "") <a target="_blank" href="{{ $reklama->url }}"> @endif <img class="img-fluid" src="{{ $image_small }}" alt="{{ $reklama->title }}"> @if ($reklama->url != "") </a> @endif
             @endif
-        </div>            
+        </div>
         @endforeach
     </div>
 </aside>

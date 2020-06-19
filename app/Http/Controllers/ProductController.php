@@ -859,7 +859,11 @@ class ProductController extends Controller
         if ($reklama_count > 1){
             $reklama_count = 1;
         }
-        $reklami = Reklama::where(['status'=>1])->get()->random($reklama_count);
+        $reklami_large = Reklama::where([['status', '=', '1'],['image_large', '!=', '']])->get();
+
+        if(sizeof($reklami_large) != 0){
+            $reklami_large = $reklami_large->random($reklama_count);
+        }
 
         return view('/front/view_products')->with([
             'holidays'=>$holidays,
@@ -875,7 +879,7 @@ class ProductController extends Controller
             'turgovetsDate'=>$turgovetsDate,
             'numberOfOrders'=>$numberOfOrders,
             'featureds'=>$featureds,
-            'reklami'=>$reklami 
+            'reklami'=>$reklami_large 
         ]);
     }
 
