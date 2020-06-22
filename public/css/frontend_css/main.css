@@ -1667,7 +1667,6 @@ a.back-to-top:focus {
 .featured-box figure {
     margin: 0;
     width: 100%;
-    max-height: 160px;
     float: left;
     overflow: hidden;
     position: relative;
