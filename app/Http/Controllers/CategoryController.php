@@ -45,7 +45,7 @@ class CategoryController extends Controller
             $category->description = $request->input('category_description');
             $category->url = $request->input('category_url');
             $category->icon = $request->input('category_icon');
-            $category->position = $request->input('category_position');
+            $category->position = empty($request->input('category_position')) ? 0 : $request->input('category_position');
             $category->save();
             return redirect('/admin/view-categories')->with('flash_message_success', 'Успешно редактирахте категорията!');
         }
