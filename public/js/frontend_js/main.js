@@ -26,6 +26,14 @@ JS INDEX
     ======================================*/
     $main_window.on("load", function() {
         $("#preloader").fadeOut("slow");
+
+        if($main_window.width < 901){
+            $('.switch-icons').html('+');
+            $('.toggle-visible').slideToggle();
+        }
+        else{
+            $('.switch-icons').html('-');
+        }
     });
 
     /*====================================
@@ -211,4 +219,13 @@ JS INDEX
             }
         }
     });
+
+    $('.switch-icons').on('click',function(){
+        if($(this).html()==='-'){
+            $(this).html('+');
+        }
+        else $(this).html('-')
+        $('.toggle-visible').slideToggle();
+    });
+
 })(jQuery);

@@ -5802,3 +5802,21 @@ body .modal-dialog {
         color: rgb(255, 0, 0);
     }
 }
+
+#minimize-button{
+    margin:2px;
+    position: relative;
+    height: 20px;
+    width: 20px;
+    text-align: center;
+    box-shadow: 0px 0px 10px rgba(70, 70, 70, 0.23);
+}
+
+.switch-icons{
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+}

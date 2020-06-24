@@ -21,8 +21,9 @@ use App\Reklama; ?>
 
     <!-- All filters -->
     <div class="widget">
+        <div><a href="#"><span id="minimize-button" style="float:right;"><h5 class="switch-icons" >-</h5><span></a></div>
         <h4 class="widget-title">Филтър резултати</h4>
-        <div class="add-box">
+        <div class="add-box toggle-visible">
             <form enctype="multipart/form-data" action="{{ route('products') }}" method="post" name="filter_products" id="filter_products" novalidate="novalidate">
                 @csrf
                 <ul class="list-group list-group-flush">
