@@ -68,8 +68,8 @@
                                         @php
                                         $products_ids = [];
                                         $products_loc = Product::where(['user_id'=>Auth::user()->id])->get();
-                                        foreach ($products_loc as $product_loc){
-                                            $products_ids[] = $product_loc->id;
+                                        foreach ($products_loc as $prod){
+                                            $products_ids[] = $prod->id;
                                         }
 
                                         $order_count = Order::whereIn('product_id', $products_ids)->count();
