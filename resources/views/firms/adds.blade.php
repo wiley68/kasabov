@@ -219,6 +219,7 @@ use App\Reklama; ?>
                                                     <a class="btn-action btn-view" target="_blank" href="{{ route('product', ['id' => $product->product_code]) }}" title="Покажи офертата"><i class="lni-eye"></i></a>
                                                     <a class="btn-action btn-edit" href="{{ route('home-firm-product-edit', ['id' => $product->id]) }}" title="Редактирай офертата"><i class="lni-pencil"></i></a>
                                                     <a class="btn-action btn-picture" href="{{ route('home-add-product-images', ['id' => $product->id]) }}" title="Снимки към офертата"><i class="lni-camera"></i></a>
+                                                    <a class="btn-action btn-clone" href="{{ route('home-firm-product-clone', ['id' => $product->id]) }}" title="Клонирай оферта"><i class="lni lni-files"></i></a>
                                                     <a style="cursor:pointer;" class="btn-action btn-delete" onclick="deleteProduct('{{ route('home-firm-add-delete', ['id' => $product->id]) }}');" title="Изтрий офертата"><i class="lni-trash"></i></a>
                                                 </div>
                                                 <div class="btns-actions">

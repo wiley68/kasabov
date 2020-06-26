@@ -143,7 +143,18 @@ use App\Tag; ?>
                                     <select name="category_root_id" id="category_root_id" style="width:100%;">
                                         <option value="0">Избери категория</option>
                                         @foreach ($categories as $category)
-                                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                            @php
+                                                if($product->category_id){
+                                                    $parent_category_id = Category::where(['id'=>$product->category_id])->first()->parent_id;
+                                            @endphp
+                                            <option value="{{ $category->id }}" @if ($category->id == $parent_category_id) selected @endif>{{ $category->name }}</option>
+                                            @php
+                                                }else{ 
+                                            @endphp
+                                            <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                            @php
+                                                }
+                                            @endphp
                                         @endforeach
                                     </select>
                                 </div>
@@ -152,6 +163,17 @@ use App\Tag; ?>
                                     <label style="color:red;width:200px;">Категория *</label>
                                     <select name="category_id" id="category_id" style="width:100%;">
                                         <option value="0">Избери категория</option>
+                                        @php
+                                            if($product->category_id){
+                                            $parent_category_id = Category::where(['id'=>$product->category_id])->first()->parent_id;
+                                            $sub_category = Category::where(['parent_id'=>$parent_category_id])->get();
+                                        @endphp
+                                        @foreach ($sub_category as $category)
+                                            <option value="{{ $category->id }}" @if ($category->id == $product->category_id) selected @endif>{{ $category->name }}</option>
+                                        @endforeach
+                                        @php
+                                            }
+                                        @endphp
                                     </select>
                                 </div>
                                 <div class="form-group mb-3" style="display:flex">
@@ -175,7 +197,7 @@ use App\Tag; ?>
                                 <div class="form-group mb-3" style="display:flex">
                                     <span><i class="lni lni-question-circle" data-toggle="tooltip" data-placement="top" title="Всяка оферта трябва да бъде публикувана с уникален цифрен код"></i></span>&nbsp;
                                     <label style="color:red;width:200px;">Код *</label>
-                                    <input name="product_code" style="width:100%;" type="text" value="{{ $product->product_code }}">
+                                    <input name="product_code" style="width:100%;" type="text">
                                 </div>
                                 <div class="form-group mb-3" style="display:flex">
                                     <span><i class="lni lni-question-circle" data-toggle="tooltip" data-placement="top" title="Предложи най-добрата цена за тази оферта"></i></span>&nbsp;
@@ -246,10 +268,23 @@ use App\Tag; ?>
                                     <span><i class="lni lni-question-circle" data-toggle="tooltip" data-placement="top" title="Можеш да избереш дали офертата ти да бъде актуална за цялата страна или за конкретна област, едно или няколко населени места"></i></span>&nbsp;
                                     <label style="width:200px;">Офертата важи за</label>
                                     <select name="send_free_available_for" id="send_free_available_for" style="width:100%;">
+                                        @php
+                                            if($product->category_id){
+                                        @endphp
+                                        <option value="country" @if ($product->send_free_available_for === 'country') selected @endif>Цялата страна</option>
+                                        <option value="city" @if ($product->send_free_available_for === 'city') selected @endif>Населено място</option>
+                                        <option value="cities" @if ($product->send_free_available_for === 'cities') selected @endif>Населени места</option>
+                                        <option value="area" @if ($product->send_free_available_for === 'area') selected @endif>Област</option>
+                                        @php
+                                            }else{
+                                        @endphp
                                         <option value="country">Цялата страна</option>
                                         <option value="city">Населено място</option>
                                         <option value="cities">Населени места</option>
                                         <option value="area">Област</option>
+                                        @php
+                                            }
+                                        @endphp
                                     </select>
                                 </div>
                                 <div id="send_free_available_for_send_free_id_div" class="form-group mb-3" style="display:flex">
@@ -258,7 +293,11 @@ use App\Tag; ?>
                                     <select name="send_free_id" id="send_free_id" style="width:100%;">
                                         <option value="0" selected>Избери населено място</option>
                                         @foreach ($cities as $city)
-                                        <option value="{{ $city->id }}">{{ $city->city }} - {{ $city->oblast }}</option>
+                                            @if($product->send_free_id)
+                                                <option value="{{ $city->id }}" @if ($city->id === $product->send_free_id) selected @endif>{{ $city->city }} - {{ $city->oblast }}</option>
+                                            @else
+                                                <option value="{{ $city->id }}">{{ $city->city }} - {{ $city->oblast }}</option>
+                                            @endif
                                         @endforeach
                                     </select>
                                 </div>
@@ -361,6 +400,29 @@ use App\Tag; ?>
 
 @section('scripts')
 <script>
+
+    $( document ).ready(function() {
+        switch ($('#send_free_available_for').val()) {
+            case 'country':
+                hideAllsend_free();
+                break;
+            case 'city':
+                hideAllsend_free();
+                $('#send_free_available_for_send_free_id_div').show();
+                break;
+            case 'cities':
+                hideAllsend_free();
+                $('#send_free_available_for_cities_div').show();
+                break;
+            case 'area':
+                hideAllsend_free();
+                $('#send_free_available_for_oblast_div').show();
+                break;
+            default:
+                hideAllsend_free();
+                break;
+        }
+    });
     // Hide send_free_div
     // Hide all city chooses
     function hideAllsend_free() {

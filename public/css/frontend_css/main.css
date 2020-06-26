@@ -3834,6 +3834,11 @@ Dashboard My Ads
     color: #fff;
 }
 
+.dashboardtable tbody tr:hover .btn-clone {
+    background: #008ada;
+    color: #fff;
+}
+
 .dashboardtable tbody tr:hover {
     -webkit-box-shadow: 0px 0px 10px rgba(175, 175, 175, 0.23);
     box-shadow: 0px 0px 10px rgba(175, 175, 175, 0.23);
