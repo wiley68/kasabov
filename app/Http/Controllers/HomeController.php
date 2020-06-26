@@ -896,6 +896,36 @@ class HomeController extends Controller
         ]);
     }
 
+    public function firmProductClone(Request $request, $id = null)
+    {
+        // Add holidays
+        $holidays = Holiday::where(['parent_id' => 0])->get();
+        // Add property
+        $property = LandingPage::first();
+        // User
+        $user = User::where(['id' => Auth::user()->id])->first();
+        // Add Categories
+        $categories = Category::where(['parent_id' => 0])->get();
+        // Add Speditors
+        $speditors = Speditor::all();
+        $cities = City::all();
+        $oblasti = City::whereColumn('city', 'oblast')->get();
+        if ($id != null) {
+            $product = Product::where(['id' => $id])->first();
+            $tags = ProductsTags::where(['product_id' => $product->id])->get();
+        }
+        return view('firms.product_new')->with([
+            'holidays' => $holidays,
+            'property' => $property,
+            'user' => $user,
+            'product' => $product,
+            'speditors' => $speditors,
+            'cities' => $cities,
+            'categories' => $categories,
+            'oblasti' => $oblasti
+        ]);
+    }
+
     public function deleteProductImage(Request $request, $id = null)
     {
         if (!empty($id)) {
