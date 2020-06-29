@@ -910,10 +910,21 @@ class HomeController extends Controller
         $speditors = Speditor::all();
         $cities = City::all();
         $oblasti = City::whereColumn('city', 'oblast')->get();
+
+        $product = new Product();
         if ($id != null) {
-            $product = Product::where(['id' => $id])->first();
-            $tags = ProductsTags::where(['product_id' => $product->id])->get();
+            $product_current = Product::where(['id' => $id])->first();
+            $tags_tags = ProductsTags::where(['product_id' => $product->id])->get();
         }
+        //save
+        //featured
+        foreach ($tags_tags as $oldtag) {
+            $tag = new ProductsTags();
+            $tag->tag_id = $oldtag->tag_id;
+            $tag->save();
+        }
+
+
         return view('firms.product_new')->with([
             'holidays' => $holidays,
             'property' => $property,
