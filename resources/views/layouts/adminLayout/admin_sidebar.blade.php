@@ -6,6 +6,7 @@
 <?php use App\City; ?>
 <?php use App\Order; ?>
 <?php use App\Reklama; ?>
+<?php use App\Blog; ?>
 <!--sidebar-menu-->
 <div id="sidebar"><a href="{{ route('admin.dashboard') }}" class="visible-phone"><i class="icon icon-home"></i> Панел Управление</a>
     <ul>
@@ -71,6 +72,12 @@
           <li><a href="{{ route('admin.edit-obshti-uslovia') }}">Общи условия</a></li>
           <li><a href="{{ route('admin.edit-politika') }}">Политика за лични данни</a></li>
           <li><a href="{{ route('admin.edit-help') }}">Помощ</a></li>
+        </ul>
+      </li>
+      <li class="submenu"> <a href="#"><i class="icon icon-th-list"></i> <span>Блог</span> <span class="label label-important">{{ Blog::count() }}</span></a>
+        <ul>
+          <li><a href="{{ route('admin.add-blog-post') }}">Добави публикация</a></li>
+          <li><a href="{{ route('admin.view-holidays') }}">Всички публикации</a></li>
         </ul>
       </li>
       <li class="submenu"> <a href="#"><i class="icon icon-th-list"></i> <span>Настройки</span> </a>
