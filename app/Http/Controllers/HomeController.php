@@ -114,7 +114,7 @@ class HomeController extends Controller
             'property' => $property,
             'user' => $user,
             'orders' => $orders,
-            'paginate'=>$paginate
+            'paginate' => $paginate
         ]);
     }
 
@@ -197,28 +197,28 @@ class HomeController extends Controller
         $property = LandingPage::first();
         // User
         $user = User::where(['id' => Auth::user()->id])->first();
-        Product::where(['user_id' => Auth::user()->id, 'status'=>'active'])->where('active_at', '<=', date("Y-m-d", strtotime("-1 months")))->update(array('status' => 'expired'));
+        Product::where(['user_id' => Auth::user()->id, 'status' => 'active'])->where('active_at', '<=', date("Y-m-d", strtotime("-1 months")))->update(array('status' => 'expired'));
         $products = Product::where(['user_id' => Auth::user()->id]);
         $paginate = 5;
         $products = $products->paginate($paginate);
-        $active_payments = Payment::where(['user_id'=>Auth::user()->id, 'status'=>'active', 'forthe'=>'standart'])->where('active_at', '>=', date("Y-m-d", strtotime("-2 months")))->count();
-        $active_products = Product::where(['user_id'=>Auth::user()->id, 'status'=>'active'])->where('active_at', '>=', date("Y-m-d", strtotime("-1 months")))->count();
-        $active_payments_r1 = Payment::where(['user_id'=>Auth::user()->id, 'status'=>'active', 'forthe'=>'reklama1'])->where('active_at', '>=', date("Y-m-d", strtotime("-5 days")))->count();
-        $active_payments_r3 = Payment::where(['user_id'=>Auth::user()->id, 'status'=>'active', 'forthe'=>'reklama3'])->where('active_at', '>=', date("Y-m-d", strtotime("-10 days")))->count();
-        $featured_products = Product::where(['user_id'=>Auth::user()->id, 'status'=>'active', 'featured'=>1])->where('active_at', '>=', date("Y-m-d", strtotime("-1 months")))->count();
+        $active_payments = Payment::where(['user_id' => Auth::user()->id, 'status' => 'active', 'forthe' => 'standart'])->where('active_at', '>=', date("Y-m-d", strtotime("-2 months")))->count();
+        $active_products = Product::where(['user_id' => Auth::user()->id, 'status' => 'active'])->where('active_at', '>=', date("Y-m-d", strtotime("-1 months")))->count();
+        $active_payments_r1 = Payment::where(['user_id' => Auth::user()->id, 'status' => 'active', 'forthe' => 'reklama1'])->where('active_at', '>=', date("Y-m-d", strtotime("-5 days")))->count();
+        $active_payments_r3 = Payment::where(['user_id' => Auth::user()->id, 'status' => 'active', 'forthe' => 'reklama3'])->where('active_at', '>=', date("Y-m-d", strtotime("-10 days")))->count();
+        $featured_products = Product::where(['user_id' => Auth::user()->id, 'status' => 'active', 'featured' => 1])->where('active_at', '>=', date("Y-m-d", strtotime("-1 months")))->count();
         return view('home_firm')->with([
             'holidays' => $holidays,
             'property' => $property,
             'user' => $user,
             'products' => $products,
-            'paginate'=>$paginate,
-            'active_payments'=> intval($active_payments) * 20 + 10,
-            'active_products'=>intval($active_products),
-            'products_ostatak'=>intval($active_payments) * 20 + 10 - intval($active_products),
-            'active_reklama'=>intval($active_payments_r1) * 1 + intval($active_payments_r3) * 3,
-            'featured_products'=>intval($featured_products),
-            'featured_ostatak'=>intval($active_payments_r1) * 1 + intval($active_payments_r3) * 3 - intval($featured_products),
-            'active_payments_all'=>intval($active_payments) + intval($active_payments_r1) + intval($active_payments_r3)
+            'paginate' => $paginate,
+            'active_payments' => intval($active_payments) * 20 + 10,
+            'active_products' => intval($active_products),
+            'products_ostatak' => intval($active_payments) * 20 + 10 - intval($active_products),
+            'active_reklama' => intval($active_payments_r1) * 1 + intval($active_payments_r3) * 3,
+            'featured_products' => intval($featured_products),
+            'featured_ostatak' => intval($active_payments_r1) * 1 + intval($active_payments_r3) * 3 - intval($featured_products),
+            'active_payments_all' => intval($active_payments) + intval($active_payments_r1) + intval($active_payments_r3)
         ]);
     }
 
@@ -230,12 +230,13 @@ class HomeController extends Controller
         }
     }
 
-    private function deleteProduct($id=null){
-        if($id != null){
+    private function deleteProduct($id = null)
+    {
+        if ($id != null) {
             // Delete orders
-            Order::where(['product_id'=>$id])->delete();
+            Order::where(['product_id' => $id])->delete();
             // Delete products_cities
-            ProductsCity::where(['product_id'=>$id])->delete();
+            ProductsCity::where(['product_id' => $id])->delete();
             // Delete products images
             $product_image = Product::where(['id' => $id])->first()->image;
             if (File::exists('images/backend_images/products/small/' . $product_image)) {
@@ -247,7 +248,7 @@ class HomeController extends Controller
             if (File::exists('images/backend_images/products/large/' . $product_image)) {
                 File::delete('images/backend_images/products/large/' . $product_image);
             }
-            $product_images = ProductsImage::where(['product_id'=>$id])->get();
+            $product_images = ProductsImage::where(['product_id' => $id])->get();
             foreach ($product_images as $image) {
                 if (File::exists('images/backend_images/products/small/' . $image->image)) {
                     File::delete('images/backend_images/products/small/' . $image->image);
@@ -259,21 +260,21 @@ class HomeController extends Controller
                     File::delete('images/backend_images/products/large/' . $image->image);
                 }
             }
-            ProductsImage::where(['product_id'=>$id])->delete();
+            ProductsImage::where(['product_id' => $id])->delete();
             // Delete products tag
-            ProductsTags::where(['product_id'=>$id])->delete();
+            ProductsTags::where(['product_id' => $id])->delete();
             // Delete favorites
             // Delete products_cities
-            $productsCities = ProductsCity::where(['product_id'=>$id])->get();
+            $productsCities = ProductsCity::where(['product_id' => $id])->get();
             foreach ($productsCities as $product_city) {
                 $product_city->delete();
             }
-            $productsCitiesSend = ProductsCitySend::where(['product_id'=>$id])->get();
+            $productsCitiesSend = ProductsCitySend::where(['product_id' => $id])->get();
             foreach ($productsCitiesSend as $product_city) {
                 $product_city->delete();
             }
-            Favorite::where(['product_id'=>$id])->delete();
-            Product::where(['id'=>$id])->delete();
+            Favorite::where(['product_id' => $id])->delete();
+            Product::where(['id' => $id])->delete();
         }
     }
 
@@ -336,7 +337,7 @@ class HomeController extends Controller
         ]);
     }
 
-    public function firmAdds($payed='No')
+    public function firmAdds($payed = 'No')
     {
         // Add holidays
         $holidays = Holiday::where(['parent_id' => 0])->get();
@@ -344,13 +345,13 @@ class HomeController extends Controller
         $property = LandingPage::first();
         // User
         $user = User::where(['id' => Auth::user()->id])->first();
-        Product::where(['user_id' => Auth::user()->id, 'status'=>'active'])->where('active_at', '<=', date("Y-m-d", strtotime("-1 months")))->update(array('status' => 'expired'));
-        if ($payed == 'Yes'){
+        Product::where(['user_id' => Auth::user()->id, 'status' => 'active'])->where('active_at', '<=', date("Y-m-d", strtotime("-1 months")))->update(array('status' => 'expired'));
+        if ($payed == 'Yes') {
             $products = Product::where([
                 'user_id' => Auth::user()->id,
                 'featured' => 1
             ]);
-        }else{
+        } else {
             $products = Product::where(['user_id' => Auth::user()->id]);
         }
         $paginate = 5;
@@ -360,7 +361,7 @@ class HomeController extends Controller
             'property' => $property,
             'user' => $user,
             'products' => $products,
-            'paginate'=>$paginate
+            'paginate' => $paginate
         ]);
     }
 
@@ -385,7 +386,7 @@ class HomeController extends Controller
             'property' => $property,
             'user' => $user,
             'orders' => $orders,
-            'paginate'=>$paginate
+            'paginate' => $paginate
         ]);
     }
 
@@ -430,7 +431,7 @@ class HomeController extends Controller
         if ($request->isMethod('post')) {
             if ($request->input('pricina') != '0') {
                 // Delete products
-                $products = Product::where(['user_id'=>$user->id])->get();
+                $products = Product::where(['user_id' => $user->id])->get();
                 foreach ($products as $product) {
                     $this->deleteProduct($product->id);
                 }
@@ -562,7 +563,7 @@ class HomeController extends Controller
                         break;
                     case 'cities':
                         $send_free_id = 0;
-                        if(!empty($request->input('send_free_available_for_cities'))){
+                        if (!empty($request->input('send_free_available_for_cities'))) {
                             foreach ($request->input('send_free_available_for_cities') as $item) {
                                 $send_free_available_cities[] = $item;
                             }
@@ -588,42 +589,42 @@ class HomeController extends Controller
                 // check statuses
                 $old_status = $product->status;
                 $new_status = $request->input('status');
-                if ($new_status == 'active'){
-                    if ($old_status != 'active'){
+                if ($new_status == 'active') {
+                    if ($old_status != 'active') {
                         // test for available items
-                        $products_count = Product::where(['user_id'=>$product->user_id, 'status'=>'active'])->count();
+                        $products_count = Product::where(['user_id' => $product->user_id, 'status' => 'active'])->count();
                         // check active payments
-                        $active_payments = Payment::where(['user_id'=>$product->user_id, 'status'=>'active', 'forthe'=>'standart'])->where('active_at', '>=', date("Y-m-d", strtotime("-2 months")))->count();
+                        $active_payments = Payment::where(['user_id' => $product->user_id, 'status' => 'active', 'forthe' => 'standart'])->where('active_at', '>=', date("Y-m-d", strtotime("-2 months")))->count();
                         $active_products = intval($active_payments) * 20 + 10;
-                        if ($products_count > $active_products){
-                            return redirect('/home-firm-product-edit/'.$product->id)->with('flash_message_error', 'Вече имате ' . $active_products . ' броя активни реклами! Моля ако желаете да увеличите бройката им, закупете си допълнителен пакет.');
-                        }else{
+                        if ($products_count > $active_products) {
+                            return redirect('/home-firm-product-edit/' . $product->id)->with('flash_message_error', 'Вече имате ' . $active_products . ' броя активни реклами! Моля ако желаете да увеличите бройката им, закупете си допълнителен пакет.');
+                        } else {
                             $product->status = $request->input('status');
                             $product->active_at = date('Y-m-d H:i:s');
                         }
                     }
-                }else{
+                } else {
                     $product->status = $request->input('status');
                 }
 
                 // check featured
                 $old_featured = $product->featured;
                 $new_featured = $request->input('featured');
-                if ($new_featured == 1){
-                    if ($old_featured != 1){
+                if ($new_featured == 1) {
+                    if ($old_featured != 1) {
                         // test for available featured
-                        $products_count_f = Product::where(['user_id'=>$product->user_id, 'featured'=>1])->count();
+                        $products_count_f = Product::where(['user_id' => $product->user_id, 'featured' => 1])->count();
                         // check active payments
-                        $active_payments_1 = Payment::where(['user_id'=>$product->user_id, 'status'=>'active', 'forthe'=>'reklama1'])->where('active_at', '>=', date("Y-m-d", strtotime("-5 days")))->count();
-                        $active_payments_2 = Payment::where(['user_id'=>$product->user_id, 'status'=>'active', 'forthe'=>'reklama3'])->where('active_at', '>=', date("Y-m-d", strtotime("-10 days")))->count();
+                        $active_payments_1 = Payment::where(['user_id' => $product->user_id, 'status' => 'active', 'forthe' => 'reklama1'])->where('active_at', '>=', date("Y-m-d", strtotime("-5 days")))->count();
+                        $active_payments_2 = Payment::where(['user_id' => $product->user_id, 'status' => 'active', 'forthe' => 'reklama3'])->where('active_at', '>=', date("Y-m-d", strtotime("-10 days")))->count();
                         $active_products_f = intval($active_payments_1) * 1 + intval($active_payments_2) * 3;
-                        if ($products_count_f >= $active_products_f){
-                            return redirect('/home-firm-product-edit/'.$product->id)->with('flash_message_error', 'Вече имате ' . $active_products_f . ' броя промоционални реклами! Моля ако желаете да увеличите бройката им, закупете си допълнителен пакет.');
-                        }else{
-                         $product->featured = $request->input('featured');
+                        if ($products_count_f >= $active_products_f) {
+                            return redirect('/home-firm-product-edit/' . $product->id)->with('flash_message_error', 'Вече имате ' . $active_products_f . ' броя промоционални реклами! Моля ако желаете да увеличите бройката им, закупете си допълнителен пакет.');
+                        } else {
+                            $product->featured = $request->input('featured');
                         }
                     }
-                }else{
+                } else {
                     $product->featured = $request->input('featured');
                 }
 
@@ -668,12 +669,12 @@ class HomeController extends Controller
                     }
                 }
                 // Delete old cities send
-                $products_cities_send_count = ProductsCitySend::where(['product_id'=>$product->id])->count();
-                if ($products_cities_send_count > 0){
-                 ProductsCitySend::where(['product_id'=>$product->id])->delete();
+                $products_cities_send_count = ProductsCitySend::where(['product_id' => $product->id])->count();
+                if ($products_cities_send_count > 0) {
+                    ProductsCitySend::where(['product_id' => $product->id])->delete();
                 }
                 // Add new cities send
-                if(!empty($send_free_available_cities)){
+                if (!empty($send_free_available_cities)) {
                     foreach ($send_free_available_cities as $available_city) {
                         $new_city = new ProductsCitySend();
                         $new_city->product_id = $product->id;
@@ -769,7 +770,7 @@ class HomeController extends Controller
             } else {
                 $product->price_send = $request->input('price_send');
             }
-            
+
             $send_free = $request->input('send_free');
             $send_free_available_for = $request->input('send_free_available_for');
             $send_free_available_cities = [];
@@ -782,7 +783,7 @@ class HomeController extends Controller
                     break;
                 case 'cities':
                     $send_free_id = 0;
-                    if(!empty($request->input('send_free_available_for_cities'))){
+                    if (!empty($request->input('send_free_available_for_cities'))) {
                         foreach ($request->input('send_free_available_for_cities') as $item) {
                             $send_free_available_cities[] = $item;
                         }
@@ -809,37 +810,37 @@ class HomeController extends Controller
 
             // check statuses
             $new_status = $request->input('status');
-            if ($new_status == 'active'){
+            if ($new_status == 'active') {
                 // test for available items
-                $products_count = Product::where(['user_id'=>Auth::user()->id, 'status'=>'active'])->count();
+                $products_count = Product::where(['user_id' => Auth::user()->id, 'status' => 'active'])->count();
                 // check active payments
-                $active_payments = Payment::where(['user_id'=>Auth::user()->id, 'status'=>'active', 'forthe'=>'standart'])->where('active_at', '>=', date("Y-m-d", strtotime("-2 months")))->count();
+                $active_payments = Payment::where(['user_id' => Auth::user()->id, 'status' => 'active', 'forthe' => 'standart'])->where('active_at', '>=', date("Y-m-d", strtotime("-2 months")))->count();
                 $active_products = intval($active_payments) * 20 + 10;
-                if ($products_count > $active_products){
+                if ($products_count > $active_products) {
                     return redirect('/home-firm-product-new')->with('flash_message_error', 'Вече имате ' . $active_products . ' броя активни реклами! Моля ако желаете да увеличите бройката им, закупете си допълнителен пакет.');
-                }else{
+                } else {
                     $product->status = $request->input('status');
                     $product->active_at = date('Y-m-d H:i:s');
                 }
-            }else{
+            } else {
                 $product->status = $request->input('status');
             }
 
             // check featured
             $new_featured = $request->input('featured');
-            if ($new_featured == 1){
+            if ($new_featured == 1) {
                 // test for available featured
-                $products_count_f = Product::where(['user_id'=>Auth::user()->id, 'featured'=>1])->count();
+                $products_count_f = Product::where(['user_id' => Auth::user()->id, 'featured' => 1])->count();
                 // check active payments
-                $active_payments_1 = Payment::where(['user_id'=>Auth::user()->id, 'status'=>'active', 'forthe'=>'reklama1'])->where('active_at', '>=', date("Y-m-d", strtotime("-5 days")))->count();
-                $active_payments_2 = Payment::where(['user_id'=>Auth::user()->id, 'status'=>'active', 'forthe'=>'reklama3'])->where('active_at', '>=', date("Y-m-d", strtotime("-10 days")))->count();
+                $active_payments_1 = Payment::where(['user_id' => Auth::user()->id, 'status' => 'active', 'forthe' => 'reklama1'])->where('active_at', '>=', date("Y-m-d", strtotime("-5 days")))->count();
+                $active_payments_2 = Payment::where(['user_id' => Auth::user()->id, 'status' => 'active', 'forthe' => 'reklama3'])->where('active_at', '>=', date("Y-m-d", strtotime("-10 days")))->count();
                 $active_products_f = intval($active_payments_1) * 1 + intval($active_payments_2) * 3;
-                if ($products_count_f >= $active_products_f){
+                if ($products_count_f >= $active_products_f) {
                     return redirect('/home-firm-product-new')->with('flash_message_error', 'Вече имате ' . $active_products_f . ' броя промоционални реклами! Моля ако желаете да увеличите бройката им, закупете си допълнителен пакет.');
-                }else{
+                } else {
                     $product->featured = $request->input('featured');
                 }
-            }else{
+            } else {
                 $product->featured = $request->input('featured');
             }
 
@@ -873,7 +874,7 @@ class HomeController extends Controller
                     $new_city->save();
                 }
             }
-            if(!empty($send_free_available_cities)){
+            if (!empty($send_free_available_cities)) {
                 foreach ($send_free_available_cities as $available_city) {
                     $new_city = new ProductsCitySend();
                     $new_city->product_id = $product->id;
@@ -912,20 +913,70 @@ class HomeController extends Controller
         $oblasti = City::whereColumn('city', 'oblast')->get();
 
         $product = new Product();
+
+        $newId = Product::max('id') + 1;
+
         if ($id != null) {
             $product_current = Product::where(['id' => $id])->first();
-            $tags_tags = ProductsTags::where(['product_id' => $product->id])->get();
-        }
-        //save
-        //featured
-        foreach ($tags_tags as $oldtag) {
-            $tag = new ProductsTags();
-            $tag->tag_id = $oldtag->tag_id;
-            $tag->save();
-        }
+            $product->user_id = Auth::user()->id;
+            $product->category_id = $product_current->category_id;
+            $product->holiday_id = $product_current->holiday_id;
+            $product->product_name = $product_current->product_name;
+            $product->product_code = $product_current->product_code . '_' . $newId;
+            $product->price = $product_current->price;
+            $product->description = $product_current->description;
+            $product->image = "";
+            $product->age = $product_current->age;
+            $product->send_id = $product_current->send_id;
+            $product->send_from_id = $product_current->send_from_id;
+            $product->price_send = $product_current->price_send;
+            $product->send_free = $product_current->send_free;
+            $product->send_free_available_for = $product_current->send_free_available_for;
+            $send_free_available_cities = [];
+            switch ($product->send_free_available_for) {
+                case 'country':
+                    $send_free_id = 0;
+                    break;
+                case 'city':
+                    $send_free_id = $product_current->send_free_id;
+                    break;
+                case 'cities':
+                    $send_free_id = 0;
+                    if (!empty($product_current->send_free_available_for_cities)) {
+                        foreach ($product_current->send_free_available_for_cities as $item) {
+                            $send_free_available_cities[] = $item;
+                        }
+                    }
+                    break;
+                case 'area':
+                    $send_free_id = $product_current->send_free_oblast;
+                    break;
+                default:
+                    $send_free_id = 0;
+                    break;
+            }
+            $product->send_free_id = $send_free_id;
+            $product->object = $product_current->object;
+            $product->object_name = $product_current->object_name;
+            $product->personalize = $product_current->personalize;
+            $product->status = $product_current->status;
+            $product->active_at = date('Y-m-d H:i:s');
+            $product->featured = 0;
+            
+            //tags
 
-
-        return view('firms.product_new')->with([
+            //save product
+            $product->save();
+            $tags_current = ProductsTags::where(['product_id' => $product_current->id])->get();
+            foreach ($tags_current as $oldtag) {
+                $tag = new ProductsTags();
+                $tag->tag_id = $oldtag->tag_id;
+                $tag->product_id = $product->id;
+                $tag->save();
+            }
+            $tags = ProductsTags::where(['product_id' => $product->id])->get();
+        }
+        return view('firms.product_edit')->with([
             'holidays' => $holidays,
             'property' => $property,
             'user' => $user,
@@ -933,7 +984,8 @@ class HomeController extends Controller
             'speditors' => $speditors,
             'cities' => $cities,
             'categories' => $categories,
-            'oblasti' => $oblasti
+            'oblasti' => $oblasti,
+            'tags' => $tags
         ]);
     }
 
@@ -1004,5 +1056,4 @@ class HomeController extends Controller
             'property' => $property,
         ]);
     }
-
 }
