@@ -27,13 +27,6 @@ use App\Reklama; ?>
             <form enctype="multipart/form-data" action="{{ route('products') }}" method="post" name="filter_products" id="filter_products" novalidate="novalidate">
                 @csrf
                 <ul class="list-group list-group-flush">
-                    <!-- Holidays filter -->
-                    <p style="font-weight:bold;font-size:120%;">Празници</p>
-                    <div style="padding-bottom:10px;"></div>
-                    @foreach ($holidays as $holiday)
-                    <label><input type="checkbox" @if(request()->has('holiday_id') AND in_array($holiday->id, request('holiday_id'))) checked @endif name="holiday_id[]" value="{{ $holiday->id }}">&nbsp;{{ $holiday->name }}</label>
-                    @endforeach
-                    <div style="padding-bottom:10px;"></div>
                     <!-- Categories filter -->
                     <p style="font-weight:bold;font-size:120%;">Категории</p>
                     <div style="padding-bottom:10px;"></div>
