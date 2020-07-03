@@ -115,7 +115,21 @@
                                     @if(!empty(request('user_id')) && request('user_id') != 0)
                                     <a href="{{ route('products', ['user_id'=>request('user_id')]) }}" style="color:dimgray;">Всички продукти на {{ User::where(['id'=>request('user_id')])->first()->name}}</a>
                                     @else
-                                    <a href="{{ route('products') }}" style="color:dimgray;">Всички продукти</a>
+                                    @php
+                                        $current_category_id = empty(request('category_id')) ? 0 : request('category_id');
+                                        if (!empty(Category::where(['id'=>$current_category_id])->first())){
+                                            $current_parent_category_id[0] = Category::where(['id'=>$current_category_id])->first()->parent_id;
+                                        }else{
+                                            $current_parent_category_id[0] = 0;
+                                        }
+                                    @endphp
+                                    @if ($current_parent_category_id[0] > 0)
+                                    <a href="{{ route('products', ['category_id'=>$current_parent_category_id]) }}" style="color:dimgray;">{{ Category::where(['id'=>$current_parent_category_id[0]])->first()->name }}</a>
+                                    <i class="fas fa-chevron-right" style="color:dimgray;"></i>                                        
+                                    @endif
+                                    @if ($current_category_id > 0)
+                                    <a href="{{ route('products', ['category_id'=>$current_category_id]) }}" style="color:dimgray;">{{ Category::where(['id'=>$current_category_id])->first()->name }}</a>
+                                    @endif
                                     @endif
                                 @endif
                             @elseif(Route::current()->getName() == 'product')
