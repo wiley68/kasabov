@@ -24,8 +24,20 @@ class BlogController extends Controller
     }
 
     public function deletePost(Request $request, $id=null){
+        if (!empty($id)){
+            $post = Blog::where(['id'=>$id])->first();
+            $post->delete();
+            return redirect('/admin/view-posts')->with('flash_message_success', 'Успешно изтрихте публикацията!');
+        }
     }
 
     public function editPost(Request $request, $id=null){
+        $post = Blog::where(['id'=>$id])->first();
+        if ($request->isMethod('post')){
+            $post->name = $request->input('post_name');
+            $post->save();
+            return redirect('/admin/view-posts')->with('flash_message_success', 'Успешно редактирахте публикацията!');
+        }
+        return view('admin.blog.edit_post')->with(['post'=>$post]);
     }
 }

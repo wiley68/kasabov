@@ -77,7 +77,7 @@
       <li class="submenu"> <a href="#"><i class="icon icon-th-list"></i> <span>Блог</span> <span class="label label-important">{{ Blog::count() }}</span></a>
         <ul>
           <li><a href="{{ route('admin.add-blog-post') }}">Добави публикация</a></li>
-          <li><a href="{{ route('admin.view-holidays') }}">Всички публикации</a></li>
+          <li><a href="{{ route('admin.view-posts') }}">Всички публикации</a></li>
         </ul>
       </li>
       <li class="submenu"> <a href="#"><i class="icon icon-th-list"></i> <span>Настройки</span> </a>
