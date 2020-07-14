@@ -132,6 +132,7 @@ Route::group(
         Route::get('/admin/view-posts', 'BlogController@viewPosts')->name('admin.view-posts');
         Route::match(['get', 'post'], '/admin/edit-post/{id}', 'BlogController@editPost')->name('admin.edit-post');
         Route::get('/admin/delete-post/{id}', 'BlogController@deletePost')->name('admin.delete-post');
+        Route::get('/admin/delete-post-image/{id}', 'BlogController@deletePostImage')->name('admin.delete-post-image');
         // LandingPage routes
         Route::match(['get', 'post'], '/admin/edit-landing-page', 'IndexController@editLandingPage')->name('admin.edit-landing-page');
         Route::match(['get', 'post'], '/admin/edit-price-page', 'IndexController@editPricePage')->name('admin.edit-price-page');
@@ -174,3 +175,5 @@ Route::post('/firm-login', 'UsersController@loginFirm')->name('firm-login');
 Route::get('/obshti-uslovia', 'PagesController@obshtiUslovia')->name('obshti-uslovia');
 Route::get('/politika', 'PagesController@politika')->name('politika');
 Route::get('/help', 'PagesController@help')->name('help');
+Route::get('/blog', 'PagesController@blog')->name('blog');
+Route::get('/post/{id}', 'PagesController@post')->name('post');

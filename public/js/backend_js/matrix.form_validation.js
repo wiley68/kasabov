@@ -367,4 +367,98 @@ $(document).ready(function(){
 		}
 	});
 
+	// Validate add post form
+    $("#add_blog_post").validate({
+        rules: {
+            title: {
+                required: true,
+                maxlength: 128
+			},
+			meta_title: {
+                required: true,
+                maxlength: 60
+			},
+			meta_description: {
+                required: true,
+                maxlength: 160
+            },
+            meta_keywords:{
+				required: meta_keywords
+			}
+        },
+        messages: {
+            title: {
+                required: "Моля въведете заглавие",
+                maxlength: "Максималната дължина на полето е 128 символа"
+			},
+			meta_title: {
+                required: "Моля въведете мета заглавие",
+                maxlength: "Максималната дължина на полето е 60"
+			},
+			meta_description: {
+                required: "Моля въведете мета описание",
+                maxlength: "Максималната дължина на полето е 160 символа"
+            },
+            meta_keywords: {
+                required: "Моля въведете мета ключови думи"
+            }
+        },
+        errorClass: "help-inline",
+		errorElement: "span",
+		highlight:function(element, errorClass, validClass) {
+			$(element).parents('.control-group').addClass('error');
+		},
+		unhighlight: function(element, errorClass, validClass) {
+			$(element).parents('.control-group').removeClass('error');
+			$(element).parents('.control-group').addClass('success');
+		}
+	});
+	
+		// Validate edit post form
+		$("#edit_post").validate({
+			rules: {
+				title: {
+					required: true,
+					maxlength: 128
+				},
+				meta_title: {
+					required: true,
+					maxlength: 60
+				},
+				meta_description: {
+					required: true,
+					maxlength: 160
+				},
+				meta_keywords:{
+					required: meta_keywords
+				}
+			},
+			messages: {
+				title: {
+					required: "Моля въведете заглавие",
+					maxlength: "Максималната дължина на полето е 128 символа"
+				},
+				meta_title: {
+					required: "Моля въведете мета заглавие",
+					maxlength: "Максималната дължина на полето е 60"
+				},
+				meta_description: {
+					required: "Моля въведете мета описание",
+					maxlength: "Максималната дължина на полето е 160 символа"
+				},
+				meta_keywords: {
+					required: "Моля въведете мета ключови думи"
+				}
+			},
+			errorClass: "help-inline",
+			errorElement: "span",
+			highlight:function(element, errorClass, validClass) {
+				$(element).parents('.control-group').addClass('error');
+			},
+			unhighlight: function(element, errorClass, validClass) {
+				$(element).parents('.control-group').removeClass('error');
+				$(element).parents('.control-group').addClass('success');
+			}
+		});
+
 });
