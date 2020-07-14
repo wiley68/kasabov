@@ -17,7 +17,7 @@ use App\Holiday; ?>
                                         <figure>
                                             <div class="panel-image">
                                             @php
-                                            $image = asset('/images/backend_images/blog/'.$post->image);
+                                            $image = asset('/images/backend_images/blog/large/'.$post->image);
                                             @endphp
                                             @if(!empty($post->image))
                                             <a href="{{ route('post', ['id' => $post->id]) }}"><img class="img-fluid" src="{{$image}}" alt=""></a>

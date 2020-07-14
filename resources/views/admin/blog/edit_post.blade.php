@@ -41,7 +41,7 @@
                                     <input type="file" name="image" id="image">
                                     <input type="hidden" name="current_image" id="current_image" value="{{ $post->image }}">
                                     @if (!empty($post->image))
-                                        <a href="#imageModal" data-toggle="modal" title="Покажи снимката в голям размер."><img style="width:50px;" src="{{ asset('/images/backend_images/blog/'.$post->image) }}"></a> | <a onclick="deleteUserImage('{{ route('admin.delete-post-image', ['id' => $post->id]) }}');" class="btn btn-danger btn-mini">Изтрий снимката</a>
+                                        <a href="#imageModal" data-toggle="modal" title="Покажи снимката в голям размер."><img style="width:50px;" src="{{ asset('/images/backend_images/blog/small/'.$post->image) }}"></a> | <a onclick="deleteUserImage('{{ route('admin.delete-post-image', ['id' => $post->id]) }}');" class="btn btn-danger btn-mini">Изтрий снимката</a>
                                     @endif
                                 </div>
                             </div>
@@ -64,7 +64,8 @@
                                 </div>
                             </div>
                             <div class="form-actions">
-                                <input type="submit" value="Редактирай публикация" class="btn btn-success">
+                                <input type="submit" value="Запиши" class="btn btn-success">
+                                <a href="{{ route('admin.view-posts') }}" type="button" class="btn btn-default">Всички публикации</a>
                             </div>
                         </form>
                         <div id="imageModal" class="modal hide" aria-hidden="true" style="display: none;">
@@ -73,7 +74,7 @@
                                 <h3>Снимка на публикацията: {{ $post->title }}</h3>
                             </div>
                             <div class="modal-body">
-                                <p><img src="{{ asset('/images/backend_images/blog/'.$post->image) }}"></p>
+                                <p><img src="{{ asset('/images/backend_images/blog/large/'.$post->image) }}"></p>
                             </div>
                             <div class="modal-footer">
                                 <a data-dismiss="modal" class="btn btn-inverse" href="#">Затвори</a>

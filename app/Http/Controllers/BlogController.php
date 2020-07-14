@@ -25,7 +25,7 @@ class BlogController extends Controller
             $post->meta_keywords = $meta_keywords;
             $post->image = '';
             $post->save();
-            return redirect('/admin/view-posts')->with('flash_message_success', 'Успешно създадохте нова публикация!');
+            return redirect('/admin/edit-post/'.$post->id)->with('flash_message_success', 'Успешно създадохте публикацията!');
         }
         return view('admin.blog.add_post');
     }
@@ -56,20 +56,28 @@ class BlogController extends Controller
             if ($request->hasFile('image')) {
                 // Delete old image
                 $post_image = $post->image;
-                if (File::exists('images/backend_images/blog/' . $post_image)) {
-                    File::delete('images/backend_images/blog/' . $post_image);
+                if (File::exists('images/backend_images/blog/small/'.$post_image)){
+                    File::delete('images/backend_images/blog/small/'.$post_image);
+                }
+                if (File::exists('images/backend_images/blog/large/'.$post_image)){
+                    File::delete('images/backend_images/blog/large/'.$post_image);
                 }
                 $image_temp = Input::file('image');
                 if ($image_temp->isValid()) {
                     $extension = $image_temp->getClientOriginalExtension();
                     $filename = $post->id . rand(111, 99999) . '.' . $extension;
-                    $image_path = 'images/backend_images/blog/' . $filename;
+                    $large_image_path = 'images/backend_images/blog/large/'.$filename;
+                    $small_image_path = 'images/backend_images/blog/small/'.$filename;
                     // Resize images
-                    Image::make($image_temp)->resize(null, 75, function ($constraint) {
+                    Image::make($image_temp)->resize(null, 600, function ($constraint) {
                         $constraint->aspectRatio();
                         $constraint->upsize();
-                    })->save($image_path);
-                }
+                    })->save($large_image_path);
+                    Image::make($image_temp)->resize(null, 300, function ($constraint) {
+                        $constraint->aspectRatio();
+                        $constraint->upsize();
+                    })->save($small_image_path);
+            }
             } else {
                 $filename = $request->input('current_image');
                 if (empty($request->input('current_image'))) {
@@ -78,7 +86,7 @@ class BlogController extends Controller
             }
             $post->image = $filename;
             $post->save();
-            return redirect('/admin/view-posts')->with('flash_message_success', 'Успешно редактирахте публикацията!');
+            return redirect('/admin/edit-post/'.$id)->with('flash_message_success', 'Успешно редактирахте публикацията!');
         }
         return view('admin.blog.edit_post')->with(['post'=>$post]);
     }

@@ -13,17 +13,17 @@ use App\Holiday; ?>
                             <div class="row">
                                 <div class="panel-image">
                                     @php
-                                    $image = asset('/images/backend_images/blog/'.$post->image);
+                                    $image = asset('/images/backend_images/blog/large/'.$post->image);
                                     @endphp
                                     @if(!empty($post->image))
                                     <img class="img-fluid" src="{{$image}}" alt="">
                                     @endif
                                 </div>
-                                <div class="content-wrapper">
-                                    <div class="feature-content">
-                                        <h4>{{ $post->title }}</h4>
-                                        <p>{!! $post->description !!}</p>
-                                    </div>
+                            </div>
+                            <div class="row">
+                                <div class="feature-content" style="text-align:center">
+                                    <h4>{{ $post->title }}</h4>
+                                    <p>{!! $post->description !!}</p>
                                 </div>
                             </div>
                         </div>

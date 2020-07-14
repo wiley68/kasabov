@@ -45,6 +45,7 @@
                                 <tr>
                                     <th>Публикация №</th>
                                     <th>Заглавие</th>
+                                    <th>Управление</th>
                             </thead>
                             <tbody>
                                 @foreach ($posts as $post)
