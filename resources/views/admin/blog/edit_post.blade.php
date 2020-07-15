@@ -1,6 +1,26 @@
 @extends('layouts.adminLayout.admin_design')
 
 @section('content')
+<script type="text/javascript">
+    function deletePostImage(url){
+        swal({
+            title: "Сигурни ли сте?",
+            text: "Ще бъде изтрита снимката за тази публикация. Операцията е невъзвратима!",
+            icon: "warning",
+            buttons: ["Отказ!", "Съгласен съм!"],
+            dangerMode: true,
+        })
+        .then((willDelete) => {
+            if (willDelete) {
+            window.location = url;
+        } else {
+            return false;
+        }
+        });
+        return false;
+    };
+
+</script>
 <div id="content">
     <div id="content-header">
         <div id="breadcrumb"> <a href="{{ route('admin.dashboard') }}" title="Административен панел" class="tip-bottom"><i class="icon-home"></i> Панел</a> <a href="{{ route('admin.view-posts') }}">Публикации</a> <a href="{{ route('admin.edit-post', ['id'=>$post->id]) }}">Редактирай публикация</a> </div>
@@ -41,7 +61,7 @@
                                     <input type="file" name="image" id="image">
                                     <input type="hidden" name="current_image" id="current_image" value="{{ $post->image }}">
                                     @if (!empty($post->image))
-                                        <a href="#imageModal" data-toggle="modal" title="Покажи снимката в голям размер."><img style="width:50px;" src="{{ asset('/images/backend_images/blog/small/'.$post->image) }}"></a> | <a onclick="deleteUserImage('{{ route('admin.delete-post-image', ['id' => $post->id]) }}');" class="btn btn-danger btn-mini">Изтрий снимката</a>
+                                        <a href="#imageModal" data-toggle="modal" title="Покажи снимката в голям размер."><img style="width:50px;" src="{{ asset('/images/backend_images/blog/small/'.$post->image) }}"></a> | <a onclick="deletePostImage('{{ route('admin.delete-post-image', ['id' => $post->id]) }}');" class="btn btn-danger btn-mini">Изтрий снимката</a>
                                     @endif
                                 </div>
                             </div>

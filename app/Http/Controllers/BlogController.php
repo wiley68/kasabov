@@ -94,8 +94,11 @@ class BlogController extends Controller
     public function deletePostImage(Request $request, $id=null){
         if (!empty($id)){
             $post_image = Blog::where(['id'=>$id])->first()->image;
-            if (File::exists('images/backend_images/blog/'.$post_image)){
-                File::delete('images/backend_images/blog/'.$post_image);
+            if (File::exists('images/backend_images/blog/small/'.$post_image)){
+                File::delete('images/backend_images/blog/small/'.$post_image);
+            }
+            if (File::exists('images/backend_images/blog/large/'.$post_image)){
+                File::delete('images/backend_images/blog/large/'.$post_image);
             }
             Blog::where(['id'=>$id])->update(['image'=>'']);
             return redirect('/admin/edit-post/'.$id)->with('flash_message_success', 'Успешно изтрихте снимката!');
