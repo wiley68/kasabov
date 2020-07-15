@@ -21,7 +21,7 @@ use App\Holiday; ?>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="feature-content" style="text-align:center">
+                                <div class="feature-content" style="text-align:center;width:100%;">
                                     <h4>{{ $post->title }}</h4>
                                     <p>{!! $post->description !!}</p>
                                 </div>

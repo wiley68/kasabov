@@ -10,8 +10,11 @@ use App\Holiday; ?>
                 <div class="adds-wrapper">
                     <div class="tab-content">
                         <div id="grid-view" class="tab-pane fade active show">
+                            @php
+                                $count = $blog->count();
+                            @endphp
+                            @foreach ($blog as $post)
                             <div class="row">
-                                @foreach ($blog as $post)
                                 <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 offset-md-2 offset-lg-2">
                                     <div class="featured-box">
                                         <figure>
@@ -32,8 +35,14 @@ use App\Holiday; ?>
                                         </div>
                                     </div>
                                 </div>
-                                @endforeach
                             </div>
+                            @if($count > 1)
+                                <hr>
+                            @endif
+                            @php
+                                $count--;
+                            @endphp
+                            @endforeach
                         </div>
                     </div>
                 </div>
