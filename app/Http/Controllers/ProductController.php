@@ -606,7 +606,7 @@ class ProductController extends Controller
         // Filter products result
         $products = Product::where(['status'=>'active']);
         $products = $products->where('active_at', '>=', date("Y-m-d", strtotime("-1 months")));
-        $paginate = 8;
+        $paginate = 9;
         $queries = [];
         // Get max price
         $max_price_filter = $products->max('price');
