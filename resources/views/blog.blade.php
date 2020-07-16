@@ -5,12 +5,8 @@ use App\Holiday; ?>
 @section('content')
 <section id="text_content" class="section-padding">
     <div class="container">
-        <div class="row">
-            <div class="col-lg-12 col-md-12 col-xs-12 page-content">
-                <div class="adds-wrapper">
-                    <div class="tab-content">
-                        <div id="grid-view" class="tab-pane fade active show">
-                            <div class="short-name">
+        <div class="row" id="grid-view">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                 @php
                                     $current_page = 1;
                                     if (!empty(request('page'))){
@@ -25,8 +21,7 @@ use App\Holiday; ?>
                                 $count = $blog->count();
                             @endphp
                             @foreach ($blog as $post)
-                            <div class="row">
-                                <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 offset-md-2 offset-lg-2">
+                                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                                     <div class="featured-box">
                                         <figure>
                                             <div class="panel-image">
@@ -46,7 +41,6 @@ use App\Holiday; ?>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
                             @if($count > 1)
                                 <hr>
                             @endif
@@ -55,22 +49,16 @@ use App\Holiday; ?>
                             @endphp
                             @endforeach
                             <br/>
-                            <div class="row">
                                 <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 offset-md-2 offset-lg-2">                        
                                     <!-- Start Pagination -->
                                     {{ $blog->links() }}
                                     <!-- End Pagination -->
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 offset-md-2 offset-lg-2">                        
-                                    
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                   
+                
+       
+       
         </div>
+    </div>
 </section>
 @endsection
