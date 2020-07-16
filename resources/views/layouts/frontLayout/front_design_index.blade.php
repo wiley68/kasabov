@@ -4,10 +4,24 @@
 <html lang="en">
 
 <head>
-    <title>PartyBox</title>
+    @php
+    $meta_title = "PartyBox";
+    $meta_decription = "Помагаме Ви да организирате най-доброто парти за вашия важен повод!";
+    $meta_keywords = "парти, организация, повод, празник, рожден ден, имен ден, юбилей, кръщене, сватба";
+    
+    if(Route::current() != null && Route::current()->getName() == 'post' && isset($post)){
+        $meta_title = $post->meta_title;
+        $meta_decription = $post->meta_description;
+        $meta_keywords = $post->meta_keyword;
+    }
+
+    @endphp
+    <title>{{$meta_title}}</title>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="csrf-token" content="{{ csrf_token() }}" />
+    <meta name="description" content="{{ $meta_decription }}">
+    <meta name="keywords" content="{{ $meta_keywords }}">
     @php
         $property = LandingPage::where('id', '>', 0)->first();
         $show = false;
