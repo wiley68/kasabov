@@ -32,7 +32,9 @@ class BlogController extends Controller
 
     public function viewPosts(){
         $posts = Blog::all();
-        return view('admin.blog.view_posts')->with(['posts'=>$posts]);
+        return view('admin.blog.view_posts')->with([
+            'posts'=>$posts
+        ]);
     }
 
     public function deletePost(Request $request, $id=null){

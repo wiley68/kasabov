@@ -119,11 +119,15 @@ class PagesController extends Controller
             $categories_top_count = 12;
         }
         $categories_top = Category::where(['parent_id'=>0])->take($categories_top_count)->get();
-        $blog = Blog::get();
+        $paginate = 4;
+        $blog = Blog::paginate($paginate);
+        $all_posts_count = $blog->count();
         return view('blog')->with([
             'holidays'=>$holidays,
             'cities'=>$cities,
             'categories_top'=>$categories_top,
+            'paginate'=>$paginate,
+            'all_posts_count'=>$all_posts_count,
             'blog'=>$blog
         ]);
     }
@@ -141,6 +145,7 @@ class PagesController extends Controller
         }
         $categories_top = Category::where(['parent_id'=>0])->take($categories_top_count)->get();
         $post = Blog::where(['id' => $id])->first();
+
         return view('post')->with([
             'holidays'=>$holidays,
             'cities'=>$cities,

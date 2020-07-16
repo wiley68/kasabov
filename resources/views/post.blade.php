@@ -21,9 +21,14 @@ use App\Holiday; ?>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="feature-content" style="text-align:center;width:100%;">
-                                    <h4>{{ $post->title }}</h4>
+                                <div class="feature-content" style="width:100%;">
+                                    <h4 style="text-align:center;">{{ $post->title }}</h4>
                                     <p>{!! $post->description !!}</p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="feature-content" style="width:100%;">
+                                    <a class="btn btn-common fullwidth mt-4" href="{{ route('blog') }}">Върни се обратно в Блог</a>
                                 </div>
                             </div>
                         </div>

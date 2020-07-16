@@ -10,6 +10,17 @@ use App\Holiday; ?>
                 <div class="adds-wrapper">
                     <div class="tab-content">
                         <div id="grid-view" class="tab-pane fade active show">
+                            <div class="short-name">
+                                @php
+                                    $current_page = 1;
+                                    if (!empty(request('page'))){
+                                        $current_page = intval(request('page'));
+                                    }
+                                    $start_posts_count = ($current_page - 1) * $paginate + 1;
+                                    $end_posts_count = $start_posts_count + $blog->count() - 1;
+                                @endphp
+                                <span>Показани ({{ $start_posts_count }} - {{ $end_posts_count }} публикации от общо {{ $all_posts_count }} публикации)</span>
+                            </div>
                             @php
                                 $count = $blog->count();
                             @endphp
@@ -43,6 +54,19 @@ use App\Holiday; ?>
                                 $count--;
                             @endphp
                             @endforeach
+                            <br/>
+                            <div class="row">
+                                <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 offset-md-2 offset-lg-2">                        
+                                    <!-- Start Pagination -->
+                                    {{ $blog->links() }}
+                                    <!-- End Pagination -->
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 offset-md-2 offset-lg-2">                        
+                                    
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
