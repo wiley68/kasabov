@@ -12,7 +12,7 @@
     if(Route::current() != null && Route::current()->getName() == 'post' && isset($post)){
         $meta_title = $post->meta_title;
         $meta_decription = $post->meta_description;
-        $meta_keywords = $post->meta_keyword;
+        $meta_keywords = $post->meta_keywords;
     }
 
     @endphp
