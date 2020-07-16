@@ -24,7 +24,7 @@
     }
     }else{
     $show = true;
-    }
+    } 
     }
     @endphp
     @if(!$show)
