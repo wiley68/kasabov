@@ -364,6 +364,7 @@
                                 </div>
                                 <hr />
                                 <button class="btn btn-common" type="submit">Запиши промените</button>
+                                <a class="btn btn-common btn-clone" href="{{ route('home-firm-product-clone', ['id' => $product->id]) }}" title="Клонирай оферта">Клонирай оферта</a>
                                 <a href="{{ route('home-firm-adds', ['payed' => 'No']) }}" class="btn btn-common" style="background-color: #28A745;color:white;">Моите оферти</a>
                             </div>
                         </form>
