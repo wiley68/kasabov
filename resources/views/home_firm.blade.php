@@ -69,7 +69,7 @@
                                                 $products_ids[] = $product->id;
                                             }
 
-                                            $order_count = Order::whereIn('product_id', $products_ids)->count();
+                                            $order_count = Order::whereIn('product_id', $products_ids)->where(['status'=>'unread'])->count();
                                         @endphp
                                         @if($order_count == 0)
                                             <span style="float:right;padding-right:10px;"><p>{{ $order_count }} бр.</p></span>
@@ -171,7 +171,7 @@
                                                     $products_ids[] = $product->id;
                                                 }
 
-                                                $order_count = Order::whereIn('product_id', $products_ids)->count();
+                                                $order_count = Order::whereIn('product_id', $products_ids)->where(['status'=>'unread'])->count();
                                                 @endphp
                                                 @if($order_count == 0)
                                                     <h3>{{ $order_count }} бр.</h3>

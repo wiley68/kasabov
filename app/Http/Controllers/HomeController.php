@@ -365,7 +365,7 @@ class HomeController extends Controller
         ]);
     }
 
-    public function firmOrders()
+    public function firmOrders($id=null)
     {
         // Add holidays
         $holidays = Holiday::where(['parent_id' => 0])->get();
@@ -373,6 +373,15 @@ class HomeController extends Controller
         $property = LandingPage::first();
         // User
         $user = User::where(['id' => Auth::user()->id])->first();
+        if($id != null){
+            $order = Order::where(['id'=>$id])->first();
+            if($order->status == "unread"){
+                $order->status = "read";
+            }else{
+                $order->status = "unread";
+            }
+            $order->save();
+        }
         $products = Product::where(['user_id' => Auth::user()->id])->get();
         $products_ids = [];
         foreach ($products as $product) {

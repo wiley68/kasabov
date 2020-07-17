@@ -51,7 +51,7 @@ use App\Product; ?>
                                         $products_ids[] = $prod->id;
                                         }
 
-                                        $order_count = Order::whereIn('product_id', $products_ids)->count();
+                                        $order_count = Order::whereIn('product_id', $products_ids)->where(['status'=>'unread'])->count();
                                         @endphp
                                         @if($order_count == 0)
                                         <span style="float:right;padding-right:10px;">

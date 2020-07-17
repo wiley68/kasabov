@@ -76,7 +76,7 @@ use App\Reklama; ?>
                                         $products_ids[] = $prod->id;
                                         }
 
-                                        $order_count = Order::whereIn('product_id', $products_ids)->count();
+                                        $order_count = Order::whereIn('product_id', $products_ids)->where(['status'=>'unread'])->count();
                                         @endphp
                                         @if($order_count == 0)
                                         <span style="float:right;padding-right:10px;">
@@ -181,6 +181,19 @@ use App\Reklama; ?>
                                             <p><strong>Съобщение</strong>: {{ $order->message }}</p>
                                             <p><strong>Email</strong>: {{ $order->email }}</p>
                                             <p><strong>Телефон</strong>: {{ $order->phone }}</p>
+                                            @php
+                                                if($order->status == "unread"){
+                                                    $status = "Непрочетен";
+                                                }else{
+                                                    $status = "Прочетен";
+                                                }
+                                            @endphp
+                                            <p style="margin: 0; display: inline;"><strong>Статус</strong>: {{$status}}</p>
+                                            @if ($status == "Непрочетен")
+                                                <p style="margin: 15px; display: inline;"><a href="{{ route('home-firm-orders-status', ['id'=>$order->id]) }}" class="btn btn-common">Отбележи като Прочетен</a></p>                                                 
+                                            @else
+                                                <p style="margin: 15px; display: inline;"><a href="{{ route('home-firm-orders-status', ['id'=>$order->id]) }}" class="btn btn-common">Отбележи като Непрочетен</a></p>
+                                            @endif
                                         </td>
                                     </tr>
                                     <div id="imageModal{{ $product->id }}" class="modal">
