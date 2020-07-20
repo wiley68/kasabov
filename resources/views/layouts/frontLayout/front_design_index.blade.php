@@ -5,14 +5,29 @@
 
 <head>
     @php
-    $meta_title = "PartyBox";
-    $meta_decription = "Помагаме Ви да организирате най-доброто парти за вашия важен повод!";
+    $meta_title = "PartyBox - помощници в организацията на вашия празник!";
+    $meta_decription = "Помагаме Ви да организирате най-доброто парти за вашия важен повод! Грижим се вашето събитие да бъде незабравимо!";
     $meta_keywords = "парти, организация, повод, празник, рожден ден, имен ден, юбилей, кръщене, сватба";
     
     if(Route::current() != null && Route::current()->getName() == 'post' && isset($post)){
         $meta_title = $post->meta_title;
         $meta_decription = $post->meta_description;
         $meta_keywords = $post->meta_keywords;
+    }
+    if(Route::current() != null && Route::current()->getName() == 'blog'){
+        $meta_title = "PartyBox - Блог";
+    }
+    if(Route::current() != null && Route::current()->getName() == 'help'){
+        $meta_title = "PartyBox - Помощ";
+    }
+    if(Route::current() != null && Route::current()->getName() == 'obshti-uslovia'){
+        $meta_title = "PartyBox - Общи условия";
+    }
+    if(Route::current() != null && Route::current()->getName() == 'politika'){
+        $meta_title = "PartyBox - Политика на поверителност";
+    }
+    if(Route::current() != null && (Route::current()->getName() == 'sms' || Route::current()->getName() == 'sms1' || Route::current()->getName() == 'sms2')){
+        $meta_title = "PartyBox - SMS услуга";
     }
 
     @endphp
