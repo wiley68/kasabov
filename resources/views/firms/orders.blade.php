@@ -192,7 +192,7 @@ use App\Reklama; ?>
                                             @if ($status == "Непрочетен")
                                                 <p style="margin: 15px; display: inline;"><a href="{{ route('home-firm-orders-status', ['id'=>$order->id]) }}" class="btn btn-common">Отбележи като Прочетен</a></p>                                                 
                                             @else
-                                                <p style="margin: 15px; display: inline;"><a href="{{ route('home-firm-orders-status', ['id'=>$order->id]) }}" class="btn btn-border">Отбележи като Непрочетен</a></p>
+                                                <p style="margin: 15px; display: inline;"><a href="{{ route('home-firm-orders-status', ['id'=>$order->id]) }}" class="btn btn-transparent">Отбележи като Непрочетен</a></p>
                                             @endif
                                         </td>
                                     </tr>
