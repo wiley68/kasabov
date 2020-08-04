@@ -210,6 +210,7 @@ class HomeController extends Controller
             'holidays' => $holidays,
             'property' => $property,
             'user' => $user,
+            'all_products' => Product::where(['user_id' => Auth::user()->id])->count(),
             'products' => $products,
             'paginate' => $paginate,
             'active_payments' => intval($active_payments) * 20 + 10,
@@ -331,6 +332,8 @@ class HomeController extends Controller
 
         return view('firms.settings')->with([
             'holidays' => $holidays,
+            'all_products' => Product::where(['user_id' => Auth::user()->id])->count(),
+            'active_products' => Product::where(['user_id' => Auth::user()->id, 'status' => 'active'])->where('active_at', '>=', date("Y-m-d", strtotime("-1 months")))->count(),
             'property' => $property,
             'cities' => $cities,
             'user' => $user,
@@ -359,6 +362,8 @@ class HomeController extends Controller
         return view('firms.adds')->with([
             'holidays' => $holidays,
             'property' => $property,
+            'all_products' => Product::where(['user_id' => Auth::user()->id])->count(),
+            'active_products' => Product::where(['user_id' => Auth::user()->id, 'status' => 'active'])->where('active_at', '>=', date("Y-m-d", strtotime("-1 months")))->count(),
             'user' => $user,
             'products' => $products,
             'paginate' => $paginate
@@ -392,6 +397,8 @@ class HomeController extends Controller
         $orders = $orders->paginate($paginate);
         return view('firms.orders')->with([
             'holidays' => $holidays,
+            'all_products' => Product::where(['user_id' => Auth::user()->id])->count(),
+            'active_products' => Product::where(['user_id' => Auth::user()->id, 'status' => 'active'])->where('active_at', '>=', date("Y-m-d", strtotime("-1 months")))->count(),
             'property' => $property,
             'user' => $user,
             'orders' => $orders,
@@ -428,6 +435,8 @@ class HomeController extends Controller
         }
         return view('firms.privacy')->with([
             'holidays' => $holidays,
+            'all_products' => Product::where(['user_id' => Auth::user()->id])->count(),
+            'active_products' => Product::where(['user_id' => Auth::user()->id, 'status' => 'active'])->where('active_at', '>=', date("Y-m-d", strtotime("-1 months")))->count(),
             'property' => $property,
             'user' => $user,
         ]);

@@ -62,6 +62,11 @@ use App\Reklama; ?>
                                 <li>
                                     <a class="active" href="{{ route('home-firm-adds', ['payed' => 'No']) }}">
                                         <i class="lni-layers"></i><span>Моите оферти</span>
+                                        @if(($all_products - $active_products) == 0)
+                                            <span style="float:right;padding-right:10px;"><p>{{ $all_products - $active_products }} бр.</p></span>
+                                        @else
+                                            <span style="float:right;padding-right:10px;"><p class="order_blink">{{ $all_products - $active_products }} бр.</p></span>
+                                        @endif
                                     </a>
                                 </li>
                                 <li>

@@ -9,6 +9,7 @@ use App\Holiday;
 use App\LandingPage;
 use Mail;
 use Config;
+use App\Product;
 
 class PaymentsController extends Controller
 {
@@ -287,10 +288,12 @@ class PaymentsController extends Controller
         $payments = $payments->paginate($paginate);
         return view('firms.payments')->with([
             'payments'=>$payments,
+            'all_products' => Product::where(['user_id' => Auth::user()->id])->count(),
+            'active_products' => Product::where(['user_id' => Auth::user()->id, 'status' => 'active'])->where('active_at', '>=', date("Y-m-d", strtotime("-1 months")))->count(),
             'holidays' => $holidays,
             'property' => $property,
             'user'=>$user
-            ]);
+        ]);
     }
 
 }

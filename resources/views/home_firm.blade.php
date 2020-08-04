@@ -57,6 +57,11 @@
                                 <li>
                                     <a href="{{ route('home-firm-adds', ['payed' => 'No']) }}">
                                         <i class="lni-layers"></i><span>Моите оферти</span>
+                                        @if(($all_products - $active_products) == 0)
+                                            <span style="float:right;padding-right:10px;"><p>{{ $all_products - $active_products }} бр.</p></span>
+                                        @else
+                                            <span style="float:right;padding-right:10px;"><p class="order_blink">{{ $all_products - $active_products }} бр.</p></span>
+                                        @endif
                                     </a>
                                 </li>
                                 <li>
@@ -145,7 +150,10 @@
                                             <div class="icon"><i class="lni-write"></i></div>
                                             <div class="contentbox">
                                                 <h2><a href="{{ route('home-firm-adds', ['payed' => 'No']) }}">Общо оферти</a></h2>
-                                                <h3>{{ Product::where(['user_id'=>Auth::user()->id])->count() }} бр.</h3>
+                                                <h3>{{ $all_products }} бр.</h3> 
+                                                @if (($all_products - $active_products) > 0)
+                                                <h3 class="order_blink">{{ $all_products - $active_products }} бр.</h3>
+                                                @endif
                                             </div>
                                         </div>
                                     </div>
