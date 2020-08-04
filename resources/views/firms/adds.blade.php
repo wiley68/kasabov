@@ -199,7 +199,7 @@ use App\Reklama; ?>
                                         break;
                                         case 'expired':
                                         $status = 'adstatusexpired';
-                                        $status_txt = 'Проср.';
+                                        $status_txt = 'Обнови';
                                         break;
                                         default:
                                         $status = 'adstatusactive';
@@ -207,7 +207,15 @@ use App\Reklama; ?>
                                         break;
                                         }
                                         @endphp
-                                        <td data-title="Състояние"><span class="adstatus {{ $status }}">{{ $status_txt }}</span></td>
+                                        <td data-title="Състояние"><span class="adstatus {{ $status }}">
+                                            @if ($product->status == 'expired')
+                                                <a href="#" onclick="return activateAds('{{ $product->id }}');">
+                                            @endif
+                                            {{ $status_txt }}
+                                            @if ($product->status == 'expired')
+                                                </a>
+                                            @endif
+                                        </span></td>
                                         <td data-title="Цена">
                                             <h3>{{ number_format($product->price, 2, '.', '') }}{{ Config::get('settings.currency') }}</h3>
                                         </td>
@@ -258,3 +266,28 @@ use App\Reklama; ?>
 </div>
 <!-- End Content -->
 @endsection
+
+@section('scripts')
+    <script>
+        function activateAds(_id){
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                url: "{{ route('home-firm-product-activate') }}",
+                method: 'post',
+                data: {
+                    product_id: _id
+                },
+                success: function(result){
+                    if (result === 'Ok'){
+                        window.location.reload();
+                    }
+                }
+            });
+            return false;
+        }
+    </script>
+@stop

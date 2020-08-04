@@ -49,6 +49,7 @@ Route::group(
         Route::get('/home-delete-product-image/{id}', 'HomeController@deleteProductImage')->name('home-delete-product-image');
         Route::match(['get', 'post'], '/home-add-product-images/{id}', 'HomeController@addImages')->name('home-add-product-images');
         Route::get('/home-firm-product-clone/{id}', 'HomeController@firmProductClone')->name('home-firm-product-clone');
+        Route::post('/home-firm-product-activate', 'HomeController@firmProductActivate')->name('home-firm-product-activate');
     }
 );
 Route::get('/logout-front-user', 'UsersController@logoutUser')->name('logout-front-user');

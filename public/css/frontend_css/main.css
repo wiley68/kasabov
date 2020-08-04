@@ -3789,7 +3789,7 @@ Dashboard My Ads
 }
 
 .adstatusexpired {
-    background: #fc9209;
+    background: #e8e8e8;
 }
 
 .adstatusdeleted {
@@ -5867,8 +5867,8 @@ body .modal-dialog {
     padding: 10px;
 }
 
-#grid-view hr{
-    background-image: linear-gradient(45deg,transparent, #666666, transparent);
+#grid-view hr {
+    background-image: linear-gradient(45deg, transparent, #666666, transparent);
     border: 0;
     height: 2px;
 }

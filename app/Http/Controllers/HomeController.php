@@ -998,6 +998,21 @@ class HomeController extends Controller
         ]);
     }
 
+    public function firmProductActivate(Request $request)
+    {
+        if ($request->isMethod('post') && !empty($request->input('product_id'))) {
+            $id = $request->input('product_id');
+            $product_current = Product::where(['id' => $id])->first();
+            $product_current->status = 'active';
+            $product_current->active_at = date('Y-m-d H:i:s');
+            //save product
+            $product_current->save();
+            return 'Ok';
+        }else{
+            return 'No';
+        }
+    }
+
     public function deleteProductImage(Request $request, $id = null)
     {
         if (!empty($id)) {
