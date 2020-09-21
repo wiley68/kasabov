@@ -60,14 +60,26 @@
                             </thead>
                             <tbody>
                                 @foreach ($orders as $order)
+                                @php
+                                    $product = Product::where(['id'=>$order->product_id])->first();
+                                @endphp
                                 <tr class="gradeX">
                                     <td>{{ $order->id }}</td>
                                     <td>{{ date("d.m.Y H:i:s", strtotime($order->created_at)) }}</td>
                                     <td>{{ User::where(['id'=>$order->user_id])->first()->name }}</td>
-                                    <td>{{ Product::where(['id'=>$order->product_id])->first()->product_name }}</td>
+                                    <td>
+                                    @if ($product)
+                                        {{$product->product_name}}
+                                    @endif
+                                    </td>
                                     @php
-                                        $targovec_id = Product::where(['id'=>$order->product_id])->first()->user_id;
-                                        $targovec_name = User::where(['id'=>$targovec_id])->first()->name;
+                                        if($product){
+                                            $targovec_id = $product->user_id;
+                                            $targovec_name = User::where(['id'=>$targovec_id])->first()->name;
+                                        }
+                                        else{
+                                            $targovec_name = "";
+                                        }
                                     @endphp
                                     <td>{{ $targovec_name }}</td>
                                     <td class="center">
@@ -88,12 +100,14 @@
                                                 <p>Клиент: {{ User::where(['id'=>$order->user_id])->first()->name }}</p>
                                                 <p>E-Mail: {{ $order->email }}</p>
                                                 <p>Телефон: {{ $order->phone }}</p>
-                                                <p>Продукт: {{ Product::where(['id'=>$order->product_id])->first()->product_name }}</p>
+                                                <p>Продукт: @if ($product) {{$product->product_name}} @endif</p>
                                                 <p>Търговец: {{ $targovec_name }}</p>
                                                 <p>Съобщение: {{ $order->message }}</p>
                                             </div>
                                             <div class="span6 m-wrap">
-                                                <p><img src="{{ asset('/images/backend_images/products/small/'.Product::where(['id'=>$order->product_id])->first()->image) }}" /></p>
+                                                @if ($product)
+                                                    <p><img src="{{ asset('/images/backend_images/products/small/'.$product->image) }}" /></p>                                                    
+                                                @endif
                                             </div>
                                         </div>
                                     </div>

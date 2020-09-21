@@ -212,7 +212,7 @@ use App\Tag; ?>
                                 <div class="form-group mb-3">
                                     <span><i class="lni lni-question-circle" data-toggle="tooltip" data-placement="top" title="Избери най-добрата снимка за твоята оферта. Тя ще се показва в резултатите при търсене и е първото нещо, което ще привлече вниманието на купувачите и ще ги накара да отворят офертата ти"></i></span>&nbsp;
                                     <label class="control-label">Заглавна снимка</label>
-                                    <input type="file" name="image" id="image">
+                                    <input type="file" multiple name="image" id="image">
                                     <input type="hidden" name="current_image" id="current_image" value="{{ $product->image }}">
                                     @if (!empty($product->image))
                                     <a href="#imageModal" data-toggle="modal" title="Покажи снимката в голям размер.">

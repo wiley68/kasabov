@@ -32,6 +32,12 @@
     <div id="content-header">
       <div id="breadcrumb"> <a href="{{ route('admin.dashboard') }}" title="Административен панел" class="tip-bottom"><i class="icon-home"></i> Панел</a> <a href="{{ route('admin.view-products') }}" class="current">Всички продукти</a> <a href="{{ route('admin.add-product') }}">Добави продукт</a></div>
       <h1>Продукти</h1>
+      @if (Session::has('flash_message_error'))
+        <div class="alert alert-error alert-block">
+            <button type="button" class="close" data-dismiss="alert">×</button>
+            <strong>{!! session('flash_message_error') !!}</strong>
+        </div>
+        @endif
     </div>
     <div class="container-fluid">
       <hr>
